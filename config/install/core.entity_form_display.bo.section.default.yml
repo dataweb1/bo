@@ -1,0 +1,70 @@
+uuid: 702260c0-ece3-4953-8e5a-2b347107d90a
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.section
+    - field.field.bo.section.field_classes
+    - field.field.bo.section.field_image
+    - field.field.bo.section.field_show_title
+    - field.field.bo.section.field_subtitle
+  module:
+    - media_library
+_core:
+  default_config_hash: 0Snu3hQ9eqxSO0uFS2Hpq8hrecbKo-8UwDecbdppMVI
+id: bo.section.default
+targetEntityType: bo
+bundle: section
+mode: default
+content:
+  field_classes:
+    weight: 6
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_image:
+    weight: 4
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+    type: media_library_widget
+    region: content
+  field_show_title:
+    weight: 2
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
+  field_subtitle:
+    weight: 3
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  size:
+    type: options_select
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  type:
+    type: options_select
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

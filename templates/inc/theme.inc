@@ -1,0 +1,255 @@
+<?php
+
+/**
+ * @param $elements
+ * @param $theme
+ * @param $templates
+ */
+function add_views_view_bo_suggestion_to_templates($elements, $theme, &$templates) {
+
+  $all_elements = "";
+  foreach ($elements as $key => $element) {
+    if ($key > 0) {
+      $all_elements .= "__";
+    }
+    $all_elements .= $element;
+    $template = 'views-view-bo--' . str_replace("_", "-", $all_elements);
+
+    $module_template_file = DRUPAL_ROOT . "/" . \Drupal::service('module_handler')->getModule('bo')->getPath() . "/templates/" . $template . ".html.twig";
+    $theme_template_file = DRUPAL_ROOT . "/" . $theme->getPath() . "/templates/" . $template . ".html.twig";
+
+    // $s = 'views_view_bo__' . str_replace("-", "_", $all_elements);
+    $s = 'views_view_bo__' . $all_elements;
+    $t = $template;
+    $template_path = "";
+    if (file_exists($module_template_file)) {
+      $template_path = \Drupal::service('module_handler')->getModule('bo')->getPath() . "/templates";
+
+    }
+    if (file_exists($theme_template_file)) {
+      $template_path = $theme->getPath() . "/templates";
+    }
+
+    if ($template_path != "") {
+      $templates[$s] = [
+        'template' => $t,
+        'file' => 'inc/views_view_bo.theme',
+        'path' => $template_path,
+        'base_hook' => 'views_view',
+        'preprocess functions' => [
+          'template_preprocess_views_view_bo__' . $elements[0] . '__' . $elements[1],
+          'template_preprocess_views_view_bo__' . $elements[0],
+          'template_preprocess_views_view_bo',
+          $theme->getName() . '_preprocess_views_view_bo__' . $elements[0] . '__' . $elements[1],
+          $theme->getName() . '_preprocess_views_view_bo__' . $elements[0],
+          $theme->getName() . '_preprocess_views_view_bo',
+        ],
+      ];
+    }
+    else {
+      $template = 'views-view-bo';
+
+      $module_template_file = DRUPAL_ROOT . "/" . \Drupal::service('module_handler')->getModule('bo')->getPath() . "/templates/" . $template . ".html.twig";
+      $theme_template_file = DRUPAL_ROOT . "/" . $theme->getPath() . "/templates/" . $template . ".html.twig";
+
+      $s = 'views_view_' . $all_elements;
+      $t = $template;
+      $template_path = "";
+      if (file_exists($module_template_file)) {
+        $template_path = \Drupal::service('module_handler')->getModule('bo')->getPath() . "/templates";
+
+      }
+      if (file_exists($theme_template_file)) {
+        $template_path = $theme->getPath() . "/templates";
+      }
+
+      if ($template_path != "") {
+        $templates[$s] = [
+          'template' => $t,
+          'file' => 'inc/views_view_bo.theme',
+          'path' => $template_path,
+          'base_hook' => 'views_view',
+          'preprocess functions' => [
+            'template_preprocess_views_view_bo__' . $elements[0] . '__' . $elements[1],
+            'template_preprocess_views_view_bo__' . $elements[0],
+            'template_preprocess_views_view_bo',
+            'template_preprocess_views_view',
+            $theme->getName() . '_preprocess_views_view_bo__' . $elements[0] . '__' . $elements[1],
+            $theme->getName() . '_preprocess_views_view_bo__' . $elements[0],
+            $theme->getName() . '_preprocess_views_view_bo',
+            $theme->getName() . '_preprocess_views_view',
+          ],
+        ];
+      }
+
+    }
+  }
+
+}
+
+/**
+ * @param $elements
+ * @param $theme
+ * @param $templates
+ */
+function add_views_view_unformatted_bo_suggestion_to_templates($elements, $theme, &$templates) {
+
+  $all_elements = "";
+  foreach ($elements as $key => $element) {
+    if ($key > 0) {
+      $all_elements .= "__";
+    }
+    $all_elements .= $element;
+    $template = 'views-view-unformatted-bo--' . str_replace("_", "-", $all_elements);
+
+    $module_template_file = DRUPAL_ROOT . "/" . \Drupal::service('module_handler')->getModule('bo')->getPath() . "/templates/" . $template . ".html.twig";
+    $theme_template_file = DRUPAL_ROOT . "/" . $theme->getPath() . "/templates/" . $template . ".html.twig";
+
+    $s = 'views_view_unformatted_bo__' . $all_elements;
+    $t = $template;
+    $template_path = "";
+    if (file_exists($module_template_file)) {
+      $template_path = \Drupal::service('module_handler')->getModule('bo')->getPath() . "/templates";
+
+    }
+    if (file_exists($theme_template_file)) {
+      $template_path = $theme->getPath() . "/templates";
+    }
+
+    if ($template_path != "") {
+      $templates[$s] = [
+        'template' => $t,
+        'file' => 'inc/views_view_unformatted_bo.theme',
+        'path' => $template_path,
+        'base_hook' => 'views_view_unformatted',
+        'preprocess functions' => [
+          'template_preprocess_views_view_unformatted_bo__' . $elements[0] . '__' . $elements[1],
+          'template_preprocess_views_view_unformatted_bo__' . $elements[0],
+          'template_preprocess_views_view_unformatted_bo',
+          'template_preprocess_views_view_unformatted',
+          $theme->getName() . '_preprocess_views_view_unformatted_bo__' . $elements[0] . '__' . $elements[1],
+          $theme->getName() . '_preprocess_views_view_unformatted_bo__' . $elements[0],
+          $theme->getName() . '_preprocess_views_view_unformatted_bo',
+          $theme->getName() . '_preprocess_views_view_unformatted',
+        ],
+      ];
+    }
+    else {
+
+      $template = 'views-view-unformatted-bo';
+
+      $module_template_file = DRUPAL_ROOT . "/" . \Drupal::service('module_handler')->getModule('bo')->getPath() . "/templates/" . $template . ".html.twig";
+      $theme_template_file = DRUPAL_ROOT . "/" . $theme->getPath() . "/templates/" . $template . ".html.twig";
+
+      $s = 'views_view_unformatted_' . $all_elements;
+      $t = $template;
+      $template_path = "";
+      if (file_exists($module_template_file)) {
+        $template_path = \Drupal::service('module_handler')->getModule('bo')->getPath() . "/templates";
+
+      }
+      if (file_exists($theme_template_file)) {
+        $template_path = $theme->getPath() . "/templates";
+      }
+
+      if ($template_path != "") {
+        $templates[$s] = [
+          'template' => $t,
+          'file' => 'inc/views_view_unformatted_bo.theme',
+          'path' => $template_path,
+          'base_hook' => 'views_view_field',
+          'preprocess functions' => [
+            'template_preprocess_views_view_unformatted_bo__' . $elements[0] . '__' . $elements[1],
+            'template_preprocess_views_view_unformatted_bo__' . $elements[0],
+            'template_preprocess_views_view_unformatted_bo',
+            'template_preprocess_views_view_unformatted',
+            $theme->getName() . '_preprocess_views_view_unformatted_bo__' . $elements[0] . '__' . $elements[1],
+            $theme->getName() . '_preprocess_views_view_unformatted_bo__' . $elements[0],
+            $theme->getName() . '_preprocess_views_view_unformatted_bo',
+            $theme->getName() . '_preprocess_views_view_unformatted',
+          ],
+        ];
+      }
+    }
+  }
+}
+
+/**
+ * @param $element
+ * @param $theme
+ * @param $templates
+ */
+function add_views_view_field_bo_suggestion_to_templates($element, $theme, &$templates) {
+
+  $template_first = 'views-view-field-bo--' . str_replace("_", "-", $element);
+  $module_template_file_first = DRUPAL_ROOT . "/" . \Drupal::service('module_handler')->getModule('bo')->getPath() . "/templates/" . $template_first . ".html.twig";
+  $theme_template_file_first = DRUPAL_ROOT . "/" . $theme->getPath() . "/templates/" . $template_first . ".html.twig";
+  $s = 'views_view_field_bo__' . $element;
+
+  $t = "";
+  if (file_exists($theme_template_file_first)) {
+    $t = $template_first;
+    $template_path = $theme->getPath() . "/templates";
+  }
+  else {
+    if (file_exists($module_template_file_first)) {
+      $t = $template_first;
+
+      $template_path = \Drupal::service('module_handler')->getModule('bo')->getPath() . "/templates";
+    }
+  }
+
+  if ($t != "") {
+    $templates[$s] = [
+      'template' => $t,
+      'file' => 'inc/views_view_field_bo__bo_fields.theme',
+      'path' => $template_path,
+      'base_hook' => 'views_view_field',
+      'preprocess functions' => [
+        'template_preprocess_views_view_field_bo__bo_fields',
+        'template_preprocess_views_view_field_bo',
+        'template_preprocess_views_view_field',
+        $theme->getName() . '_preprocess_views_view_field_bo__bo_fields',
+        $theme->getName() . '_preprocess_views_view_field_bo',
+        $theme->getName() . '_preprocess_views_view_field',
+      ],
+    ];
+
+  }
+  else {
+
+    $template = 'views-view-field-bo--bo-fields';
+
+    $module_template_file = DRUPAL_ROOT . "/" . \Drupal::service('module_handler')->getModule('bo')->getPath() . "/templates/" . $template . ".html.twig";
+    $theme_template_file = DRUPAL_ROOT . "/" . $theme->getPath() . "/templates/" . $template . ".html.twig";
+
+    $s = 'views_view_field_bo__' . $element;
+    $t = $template;
+    $template_path = "";
+    if (file_exists($module_template_file)) {
+      $template_path = \Drupal::service('module_handler')->getModule('bo')->getPath() . "/templates";
+
+    }
+    if (file_exists($theme_template_file)) {
+      $template_path = $theme->getPath() . "/templates";
+    }
+
+    if ($template_path != "") {
+      $templates[$s] = [
+        'template' => $t,
+        'file' => 'inc/views_view_field_bo__bo_fields.theme',
+        'path' => $template_path,
+        'base_hook' => 'views_view_field',
+        'preprocess functions' => [
+          'template_preprocess_views_view_field_bo__bo_fields',
+          'template_preprocess_views_view_field_bo',
+          'template_preprocess_views_view_field',
+          $theme->getName() . '_preprocess_views_view_field_bo__bo_fields',
+          $theme->getName() . '_preprocess_views_view_field_bo',
+          $theme->getName() . '_preprocess_views_view_field',
+        ],
+      ];
+    }
+  }
+
+}

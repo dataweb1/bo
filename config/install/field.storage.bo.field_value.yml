@@ -1,0 +1,23 @@
+uuid: 287aee3f-ee06-4994-9970-0e067f873045
+langcode: nl
+status: true
+dependencies:
+  module:
+    - bo
+_core:
+  default_config_hash: Ju0E3u-sTX9uEr7KHFNUgGDHYytaYwIAiTO8fzbfUjk
+id: bo.field_value
+field_name: field_value
+entity_type: bo
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

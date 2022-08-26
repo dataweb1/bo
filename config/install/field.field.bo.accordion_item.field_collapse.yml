@@ -1,0 +1,25 @@
+uuid: ec252329-c906-48ef-9a73-05e69a3033fb
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.accordion_item
+    - field.storage.bo.field_collapse
+_core:
+  default_config_hash: APPnH7bmUHXJhRz1FMe3_NxGIeqZTue9CasX8KHFEpI
+id: bo.accordion_item.field_collapse
+field_name: field_collapse
+entity_type: bo
+bundle: accordion_item
+label: Collapse
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -1,0 +1,42 @@
+uuid: 5fcb1c85-6206-4351-a8f8-afaf7aae2c13
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.quote
+    - field.field.bo.quote.field_text
+  module:
+    - text
+_core:
+  default_config_hash: _NZ8lEu5YGNekNNoGBFI8oROu-8SAimKvWIYYvfvs4s
+id: bo.quote.default
+targetEntityType: bo
+bundle: quote
+mode: default
+content:
+  field_text:
+    weight: 6
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  title:
+    label: hidden
+    type: string
+    weight: 1
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  weight:
+    label: hidden
+    region: content
+    weight: 5
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+hidden:
+  langcode: true

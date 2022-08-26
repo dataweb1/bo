@@ -1,0 +1,22 @@
+uuid: cf9a427e-c341-43fd-b375-d07c62ec937c
+langcode: nl
+status: true
+dependencies:
+  module:
+    - bo
+    - webform
+_core:
+  default_config_hash: sqD4935Qi8YHNZNH3wxxnz6rBmtwUYU-22x_kc7E5jw
+id: bo.field_form
+field_name: field_form
+entity_type: bo
+type: webform
+settings:
+  target_type: webform
+module: webform
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

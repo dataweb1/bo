@@ -1,0 +1,12 @@
+uuid: 03afbb1d-230f-4160-8381-d1685773a423
+langcode: nl
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: 7g3V6unBOE_cCnJMD591Q2kAIjxb5kXvCQDu6-wF7qE
+id: popup
+label: Popup
+description: ''
+type: element
+group: ''
+weight: '9'

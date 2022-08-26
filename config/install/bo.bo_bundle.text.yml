@@ -1,0 +1,12 @@
+uuid: e95674f6-b4e0-427c-8a6c-7b49846d4c12
+langcode: nl
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: wpA8TRLzsi7Ls0uaffpHvTwsXO6ive2fDgKH3NoafU4
+id: text
+label: Text
+description: ''
+type: element
+group: ''
+weight: '0'

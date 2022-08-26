@@ -1,0 +1,41 @@
+uuid: dbbc5b87-931d-42b1-ae50-353132b1a944
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.google_map
+    - field.field.bo.google_map.field_address
+_core:
+  default_config_hash: Zz4dETfAxYT-Xaidfz9jgrsN6Szp6dkN0gWW730VD5o
+id: bo.google_map.default
+targetEntityType: bo
+bundle: google_map
+mode: default
+content:
+  field_address:
+    weight: 6
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  title:
+    label: hidden
+    type: string
+    weight: 1
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  weight:
+    label: hidden
+    region: content
+    weight: 5
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+hidden:
+  langcode: true

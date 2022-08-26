@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * Prepares variables for views unformatted rows templates.
+ *
+ * Default template: views-view-bo.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - view: The view object.
+ *   - rows: An array of row items. Each row is an array of content.
+ */
+
+function template_preprocess_views_view_bo(&$variables) {
+    $view = &$variables["view"];
+    $display_plugin = $view->display_handler->display['display_plugin'];
+    $variables['attributes']['class'][] = 'bo-overview';
+    $variables['attributes']['class'][] = 'bo-overview-'.$display_plugin;
+    $variables['dom_id'] = $view->dom_id;
+    $variables['attributes']['data-collection-id'] = $view->filter['bo_current_collection_id_filter']->value;
+}

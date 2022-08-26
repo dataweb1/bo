@@ -1,0 +1,30 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a view of unformatted rows.
+ *
+ * Available variables:
+ * - title: The title of this group of rows. May be empty.
+ * - rows: A list of the view's row items.
+ *   - attributes: The row's HTML attributes.
+ *   - content: The row's content.
+ * - view: The view object.
+ * - default_row_class: A flag indicating whether default classes should be
+ *   used on rows.
+ * - bo.collection: A list of collection items
+ *
+ * @see template_preprocess_views_view_unformatted()
+ *
+ * @ingroup themeable
+ */
+#}
+
+<div class="card-deck">
+    {% for row in rows %}
+    <div class="card">
+        {{ row }}
+    </div>
+    {% endfor %}
+</div>
+
+{{ attach_library('bo/bo_fields_cards') }}

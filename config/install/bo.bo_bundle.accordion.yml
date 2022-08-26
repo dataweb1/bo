@@ -1,0 +1,12 @@
+uuid: a0182ac1-d317-4388-8471-2050615369a2
+langcode: nl
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: IlZLnapJB_7Ladv4VKQ9P9c3bPOy75e1Xn3_viQrEyM
+id: accordion
+label: Accordion
+description: ''
+type: element
+group: ''
+weight: '6'

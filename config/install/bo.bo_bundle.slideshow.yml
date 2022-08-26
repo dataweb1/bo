@@ -1,0 +1,12 @@
+uuid: a1d278ba-64d6-4c07-a790-de5da91d8367
+langcode: nl
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: Y3drmj8CGKckIwlxgnxDvaNV8bgwacSEYqJLKhADA18
+id: slideshow
+label: Slideshow
+description: ''
+type: element
+group: ''
+weight: '-6'

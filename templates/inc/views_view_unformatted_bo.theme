@@ -1,0 +1,99 @@
+<?php
+use Drupal\bo\Entity\BoEntity;
+
+/**
+ * Prepares variables for views unformatted rows templates.
+ *
+ * Default template: views-view-unformatted-bo.html.twig.
+ *
+ * @param array $vars
+ *   An associative array containing:
+ *   - view: The view object.
+ *   - rows: An array of row items. Each row is an array of content.
+ */
+
+function template_preprocess_views_view_unformatted_bo(&$vars) {
+
+  $view = $vars['view'];
+  $current_display = $view->getDisplay();
+
+  $rows = $vars['rows'];
+  $style = $view->style_plugin;
+  $options = $style->options;
+
+  $view_collection_id = $view->filter["bo_current_collection_id_filter"]->value;
+  if (intval($view_collection_id) > 0) {
+    /** @var \Drupal\bo\Service\BoSettings $boSettings */
+    $boSettings = \Drupal::getContainer()->get('bo.settings');
+
+    $view_collection_entity = BoEntity::load($view_collection_id);
+    $view_collection_bundle = $view_collection_entity->getBundle();
+
+    $fields = $view_collection_entity->getFields();
+
+    foreach ($fields as $field_name => $field) {
+
+      if ($field_name != "bundle" &&
+        $field_name != "id" &&
+        $field_name != "size" &&
+        $field_name != "display_id" &&
+        $field_name != "changed" &&
+        $field_name != "weight") {
+        if ($field_name == "title") {
+          if ($boSettings->isTitleInternal($view_collection_bundle) == true) {
+              continue;
+          }
+        }
+
+        if ($view_collection_entity->hasField($field_name)) {
+          /** @var \Drupal\bo\Service\BoVars $boVars */
+          $boVars = \Drupal::service('bo.vars');
+
+          $element = $boVars->processField($view_collection_entity, $field_name, $vars);
+          $vars["bo"][$field_name] = $element;
+        }
+      }
+    }
+  }
+
+  $vars['default_row_class'] = !empty($options['default_row_class']);
+  foreach ($rows as $id => $row) {
+    $vars['rows'][$id] = [];
+    $vars['rows'][$id]['content'] = $row;
+
+    //$vars['rows'][$id]['attributes'] = new Attribute();
+    if ($row_class = $view->style_plugin->getRowClass($id)) {
+      $vars['rows'][$id]['attributes'][] = $row_class;//->addClass($row_class);
+    }
+
+    $entity = $view->result[$id]->_entity;
+    if ($entity) {
+      /** @var \Drupal\bo\Service\BoVars $boVars */
+      $boVars = \Drupal::service('bo.vars');
+
+      $data = $boVars->getVariables(
+        $view,
+        $view->result[$id],
+        $vars, [
+          'basic',
+          'fields'
+        ]
+      );
+
+      $operations = NULL;
+      $boVars->getRenderedViewFields($current_display, $view->result[$id], "bo_operations", $operations);
+      $data["bo"]["operations"] = $operations["rendered_value"]["view_bo_operations"];
+
+
+      if ($data["bo"]) {
+          $data["bo"]["row_index"] = $id;
+          $vars["bo"]["collection"][] = $data["bo"];
+      }
+
+      $cacheTags = $entity->getCacheTags();
+
+      $vars["#cache"]["tags"][] = $cacheTags[0];
+
+    }
+  }
+}

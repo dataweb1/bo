@@ -1,0 +1,96 @@
+bo.settings_form:
+  path: '/admin/config/bo/settings'
+  defaults:
+    _form: '\Drupal\bo\Form\BoSettingsForm'
+    _title: 'BO Settings'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: 'TRUE'
+
+bo.collection_settings_form:
+  path: '/admin/config/bo/collection/settings'
+  defaults:
+    _form: '\Drupal\bo\Form\BoCollectionSettingsForm'
+    _title: 'BO Collection Settings'
+  requirements:
+    _permission: 'administer bo elements'
+  options:
+    _admin_route: 'TRUE'
+
+bo.reset_collection_options_form:
+  path: '/admin/config/bo/collection/reset/options'
+  defaults:
+    _form: '\Drupal\bo\Form\BoResetCollectionOptionsForm'
+    _title: 'Reset collection options'
+  requirements:
+    _permission: 'administer bo elements'
+  options:
+    _admin_route: 'TRUE'
+
+entity.bo_bundle.element_list:
+  path: '/admin/structure/bo/bundle/element/list'
+  defaults:
+  # Calls the list controller, defined in the annotation of the BO Type entity.
+    _entity_list: 'bo_bundle'
+    #_title: 'BO elements'
+    _title_callback: '\Drupal\bo\Controller\BoBundleController::getBoBundleElementListTitle'
+  requirements:
+  # Checks for permission directly.
+    _permission: 'administer bo_bundle entity'
+
+entity.bo_bundle.content_list:
+  path: '/admin/structure/bo/bundle/content/list'
+  defaults:
+  # Calls the list controller, defined in the annotation of the BO Type entity.
+    _entity_list: 'bo_bundle'
+    #_title: 'BO content'
+    _title_callback: '\Drupal\bo\Controller\BoBundleController::getBoBundleContentTypeListTitle'
+  requirements:
+  # Checks for permission directly.
+    _permission: 'administer bo_bundle entity'
+
+bo.autocomplete.bundle_groups:
+  path: '/admin/bo/autocomplete/bundle_groups'
+  defaults:
+    _controller: '\Drupal\bo\Controller\BoBundleGroupsAutoCompleteController::handleAutocomplete'
+    _format: json
+  requirements:
+    _permission: 'administer bo_bundle entity'
+
+entity.bo_bundle.add_form:
+  path: '/admin/structure/bo/bundle/add/{type}'
+  defaults:
+    _controller: '\Drupal\bo\Controller\BoBundleController::renderBoBundleAddForm'
+    _title_callback: '\Drupal\bo\Controller\BoBundleController::getBoBundleAddFormTitle'
+  requirements:
+    _permission: 'administer bo_bundle entity'
+  options:
+    _admin_route: 'TRUE'
+
+bo.reorder:
+  path: '/bo/reorder/{display_id}/{collection_id}/{view_dom_id}'
+  defaults:
+    _controller: '\Drupal\bo\Controller\BoOperationsController::reorder'
+    _title: 'Reorder'
+  requirements:
+    _permission: 'administer bo elements'
+    method: 'nojs|ajax'
+
+bo.multi:
+  path: '/bo/multi/{action}/{display_id}/{collection_id}/{entity_id}/{entity_weight}/{view_dom_id}'
+  defaults:
+    _controller: '\Drupal\bo\Controller\BoOperationsController::multi'
+    _title: 'Add Multi'
+  requirements:
+    _permission: 'administer bo elements'
+    method: 'nojs|ajax'
+
+bo.help:
+  path: '/bo/help/{view_id}/{display_id}/{collection_id}/{entity_id}'
+  defaults:
+    _controller: '\Drupal\bo\Controller\BoEntityController::help'
+    _title: 'Help'
+  requirements:
+    _permission: 'show twig help'
+    method: 'nojs|ajax'

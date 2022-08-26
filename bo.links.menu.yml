@@ -1,0 +1,30 @@
+#bo_entity_collection_menu:
+#  title: 'BO elements'
+#  route_name: entity.bo.collection
+#  description: 'List of BO elements'
+#  parent: system.admin_content
+
+bo_bundle_entity_element_list_menu:
+  #title: 'BO elements'
+  route_name: entity.bo_bundle.element_list
+  #description: 'Manage BO elements'
+  parent: system.admin_structure
+  class: Drupal\bo\Plugin\Menu\BoBundleMenuLink
+  deriver: \Drupal\bo\Plugin\Menu\CustomLinks\BoBundleAdministerElementsMenuLinksDerivative
+
+bo_bundle_entity_content_list_menu:
+  #title: 'BO content'
+  route_name: entity.bo_bundle.content_list
+  #description: 'Manage BO content'
+  parent: system.admin_structure
+  class: Drupal\bo\Plugin\Menu\BoBundleMenuLink
+  deriver: \Drupal\bo\Plugin\Menu\CustomLinks\BoBundleAdministerContentTypesMenuLinksDerivative
+
+bo.settings_form:
+  title: 'BO settings'
+  route_name: bo.settings_form
+  description: 'BO settings'
+  parent: system.admin_config_content
+  weight: 99
+
+

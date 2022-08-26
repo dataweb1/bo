@@ -1,0 +1,12 @@
+uuid: 0ba28cd6-27e5-4c8f-93c4-309124ae01a6
+langcode: nl
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: '-3riTTixMLXtPXw7peACyVp5RI-zsZrJTrruIfwRus0'
+id: tabs
+label: Tabs
+description: ''
+type: element
+group: ''
+weight: '-2'

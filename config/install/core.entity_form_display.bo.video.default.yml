@@ -1,0 +1,44 @@
+uuid: 1de2c214-55f7-47be-8fc4-44951337ad04
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.video
+    - field.field.bo.video.field_video
+  module:
+    - media_library
+_core:
+  default_config_hash: '-WnG5s_ElNkp0yXhg4VLZSg-4t5caooOQwNelfS7ZQA'
+id: bo.video.default
+targetEntityType: bo
+bundle: video
+mode: default
+content:
+  field_video:
+    weight: 6
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+    type: media_library_widget
+    region: content
+  size:
+    type: options_select
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  type:
+    type: options_select
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

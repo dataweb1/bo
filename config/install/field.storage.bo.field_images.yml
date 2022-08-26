@@ -1,0 +1,22 @@
+uuid: cd0d0f07-4190-4439-9ee3-bfd00865f2cc
+langcode: nl
+status: true
+dependencies:
+  module:
+    - bo
+    - media
+_core:
+  default_config_hash: CY1Q3AXt-ozOrXqJyv8RfR69b1NGDNaUMZ_ntBr63Tw
+id: bo.field_images
+field_name: field_images
+entity_type: bo
+type: entity_reference
+settings:
+  target_type: media
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

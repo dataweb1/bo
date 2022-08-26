@@ -1,0 +1,30 @@
+uuid: 7d0feee0-623e-42dc-b511-42758fe98616
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.image
+    - field.storage.bo.field_image
+    - media.type.image
+_core:
+  default_config_hash: ghBEJ70JP8NU8f0bUs5NXIYQWTRNcC1l_aRJzW_cbbQ
+id: bo.image.field_image
+field_name: field_image
+entity_type: bo
+bundle: image
+label: Beeld
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

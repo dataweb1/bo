@@ -1,0 +1,12 @@
+uuid: 6b5e6727-3ebf-4967-a578-50d37704d758
+langcode: nl
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: ObRmFnoorLXU6IXHkLJyYzow6WwqwFyrqnVFWqDJX00
+id: video
+label: Video
+description: ''
+type: element
+group: ''
+weight: '2'

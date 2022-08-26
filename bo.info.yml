@@ -1,0 +1,16 @@
+name: BO
+type: module
+description: A flexible Block Overview. Optimized for use with Bootstrap layout
+core_version_requirement: ^8 || ^9
+package: BO
+
+# Dependencies
+dependencies:
+  - drupal:views
+  - drupal:options
+  - drupal:media
+  - drupal:media_library
+  - drupal:claro_media_library_theme
+  - drupal:views_bootstrap
+  - drupal:image_url_formatter
+  - drupal:webform

@@ -1,0 +1,37 @@
+<?php
+/**
+ * Prepares variables for views field templates.
+ *
+ * Default template: views-view-field-bo--bo-fields.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - field: The field handler object for the current field.
+ *   - row: Object representing the raw result of the SQL query for the current
+ *     field.
+ *   - view: Instance of the ViewExecutable object for the parent view.
+ *   - bo: The raw/rendered BO bundle data
+ *   - collection: The rendered collection in case a BO bundle holds a collection.
+ *   - help: The help link that visualized the bo variables.
+ */
+
+function template_preprocess_views_view_field_bo__bo_fields(array &$vars) {
+    $view = $vars["view"];
+    $row = $vars["row"];
+
+    /** @var \Drupal\bo\Service\BoVars $boVars */
+    $boVars = \Drupal::service('bo.vars');
+    $boVars->getVariables(
+      $view,
+      $row,
+      $vars, [
+        'basic',
+        'fields',
+        'collection',
+        'help'
+      ]
+    );
+
+    $cacheTags = $row->_entity->getCacheTags();
+    $vars["#cache"]["tags"] = $cacheTags;
+}

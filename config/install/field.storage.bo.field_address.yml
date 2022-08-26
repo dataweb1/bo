@@ -1,0 +1,23 @@
+uuid: 3a6f2efe-90c7-47c1-9258-616b25b3eb21
+langcode: nl
+status: true
+dependencies:
+  module:
+    - bo
+_core:
+  default_config_hash: iuzPHzIqXbNh1a--HmoTrFvX2dKtsfGd9MOAV9YxHgg
+id: bo.field_address
+field_name: field_address
+entity_type: bo
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,12 @@
+uuid: cb9c74ca-7471-4f5b-81b2-e2d1265da316
+langcode: nl
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: uRHGfM3udPE-knt77i1eW6tc7pxjzssZPu-HHYQfklA
+id: card
+label: Card
+description: ''
+type: element
+group: ''
+weight: '-9'

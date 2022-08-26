@@ -1,0 +1,107 @@
+.fieldset-bo-settings-block-types {
+  border: none;
+  padding: 0!important;
+  margin: 0 !important;
+  padding-left: 1.3em!important;
+}
+
+.group-wrapper,
+fieldset.elements .fieldset-wrapper,
+fieldset.elements .fieldset__wrapper {
+  list-style: none;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row wrap;
+  justify-content: left;
+  padding: 0;
+  width: 100%;
+}
+
+fieldset.elements .fieldset-wrapper,
+fieldset.elements .fieldset__wrapper {
+  margin: 1rem;
+}
+
+.group-wrapper {
+  margin: 0;
+}
+
+.group-title,
+fieldset.elements .description {
+  clear: both;
+  width: 100%;
+}
+
+.group-title {
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
+
+fieldset.elements .form-item {
+  width: 13%;
+  border: 2px solid rgba(0,0,0,.1);
+  border-radius: 5px;
+  text-align: center;
+  margin: .4%;
+  padding: .5rem;
+  background-color: #fff;
+  min-width: 110px;
+  min-height: 110px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+fieldset.elements .form-item input[type='checkbox'] {
+  position: relative;
+  top: 0;
+  margin: .5rem 0;
+}
+
+
+fieldset.elements .form-item:hover {
+  border: 2px solid rgba(0,0,0,.2);
+}
+
+
+fieldset.elements .form-item label {
+  display: block;
+  padding: 0!important;
+  font-size: 1rem;
+  line-height: 1rem;
+}
+
+fieldset.elements .form-item label span {
+  display: block;
+  padding: 0!important;
+  margin: 0 0 .5rem;
+  font-size: 1.2rem;
+}
+
+fieldset.elements .form-item label:before {
+  display: block;
+  color: #555;
+  margin-bottom: .5rem;
+  font-size: 1.2rem;
+}
+
+@media only screen and (max-width: 800px) {
+  fieldset.elements .form-item {
+    width: 24%;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  fieldset.elements .form-item {
+    width: 100%;
+    margin: 0;
+  }
+}

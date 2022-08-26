@@ -1,0 +1,21 @@
+bo_entity_task_view:
+  route_name: entity.bo.canonical
+  base_route: entity.bo.canonical
+  title: 'View'
+
+bo_entity_task_add:
+  route_name: entity.bo.add_form
+  base_route: entity.bo.canonical
+  title: 'Add'
+
+bo_entity_task_edit:
+  route_name: entity.bo.edit_form
+  base_route: entity.bo.canonical
+  title: 'Edit'
+
+bo_entity_task_delete:
+  route_name:  entity.bo.delete_form
+  base_route:  entity.bo.canonical
+  title: 'Delete'
+  weight: 10
+

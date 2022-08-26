@@ -1,0 +1,22 @@
+uuid: 387a0f1c-b228-4653-996a-212446841d50
+langcode: nl
+status: true
+dependencies:
+  module:
+    - bo
+    - media
+_core:
+  default_config_hash: FJbD4GHgnwLwRmoEN-kd7fRIkOroVQz_JVJZ4gOS5xk
+id: bo.field_video
+field_name: field_video
+entity_type: bo
+type: entity_reference
+settings:
+  target_type: media
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

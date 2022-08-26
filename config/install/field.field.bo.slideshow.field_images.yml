@@ -1,0 +1,30 @@
+uuid: d64efeb7-58ac-4c27-91e5-f3017b73952c
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.slideshow
+    - field.storage.bo.field_images
+    - media.type.image
+_core:
+  default_config_hash: KpsVRu3ZhA5PHPCU9-yaeNXtEXYP6xFrXVP88Z4BJ88
+id: bo.slideshow.field_images
+field_name: field_images
+entity_type: bo
+bundle: slideshow
+label: Beelden
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

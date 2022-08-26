@@ -1,0 +1,29 @@
+body {
+  position: relative;
+}
+body.page-node-add-block .layout-region-node-main,
+body.page-node-add-block .layout-region-node-footer {
+  width: 100%;
+  padding-right: 0;
+}
+
+.bo-overview-block .contextual {
+  display: none;
+}
+
+/* frontend default */
+.bo-entity,
+.views-row,
+.row,
+.views-col,
+.col {
+  position: relative;
+}
+
+.col img {
+  max-width: 100%;
+}
+
+legend {
+  font-size: 1rem;
+}

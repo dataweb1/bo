@@ -1,0 +1,20 @@
+uuid: e562b36a-b83e-4212-87e2-90310d343af3
+langcode: nl
+status: true
+dependencies:
+  module:
+    - bo
+_core:
+  default_config_hash: xs73CXOz3ekN6BbQ8j7HoGoRQzAS3jLLDC8opFI3xKQ
+id: bo.field_collapse
+field_name: field_collapse
+entity_type: bo
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

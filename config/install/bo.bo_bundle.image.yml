@@ -1,0 +1,12 @@
+uuid: 1b565668-3f0d-442b-8ed6-e9eeff7b90a6
+langcode: nl
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: Ncj78QnhOAHSPqSjFaMY1464qfnHnYR0KYT5PpObdQw
+id: image
+label: Image
+description: ''
+type: element
+group: ''
+weight: '5'

@@ -1,0 +1,39 @@
+{{ help }}
+
+<div id="carousel_{{ bo.id }}" class="carousel slide" data-ride="carousel">
+
+    <!-- Indicators -->
+    <ul class="carousel-indicators">
+    {% for key, item in bo.field_images %}
+        {% set class = "" %}
+        {% if key == 0 %}
+            {% set class ="active" %}
+        {% endif %}
+        <li data-target="#carousel_{{ bo.id }}" data-slide-to="{{ key }}" class="{{ class }}"></li>
+    {% endfor %}
+    </ul>
+
+    <!-- The slideshow -->
+    <div class="carousel-inner">
+        {% for key, item in bo.field_images %}
+            {% set class ="" %}
+            {% if key == 0 %}
+                {% set class ="active" %}
+            {% endif %}
+            <div class="carousel-item {{ class }}">
+                <img src="{{ item.raw_value.optimized_url }}" alt="{{ item.raw_value.alt }}">
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="carousel-control-prev" href="#carousel_{{ bo.id }}" data-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </a>
+    <a class="carousel-control-next" href="#carousel_{{ bo.id }}" data-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </a>
+</div>
+
+{{ attach_library('bo/bo_fields_slideshow') }}
+

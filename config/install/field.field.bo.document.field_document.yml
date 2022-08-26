@@ -1,0 +1,25 @@
+uuid: fe7ab15b-9123-458a-aebc-2d56ca13ecde
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.document
+    - field.storage.bo.field_document
+  module:
+    - file
+_core:
+  default_config_hash: mFIZe_vlZ41tP0LpfzqAfkoO7T2z2ZRWg4Ry7W5oM1Y
+id: bo.document.field_document
+field_name: field_document
+entity_type: bo
+bundle: document
+label: Document
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings: {  }
+field_type: file

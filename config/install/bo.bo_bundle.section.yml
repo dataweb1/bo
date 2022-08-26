@@ -1,0 +1,12 @@
+uuid: af06039c-be30-4257-9baf-23b9ddecfbab
+langcode: nl
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: Mp4xlC3mkgL0BqIgWIXgq67f8leDGL39H9iq0O9LAUU
+id: section
+label: Section
+description: ''
+type: element
+group: ''
+weight: '-7'

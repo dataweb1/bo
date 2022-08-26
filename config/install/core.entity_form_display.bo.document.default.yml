@@ -1,0 +1,44 @@
+uuid: 71c5de6d-2985-4ef6-b2eb-7223f7a8d7b6
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.document
+    - field.field.bo.document.field_document
+_core:
+  default_config_hash: OrDokcIND0V2IC2gbttkCwlrOv7Bq_m3-64odU-Wkes
+id: bo.document.default
+targetEntityType: bo
+bundle: document
+mode: default
+content:
+  field_document:
+    weight: 6
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  size:
+    type: options_select
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  type:
+    type: options_select
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

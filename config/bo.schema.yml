@@ -1,0 +1,13 @@
+bo.bo_bundle.*:
+  type: config_entity
+  label: 'BO element settings'
+  mapping:
+    id:
+      type: string
+      label: 'Machine-readable name'
+    uuid:
+      type: stype
+      label: 'UUID'
+    label:
+      type: label
+      label: 'Label'

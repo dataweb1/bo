@@ -1,0 +1,12 @@
+uuid: b9e74966-5e2c-4e48-b73f-9c5c07a17a30
+langcode: nl
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: sW7CzaWSNUBq7L7hRmxIohJQYxPCmE8R6Ycbj2E3TNg
+id: gallery
+label: Gallery
+description: ''
+type: element
+group: ''
+weight: '3'

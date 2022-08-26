@@ -1,0 +1,44 @@
+uuid: 698a0305-9e27-4a6c-ad4a-5ce0aa9e0cab
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.form
+    - field.field.bo.form.field_form
+  module:
+    - webform
+_core:
+  default_config_hash: 38Q8Fbvpa5NZAJQsex4BkpstSHQl4txhhSWAD_g7Dgo
+id: bo.form.default
+targetEntityType: bo
+bundle: form
+mode: default
+content:
+  field_form:
+    weight: 5
+    settings:
+      default_data: true
+    third_party_settings: {  }
+    type: webform_entity_reference_select
+    region: content
+  size:
+    type: options_select
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  type:
+    type: options_select
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

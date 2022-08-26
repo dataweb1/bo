@@ -1,0 +1,44 @@
+uuid: 747c6be1-ffc1-409c-8dea-ac233b96d787
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.gallery
+    - field.field.bo.gallery.field_images
+  module:
+    - media_library
+_core:
+  default_config_hash: rk_t-RkcNSxcAHMvBYkcI8PS89sTWn7WZrcAqGOpfhg
+id: bo.gallery.default
+targetEntityType: bo
+bundle: gallery
+mode: default
+content:
+  field_images:
+    weight: 6
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+    type: media_library_widget
+    region: content
+  size:
+    type: options_select
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  type:
+    type: options_select
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

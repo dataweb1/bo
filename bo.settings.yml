@@ -1,0 +1,61 @@
+bundles:
+  block:
+    title:
+      label: "titel"
+      fields:
+    title_text:
+      label: "titel en tekst"
+      fields:
+        field_text:
+    title_text_image:
+      label: "titel, tekst en beeld"
+      fields:
+        field_text:
+        field_image:
+    title_text_image_document:
+      label: "titel, tekst, beeld en document"
+      fields:
+        field_text:
+        field_image:
+        field_document:
+        field_bestand:
+        field_link:
+        field_foto:
+    album:
+      label: "album"
+      internal_title: true
+      fields:
+        field_images:
+        field_waarde:
+    quote:
+      label: "quote"
+      override_title_label: "Van"
+      fields:
+        field_text:
+          override_label: "Quote"
+    document:
+      label: "document"
+      internal_title: true
+      fields:
+        field_document:
+
+styles:
+  BO 1/1:
+    size: 12
+    width: 1140
+  BO 1/2:
+    size: 6
+    width: 570
+  BO 1/3:
+    size: 4
+    width: 380
+  BO 1/4:
+    size: 3
+    width: 285
+  BO 3/4:
+    size: 9
+    width: 855
+  BO 2/3:
+    size: 8
+    width: 760
+

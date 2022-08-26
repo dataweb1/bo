@@ -1,0 +1,35 @@
+uuid: 866857d0-ae32-44d7-8dad-0c601f79a040
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.article
+    - field.field.bo.article.field_date
+  module:
+    - datetime
+id: bo.article.default
+targetEntityType: bo
+bundle: article
+mode: default
+content:
+  field_date:
+    type: datetime_default
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  size:
+    type: options_select
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }

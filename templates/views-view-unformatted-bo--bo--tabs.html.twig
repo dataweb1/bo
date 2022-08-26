@@ -1,0 +1,58 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a view of unformatted rows.
+ *
+ * Available variables:
+ * - title: The title of this group of rows. May be empty.
+ * - rows: A list of the view's row items.
+ *   - attributes: The row's HTML attributes.
+ *   - content: The row's content.
+ * - view: The view object.
+ * - default_row_class: A flag indicating whether default classes should be
+ *   used on rows.
+ * - bo.collection: A list of collection items
+ *
+ * @see template_preprocess_views_view_unformatted()
+ *
+ * @ingroup themeable
+ */
+#}
+
+<ul class="nav nav-tabs" role="tablist">
+    {% for key, item in bo.collection %}
+        {% set title = item.title.raw_value.value %}
+        {% set id = item.id %}
+
+        {% set class = "" %}
+        {% set aria_selected = "false" %}
+        {% if key == 0 %}
+            {% set class = "active" %}
+            {% set aria_selected = "true" %}
+        {% endif %}
+        <li class="nav-item {{ class }}">
+            <a id="item_{{ id }}_tab" data-toggle="tab" role="tab" aria-selected="{{ aria_selected }}" href="#item_{{ id }}">
+            {{ title }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
+<div class="tab-content">
+{% for key, item in bo.collection %}
+    {% set id = item.id %}
+    {% set row = rows[key] %}
+
+    {% set class = "" %}
+    {% if key == 0 %}
+        {% set class = "show active" %}
+    {% endif %}
+
+    <div id="item_{{ id }}" class="tab-pane fade in {{ class }}" role="tabpanel" aria-labelledby="item_{{ id }}_tab">
+        {{ row }}
+    </div>
+
+{% endfor %}
+</div>
+
+{{ attach_library('bo/bo_fields_tabs') }}

@@ -1,0 +1,4 @@
+bo.entity.edit:
+  title: 'Edit'
+  route_name: entity.bo.edit_form
+  group: bo

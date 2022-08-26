@@ -1,0 +1,32 @@
+uuid: 997b8cc0-8a56-415d-81c9-16def3fe1c14
+langcode: nl
+status: true
+dependencies:
+  module:
+    - bo
+    - options
+_core:
+  default_config_hash: YsqVe8TMDz__kjA8BW4WduuuTEJkfsdruuWhO2cqhRU
+id: bo.field_title_size
+field_name: field_title_size
+entity_type: bo
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: '1'
+      label: big
+    -
+      value: '2'
+      label: middle
+    -
+      value: '3'
+      label: small
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

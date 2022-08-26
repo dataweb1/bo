@@ -1,0 +1,12 @@
+uuid: b2946067-f0d4-42a0-a622-96016266ed2c
+langcode: nl
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: mW59ZOnETsA01RzwkbH5W417b_WUloAy5zPqj7omAwc
+id: grid
+label: Grid
+description: ''
+type: element
+group: ''
+weight: '-1'

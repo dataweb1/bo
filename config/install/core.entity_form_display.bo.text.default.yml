@@ -1,0 +1,45 @@
+uuid: 5960fedd-a2f9-403b-bd26-5f2f456e1dc6
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.text
+    - field.field.bo.text.field_text
+  module:
+    - text
+_core:
+  default_config_hash: 2yd_sjiZ9LRBuFFOP4J6Fh9hh6l97ceNo_fzzp3C20w
+id: bo.text.default
+targetEntityType: bo
+bundle: text
+mode: default
+content:
+  field_text:
+    weight: 5
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  size:
+    type: options_select
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  type:
+    type: options_select
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

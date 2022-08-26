@@ -1,0 +1,27 @@
+uuid: bcfa5ca8-cbc4-4ff6-96c0-f1c24161c433
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.form
+    - field.storage.bo.field_form
+  module:
+    - webform
+_core:
+  default_config_hash: y1x3jbJhnibqgzTguXugwvu4ShB1eAP-Kf6ueDKAA8I
+id: bo.form.field_form
+field_name: field_form
+entity_type: bo
+bundle: form
+label: Form
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:webform'
+  handler_settings:
+    target_bundles: null
+    auto_create: false
+field_type: webform

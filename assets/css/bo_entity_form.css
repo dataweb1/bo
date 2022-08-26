@@ -1,0 +1,102 @@
+.radio-button-group .js-form-item {
+    display: inline-block;
+    margin-right: 10px!important;
+}
+
+fieldset.radio-button-group {
+    padding: .6rem;
+    padding-top: 0;
+}
+
+fieldset.radio-button-group .fieldset-wrapper {
+    list-style: none;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: row wrap;
+    justify-content: left;
+    padding: 0;
+    width: 100%;
+    margin: -.5%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+fieldset.radio-button-group .form-radios,
+fieldset.radio-button-group .description {
+    clear: both;
+    width: 100%;
+}
+
+fieldset.radio-button-group .fieldset-wrapper .form-item {
+    width: 19%;
+    border: 2px solid rgba(0, 0, 0, .1);
+    border-radius: 5px;
+    text-align: center;
+    margin: .1%;
+    padding: .5%;
+    background-color: #FFF;
+    min-width: 100px;
+    max-width: 144px;
+    overflow: hidden;
+}
+
+fieldset.radio-button-group .fieldset-wrapper .form-item:hover {
+    border: 2px solid rgba(0, 0, 0, .2);
+}
+
+fieldset.radio-button-group .fieldset-wrapper .form-item label {
+    display: block;
+    padding: 10px;
+    padding-bottom: 8px;
+    font-size: 1rem;
+}
+
+fieldset.radio-button-group .fieldset-wrapper .form-item label span {
+    display: block;
+    margin-bottom: 5px;
+}
+
+fieldset.radio-button-group .fieldset-wrapper .form-item label:before {
+    display: block;
+    color: #555;
+    margin-bottom: .5rem;
+    font-size: 1.2rem;
+}
+
+label[for="edit-position-top"]:after {
+    content: "\f3be";
+    font-family: "Font Awesome\ 5 Free";
+  font-weight: 900;
+}
+
+label[for="edit-position-bottom"]:after {
+    content: "\f3bf";
+    font-family: "Font Awesome\ 5 Free";
+  font-weight: 900;
+}
+
+.radio-button-group .js-form-item label:after,
+.radio-button-group .js-form-item label {
+    display: inline-block!important;
+}
+
+.radio-button-group .js-form-item label:after {
+    margin-left: 5px;
+}
+
+@media only screen and (max-width: 800px) {
+    fieldset.radio-button-group .fieldset-wrapper .form-item {
+        width: 24%;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    fieldset.radio-button-group .fieldset-wrapper .form-item {
+        width: 100%;
+        margin: 0;
+    }
+}
+

@@ -1,0 +1,54 @@
+.icon-prefix, .bo-bundle-list-form .form-type-textfield {
+    display: inline-block;
+}
+
+.bo-bundle-list-form .form-type-checkbox {
+    display: inline-block;
+}
+
+.bundle-title {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.bundle-group-select,
+.bundle-title-_empty {
+    display: none;
+}
+
+.group-message.group-populated {
+    display: none;
+}
+
+
+
+.right-to-checkbox {
+  display: inline-block;
+}
+.right-to-checkbox a {
+  position: relative;
+  top: 5px;
+  margin-left: 5px;
+}
+
+
+
+
+
+.bo-trigger:before {
+
+  height: 16px;
+  width: 16px;
+  background-size: 16px 16px;
+  display: inline-block;
+  content: "";
+  font-weight: 900;
+}
+
+.bo-trigger-gear:before {
+  /*background-image: url('../img/gear.png');*/
+  font-family: "Font Awesome 5 Free";
+  font-size: 18px;
+  content: "\f013";
+  font-weight: 900;
+}

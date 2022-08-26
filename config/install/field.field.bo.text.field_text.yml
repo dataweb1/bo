@@ -1,0 +1,23 @@
+uuid: 55d371bc-01da-4dd6-9e34-80531268d854
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.text
+    - field.storage.bo.field_text
+  module:
+    - text
+_core:
+  default_config_hash: cl_u-3HXIgkykxpknW2Bca86x4CjC89268T2mYO_y4k
+id: bo.text.field_text
+field_name: field_text
+entity_type: bo
+bundle: text
+label: Tekst
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

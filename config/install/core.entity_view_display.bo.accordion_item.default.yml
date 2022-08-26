@@ -1,0 +1,43 @@
+uuid: ea22c14c-76b7-4a36-94ec-001a6e0287e2
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.accordion_item
+    - field.field.bo.accordion_item.field_collapse
+_core:
+  default_config_hash: KMimPNRHBuld45EgxyWBTmqkAEyVBCHYkBNmeJ1SUFs
+id: bo.accordion_item.default
+targetEntityType: bo
+bundle: accordion_item
+mode: default
+content:
+  field_collapse:
+    weight: 6
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
+  title:
+    label: hidden
+    type: string
+    weight: 1
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  weight:
+    label: hidden
+    region: content
+    weight: 5
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+hidden:
+  langcode: true

@@ -1,0 +1,35 @@
+<?php
+/**
+ * Prepares variables for views fields templates.
+ *
+ * Default template: views-view-fields.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - view: The view object.
+ *   - options: An array of options. Each option contains:
+ *     - inline: An array that contains the fields that are to be
+ *       displayed inline.
+ *     - default_field_elements: If default field wrapper
+ *       elements are to be provided.
+ *     - hide_empty: Whether the field is to be hidden if empty.
+ *     - element_default_classes: If the default classes are to be added.
+ *     - separator: A string to be placed between inline fields to keep them
+ *       visually distinct.
+ *    - row: An array containing information about the current row.
+ */
+
+function bo_preprocess_views_view_fields(&$variables) {
+
+  $view = $variables["view"];
+
+  if ($view->getBaseEntityType()) {
+    $class = $view->getBaseEntityType()->getClass();
+
+    if ($class == "Drupal\bo\Entity\BoEntity") {
+      $variables["options"]["default_field_elements"] = 0;
+      $variables["bo_row"] = "bo-entity bo-entity-" . $variables['row']->id;
+      $variables["display_id"] = $view->current_display;
+    }
+  }
+}

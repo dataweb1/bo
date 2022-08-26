@@ -1,0 +1,18 @@
+{{ help }}
+<div class="card">
+    <div class="card-header" id="heading{{ bo.id }}">
+        <h5 class="mb-0">
+            <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{ bo.id }}" aria-expanded="true" aria-controls="collapse{{ bo.id }}">
+                {{ bo.title.raw_value.value }}
+            </button>
+        </h5>
+    </div>
+    {% if bo.field_collapse.raw_value.value == "0" %}
+        {% set extra_class = "show" %}
+    {% endif %}
+    <div id="collapse{{ bo.id }}" class="collapse {{ extra_class }}" aria-labelledby="heading{{ bo.id }}" data-parent="#accordion">
+        <div class="card-body">
+            {{ collection }}
+        </div>
+    </div>
+</div>

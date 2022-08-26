@@ -1,0 +1,42 @@
+uuid: ee07b7ab-c656-4cba-b543-810daa4ad10b
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.video
+    - field.field.bo.video.field_video
+_core:
+  default_config_hash: C3B7GEs6kM0U7hi6RAwRp4vc59JfS6yu6cxRpnY5Hzo
+id: bo.video.default
+targetEntityType: bo
+bundle: video
+mode: default
+content:
+  field_video:
+    type: entity_reference_entity_view
+    weight: 6
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    region: content
+  title:
+    label: hidden
+    type: string
+    weight: 1
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  weight:
+    label: hidden
+    region: content
+    weight: 5
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+hidden:
+  langcode: true

@@ -1,0 +1,21 @@
+uuid: a71afeb4-ca46-44a8-982f-238bdd849b98
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.section
+    - field.storage.bo.field_classes
+_core:
+  default_config_hash: VITqwx6hPoRii9wtN7j55P34wG6UVAVKYgI36qNkxyo
+id: bo.section.field_classes
+field_name: field_classes
+entity_type: bo
+bundle: section
+label: Classes
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

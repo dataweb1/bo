@@ -1,0 +1,12 @@
+uuid: b6447634-7ab4-4ed5-9586-5e67eb81ca84
+langcode: nl
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: oGiFakPWW4XrgaTeV9m64TNwZVn6qemGfX2ltm_y5tM
+id: table
+label: Table
+description: ''
+type: element
+group: ''
+weight: '-4'

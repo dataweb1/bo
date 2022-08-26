@@ -1,0 +1,12 @@
+uuid: 883984de-2685-4292-82c4-2eaecbfd2b66
+langcode: nl
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: Z7DM7nVH1QGbPhPOqFCAJsou5r84n7Za7P71RfEtWtQ
+id: document
+label: Document
+description: ''
+type: element
+group: ''
+weight: '7'

@@ -1,0 +1,12 @@
+uuid: 1a13f34c-0d3f-410f-9f88-808a425b1e64
+langcode: nl
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: rIaTiOLWEAyjKlgrimMLhEbImdixyLAxJeVBpT2DOLA
+id: google_map
+label: 'Google Map'
+description: ''
+type: element
+group: ''
+weight: '-11'

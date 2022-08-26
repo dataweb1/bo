@@ -1,0 +1,21 @@
+uuid: d7d78ed0-148e-4a57-99a6-979334f291b6
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.table_row
+    - field.storage.bo.field_value
+_core:
+  default_config_hash: 4MMQslOW5ZRIVJONrw24w7eEXM21sAFx9ke6TZ854CQ
+id: bo.table_row.field_value
+field_name: field_value
+entity_type: bo
+bundle: table_row
+label: Value
+description: 'One value per column'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,12 @@
+uuid: ada470c2-98ac-4047-befe-216db1135891
+langcode: nl
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: Yp6DnxXoLhKYCCdqrv0sbPOdwsSbYtj-gdqOYEMf5F0
+id: quote
+label: Quote
+description: ''
+type: element
+group: ''
+weight: '1'

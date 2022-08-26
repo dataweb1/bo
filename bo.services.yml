@@ -1,0 +1,44 @@
+services:
+  bo.BoSettingsTwigExtension:
+    class: Drupal\bo\Twig\BoSettingsTwigExtension
+    tags:
+      - { name: twig.extension }
+  bo.CommentStripperTwigExtension:
+    class: Drupal\bo\Twig\CommentStripperTwigExtension
+    tags:
+      - { name: twig.extension }
+  bo.route_subscriber:
+    class: Drupal\bo\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }
+  bo.view:
+    class: Drupal\bo\Service\BoView
+  bo.operations:
+    class: Drupal\bo\Service\BoOperations
+    arguments:
+      - '@bo.settings'
+  bo.settings:
+    class: Drupal\bo\Service\BoSettings
+    arguments:
+      - '@database'
+      - '@current_user'
+      - '@config.factory'
+      - '@module_handler'
+      - '@entity_type.manager'
+  bo.vars:
+    class: Drupal\bo\Service\BoVars
+    arguments:
+      - '@bo.settings'
+      - '@renderer'
+      - '@file_url_generator'
+      - '@entity_field.manager'
+      - '@entity_type.manager'
+  bo.translate:
+    class: Drupal\bo\Service\BoTranslate
+    arguments:
+      - '@bo.settings'
+      - '@entity_type.manager'
+  bo.entity:
+    class: Drupal\bo\Service\BoEntity
+    arguments:
+      - '@entity_type.manager'

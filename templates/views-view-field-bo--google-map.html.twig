@@ -1,0 +1,8 @@
+{{ help }}
+<div class="google-map-container">
+  <div class="google-map">
+    <iframe frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key={{ get_google_maps_key() }}&amp;q={{ bo.field_address.raw_value.value }}" allowfullscreen=""></iframe>
+  </div>
+</div>
+
+{{ attach_library('bo/bo_fields_google_map') }}

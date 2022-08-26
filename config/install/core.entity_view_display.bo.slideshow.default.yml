@@ -1,0 +1,42 @@
+uuid: b7e64cbc-e51c-48be-a006-4d498dc89a30
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.slideshow
+    - field.field.bo.slideshow.field_images
+_core:
+  default_config_hash: 2GCO90dvQEt1MnR5U540kHYpdc2tabUNnEXxZ71leZ8
+id: bo.slideshow.default
+targetEntityType: bo
+bundle: slideshow
+mode: default
+content:
+  field_images:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  weight:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 5
+    region: content
+hidden:
+  langcode: true

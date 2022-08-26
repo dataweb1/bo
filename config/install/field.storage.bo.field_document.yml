@@ -1,0 +1,22 @@
+uuid: 8f012fa3-4aaa-4c10-a5a0-523853edf96f
+langcode: nl
+status: true
+dependencies:
+  module:
+    - bo
+    - media
+_core:
+  default_config_hash: D683QZrmE0DAxtybBW4OZyvKjFO6WKlYURh82F-nRxs
+id: bo.field_document
+field_name: field_document
+entity_type: bo
+type: entity_reference
+settings:
+  target_type: media
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

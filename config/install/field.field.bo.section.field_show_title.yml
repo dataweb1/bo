@@ -1,0 +1,25 @@
+uuid: 63ecde02-f495-4285-a852-df40ca5e35d5
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.section
+    - field.storage.bo.field_show_title
+_core:
+  default_config_hash: SqoeKaiTg3hvm_FwykIP1TyBWbF0ZswqiErUTm6eCQU
+id: bo.section.field_show_title
+field_name: field_show_title
+entity_type: bo
+bundle: section
+label: 'Show title'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

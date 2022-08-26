@@ -1,0 +1,21 @@
+uuid: 7203ec86-21df-4bf4-857b-c327c160d68c
+langcode: und
+status: true
+dependencies:
+  module:
+    - bo
+    - text
+_core:
+  default_config_hash: 5hyY4XdF7lnE4vjq_3UPrmnEjw8JpYNzEPxgC6wonWE
+id: bo.field_text
+field_name: field_text
+entity_type: bo
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

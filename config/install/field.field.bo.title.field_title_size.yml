@@ -1,0 +1,23 @@
+uuid: b2991a45-25c5-424c-86de-250b0601b481
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.title
+    - field.storage.bo.field_title_size
+  module:
+    - options
+_core:
+  default_config_hash: FkzjzzY1-tGH9ovVJebN4rx9Eoj7E02YlsQs4ZnVwGA
+id: bo.title.field_title_size
+field_name: field_title_size
+entity_type: bo
+bundle: title
+label: 'Titel grootte'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

@@ -1,0 +1,21 @@
+uuid: e4ebde83-d0c9-41aa-872a-f3a3cfc6a561
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.article
+    - field.storage.bo.field_date
+  module:
+    - datetime
+id: bo.article.field_date
+field_name: field_date
+entity_type: bo
+bundle: article
+label: Datum
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

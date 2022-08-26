@@ -1,0 +1,21 @@
+uuid: ef021592-2f87-42dc-8447-c85a4bc030b5
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.table
+    - field.storage.bo.field_header
+_core:
+  default_config_hash: MhdvkhwiqGgDR22JUl3Qb5IjZWWFDQqlOPeszHmT3k8
+id: bo.table.field_header
+field_name: field_header
+entity_type: bo
+bundle: table
+label: Header
+description: 'One value per column'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
