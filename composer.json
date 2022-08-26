@@ -1,0 +1,26 @@
+{
+  "name": "dataweb1/bo",
+  "description": "BO",
+  "type": "drupal-module",
+  "homepage": "https://github.com/dataweb1/bo",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
+    }
+  ],
+  "require": {
+    "drupal/image_url_formatter": "^1.0",
+    "drupal/webform": "^6.1",
+    "drupal/claro_media_library_theme": "^1.0@alpha",
+    "drupal/views_bootstrap": "^5.4"
+  },
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Bert Jansen",
+      "email": "bert@data-web.be",
+      "role": "Owner"
+    }
+  ]
+}
