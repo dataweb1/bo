@@ -12,6 +12,6 @@ BO makes use of the Drupal core functionality like blocks, views and media(libra
 composer require datawab1/bo
 ```
 
-## Start here
+## Quick start
 
-Add the 'BO overview' block to a specific region on your theme. Restrict the appearance to your needs.
+After installing the module add the 'BO overview' block to a specific region on your theme via the 'Block layout'. You can restrict the appearance of the block to your needs but it is not required as the block will not render without elements.
