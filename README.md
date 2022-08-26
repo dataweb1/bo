@@ -1,11 +1,13 @@
 # BO
+
+## Introduction
 The module delivers a out-of-the-box block overview with a lot of elements predefined to have a quick start.
 
-## Install
+## Installion
 
-<code>
+```
 composer require datawab1/bo
-</code>
+```
 
 ## Start here
 
