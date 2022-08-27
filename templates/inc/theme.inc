@@ -6,7 +6,6 @@
  * @param $templates
  */
 function add_views_view_bo_suggestion_to_templates($elements, $theme, &$templates) {
-
   $all_elements = "";
   foreach ($elements as $key => $element) {
     if ($key > 0) {
@@ -31,19 +30,20 @@ function add_views_view_bo_suggestion_to_templates($elements, $theme, &$template
     }
 
     if ($template_path != "") {
+      $preprocess_functions = [
+        'template_preprocess_views_view_bo__' . $elements[0] . '__' . $elements[1],
+        'template_preprocess_views_view_bo__' . $elements[0],
+        'template_preprocess_views_view_bo',
+        $theme->getName() . '_preprocess_views_view_bo__' . $elements[0] . '__' . $elements[1],
+        $theme->getName() . '_preprocess_views_view_bo__' . $elements[0],
+        $theme->getName() . '_preprocess_views_view_bo',
+      ];
       $templates[$s] = [
         'template' => $t,
         'file' => 'inc/views_view_bo.theme',
         'path' => $template_path,
         'base_hook' => 'views_view',
-        'preprocess functions' => [
-          'template_preprocess_views_view_bo__' . $elements[0] . '__' . $elements[1],
-          'template_preprocess_views_view_bo__' . $elements[0],
-          'template_preprocess_views_view_bo',
-          $theme->getName() . '_preprocess_views_view_bo__' . $elements[0] . '__' . $elements[1],
-          $theme->getName() . '_preprocess_views_view_bo__' . $elements[0],
-          $theme->getName() . '_preprocess_views_view_bo',
-        ],
+        'preprocess functions' => $preprocess_functions,
       ];
     }
     else {
@@ -64,12 +64,16 @@ function add_views_view_bo_suggestion_to_templates($elements, $theme, &$template
       }
 
       if ($template_path != "") {
-        $templates[$s] = [
-          'template' => $t,
-          'file' => 'inc/views_view_bo.theme',
-          'path' => $template_path,
-          'base_hook' => 'views_view',
-          'preprocess functions' => [
+        if ($s == str_replace("-", "_", $template)) {
+          $preprocess_functions = [
+            'template_preprocess_views_view_bo',
+            'template_preprocess_views_view',
+            $theme->getName() . '_preprocess_views_view_bo',
+            $theme->getName() . '_preprocess_views_view',
+          ];
+        }
+        else {
+          $preprocess_functions = [
             'template_preprocess_views_view_bo__' . $elements[0] . '__' . $elements[1],
             'template_preprocess_views_view_bo__' . $elements[0],
             'template_preprocess_views_view_bo',
@@ -78,7 +82,15 @@ function add_views_view_bo_suggestion_to_templates($elements, $theme, &$template
             $theme->getName() . '_preprocess_views_view_bo__' . $elements[0],
             $theme->getName() . '_preprocess_views_view_bo',
             $theme->getName() . '_preprocess_views_view',
-          ],
+          ];
+        }
+
+        $templates[$s] = [
+          'template' => $t,
+          'file' => 'inc/views_view_bo.theme',
+          'path' => $template_path,
+          'base_hook' => 'views_view',
+          'preprocess functions' => $preprocess_functions,
         ];
       }
 
@@ -117,21 +129,22 @@ function add_views_view_unformatted_bo_suggestion_to_templates($elements, $theme
     }
 
     if ($template_path != "") {
+      $preprocess_functions = [
+        'template_preprocess_views_view_unformatted_bo__' . $elements[0] . '__' . $elements[1],
+        'template_preprocess_views_view_unformatted_bo__' . $elements[0],
+        'template_preprocess_views_view_unformatted_bo',
+        'template_preprocess_views_view_unformatted',
+        $theme->getName() . '_preprocess_views_view_unformatted_bo__' . $elements[0] . '__' . $elements[1],
+        $theme->getName() . '_preprocess_views_view_unformatted_bo__' . $elements[0],
+        $theme->getName() . '_preprocess_views_view_unformatted_bo',
+        $theme->getName() . '_preprocess_views_view_unformatted',
+      ];
       $templates[$s] = [
         'template' => $t,
         'file' => 'inc/views_view_unformatted_bo.theme',
         'path' => $template_path,
         'base_hook' => 'views_view_unformatted',
-        'preprocess functions' => [
-          'template_preprocess_views_view_unformatted_bo__' . $elements[0] . '__' . $elements[1],
-          'template_preprocess_views_view_unformatted_bo__' . $elements[0],
-          'template_preprocess_views_view_unformatted_bo',
-          'template_preprocess_views_view_unformatted',
-          $theme->getName() . '_preprocess_views_view_unformatted_bo__' . $elements[0] . '__' . $elements[1],
-          $theme->getName() . '_preprocess_views_view_unformatted_bo__' . $elements[0],
-          $theme->getName() . '_preprocess_views_view_unformatted_bo',
-          $theme->getName() . '_preprocess_views_view_unformatted',
-        ],
+        'preprocess functions' => $preprocess_functions,
       ];
     }
     else {
@@ -153,12 +166,16 @@ function add_views_view_unformatted_bo_suggestion_to_templates($elements, $theme
       }
 
       if ($template_path != "") {
-        $templates[$s] = [
-          'template' => $t,
-          'file' => 'inc/views_view_unformatted_bo.theme',
-          'path' => $template_path,
-          'base_hook' => 'views_view_field',
-          'preprocess functions' => [
+        if ($s == str_replace("-", "_", $template)) {
+          $preprocess_functions = [
+            'template_preprocess_views_view_unformatted_bo',
+            'template_preprocess_views_view_unformatted',
+            $theme->getName() . '_preprocess_views_view_unformatted_bo',
+            $theme->getName() . '_preprocess_views_view_unformatted',
+          ];
+        }
+        else {
+          $preprocess_functions = [
             'template_preprocess_views_view_unformatted_bo__' . $elements[0] . '__' . $elements[1],
             'template_preprocess_views_view_unformatted_bo__' . $elements[0],
             'template_preprocess_views_view_unformatted_bo',
@@ -167,7 +184,14 @@ function add_views_view_unformatted_bo_suggestion_to_templates($elements, $theme
             $theme->getName() . '_preprocess_views_view_unformatted_bo__' . $elements[0],
             $theme->getName() . '_preprocess_views_view_unformatted_bo',
             $theme->getName() . '_preprocess_views_view_unformatted',
-          ],
+          ];
+        }
+        $templates[$s] = [
+          'template' => $t,
+          'file' => 'inc/views_view_unformatted_bo.theme',
+          'path' => $template_path,
+          'base_hook' => 'views_view_unformatted',
+          'preprocess functions' => $preprocess_functions,
         ];
       }
     }
@@ -200,21 +224,24 @@ function add_views_view_field_bo_suggestion_to_templates($element, $theme, &$tem
   }
 
   if ($t != "") {
+    $preprocess_functions = [
+      'template_preprocess_views_view_field_bo__' . $element,
+      'template_preprocess_views_view_field_bo__bo_fields',
+      'template_preprocess_views_view_field_bo',
+      'template_preprocess_views_view_field',
+      $theme->getName() . '_preprocess_views_view_field_bo__' . $element,
+      $theme->getName() . '_preprocess_views_view_field_bo__bo_fields',
+      $theme->getName() . '_preprocess_views_view_field_bo',
+      $theme->getName() . '_preprocess_views_view_field',
+    ];
+
     $templates[$s] = [
       'template' => $t,
       'file' => 'inc/views_view_field_bo__bo_fields.theme',
       'path' => $template_path,
       'base_hook' => 'views_view_field',
-      'preprocess functions' => [
-        'template_preprocess_views_view_field_bo__bo_fields',
-        'template_preprocess_views_view_field_bo',
-        'template_preprocess_views_view_field',
-        $theme->getName() . '_preprocess_views_view_field_bo__bo_fields',
-        $theme->getName() . '_preprocess_views_view_field_bo',
-        $theme->getName() . '_preprocess_views_view_field',
-      ],
+      'preprocess functions' => $preprocess_functions,
     ];
-
   }
   else {
 
@@ -235,19 +262,21 @@ function add_views_view_field_bo_suggestion_to_templates($element, $theme, &$tem
     }
 
     if ($template_path != "") {
+      $preprocess_functions = [
+        'template_preprocess_views_view_field_bo__bo_fields',
+        'template_preprocess_views_view_field_bo',
+        'template_preprocess_views_view_field',
+        $theme->getName() . '_preprocess_views_view_field_bo__bo_fields',
+        $theme->getName() . '_preprocess_views_view_field_bo',
+        $theme->getName() . '_preprocess_views_view_field',
+      ];
+
       $templates[$s] = [
         'template' => $t,
         'file' => 'inc/views_view_field_bo__bo_fields.theme',
         'path' => $template_path,
         'base_hook' => 'views_view_field',
-        'preprocess functions' => [
-          'template_preprocess_views_view_field_bo__bo_fields',
-          'template_preprocess_views_view_field_bo',
-          'template_preprocess_views_view_field',
-          $theme->getName() . '_preprocess_views_view_field_bo__bo_fields',
-          $theme->getName() . '_preprocess_views_view_field_bo',
-          $theme->getName() . '_preprocess_views_view_field',
-        ],
+        'preprocess functions' => $preprocess_functions,
       ];
     }
   }
