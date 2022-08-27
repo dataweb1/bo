@@ -13,8 +13,8 @@ use Drupal\views_bootstrap\Plugin\views\style\ViewsBootstrapGrid;
  *   id = "bo_bootstrap_grid",
  *   title = @Translation("BO Bootstrap Grid"),
  *   help = @Translation("Render an overview in flexible Bootstrap layout depending on row count."),
- *   theme = "views_bo_bootstrap_grid",
- *   theme_file = "../templates/inc/views_bo_bootstrap_grid.theme",
+ *   theme = "bo_bootstrap_grid",
+ *   theme_file = "../templates/inc/bo_bootstrap_grid.theme",
  *   display_types = { "normal" }
  * )
  */

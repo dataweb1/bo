@@ -261,7 +261,7 @@ class BoEntity extends ContentEntityBase implements BoEntityInterface {
   public function isCurrentCustomSizeEnabled() {
     if ($this->display_id != "") {
       $settings = $this->getCurrentViewDisplaySettings();
-      if ($settings["plugin_id"] == "bo_bootstrap_grid") {
+      if ($settings["plugin_id"] == "views_view_bo_bootstrap_grid") {
         return TRUE;
       }
     }
@@ -274,7 +274,7 @@ class BoEntity extends ContentEntityBase implements BoEntityInterface {
   public static function isCustomSizeEnabled($display_id) {
     if ($display_id != "") {
       $settings = BoEntity::getViewDisplaySettings($display_id);
-      if ($settings["plugin_id"] == "bo_bootstrap_grid") {
+      if ($settings["plugin_id"] == "views_view_bo_bootstrap_grid") {
         return TRUE;
       }
     }

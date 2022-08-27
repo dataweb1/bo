@@ -629,7 +629,7 @@ display:
         groups:
           1: AND
       style:
-        type: bo_bootstrap_grid
+        type: views_view_bo_bootstrap_grid
         options:
           grouping: {  }
           row_class: ''

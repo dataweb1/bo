@@ -1,6 +1,6 @@
 <?php
 \Drupal::moduleHandler()->loadInclude('bo', 'inc', 'templates/inc/theme');
-\Drupal::moduleHandler()->loadInclude('bo', 'theme', 'templates/inc/bo_views_view_fields');
+\Drupal::moduleHandler()->loadInclude('bo', 'theme', 'templates/inc/views_view_fields');
 
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Form\FormStateInterface;
@@ -67,13 +67,11 @@ function bo_theme() {
     add_views_view_field_bo_suggestion_to_templates($bundle["machine_name"], $theme, $templates);
   }
 
-  $templates["bo_bootstrap_grid"] = [
-    'file' => 'inc/bo_bootstrap_grid.theme',
-  ];
-
-  $templates["views_bo_bootstrap_grid"] = [
+  $templates["views_view_bo_bootstrap_grid"] = [
+    'file' => 'inc/views_view_bo_bootstrap_grid.theme',
     'preprocess functions' => [
-      'template_preprocess_views_bo_bootstrap_grid',
+      'template_preprocess_views_view_bo_bootstrap_grid',
+      // From views_bootstrap module.
       'template_preprocess_views_bootstrap_grid',
       'template_preprocess_views_view_grid',
     ],
