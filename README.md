@@ -9,7 +9,7 @@ The Drupal module use of the Drupal core functionality like blocks, views and me
 ## Installation
 
 ```
-composer require datawab1/bo
+composer require dataweb1/bo
 ```
 
 ## Quick start
