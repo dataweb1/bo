@@ -4,6 +4,7 @@
 
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\image\Entity\ImageStyle;
 
 /**
  * Implements hook_rebuild().
@@ -12,19 +13,26 @@ function bo_install() {
   /** @var \Drupal\bo\Service\BoSettings $boSettings */
   $boSettings = \Drupal::getContainer()->get('bo.settings');
 
-  $boSettings->parseSettingsYml();
-  $boSettings->createImageStyles();
-}
+  // Build image styles.
+  foreach ($boSettings->getStyles() as $label => $style) {
+    $imageStyle = ImageStyle::load("bo_" . $style["size"]);
+    if (!$imageStyle) {
+      $imageStyle = ImageStyle::create([
+        'name' => 'bo_' . $style["size"],
+        'label' => $label,
+      ]);
+      $imageStyle->save();
 
-/**
- * Implements hook_rebuild().
- */
-function bo_rebuild() {
-  /** @var \Drupal\bo\Service\BoSettings $boSettings */
-  $boSettings = \Drupal::getContainer()->get('bo.settings');
-
-  $boSettings->parseSettingsYml();
-  $boSettings->createImageStyles();
+      $imageStyle->addImageEffect([
+        'id' => 'image_scale',
+        'weight' => 0,
+        'data' => [
+          'width' => $style["width"],
+        ],
+      ]);
+      $imageStyle->save();
+    }
+  }
 }
 
 /**

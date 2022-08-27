@@ -526,33 +526,6 @@ class BoSettings {
   /**
    *
    */
-  public function createImageStyles() {
-
-    // Build image styles.
-    foreach ($this->getStyles() as $label => $style) {
-      $imageStyle = ImageStyle::load("bo_" . $style["size"]);
-      if (!$imageStyle) {
-        $imageStyle = ImageStyle::create([
-          'name' => 'bo_' . $style["size"],
-          'label' => $label,
-        ]);
-        $imageStyle->save();
-
-        $imageStyle->addImageEffect([
-          'id' => 'image_scale',
-          'weight' => 0,
-          'data' => [
-            'width' => $style["width"],
-          ],
-        ]);
-        $imageStyle->save();
-      }
-    }
-  }
-
-  /**
-   *
-   */
   public function addFieldToType(&$field_names, $field_name) {
     $key = array_search($field_name, $field_names);
     if (FALSE === $key) {
