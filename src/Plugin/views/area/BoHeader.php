@@ -71,14 +71,14 @@ class BoHeader extends AreaPluginBase {
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     return new static(
-          $configuration,
-          $plugin_id,
-          $plugin_definition,
-          $container->get('access_manager'),
-          $container->get('current_user'),
-          $container->get('bo.settings'),
-          $container->get('bo.operations')
-      );
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('access_manager'),
+      $container->get('current_user'),
+      $container->get('bo.settings'),
+      $container->get('bo.operations')
+    );
   }
 
 

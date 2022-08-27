@@ -14,6 +14,4 @@ composer require dataweb1/bo
 
 ## Quick start
 
-After installing the module add the 'BO overview' block, to the 'Content' region e.g., in your theme via the 'Block Layout'.
-
-You can restrict the appearance of the block to your needs but it is not required as the block will not render without content.
+After installing the module add the 'BO overview' block, to the 'Content' region e.g., in your theme via the 'Block layout'. You can restrict the appearance of the block to your needs but it is not required as the block will not render without elements.
