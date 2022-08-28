@@ -33,9 +33,9 @@ use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\bo\BoBundleListBuilder",
  *     "form" = {
- *       "default" = "Drupal\bo\Form\BoBundleEntityForm",
- *       "add" = "Drupal\bo\Form\BoBundleEntityForm",
- *       "edit" = "Drupal\bo\Form\BoBundleEntityForm",
+ *       "default" = "Drupal\bo\Form\BoBundleForm",
+ *       "add" = "Drupal\bo\Form\BoBundleForm",
+ *       "edit" = "Drupal\bo\Form\BoBundleForm",
  *       "delete" = "Drupal\Core\Entity\EntityDeleteForm",
  *     },
  *     "route_provider" = {
@@ -52,7 +52,7 @@ use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
  *   }
  * )
  */
-class BoBundleEntity extends ConfigEntityBundleBase implements BoBundleEntityInterface {
+class BoBundle extends ConfigEntityBundleBase implements BoBundleInterface {
 
   /**
    * The machine name of the bo bundle.

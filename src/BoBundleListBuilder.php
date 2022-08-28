@@ -2,7 +2,7 @@
 
 namespace Drupal\bo;
 
-use Drupal\bo\Entity\BoBundleEntityInterface;
+use Drupal\bo\Entity\BoBundleInterface;
 use Drupal\bo\Service\BoSettings;
 use Drupal\Core\Config\Entity\ConfigEntityListBuilder;
 use Drupal\Core\Entity\EntityStorageInterface;
@@ -160,7 +160,7 @@ class BoBundleListBuilder extends ConfigEntityListBuilder implements FormInterfa
   /**
    * {@inheritdoc}
    */
-  public function buildRow(BoBundleEntityInterface $entity) {
+  public function buildRow(BoBundleInterface $entity) {
 
     $bundle = $this->boSettings->getBundles($entity->id());
 
@@ -407,7 +407,7 @@ class BoBundleListBuilder extends ConfigEntityListBuilder implements FormInterfa
 
     $entities = $this->storage->loadMultiple(array_keys($form_state->getValue('bundles')));
 
-    /** @var \Drupal\bo\Entity\BoBundleEntityInterface $entity */
+    /** @var \Drupal\bo\Entity\BoBundleInterface $entity */
     foreach ($entities as $entity_id => $entity) {
       $entity_values = $form_state->getValue(['bundles', $entity_id]);
 

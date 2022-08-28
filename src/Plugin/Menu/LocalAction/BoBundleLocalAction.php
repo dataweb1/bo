@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Defines a local action plugin with a dynamic title.
  */
-class BoEntityTypeLocalAction extends LocalActionDefault {
+class BoBundleLocalAction extends LocalActionDefault {
 
   use StringTranslationTrait;
 

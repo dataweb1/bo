@@ -43,7 +43,7 @@ class BoBundleAdministerElementsMenuLinksDerivative extends DeriverBase implemen
   public function getDerivativeDefinitions($base_plugin_definition) {
     $links = [];
 
-    $links['bo_bundle_entity_element_list_menu'] = [
+    $links['bo_bundle_element_list_menu'] = [
       'title' => 'BO ' . $this->t("elements"),
       'description' => 'Administer BO elements',
               // 'parent' => 'system.admin_structure',

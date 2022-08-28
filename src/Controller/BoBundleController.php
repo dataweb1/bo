@@ -2,7 +2,7 @@
 
 namespace Drupal\bo\Controller;
 
-use Drupal\bo\Entity\BoBundleEntity;
+use Drupal\bo\Entity\BoBundle;
 use Drupal\Core\Controller\ControllerBase;
 
 /**
@@ -51,7 +51,7 @@ class BoBundleController extends ControllerBase {
    */
   public function renderBoBundleAddForm($type) {
 
-    $entity = BoBundleEntity::create();
+    $entity = BoBundle::create();
     $entity->setType($type);
     $form = \Drupal::service('entity.form_builder')->getForm($entity, 'default');
 

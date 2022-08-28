@@ -8,7 +8,7 @@ use Drupal\Core\Entity\EntityDescriptionInterface;
 /**
  * Provides an interface for defining BO bundle type entities.
  */
-interface BoBundleEntityInterface extends ConfigEntityInterface, EntityDescriptionInterface {
+interface BoBundleInterface extends ConfigEntityInterface, EntityDescriptionInterface {
 
   /**
    * Gets the BO bundle group.

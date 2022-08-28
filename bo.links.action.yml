@@ -1,14 +1,14 @@
-bo_entity_type_action_add_element:
+bo_bundle_action_add_element:
   route_name: entity.bo_bundle.add_form
-  class: '\Drupal\bo\Plugin\Menu\LocalAction\BoEntityTypeLocalAction'
+  class: '\Drupal\bo\Plugin\Menu\LocalAction\BoBundleLocalAction'
   route_parameters:
     type: 'element'
   appears_on:
     - entity.bo_bundle.element_list
 
-bo_entity_type_action_add_content:
+bo_bundle_action_add_content:
   route_name: entity.bo_bundle.add_form
-  class: '\Drupal\bo\Plugin\Menu\LocalAction\BoEntityTypeLocalAction'
+  class: '\Drupal\bo\Plugin\Menu\LocalAction\BoBundleLocalAction'
   route_parameters:
     type: 'content'
   appears_on:

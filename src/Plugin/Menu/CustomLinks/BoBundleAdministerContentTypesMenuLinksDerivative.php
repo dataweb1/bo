@@ -42,7 +42,7 @@ class BoBundleAdministerContentTypesMenuLinksDerivative extends DeriverBase impl
    */
   public function getDerivativeDefinitions($base_plugin_definition) {
     $links = [];
-    $links['bo_bundle_entity_content_list_menu'] = [
+    $links['bo_bundle_content_list_menu'] = [
       'title' => 'BO ' . $this->t("content"),
       'description' => 'Administer BO content',
     ] + $base_plugin_definition;

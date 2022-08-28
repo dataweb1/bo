@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  *
  */
-class BoBundleEntityForm extends BundleEntityFormBase {
+class BoBundleForm extends BundleEntityFormBase {
 
   private $bundle_name;
   private BoSettings $boSettings;
@@ -34,7 +34,7 @@ class BoBundleEntityForm extends BundleEntityFormBase {
 
     $form = parent::form($form, $form_state);
 
-    /** @var \Drupal\bo\Entity\BoBundleEntityInterface $entity */
+    /** @var \Drupal\bo\Entity\BoBundleInterface $entity */
     $entity_bundle = $this->entity;
     $content_entity_id = $entity_bundle->getEntityType()->getBundleOf();
 
@@ -51,7 +51,7 @@ class BoBundleEntityForm extends BundleEntityFormBase {
       '#type' => 'machine_name',
       '#default_value' => $entity_bundle->id(),
       '#machine_name' => [
-        'exists' => '\Drupal\bo\Entity\BoBundleEntity::load',
+        'exists' => '\Drupal\bo\Entity\BoBundle::load',
       ],
       '#disabled' => !$entity_bundle->isNew(),
     ];
