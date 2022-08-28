@@ -52,11 +52,7 @@ use Drupal\bo\Service\BoSettings;
  *     "collection" = "/admin/content/bos",
  *   },
  *   bundle_entity_type = "bundle",
-<<<<<<< HEAD
  *   field_ui_base_route = "entity.bundle.edit_form",
-=======
- *   field_ui_base_route = "bo.entity.bundle.edit_form",
->>>>>>> 2631265... Rename bo_bundle -> bundle
  * )
  */
 class BoEntity extends ContentEntityBase implements BoEntityInterface {
