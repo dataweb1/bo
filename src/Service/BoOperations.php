@@ -121,7 +121,7 @@ class BoOperations {
 
         if ($parameters['action'] == 'add') {
           $url = Url::fromRoute('entity.bo.add_form', [
-            'bo_bundle' => $parameters['bundle_name'],
+            'bundle' => $parameters['bundle_name'],
             'to_path' => $parameters["to_path"],
             'collection_id' => $parameters["collection_id"],
             'display_id' => $parameters["display_id"],
@@ -132,7 +132,7 @@ class BoOperations {
 
         if ($parameters['action'] == 'insert') {
           $url = Url::fromRoute('entity.bo.insert_form', [
-            'bo_bundle' => $parameters['bundle_name'],
+            'bundle' => $parameters['bundle_name'],
             'to_path' => $parameters["to_path"],
             'collection_id' => $parameters["collection_id"],
             'display_id' => $parameters["display_id"],

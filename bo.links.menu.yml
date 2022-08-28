@@ -6,7 +6,7 @@
 
 bo_bundle_element_list_menu:
   #title: 'BO elements'
-  route_name: entity.bo_bundle.element_list
+  route_name: bo.entity.bundle.element_list
   #description: 'Manage BO elements'
   parent: system.admin_structure
   class: Drupal\bo\Plugin\Menu\BoBundleMenuLink
@@ -14,7 +14,7 @@ bo_bundle_element_list_menu:
 
 bo_bundle_content_list_menu:
   #title: 'BO content'
-  route_name: entity.bo_bundle.content_list
+  route_name: bo.entity.bundle.content_list
   #description: 'Manage BO content'
   parent: system.admin_structure
   class: Drupal\bo\Plugin\Menu\BoBundleMenuLink

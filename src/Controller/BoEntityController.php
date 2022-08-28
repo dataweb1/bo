@@ -53,12 +53,12 @@ class BoEntityController extends ControllerBase {
   /**
    * Get title.
    */
-  public function getInsertTitle($bo_bundle) {
+  public function getInsertTitle($bundle) {
 
     $title = $this->t(
-      "Insert @bo_bundle",
+      "Insert @bundle",
       [
-        '@bo_bundle' => $bo_bundle->get("label"),
+        '@bundle' => $bundle->get("label"),
       ]
     );
 

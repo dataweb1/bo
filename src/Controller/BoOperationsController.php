@@ -103,7 +103,7 @@ class BoOperationsController extends ControllerBase {
       switch ($parameters['action']) {
         case 'add':
           $url = Url::fromRoute('entity.bo.add_form', [
-            'bo_bundle' => $parameters['bundle_name'],
+            'bundle' => $parameters['bundle_name'],
             'to_path' => $parameters['to_path'],
             'collection_id' => $parameters['collection_id'],
             'display_id' => $parameters['display_id'],
@@ -113,7 +113,7 @@ class BoOperationsController extends ControllerBase {
 
         case 'insert';
           $url = Url::fromRoute('entity.bo.insert_form', [
-            'bo_bundle' => $parameters['bundle_name'],
+            'bundle' => $parameters['bundle_name'],
             'to_path' => $parameters['to_path'],
             'collection_id' => $parameters['collection_id'],
             'display_id' => $parameters['display_id'],

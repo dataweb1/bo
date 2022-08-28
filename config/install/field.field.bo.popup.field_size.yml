@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - bo.bo_bundle.popup
+    - bo.bundle.popup
     - field.storage.bo.field_size
   module:
     - options

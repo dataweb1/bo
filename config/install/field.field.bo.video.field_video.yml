@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies:
   config:
-    - bo.bo_bundle.video
+    - bo.bundle.video
     - field.storage.bo.field_video
     - media.type.remote_video
 _core:

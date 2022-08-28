@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies:
   config:
-    - bo.bo_bundle.table_row
+    - bo.bundle.table_row
     - field.storage.bo.field_value
 _core:
   default_config_hash: 4MMQslOW5ZRIVJONrw24w7eEXM21sAFx9ke6TZ854CQ

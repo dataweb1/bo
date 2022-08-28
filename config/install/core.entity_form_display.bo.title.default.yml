@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies:
   config:
-    - bo.bo_bundle.title
+    - bo.bundle.title
     - field.field.bo.title.field_title_size
 _core:
   default_config_hash: OiEuBHg8nM-DkJw7Ax7-JfkxDE2WuBdwg2U_kiPIg8I

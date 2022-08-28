@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies:
   config:
-    - bo.bo_bundle.title
+    - bo.bundle.title
     - field.storage.bo.field_title_size
   module:
     - options

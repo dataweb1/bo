@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies:
   config:
-    - bo.bo_bundle.document
+    - bo.bundle.document
     - field.storage.bo.field_document
   module:
     - file

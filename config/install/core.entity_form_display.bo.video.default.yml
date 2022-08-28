@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies:
   config:
-    - bo.bo_bundle.video
+    - bo.bundle.video
     - field.field.bo.video.field_video
   module:
     - media_library

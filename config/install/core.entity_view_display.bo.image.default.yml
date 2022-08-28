@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies:
   config:
-    - bo.bo_bundle.image
+    - bo.bundle.image
     - field.field.bo.image.field_image
 _core:
   default_config_hash: 0NBxwdP8hNhUD9QWsr7pZKRpzHylORu6z1UX8oSpK8U

@@ -16,7 +16,7 @@ class RouteSubscriber extends RouteSubscriberBase {
   public function alterRoutes(RouteCollection $collection) {
     if ($bo_add_route = $collection->get('entity.bo.add_form')) {
       $bo_insert_route = clone($bo_add_route);
-      $bo_insert_route->setPath("/bo/insert/{bo_bundle}");
+      $bo_insert_route->setPath("/bo/insert/{bundle}");
       $bo_insert_route->setDefault('_title_callback', '\Drupal\bo\Controller\BoEntityController::getInsertTitle');
       $collection->add("entity.bo.insert_form", $bo_insert_route);
     }

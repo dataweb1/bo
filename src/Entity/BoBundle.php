@@ -9,7 +9,7 @@ use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
  * bundles for the BO bundle.
  *
  * @ConfigEntityType(
- *   id = "bo_bundle",
+ *   id = "bundle",
  *   label = @Translation("BO element"),
  *   bundle_of = "bo",
  *   entity_keys = {
@@ -20,7 +20,7 @@ use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
  *     "group" = "group",
  *     "weight" = "weight",
  *   },
- *   config_prefix = "bo_bundle",
+ *   config_prefix = "bundle",
  *   config_export = {
  *     "id",
  *     "label",
@@ -45,8 +45,8 @@ use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
  *   admin_permission = "administer bo elements",
  *   links = {
  *     "add-form" = "/admin/structure/bo/bundle/add/{type}",
- *     "edit-form" = "/admin/structure/bo/bundle/{bo_bundle}/edit",
- *     "delete-form" = "/admin/structure/bo/bundle/{bo_bundle}/delete",
+ *     "edit-form" = "/admin/structure/bo/bundle/{bundle}/edit",
+ *     "delete-form" = "/admin/structure/bo/bundle/{bundle}/delete",
  *     "element-list" = "/admin/structure/bo/bundle/element/list",
  *     "content-list" = "/admin/structure/bo/bundle/content/list",
  *   }

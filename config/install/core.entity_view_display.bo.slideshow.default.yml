@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies:
   config:
-    - bo.bo_bundle.slideshow
+    - bo.bundle.slideshow
     - field.field.bo.slideshow.field_images
 _core:
   default_config_hash: 2GCO90dvQEt1MnR5U540kHYpdc2tabUNnEXxZ71leZ8

@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies:
   config:
-    - bo.bo_bundle.video
+    - bo.bundle.video
     - field.field.bo.video.field_video
 _core:
   default_config_hash: C3B7GEs6kM0U7hi6RAwRp4vc59JfS6yu6cxRpnY5Hzo

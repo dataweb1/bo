@@ -46,13 +46,17 @@ use Drupal\bo\Service\BoSettings;
  *   links = {
  *     "canonical" = "/bo/{bo}",
  *     "add-page" = "/bo/add",
- *     "add-form" = "/bo/add/{bo_bundle}",
+ *     "add-form" = "/bo/add/{bundle}",
  *     "edit-form" = "/bo/{bo}/edit",
  *     "delete-form" = "/bo/{bo}/delete",
  *     "collection" = "/admin/content/bos",
  *   },
- *   bundle_entity_type = "bo_bundle",
- *   field_ui_base_route = "entity.bo_bundle.edit_form",
+ *   bundle_entity_type = "bundle",
+<<<<<<< HEAD
+ *   field_ui_base_route = "entity.bundle.edit_form",
+=======
+ *   field_ui_base_route = "bo.entity.bundle.edit_form",
+>>>>>>> 2631265... Rename bo_bundle -> bundle
  * )
  */
 class BoEntity extends ContentEntityBase implements BoEntityInterface {

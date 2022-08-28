@@ -46,10 +46,6 @@ class BoBundleAdministerElementsMenuLinksDerivative extends DeriverBase implemen
     $links['bo_bundle_element_list_menu'] = [
       'title' => 'BO ' . $this->t("elements"),
       'description' => 'Administer BO elements',
-              // 'parent' => 'system.admin_structure',
-              // 'weight' => 3,
-              // 'route_name' => 'entity.bo_bundle.element_list',
-              // 'route_parameters' => ['user' => $this->uid]
     ] + $base_plugin_definition;
 
     return $links;

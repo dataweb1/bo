@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies:
   config:
-    - bo.bo_bundle.section
+    - bo.bundle.section
     - field.field.bo.section.field_classes
     - field.field.bo.section.field_image
     - field.field.bo.section.field_show_title

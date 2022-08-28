@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies:
   config:
-    - bo.bo_bundle.slideshow
+    - bo.bundle.slideshow
     - field.field.bo.slideshow.field_images
   module:
     - media_library

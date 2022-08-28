@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies:
   config:
-    - bo.bo_bundle.popup
+    - bo.bundle.popup
     - field.field.bo.popup.field_button_caption
     - field.field.bo.popup.field_show_header
     - field.field.bo.popup.field_size

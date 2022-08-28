@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies:
   config:
-    - bo.bo_bundle.document
+    - bo.bundle.document
     - field.field.bo.document.field_document
 _core:
   default_config_hash: W4HrVRuaSQ61OM0X_3ZsQDl35FAXCGvNzsqemTcD9d4

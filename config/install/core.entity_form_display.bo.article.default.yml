@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies:
   config:
-    - bo.bo_bundle.article
+    - bo.bundle.article
     - field.field.bo.article.field_date
   module:
     - datetime

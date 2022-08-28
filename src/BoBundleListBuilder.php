@@ -121,11 +121,10 @@ class BoBundleListBuilder extends ConfigEntityListBuilder implements FormInterfa
 
     $route_name = \Drupal::routeMatch()->getRouteName();
 
-    // $current_path = \Drupal::service('path.current')->getPath();
-    if ($route_name == "entity.bo_bundle.content_list") {
+    if ($route_name == "bo.entity.bundle.content_list") {
       $this->type = "content";
     }
-    if ($route_name == "entity.bo_bundle.element_list") {
+    if ($route_name == "bo.entity.bundle.element_list") {
       $this->type = "element";
     }
 

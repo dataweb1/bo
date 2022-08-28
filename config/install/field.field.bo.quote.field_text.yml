@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies:
   config:
-    - bo.bo_bundle.quote
+    - bo.bundle.quote
     - field.storage.bo.field_text
   module:
     - text

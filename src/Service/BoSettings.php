@@ -80,7 +80,7 @@ class BoSettings {
   public function getBoBundles($bundle_name = "") {
 
     $bundles = [];
-    $entities = $this->entityTypeManager->getStorage('bo_bundle')->loadByProperties();
+    $entities = $this->entityTypeManager->getStorage('bundle')->loadByProperties();
 
     foreach ($entities as $entity) {
       if ($bundle_name == "") {
@@ -106,7 +106,7 @@ class BoSettings {
       return $this->sortedBundles;
     }
 
-    $entities = $this->entityTypeManager->getStorage('bo_bundle')->loadByProperties();
+    $entities = $this->entityTypeManager->getStorage('bundle')->loadByProperties();
 
     foreach ($entities as $entity) {
       $icon = $this->getBundles($entity->id())["icon"];

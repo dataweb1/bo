@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies:
   config:
-    - bo.bo_bundle.google_map
+    - bo.bundle.google_map
     - field.field.bo.google_map.field_address
 _core:
   default_config_hash: BJDwq0lMjLi3PjvGHBcSRKx5cTykNYSFwburvEZl3pg

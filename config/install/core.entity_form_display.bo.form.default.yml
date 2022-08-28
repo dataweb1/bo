@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies:
   config:
-    - bo.bo_bundle.form
+    - bo.bundle.form
     - field.field.bo.form.field_form
   module:
     - webform

@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies:
   config:
-    - bo.bo_bundle.gallery
+    - bo.bundle.gallery
     - field.field.bo.gallery.field_images
   module:
     - media_library

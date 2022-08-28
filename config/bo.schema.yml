@@ -1,4 +1,4 @@
-bo.bo_bundle.*:
+bo.bundle.*:
   type: config_entity
   label: 'BO element settings'
   mapping:

@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies:
   config:
-    - bo.bo_bundle.accordion_item
+    - bo.bundle.accordion_item
     - field.storage.bo.field_collapse
 _core:
   default_config_hash: APPnH7bmUHXJhRz1FMe3_NxGIeqZTue9CasX8KHFEpI

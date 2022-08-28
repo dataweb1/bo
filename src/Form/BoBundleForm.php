@@ -132,7 +132,7 @@ class BoBundleForm extends BundleEntityFormBase {
 
     /* @todo: weight instellen */
 
-    $url = Url::fromRoute('entity.bo_bundle.' . $entity_bundle->getType() . '_list');
+    $url = Url::fromRoute('bo.entity.bundle.' . $entity_bundle->getType() . '_list');
     $form_state->setRedirectUrl($url);
   }
 
