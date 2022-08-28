@@ -18,7 +18,6 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\bo\Entity\BoEntity;
 use Drupal\bo\Service\BoSettings;
 use Drupal\Core\Render\Markup;
-use Drupal\views\Views;
 use Drupal\Core\Cache\Cache;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -65,7 +64,7 @@ class BoEntityForm extends ContentEntityForm {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
 
-    // Needed for working met Media browser. BoSettings service is not set for whatever reason.
+    // Needed for working with Media browser. BoSettings service is not set for whatever reason.
     if (!isset($this->boSettings)) {
       $this->boSettings = \Drupal::service('bo.settings');
     }
@@ -171,6 +170,11 @@ class BoEntityForm extends ContentEntityForm {
         $display_id_parts = explode("__", $display_id);
         $collection_id = \Drupal::request()->query->get('collection_id');
         $to_path = \Drupal::request()->query->get('to_path');
+
+        // Needed for working with Media browser. BoView service is not set for whatever reason.
+        if (!isset($this->boView)) {
+          $this->boView = \Drupal::service('bo.view');
+        }
 
         $view = $this->boView->prepareBoView($display_id_parts[0], $display_id_parts[1], $collection_id, $to_path);
 

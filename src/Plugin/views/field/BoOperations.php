@@ -37,6 +37,11 @@ class BoOperations extends EntityOperations {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $entity_type_manager, $language_manager, $entity_repository);
     $this->boOperations = $boOperations;
     $this->boSettings = $boSettings;
+
+    // If for whatever reason the renderer is not loaded.
+    if (!isset($this->renderer)) {
+      $this->renderer = \Drupal::service('renderer');
+    }
   }
 
   /**
