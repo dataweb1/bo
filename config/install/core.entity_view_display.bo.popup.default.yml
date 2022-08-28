@@ -5,37 +5,58 @@ dependencies:
   config:
     - bo.bo_bundle.popup
     - field.field.bo.popup.field_button_caption
+    - field.field.bo.popup.field_show_header
+    - field.field.bo.popup.field_size
+  module:
+    - options
 _core:
-  default_config_hash: hL9exeM5UF3cThEyWqpQj84o8f8is1tpJjL2ltNLlLg
+  default_config_hash: 7n2uaIKKbLJDNGnPJG5SEoK3MD3kSik_rylOV5txhmY
 id: bo.popup.default
 targetEntityType: bo
 bundle: popup
 mode: default
 content:
   field_button_caption:
-    weight: 6
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 6
+    region: content
+  field_show_header:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_size:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 8
     region: content
   title:
-    label: hidden
     type: string
-    weight: 1
-    region: content
+    label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-  weight:
-    label: hidden
+    weight: 1
     region: content
-    weight: 5
+  weight:
+    type: number_integer
+    label: hidden
     settings:
       thousand_separator: ''
       prefix_suffix: true
     third_party_settings: {  }
-    type: number_integer
+    weight: 5
+    region: content
 hidden:
   langcode: true

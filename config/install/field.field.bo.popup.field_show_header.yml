@@ -1,0 +1,23 @@
+uuid: 218d2545-8a0b-40aa-9b5d-6f9c514dc500
+langcode: en
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.popup
+    - field.storage.bo.field_show_header
+id: bo.popup.field_show_header
+field_name: field_show_header
+entity_type: bo
+bundle: popup
+label: 'Show header'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

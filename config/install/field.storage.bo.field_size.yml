@@ -1,0 +1,33 @@
+uuid: b6289fe6-c515-46c6-a316-6286967179aa
+langcode: en
+status: true
+dependencies:
+  module:
+    - bo
+    - options
+id: bo.field_size
+field_name: field_size
+entity_type: bo
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: sm
+      label: small
+    -
+      value: md
+      label: medium
+    -
+      value: lg
+      label: large
+    -
+      value: xl
+      label: 'extra large'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,23 @@
+uuid: a9c4c8d9-3781-4005-8662-ad43517f6a42
+langcode: en
+status: true
+dependencies:
+  config:
+    - bo.bo_bundle.popup
+    - field.storage.bo.field_size
+  module:
+    - options
+id: bo.popup.field_size
+field_name: field_size
+entity_type: bo
+bundle: popup
+label: Size
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: md
+default_value_callback: ''
+settings: {  }
+field_type: list_string
