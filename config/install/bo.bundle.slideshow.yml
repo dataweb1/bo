@@ -3,10 +3,16 @@ langcode: nl
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: Y3drmj8CGKckIwlxgnxDvaNV8bgwacSEYqJLKhADA18
+  default_config_hash: O-CkEwx_IyAcS4JQ8kYiI_d7fWwweVW4JXE7FC90QiM
 id: slideshow
 label: Slideshow
 description: ''
 type: element
 group: ''
-weight: '-6'
+default: 1
+internal_title: 0
+override_title_label: ''
+icon: 'fa fa-film'
+collection:
+  enabled: 0
+weight: '-8'

@@ -5,7 +5,7 @@ dependencies:
   module:
     - bo
 _core:
-  default_config_hash: xs73CXOz3ekN6BbQ8j7HoGoRQzAS3jLLDC8opFI3xKQ
+  default_config_hash: AOtezYp3-FAhffjGnpa2JmmUJU0y6JxZzwyfKg9bdrA
 id: bo.field_collapse
 field_name: field_collapse
 entity_type: bo

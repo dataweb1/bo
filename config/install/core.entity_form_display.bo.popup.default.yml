@@ -8,7 +8,7 @@ dependencies:
     - field.field.bo.popup.field_show_header
     - field.field.bo.popup.field_size
 _core:
-  default_config_hash: 8dId1tX_74fiOjsAxa3MZcXtoJoMfFAwNQ7R8DOVCkk
+  default_config_hash: fXPSkmVv8hM8QV7RR3QR-jVbx3rNuyklGII8DuvbnYs
 id: bo.popup.default
 targetEntityType: bo
 bundle: popup

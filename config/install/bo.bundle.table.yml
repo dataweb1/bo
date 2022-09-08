@@ -3,10 +3,42 @@ langcode: nl
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: oGiFakPWW4XrgaTeV9m64TNwZVn6qemGfX2ltm_y5tM
+  default_config_hash: wFVVC_v95eEX1puDd_4VKSA5-h7gJap00YaIpPihM8I
 id: table
 label: Table
 description: ''
 type: element
 group: ''
-weight: '-4'
+default: 0
+internal_title: 1
+override_title_label: ''
+icon: 'fa fa-columns'
+collection:
+  enabled: 1
+  bundles:
+    google_map: 0
+    webform: 0
+    card: 0
+    cards: 0
+    section: 0
+    slideshow: 0
+    tab: 0
+    table: 0
+    table_row: 1
+    tabs: 0
+    grid: 0
+    text: 0
+    quote: 0
+    video: 0
+    gallery: 0
+    accordion_item: 0
+    image: 0
+    accordion: 0
+    document: 0
+    title: 0
+    popup: 0
+    article: 0
+  options:
+    max_element_count: ''
+    specific_view: bo__table
+weight: '-6'

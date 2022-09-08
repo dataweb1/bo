@@ -5,6 +5,8 @@ dependencies:
   module:
     - bo
     - datetime
+_core:
+  default_config_hash: hgHV9TZIVkxkQwC5cR2j3B8yNHD0X_1zuMIo5sVWM8U
 id: bo.field_date
 field_name: field_date
 entity_type: bo

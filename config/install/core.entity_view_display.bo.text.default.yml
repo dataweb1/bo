@@ -8,7 +8,7 @@ dependencies:
   module:
     - text
 _core:
-  default_config_hash: imHFSnqg-zCfa9wS12tjgEjlLRQXn33YdEqgn7vvQLY
+  default_config_hash: PCRq0HHHf4OSc2hRgbGtmCLZr2IqqVy9dbtd_3l0JYQ
 id: bo.text.default
 targetEntityType: bo
 bundle: text

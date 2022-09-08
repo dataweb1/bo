@@ -3,10 +3,16 @@ langcode: nl
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: GHvnWUEcyU9Ia_kGdAUqpgI3Or9uw74SZ5GkMnALKRE
+  default_config_hash: Un4tU9sCa87aC9xpsxERCdCwM0ib1jhVnBZIEVu33OI
 id: table_row
 label: 'Table row'
 description: ''
 type: element
 group: ''
-weight: '-3'
+default: 0
+internal_title: 0
+override_title_label: ''
+icon: ''
+collection:
+  enabled: 0
+weight: '-5'

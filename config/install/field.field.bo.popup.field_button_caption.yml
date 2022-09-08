@@ -6,7 +6,7 @@ dependencies:
     - bo.bundle.popup
     - field.storage.bo.field_button_caption
 _core:
-  default_config_hash: mMDI5p_NSFWkq9pTKKA7mJPhzW8RNFuMmWm5c47TgdU
+  default_config_hash: U2DZXUFgCVdFqG2SwsetUGAOnWSJeqGddDiKpHSZYec
 id: bo.popup.field_button_caption
 field_name: field_button_caption
 entity_type: bo

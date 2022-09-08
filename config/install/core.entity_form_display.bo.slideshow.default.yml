@@ -8,7 +8,7 @@ dependencies:
   module:
     - media_library
 _core:
-  default_config_hash: lhoIawoof5k5sRSYyzLqnU4j3NZ9tZm6pj2kvdcy_I8
+  default_config_hash: ioM4ONAcOLEcEH7g0ucJ1OE7EDL9CLCE-VLyo8gi6ys
 id: bo.slideshow.default
 targetEntityType: bo
 bundle: slideshow

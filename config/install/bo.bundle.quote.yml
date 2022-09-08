@@ -3,10 +3,16 @@ langcode: nl
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: Yp6DnxXoLhKYCCdqrv0sbPOdwsSbYtj-gdqOYEMf5F0
+  default_config_hash: '-Jr_VXClxKI8Dwy_o7rWP46C0pXGMaFNcQGYEAtfSMo'
 id: quote
 label: Quote
 description: ''
 type: element
 group: ''
-weight: '1'
+default: 1
+internal_title: 0
+override_title_label: From
+icon: 'fa fa-quote-left'
+collection:
+  enabled: 0
+weight: '-1'

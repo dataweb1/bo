@@ -22,7 +22,7 @@
 {% for row in rows %}
 
     {% if row.attributes is not empty %}
-      <div {{ attributes }}>
+      <div {{ row.attributes }}>
     {% endif %}
     {{ row.content }}
     {% if row.attributes is not empty %}

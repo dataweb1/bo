@@ -6,7 +6,7 @@ dependencies:
     - bo.bundle.document
     - field.field.bo.document.field_document
 _core:
-  default_config_hash: OrDokcIND0V2IC2gbttkCwlrOv7Bq_m3-64odU-Wkes
+  default_config_hash: 5fzJs_EZ5cVsc326chrlQJaSSd7eOw5yORX6xjGNzdI
 id: bo.document.default
 targetEntityType: bo
 bundle: document

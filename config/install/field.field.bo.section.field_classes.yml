@@ -6,7 +6,7 @@ dependencies:
     - bo.bundle.section
     - field.storage.bo.field_classes
 _core:
-  default_config_hash: VITqwx6hPoRii9wtN7j55P34wG6UVAVKYgI36qNkxyo
+  default_config_hash: APbZ1qCtmQSsJzqyJtzucWI2BApa8Nn6a8Mep1BSdwI
 id: bo.section.field_classes
 field_name: field_classes
 entity_type: bo

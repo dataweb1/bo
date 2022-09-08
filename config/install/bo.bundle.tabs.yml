@@ -3,10 +3,43 @@ langcode: nl
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: '-3riTTixMLXtPXw7peACyVp5RI-zsZrJTrruIfwRus0'
+  default_config_hash: qFROkyoAp2DgWfhV6n8wHBw8UrJm-t0kQsyPe8j_FxU
 id: tabs
 label: Tabs
 description: ''
 type: element
 group: ''
-weight: '-2'
+default: 1
+internal_title: 1
+override_title_label: ''
+icon: 'fa fa-folder'
+collection:
+  enabled: 1
+  bundles:
+    card: 0
+    section: 0
+    slideshow: 0
+    tab: 1
+    table: 0
+    table_row: 0
+    tabs: 0
+    grid: 0
+    text: 0
+    quote: 0
+    video: 0
+    gallery: 0
+    accordion_item: 0
+    image: 0
+    accordion: 0
+    document: 0
+    title: 0
+    popup: 0
+    google_map: 0
+    cards: 0
+    webform: 0
+    article: 0
+  options:
+    label: Tabs
+    max_element_count: ''
+    specific_view: bo__tabs
+weight: '-4'

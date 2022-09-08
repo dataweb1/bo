@@ -6,7 +6,7 @@ dependencies:
     - bo.bundle.video
     - field.field.bo.video.field_video
 _core:
-  default_config_hash: C3B7GEs6kM0U7hi6RAwRp4vc59JfS6yu6cxRpnY5Hzo
+  default_config_hash: hUP1bJ2XD3DOh98KlCEjJr5E4s5ovUwLpJ00AbwV8P8
 id: bo.video.default
 targetEntityType: bo
 bundle: video

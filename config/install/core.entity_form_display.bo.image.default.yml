@@ -8,7 +8,7 @@ dependencies:
   module:
     - media_library
 _core:
-  default_config_hash: gEyjXbMWMbmlM4A6UUOwp0a3wCFtuBRwu3pxx_yOTbU
+  default_config_hash: cqEuhdkqhWX-mUdJANJH3-q81X4jE_GfdVvnbcQH7t8
 id: bo.image.default
 targetEntityType: bo
 bundle: image

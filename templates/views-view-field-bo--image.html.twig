@@ -2,13 +2,13 @@
 
 <figure class="image-container">
 {% if bo.display_id == "grid" %}
-    <img src="{{ commentStripper(bo.field_image.rendered_value.view_square) }}" alt="{{ bo.field_image.raw_value.alt }}" />
+    <img src="{{ commentStripper(bo.field_image.rendered.view_square) }}" alt="{{ bo.field_image.raw.alt }}" />
 {% else %}
-    <img src="{{ bo.field_image.raw_value.original_url }}" style="width: 100%" />
+    <img src="{{ bo.field_image.raw.original_url }}" style="width: 100%" />
 {% endif %}
-  {% if bo.field_image.raw_value.alt != ""  %}
-  <figcaption>{{ bo.field_image.raw_value.alt }}</figcaption>
+  {% if bo.field_image.raw.alt != ""  %}
+  <figcaption>{{ bo.field_image.raw.alt }}</figcaption>
   {% endif %}
 </figure>
 
-{{ attach_library('bo/bo_fields_image') }}
+{{ attach_library('bo/bo_bundle_image') }}

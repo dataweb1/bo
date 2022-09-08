@@ -3,10 +3,43 @@ langcode: nl
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: IlZLnapJB_7Ladv4VKQ9P9c3bPOy75e1Xn3_viQrEyM
+  default_config_hash: 3sbKsfhGmxrCAFJ3YjxZE3EoRF2KTh0yPtP3kT-9xUY
 id: accordion
 label: Accordion
 description: ''
 type: element
 group: ''
-weight: '6'
+default: 1
+internal_title: 1
+override_title_label: ''
+icon: 'fa fa-arrows-alt-v'
+collection:
+  enabled: 1
+  bundles:
+    card: 0
+    section: 0
+    slideshow: 0
+    tab: 0
+    table: 0
+    table_row: 0
+    tabs: 0
+    grid: 0
+    text: 0
+    quote: 0
+    video: 0
+    gallery: 0
+    accordion_item: 1
+    image: 0
+    accordion: 0
+    document: 0
+    title: 0
+    popup: 0
+    google_map: 0
+    cards: 0
+    webform: 0
+    article: 0
+  options:
+    label: Accordion
+    max_element_count: ''
+    specific_view: bo__overview
+weight: '4'

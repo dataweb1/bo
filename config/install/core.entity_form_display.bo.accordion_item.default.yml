@@ -6,7 +6,7 @@ dependencies:
     - bo.bundle.accordion_item
     - field.field.bo.accordion_item.field_collapse
 _core:
-  default_config_hash: mY9vgkVTCMj6b3TVHp_R0nn8QG5iHI0YLJSiaPStetM
+  default_config_hash: dxaTDI9f07uvIxP7KMztR2eFg9Ed5p-4IUtrcmwU0UM
 id: bo.accordion_item.default
 targetEntityType: bo
 bundle: accordion_item

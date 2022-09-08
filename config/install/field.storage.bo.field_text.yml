@@ -6,7 +6,7 @@ dependencies:
     - bo
     - text
 _core:
-  default_config_hash: 5hyY4XdF7lnE4vjq_3UPrmnEjw8JpYNzEPxgC6wonWE
+  default_config_hash: FiaJM_zaEf_282iKPytfN0uwVuEj-l6oQ1FRfoBE_Zo
 id: bo.field_text
 field_name: field_text
 entity_type: bo

@@ -8,7 +8,7 @@ dependencies:
   module:
     - file
 _core:
-  default_config_hash: mFIZe_vlZ41tP0LpfzqAfkoO7T2z2ZRWg4Ry7W5oM1Y
+  default_config_hash: YK95pH-uadjIKRUhHbUSHRH8qicRX-SZ2m-YudPce4o
 id: bo.document.field_document
 field_name: field_document
 entity_type: bo

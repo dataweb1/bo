@@ -10,7 +10,7 @@ dependencies:
   module:
     - options
 _core:
-  default_config_hash: 7n2uaIKKbLJDNGnPJG5SEoK3MD3kSik_rylOV5txhmY
+  default_config_hash: 5haOBRITyCK1wcPOPjUBvIEBM0StclZhIin3o01uxi4
 id: bo.popup.default
 targetEntityType: bo
 bundle: popup

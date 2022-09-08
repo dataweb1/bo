@@ -6,7 +6,7 @@ dependencies:
     - bo.bundle.title
     - field.field.bo.title.field_title_size
 _core:
-  default_config_hash: OiEuBHg8nM-DkJw7Ax7-JfkxDE2WuBdwg2U_kiPIg8I
+  default_config_hash: o3SP2JX7wLi01V_HTrD_K35x5rZyfBaJptDeVS1u77A
 id: bo.title.default
 targetEntityType: bo
 bundle: title

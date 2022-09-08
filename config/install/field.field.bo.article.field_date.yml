@@ -7,6 +7,8 @@ dependencies:
     - field.storage.bo.field_date
   module:
     - datetime
+_core:
+  default_config_hash: 5PP6lbIFUja2xqaLEGIrYuDpCAoADqhQMO7F5ZXLUVI
 id: bo.article.field_date
 field_name: field_date
 entity_type: bo

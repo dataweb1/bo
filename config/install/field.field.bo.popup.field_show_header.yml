@@ -1,10 +1,12 @@
 uuid: 218d2545-8a0b-40aa-9b5d-6f9c514dc500
-langcode: en
+langcode: nl
 status: true
 dependencies:
   config:
     - bo.bundle.popup
     - field.storage.bo.field_show_header
+_core:
+  default_config_hash: Z4solEzbN5ffM28dIV8k4k52ZZ7HOp8kVvsV_9BNkr0
 id: bo.popup.field_show_header
 field_name: field_show_header
 entity_type: bo

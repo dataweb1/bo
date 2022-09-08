@@ -3,10 +3,16 @@ langcode: nl
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: kyQnr_lIu0oSQeyhXOnRIRsr1-3fepR2W93HkVabRj4
+  default_config_hash: sr3Mu63S3gf7qWjQCAGhF9sRbLssNztLcK7Wml40-5c
 id: title
 label: Title
 description: ''
 type: element
 group: ''
-weight: '8'
+default: 1
+internal_title: 0
+override_title_label: ''
+icon: 'fa fa-heading'
+collection:
+  enabled: 0
+weight: '6'

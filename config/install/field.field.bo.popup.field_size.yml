@@ -1,5 +1,5 @@
 uuid: a9c4c8d9-3781-4005-8662-ad43517f6a42
-langcode: en
+langcode: nl
 status: true
 dependencies:
   config:
@@ -7,6 +7,8 @@ dependencies:
     - field.storage.bo.field_size
   module:
     - options
+_core:
+  default_config_hash: ieot9kxyppbDo8owhJOxZVnjQMbPy6CIqRQ3Ab_dIQc
 id: bo.popup.field_size
 field_name: field_size
 entity_type: bo

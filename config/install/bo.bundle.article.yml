@@ -2,9 +2,17 @@ uuid: 05c117d7-a127-4e72-ba66-20a6ae1f6a83
 langcode: nl
 status: true
 dependencies: {  }
+_core:
+  default_config_hash: OQKMHB-isrs_7c7mkBRUD5iLmXTUvkFItu0PVhUoDyg
 id: article
 label: Article
 description: ''
 type: content
 group: custom
+default: 0
+internal_title: null
+override_title_label: null
+icon: ''
+collection:
+  enabled: 0
 weight: '0'

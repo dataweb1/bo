@@ -8,7 +8,7 @@ dependencies:
   module:
     - options
 _core:
-  default_config_hash: 5iqPkOCVbSQ5kD3KZfJdG8gu1yLQnwTxRSNjvgeKwyM
+  default_config_hash: Mm6aIC02vEgf9Awsmr8wA-_RrVM97eQ8lYFpAQ0tWJ8
 id: bo.title.default
 targetEntityType: bo
 bundle: title

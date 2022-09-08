@@ -21,7 +21,7 @@
                 {% set class ="active" %}
             {% endif %}
             <div class="carousel-item {{ class }}">
-                <img src="{{ item.raw_value.optimized_url }}" alt="{{ item.raw_value.alt }}">
+                <img src="{{ item.raw.optimized_url }}" alt="{{ item.raw.alt }}">
             </div>
         {% endfor %}
     </div>
@@ -35,5 +35,5 @@
     </a>
 </div>
 
-{{ attach_library('bo/bo_fields_slideshow') }}
+{{ attach_library('bo/bo_bundle_slideshow') }}
 

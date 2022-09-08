@@ -5,7 +5,7 @@ dependencies:
   module:
     - bo
 _core:
-  default_config_hash: Rg5W3hePj4svHub-5MhSKgbClDKcy6EIsxqaOrlINsY
+  default_config_hash: ICe-ryOoZCpLMwuqXyJlyQru86wrsaSOPXXhjJA4eY8
 id: bo.field_classes
 field_name: field_classes
 entity_type: bo

@@ -8,7 +8,7 @@ dependencies:
   module:
     - media_library
 _core:
-  default_config_hash: rk_t-RkcNSxcAHMvBYkcI8PS89sTWn7WZrcAqGOpfhg
+  default_config_hash: OlFmAQ-Biyuvgg0n2KjDWu3-BGYhWhwgI7s9OvYF-xA
 id: bo.gallery.default
 targetEntityType: bo
 bundle: gallery

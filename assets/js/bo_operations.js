@@ -14,26 +14,24 @@
         Drupal.behaviors.bo_operations.closeOperationsPane();
       }
 
-      // Edit / Delete / Help button.
+      // Show/hide Edit / Delete button.
       $(".bo-content-operations").once().each(function () {
 
         let parent_wrapper = $(this).closest(".bo-entity");
 
         $(parent_wrapper).on("mouseenter", function (e) {
           $(this).find(".bo-content-operations").first().css("display", "block");
-          $(this).find(".bo-trigger-help").first().css("display", "block");
           $(this).addClass("bo-wrapper-selected");
         });
 
         $(parent_wrapper).on("mouseleave", function (e) {
           $(this).find(".bo-content-operations").first().css("display", "none");
-          $(this).find(".bo-trigger-help").first().css("display", "none");
           $(this).removeClass("bo-wrapper-selected");
         });
       });
 
-      // Insert
-      $(".bo-entity-operations").each(function () {
+      // Show/hide Insert button.
+      $(".bo-entity-operations").once().each(function () {
 
         let parent_wrapper = $(this).closest(".bo-entity");
 

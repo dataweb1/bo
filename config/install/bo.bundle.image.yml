@@ -3,10 +3,16 @@ langcode: nl
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: Ncj78QnhOAHSPqSjFaMY1464qfnHnYR0KYT5PpObdQw
+  default_config_hash: gQSMlA47jklB1DHgQoeRwTOTQEn-4yEasO24PPT0yg0
 id: image
 label: Image
 description: ''
 type: element
 group: ''
-weight: '5'
+default: 1
+internal_title: 0
+override_title_label: ''
+icon: 'fa fa-image'
+collection:
+  enabled: 0
+weight: '3'

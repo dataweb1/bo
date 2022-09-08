@@ -6,7 +6,7 @@ dependencies:
     - bo.bundle.image
     - field.field.bo.image.field_image
 _core:
-  default_config_hash: 0NBxwdP8hNhUD9QWsr7pZKRpzHylORu6z1UX8oSpK8U
+  default_config_hash: Qt7-DxNTOpHz6IaHJGCgzNa57dLXYtLeQYTskM0hDtk
 id: bo.image.default
 targetEntityType: bo
 bundle: image

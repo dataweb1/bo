@@ -1,9 +1,11 @@
 uuid: 947454d6-7b3e-4a64-aab2-9502df3bc651
-langcode: en
+langcode: nl
 status: true
 dependencies:
   module:
     - bo
+_core:
+  default_config_hash: fhOS1rI4thAxQ3taaMk1r_Ryz2FhQKeh2OqC5g9Z9MY
 id: bo.field_show_header
 field_name: field_show_header
 entity_type: bo

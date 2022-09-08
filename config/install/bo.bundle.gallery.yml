@@ -3,10 +3,16 @@ langcode: nl
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: sW7CzaWSNUBq7L7hRmxIohJQYxPCmE8R6Ycbj2E3TNg
+  default_config_hash: zmWbsGFf3OzzX-lqj7Cw6ajJf6PMi2vMomMZWgeXOcM
 id: gallery
 label: Gallery
 description: ''
 type: element
 group: ''
-weight: '3'
+default: 1
+internal_title: 0
+override_title_label: ''
+icon: 'fa fa-images'
+collection:
+  enabled: 0
+weight: '1'

@@ -7,7 +7,7 @@ dependencies:
     - field.storage.bo.field_images
     - media.type.image
 _core:
-  default_config_hash: KpsVRu3ZhA5PHPCU9-yaeNXtEXYP6xFrXVP88Z4BJ88
+  default_config_hash: HvqkZCDEBdqn0Ks5NxipzJJGEZtB187cUn2jwmFIoQA
 id: bo.slideshow.field_images
 field_name: field_images
 entity_type: bo

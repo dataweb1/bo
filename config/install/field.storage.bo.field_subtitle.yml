@@ -5,7 +5,7 @@ dependencies:
   module:
     - bo
 _core:
-  default_config_hash: 7tYlxpwymNcHk34jtLfHparfaKgeD58mi43wQLLbIxQ
+  default_config_hash: '-gZ6RDHs5pSIMM0l6EtPijYFboHTZdOsd0UhaEBVPLk'
 id: bo.field_subtitle
 field_name: field_subtitle
 entity_type: bo

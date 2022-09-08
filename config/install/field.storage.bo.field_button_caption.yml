@@ -5,7 +5,7 @@ dependencies:
   module:
     - bo
 _core:
-  default_config_hash: QPdJL7RUPMgQJcuAEm422nRbwrvqDGa_NRfjmoVNstU
+  default_config_hash: xqDCPaMiH8FGJKpadBtySSQjcOEL3TAQvc-EiYdvoKU
 id: bo.field_button_caption
 field_name: field_button_caption
 entity_type: bo

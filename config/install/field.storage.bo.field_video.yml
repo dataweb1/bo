@@ -6,7 +6,7 @@ dependencies:
     - bo
     - media
 _core:
-  default_config_hash: FJbD4GHgnwLwRmoEN-kd7fRIkOroVQz_JVJZ4gOS5xk
+  default_config_hash: zanyGlAKAJ68OUKfcri-zCToBTmWEk6n2-dBAWlr5NA
 id: bo.field_video
 field_name: field_video
 entity_type: bo

@@ -8,7 +8,7 @@ dependencies:
   module:
     - media_library
 _core:
-  default_config_hash: '-WnG5s_ElNkp0yXhg4VLZSg-4t5caooOQwNelfS7ZQA'
+  default_config_hash: GEQZ2wSg3HU8GyBUxHJozUShkSo1lOz-kdR9bDncms0
 id: bo.video.default
 targetEntityType: bo
 bundle: video

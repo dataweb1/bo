@@ -3,10 +3,16 @@ langcode: nl
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: Z7DM7nVH1QGbPhPOqFCAJsou5r84n7Za7P71RfEtWtQ
+  default_config_hash: oedwwej1oNSPC_w1DF5sdF66oYfSjYZ6r9vf3SZo6Ss
 id: document
 label: Document
 description: ''
 type: element
 group: ''
-weight: '7'
+default: 1
+internal_title: 0
+override_title_label: ''
+icon: 'fa fa-file'
+collection:
+  enabled: 0
+weight: '5'

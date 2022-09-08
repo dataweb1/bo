@@ -11,7 +11,7 @@ dependencies:
   module:
     - media_library
 _core:
-  default_config_hash: 0Snu3hQ9eqxSO0uFS2Hpq8hrecbKo-8UwDecbdppMVI
+  default_config_hash: c3bD-zD8xZIwnlEka-jbvNsFO4fET6oE0BjF5Rac-JI
 id: bo.section.default
 targetEntityType: bo
 bundle: section

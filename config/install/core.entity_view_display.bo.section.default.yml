@@ -9,7 +9,7 @@ dependencies:
     - field.field.bo.section.field_show_title
     - field.field.bo.section.field_subtitle
 _core:
-  default_config_hash: VvaCaHrZtwtzc7RxGqvp_qZKwKyodz3MLotwYLJCNFw
+  default_config_hash: 3Ee6jpXGgue5YwqKGeV-28dPQ5Bpl_6fe-ym9S9OvpM
 id: bo.section.default
 targetEntityType: bo
 bundle: section

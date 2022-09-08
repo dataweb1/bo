@@ -6,7 +6,7 @@ dependencies:
     - bo.bundle.table_row
     - field.storage.bo.field_value
 _core:
-  default_config_hash: 4MMQslOW5ZRIVJONrw24w7eEXM21sAFx9ke6TZ854CQ
+  default_config_hash: 4h46j_DwkrEcP5IdFaCBixX6wnAZmfSz1XOdLiul77s
 id: bo.table_row.field_value
 field_name: field_value
 entity_type: bo

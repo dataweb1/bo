@@ -6,7 +6,7 @@ dependencies:
     - bo.bundle.section
     - field.storage.bo.field_subtitle
 _core:
-  default_config_hash: 961DdC0ct01i792-zzgj-bNu5M2KjKLmfTTRc9rHsAo
+  default_config_hash: A6-hOrPlDWEoqbmpITQkzgZokIu7vqQgcZOHTFwZ7zI
 id: bo.section.field_subtitle
 field_name: field_subtitle
 entity_type: bo

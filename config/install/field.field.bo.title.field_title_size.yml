@@ -8,7 +8,7 @@ dependencies:
   module:
     - options
 _core:
-  default_config_hash: FkzjzzY1-tGH9ovVJebN4rx9Eoj7E02YlsQs4ZnVwGA
+  default_config_hash: TILsFmqVshFkNEid6p9Vf-6ReHl_6AD9fllqIquxR0w
 id: bo.title.field_title_size
 field_name: field_title_size
 entity_type: bo

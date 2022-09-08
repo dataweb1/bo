@@ -7,6 +7,8 @@ dependencies:
     - field.field.bo.article.field_date
   module:
     - datetime
+_core:
+  default_config_hash: EmatwmDQuhdx404N6oqGHRo07ASHm178CgvEA1pS5SY
 id: bo.article.default
 targetEntityType: bo
 bundle: article

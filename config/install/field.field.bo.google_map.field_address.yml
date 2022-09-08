@@ -6,7 +6,7 @@ dependencies:
     - bo.bundle.google_map
     - field.storage.bo.field_address
 _core:
-  default_config_hash: yFkSF0FtktU1nPqr01bnpJqAhr0sBIPYGR3MdChppxM
+  default_config_hash: zlZ86oFjMh-qpu4nYYIXfoBr6RBUHJd2bemBN1Eug-8
 id: bo.google_map.field_address
 field_name: field_address
 entity_type: bo

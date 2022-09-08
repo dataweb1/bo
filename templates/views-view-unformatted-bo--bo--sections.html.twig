@@ -19,12 +19,14 @@
  */
 #}
 
-<div class="card-deck">
-    {% for row in rows %}
-    <div class="card">
-        {{ row.content }}
-    </div>
-    {% endfor %}
-</div>
+{% for row in rows %}
 
-{{ attach_library('bo/bo_bundle_cards') }}
+    {% if row.attributes is not empty %}
+      <div {{ attributes }}>
+    {% endif %}
+    {{ row.content }}
+    {% if row.attributes is not empty %}
+      </div>
+    {% endif %}
+
+{% endfor %}

@@ -3,10 +3,16 @@ langcode: nl
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: ObRmFnoorLXU6IXHkLJyYzow6WwqwFyrqnVFWqDJX00
+  default_config_hash: PEqk8nrJwO996VA32JO6XE2FgWo8Guijhk6XbszTUQU
 id: video
 label: Video
 description: ''
 type: element
 group: ''
-weight: '2'
+default: 1
+internal_title: 0
+override_title_label: ''
+icon: 'fa fa-play'
+collection:
+  enabled: 0
+weight: '0'

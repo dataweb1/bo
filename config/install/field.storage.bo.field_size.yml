@@ -1,10 +1,12 @@
 uuid: b6289fe6-c515-46c6-a316-6286967179aa
-langcode: en
+langcode: nl
 status: true
 dependencies:
   module:
     - bo
     - options
+_core:
+  default_config_hash: LIDTJEulL3qi7PNz9bdaYU9sqYSOC0SuqBpeQ0yEpQ4
 id: bo.field_size
 field_name: field_size
 entity_type: bo

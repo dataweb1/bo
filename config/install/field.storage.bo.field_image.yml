@@ -6,7 +6,7 @@ dependencies:
     - bo
     - media
 _core:
-  default_config_hash: tDs1WIYt2EwpIePT1CTZN7G3hQjwVH3eL1C0XqNoxT8
+  default_config_hash: NKaH9ishYjwk7OLWa03GpOqO5gmTjDf8ez0UmFPBLYs
 id: bo.field_image
 field_name: field_image
 entity_type: bo

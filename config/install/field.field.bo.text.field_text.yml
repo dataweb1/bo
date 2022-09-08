@@ -8,7 +8,7 @@ dependencies:
   module:
     - text
 _core:
-  default_config_hash: cl_u-3HXIgkykxpknW2Bca86x4CjC89268T2mYO_y4k
+  default_config_hash: hHAyGyhDmQr-A1hSjIPhsjDUs65p-l0opqiRTRQ2lxU
 id: bo.text.field_text
 field_name: field_text
 entity_type: bo

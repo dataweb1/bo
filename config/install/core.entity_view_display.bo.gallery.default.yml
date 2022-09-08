@@ -6,7 +6,7 @@ dependencies:
     - bo.bundle.gallery
     - field.field.bo.gallery.field_images
 _core:
-  default_config_hash: DDv8oNOMt6V-CzYaVP02dH-HkB1OaRjRsBeTCSP9ld8
+  default_config_hash: ndRrhp_m38Za2Vd0qVP9y5Ulh0VouYBqqq0ZwOxylrk
 id: bo.gallery.default
 targetEntityType: bo
 bundle: gallery

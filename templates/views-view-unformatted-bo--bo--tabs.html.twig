@@ -21,7 +21,7 @@
 
 <ul class="nav nav-tabs" role="tablist">
     {% for key, item in bo.collection %}
-        {% set title = item.title.raw_value.value %}
+        {% set title = item.title.raw.value %}
         {% set id = item.id %}
 
         {% set class = "" %}
@@ -55,4 +55,4 @@
 {% endfor %}
 </div>
 
-{{ attach_library('bo/bo_fields_tabs') }}
+{{ attach_library('bo/bo_bundle_tabs') }}
