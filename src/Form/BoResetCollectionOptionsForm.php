@@ -81,13 +81,12 @@ class BoResetCollectionOptionsForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $triggeringElement = $form_state->getTriggeringElement();
     if ($triggeringElement['#name'] == 'submit') {
-      $display_id = \Drupal::request()->query->get('display_id');
       $collection_id = \Drupal::request()->query->get('collection_id');
 
-      $overview_name = $display_id . "__" . $collection_id;
-
       $collection_settings = $this->boSettings->getCollections();
-      unset($collection_settings[$overview_name]["elements"]);
+      if (isset($collection_settings[$collection_id])) {
+        unset($collection_settings[$collection_id]);
+      }
 
       $this->boSettings->replaceSettings($collection_settings, "collection");
 

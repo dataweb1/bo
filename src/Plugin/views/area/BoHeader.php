@@ -2,10 +2,10 @@
 
 namespace Drupal\bo\Plugin\views\area;
 
+use Drupal\bo\Service\BoCollection;
 use Drupal\bo\Service\BoOperations;
 use Drupal\Core\Url;
 use Drupal\views\Plugin\views\area\AreaPluginBase;
-use Drupal\bo\Service\BoSettings;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Access\AccessManagerInterface;
 use Drupal\Core\Session\AccountInterface;
@@ -35,14 +35,14 @@ class BoHeader extends AreaPluginBase {
   protected $current_user;
 
   /**
-   * @var BoSettings
-   */
-  private BoSettings $boSettings;
-
-  /**
    * @var BoOperations
    */
   private BoOperations $boOperations;
+
+  /**
+   * @var BoCollection
+   */
+  private BoCollection $boCollection;
 
   /**
    * Constructs a new BoHeader.
@@ -58,12 +58,12 @@ class BoHeader extends AreaPluginBase {
    * @param \Drupal\Core\Session\AccountInterface $current_user
    *   The current user.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, AccessManagerInterface $access_manager, AccountInterface $current_user, BoSettings $boSettings, BoOperations $boOperations) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, AccessManagerInterface $access_manager, AccountInterface $current_user, BoOperations $boOperations, BoCollection  $boCollection) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->access_manager = $access_manager;
     $this->current_user = $current_user;
-    $this->boSettings = $boSettings;
     $this->boOperations = $boOperations;
+    $this->boCollection = $boCollection;
   }
 
   /**
@@ -76,8 +76,8 @@ class BoHeader extends AreaPluginBase {
       $plugin_definition,
       $container->get('access_manager'),
       $container->get('current_user'),
-      $container->get('bo.settings'),
-      $container->get('bo.operations')
+      $container->get('bo.operations'),
+      $container->get('bo.collection'),
     );
   }
 
@@ -89,51 +89,38 @@ class BoHeader extends AreaPluginBase {
 
     if (!$empty || !empty($this->options['empty'])) {
 
-      $display_id = $this->view->id() . "__" . $this->view->current_display;
       $view_dom_id = $this->view->dom_id;
       $view_result_count = count($this->view->result);
       $view_sort = $this->view->sort;
       $collection_id = $this->view->filter["bo_current_collection_id_filter"]->value;
       $to_path = $this->view->argument["bo_current_path_argument"]->argument ?? '';
 
-      $collection_machine_name = "";
-      if ((int) $collection_id > 0) {
-        $collection_machine_name = $this->boSettings->getCollectionBundleMachineNameViaId($collection_id);
+      // Start adding the links according to the permissions and the collection settings.
+      $links = [];
+
+      // Collection settings link.
+      $administer_bundles = $this->current_user->hasPermission("administer bo bundles");
+      if ($administer_bundles) {
+        $links[] = $this->getSettingsLink($collection_id);
       }
 
       $parameters = [
         'collection_id' => $collection_id,
-        'display_id' => $display_id,
         'view_dom_id' => $view_dom_id,
         'to_path' => $to_path,
-        'collection_machine_name' => $collection_machine_name,
         'entity_id' => 0,
         'entity_weight' => 0,
         'action' => 'add',
       ];
 
-      $buttons = [];
-
-      // Gear button.
-      $administer_bundles = $this->current_user->hasPermission("administer bo elements");
-
-      if ($administer_bundles) {
-        $buttons[] = $this->getSettingsLink($parameters);
+      // Add / Insert single or multi link.
+      if ($this->boOperations->showAddInsertLink($view_result_count, $collection_id)) {
+        $links[] = $this->boOperations->getSingleOrMultiAddInsertLink($parameters);
       }
 
-      // Add button (single or multi) + buttons item list if multi.
-      $enabled_bundles = $this->boSettings->getEnabledBundles($parameters);
-      $edit_permissions = $this->boSettings->hasEditPermissions($enabled_bundles);
-      $create_permissions = $this->boSettings->hasCreatePermissions($enabled_bundles);
-      $show_add_button = $this->boOperations->showAddInsertLink($view_result_count, $display_id . '__' . $collection_id);
-
-      if ($create_permissions && $show_add_button == TRUE) {
-        $buttons[] = $this->boOperations->getAddInsertEnabledBundlesLinks($parameters, $enabled_bundles);
-      }
-
-      // Reorder.
+      // Reorder link.
       $show_reorder = FALSE;
-      if ($edit_permissions) {
+      if ($this->boCollection->hasEditBundlePermissionsForCollection($collection_id)) {
         if ($view_result_count > 1) {
           foreach ($view_sort as $s) {
             if ($s->realField == "weight") {
@@ -142,23 +129,24 @@ class BoHeader extends AreaPluginBase {
             }
           }
           if ($show_reorder) {
-            $buttons[] = $this->getReorderLink($parameters);
+            $links[] = $this->getReorderLink($parameters);
           }
         }
       }
 
       $bo_header_operations = [
         '#theme' => 'bo_header_operations_item_list',
-        '#items' => $buttons,
+        '#items' => $links,
       ];
 
       // Render all.
-      if ($edit_permissions || $create_permissions) {
+      if (count($links) > 0) {
         $class = "";
 
         $html_header = '<div class="bo-header ' . $class . '">';
         $html_header .= \Drupal::service('renderer')->render($bo_header_operations);
 
+        $enabled_bundles = $this->boCollection->getEnabledBundles($collection_id);
         if ($show_reorder || count($enabled_bundles) > 1) {
           $html_header .= '<div id="bo_operations_pane_' . $view_dom_id . '" class="bo-operations-pane"></div>';
         }
@@ -188,26 +176,39 @@ class BoHeader extends AreaPluginBase {
   }
 
   /**
-   * @param $parameters
+   * @param $collection_id
    * @return array
    */
-  public function getSettingsLink($parameters) {
-    $classes = ["bo-trigger", "bo-trigger-gear"];
-    $attributes = ["class" => $classes];
+  public function getSettingsLink($collection_id) {
+    $collection_label = $this->boCollection->getCollectionLabel($collection_id);
+    if ($collection_label != '') {
+      $title = $this->t("BO collection settings for '@collection_label'", ['@collection_label' => $collection_label]);
+    }
+    else {
+      $title = $this->t('BO collection settings');
+    }
 
     $url = Url::fromRoute('bo.collection_settings_form', [
-      'collection_id' => urlencode($parameters["collection_id"]),
-      'display_id' => urlencode($parameters["display_id"]),
-      'collection_machine_name' => urlencode($parameters["collection_machine_name"]),
-      'destination' => \Drupal::request()->getRequestUri(),
+      'via' => 'view',
+      'collection_id' => $collection_id,
+      'title' => $title,
     ]);
 
     return [
       '#title' => '',
       '#type' => 'link',
       '#url' => $url,
-      '#attributes' => $attributes,
-      '#cache' => ["tags" => ["bo:settings"]],
+      '#attributes' => [
+        'class' => [
+          'bo-trigger',
+          'bo-trigger-gear',
+        ],
+      ],
+      '#cache' => [
+        'tags' => [
+          'bo:settings',
+        ],
+      ],
     ];
   }
 
@@ -217,16 +218,7 @@ class BoHeader extends AreaPluginBase {
    */
   private function getReorderLink($parameters) {
 
-    $attributes = [
-      'class' => [
-        'bo-trigger',
-        'bo-trigger-reorder',
-      ],
-      'id' => 'bo_trigger_reorder_' . $parameters["view_dom_id"],
-    ];
-
     $url = Url::fromRoute('bo.reorder', [
-      'display_id' => $parameters['display_id'],
       'collection_id' => $parameters['collection_id'],
       'view_dom_id' => $parameters['view_dom_id'],
       'to_path' => $parameters['to_path'],
@@ -236,7 +228,13 @@ class BoHeader extends AreaPluginBase {
       '#title' => '',
       '#type' => 'link',
       '#url' => $url,
-      '#attributes' => $attributes,
+      '#attributes' => [
+        'class' => [
+          'bo-trigger',
+          'bo-trigger-reorder',
+        ],
+        'id' => 'bo_trigger_reorder_' . $parameters["view_dom_id"],
+      ],
       '#cache' => [
         'tags' => [
           'bo:settings',

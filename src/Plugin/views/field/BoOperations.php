@@ -2,6 +2,8 @@
 
 namespace Drupal\bo\Plugin\views\field;
 
+use Drupal\bo\Service\BoBundle;
+use Drupal\bo\Service\BoCollection;
 use Drupal\bo\Service\BoSettings;
 use Drupal\bo\Service\BoOperations as BoOperationsService;
 use Drupal\Core\Entity\EntityRepositoryInterface;
@@ -31,12 +33,17 @@ class BoOperations extends EntityOperations {
   private BoSettings $boSettings;
 
   /**
+   * @var BoCollection
+   */
+  private BoCollection $boCollection;
+
+  /**
    *
    */
-  public function __construct(array $configuration, $plugin_id, array $plugin_definition, EntityTypeManagerInterface $entity_type_manager, LanguageManagerInterface $language_manager, EntityRepositoryInterface $entity_repository, BoSettings $boSettings, BoOperationsService $boOperations) {
+  public function __construct(array $configuration, $plugin_id, array $plugin_definition, EntityTypeManagerInterface $entity_type_manager, LanguageManagerInterface $language_manager, EntityRepositoryInterface $entity_repository, BoOperationsService $boOperations, BoCollection $boCollection) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $entity_type_manager, $language_manager, $entity_repository);
     $this->boOperations = $boOperations;
-    $this->boSettings = $boSettings;
+    $this->boCollection = $boCollection;
 
     // If for whatever reason the renderer is not loaded.
     if (!isset($this->renderer)) {
@@ -55,8 +62,8 @@ class BoOperations extends EntityOperations {
       $container->get('entity_type.manager'),
       $container->get('language_manager'),
       $container->get('entity.repository'),
-      $container->get('bo.settings'),
       $container->get('bo.operations'),
+      $container->get('bo.collection'),
     );
   }
 
@@ -72,10 +79,10 @@ class BoOperations extends EntityOperations {
    */
   public function render(ResultRow $values) {
 
-    $display_id = $this->view->id() . '__' . $this->view->current_display;
+    $markup = '';
+
     $view_dom_id = $this->view->dom_id;
     $view_result_count = count($this->view->result);
-    $view_sort = $this->view->sort;
     $collection_id = $this->view->filter["bo_current_collection_id_filter"]->value;
     $to_path = $this->view->argument["bo_current_path_argument"]->argument ?? '';
 
@@ -85,7 +92,6 @@ class BoOperations extends EntityOperations {
 
     $parameters = [
       'collection_id' => $collection_id,
-      'display_id' => $display_id,
       'view_dom_id' => $view_dom_id,
       'to_path' => $to_path,
       'entity_id' => $entity_id,
@@ -93,19 +99,13 @@ class BoOperations extends EntityOperations {
       'action' => 'insert',
     ];
 
-    $markup = '';
-
-    /* BO entity operations */
-    $entity_buttons = [];
-    $enabled_bundles = $this->boSettings->getEnabledBundles($parameters);
-    $create_permissions = $this->boSettings->hasCreatePermissions($enabled_bundles);
-    $show_add_button = $this->boOperations->showAddInsertLink($view_result_count, $display_id . '__' . $collection_id);
-
-    if ($create_permissions && $show_add_button == TRUE) {
-      $entity_buttons[] = $this->boOperations->getAddInsertEnabledBundlesLinks($parameters, $enabled_bundles);
+    /* Insert link */
+    $links = [];
+    if ($this->boOperations->showAddInsertLink($view_result_count, $collection_id)) {
+      $links[] = $this->boOperations->getSingleOrMultiAddInsertLink($parameters);
       $bo_entity_operations = [
         '#theme' => 'bo_entity_operations_item_list',
-        '#items' => $entity_buttons,
+        '#items' => $links,
         '#attached' => [
           'library' => [
             'bo/bo_operations',
@@ -122,20 +122,19 @@ class BoOperations extends EntityOperations {
 
       $markup .= $this->renderer->render($bo_entity_operations);
 
-      if (count($enabled_bundles) > 1) {
+      if (count($this->boCollection->getEnabledBundles($collection_id)) > 1) {
         $markup .= '<div id="bo_operations_pane_' . $view_dom_id . '_' . $entity_id . '" class="insert-pane bo-operations-pane"></div>';
       }
-
     }
 
-    /* BO content operations */
+    /* Edit / Delete links */
     $links = [];
     $bo_content = parent::render($values);
     if (isset($bo_content["#links"]["edit"])) {
-      $links[] = $this->getEditLink($bo_content["#links"]["edit"]["url"], $entity, $parameters);
+      $links[] = $this->getEditLink($bo_content["#links"]["edit"]["url"], $entity, $view_dom_id, $collection_id);
     }
     if (isset($bo_content["#links"]["delete"])) {
-      $links[] = $this->getDeleteLink($bo_content["#links"]["delete"]["url"], $entity, $parameters);
+      $links[] = $this->getDeleteLink($bo_content["#links"]["delete"]["url"], $entity, $view_dom_id);
     }
 
     $bo_content_operations = [
@@ -161,11 +160,11 @@ class BoOperations extends EntityOperations {
    * @param $parameters
    * @return array
    */
-  public function getDeleteLink($url, $entity, $parameters) {
+  public function getDeleteLink($url, $entity, $view_dom_id) {
 
     $options = [
       'query' => [
-        'view_dom_id' => $parameters['view_dom_id'],
+        'view_dom_id' => $view_dom_id,
       ],
       'attributes' => [
         'class' => [
@@ -191,7 +190,7 @@ class BoOperations extends EntityOperations {
    * @param $parameters
    * @return array
    */
-  public function getEditLink($url, $entity, $parameters) {
+  public function getEditLink($url, $entity, $view_dom_id, $collection_id) {
     $attributes = [
       'class' => [
         'bo-trigger',
@@ -201,7 +200,8 @@ class BoOperations extends EntityOperations {
 
     $options = [
       "query" => [
-        "view_dom_id" => $parameters["view_dom_id"],
+        "view_dom_id" => $view_dom_id,
+        'collection_id' => $collection_id,
         "destination" => \Drupal::request()->getRequestUri(),
       ],
     ];

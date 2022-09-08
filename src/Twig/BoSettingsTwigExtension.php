@@ -12,13 +12,16 @@ use Twig\TwigFilter;
  */
 class BoSettingsTwigExtension extends AbstractExtension {
 
+  /**
+   * @var BoSettings
+   */
   private BoSettings $boSettings;
 
   /**
-   *
+   * @param BoSettings $boSettings
    */
-  public function __construct() {
-    $this->boSettings = \Drupal::getContainer()->get('bo.settings');
+  public function __construct(BoSettings $boSettings) {
+    $this->boSettings = $boSettings;
   }
 
   /**
@@ -58,7 +61,7 @@ class BoSettingsTwigExtension extends AbstractExtension {
    *   value of the query parameter name
    */
   public function getGoogleMapsKey(): string {
-    return $this->boSettings->getBoSetting("google_maps_key");
+    return $this->boSettings->getSetting("google_maps_key");
   }
 
   /**

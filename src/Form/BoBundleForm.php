@@ -14,7 +14,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class BoBundleForm extends BundleEntityFormBase {
 
-  private $bundle_name;
   private BoSettings $boSettings;
 
   public static function create(ContainerInterface $container) {
@@ -36,14 +35,14 @@ class BoBundleForm extends BundleEntityFormBase {
 
     /** @var \Drupal\bo\Entity\BoBundleInterface $entity */
     $entity_bundle = $this->entity;
-    $content_entity_id = $entity_bundle->getEntityType()->getBundleOf();
+    $bundle = $entity_bundle->getEntityType()->getBundleOf();
 
     $form['label'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Label'),
       '#maxlength' => 255,
       '#default_value' => $entity_bundle->label(),
-      '#description' => $this->t("Label for the %content_entity_id bundle.", ['%content_entity_id' => $content_entity_id]),
+      '#description' => $this->t("Label for the %bundle bundle.", ['%bundle' => $bundle]),
       '#required' => TRUE,
     ];
 
@@ -60,19 +59,50 @@ class BoBundleForm extends BundleEntityFormBase {
       '#title' => $this->t('Description'),
       '#type' => 'textarea',
       '#default_value' => $entity_bundle->getDescription(),
-      '#description' => $this->t('This text will be displayed on the "Add %content_entity_id" page.', ['%content_entity_id' => $content_entity_id]),
+      '#description' => $this->t('This text will be displayed on the "Add %bundle" page.', ['%bundle' => $bundle]),
     ];
 
+    $form['default'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Default'),
+      '#default_value' => $entity_bundle->getDefault(),
+      '#description' => $this->t("Default %bundle bundle?", ['%bundle' => $bundle]),
+    ];
 
-    $default_value = "";
-    if ($entity_bundle->getGroup() != "") {
-      $default_value = $this->boSettings->getBoBundleGroups($entity_bundle->getGroup());
-    }
+    $form['internal_title'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Internal title'),
+      '#default_value' => $entity_bundle->getInternalTitle(),
+      '#description' => $this->t("Internal title for the %bundle bundle?", ['%bundle' => $bundle]),
+    ];
+
+    $form['override_title_label'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Override title label'),
+      '#maxlength' => 255,
+      '#default_value' => $entity_bundle->getOverrideTitleLabel(),
+      '#description' => $this->t("Override title label for the %bundle bundle.", ['%bundle' => $bundle]),
+    ];
+
+    $form['icon'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Icon'),
+      '#maxlength' => 255,
+      '#default_value' => $entity_bundle->getIcon(),
+      '#description' => $this->t("Icon for the %bundle bundle.", ['%bundle' => $bundle]),
+    ];
+
+    $form['collection'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Collection'),
+      '#default_value' => $entity_bundle->getCollectionEnabled(),
+      '#description' => $this->t("Is %bundle bundle collection?", ['%bundle' => $bundle]),
+    ];
 
     $form['group'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Group'),
-      '#default_value' => $default_value,
+      '#default_value' => $entity_bundle->getGroup(),
       '#autocomplete_route_name' => 'bo.autocomplete.bundle_groups',
     ];
 
@@ -100,34 +130,37 @@ class BoBundleForm extends BundleEntityFormBase {
   public function save(array $form, FormStateInterface $form_state) {
     $entity_bundle = $this->entity;
 
-    /*
-    $group = "";
-    if ($form_state->getValue("group") == 1) {
-    $group = "custom";
-    }
-    else {
-    $group = "-";
-    }
-     */
-
     $group = $form_state->getValue("group");
-    $this->boSettings->addBoBundleGroupIfNotExisting($group);
+    $entity_bundle->setGroup($group);
 
-    $entity_bundle->setGroup(slugify($group));
+    $default = $form_state->getValue("default");
+    $entity_bundle->setDefault($default);
+
+    $internal_title = $form_state->getValue("internal_title");
+    $entity_bundle->setInternalTitle($internal_title);
+
+    $override_title_label = $form_state->getValue("override_title_label");
+    $entity_bundle->setOverrideTitleLabel($override_title_label);
+
+    $icon = $form_state->getValue("icon");
+    $entity_bundle->setIcon($icon);
+
+    $collection = $form_state->getValue("collection");
+    $entity_bundle->setCollectionEnabled($collection);
 
     $status = $entity_bundle->save();
     $message_params = [
       '%label' => $entity_bundle->label(),
-      '%content_entity_id' => $entity_bundle->getEntityType()->getBundleOf(),
+      '%bundle' => $entity_bundle->getEntityType()->getBundleOf(),
     ];
 
     switch ($status) {
       case SAVED_NEW:
-        \Drupal::messenger()->addMessage($this->t('Created the %label %content_entity_id bundle.', $message_params));
+        \Drupal::messenger()->addMessage($this->t('Created the %label %bundle bundle.', $message_params));
         break;
 
       default:
-        \Drupal::messenger()->addMessage($this->t('Saved the %label %content_entity_id bundle.', $message_params));
+        \Drupal::messenger()->addMessage($this->t('Saved the %label %bundle bundle.', $message_params));
     }
 
     /* @todo: weight instellen */

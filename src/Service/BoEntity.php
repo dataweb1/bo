@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Drupal\bo\Service;
 
 use Drupal\Core\Entity\EntityTypeManager;
@@ -16,7 +15,7 @@ class BoEntity {
   private EntityTypeManager $entityTypeManager;
 
   /**
-   *
+   * @param EntityTypeManager $entityTypeManager
    */
   public function __construct(EntityTypeManager $entityTypeManager) {
     $this->entityTypeManager = $entityTypeManager;

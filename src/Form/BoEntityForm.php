@@ -3,7 +3,9 @@
 namespace Drupal\bo\Form;
 
 use Drupal\bo\Ajax\RefreshViewCommand;
-use Drupal\bo\Service\BoView;
+use Drupal\bo\Service\BoBundle;
+use Drupal\bo\Service\BoCollection;
+use Drupal\bo\Service\BoSettings;
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\CloseDialogCommand;
@@ -16,7 +18,6 @@ use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\bo\Entity\BoEntity;
-use Drupal\bo\Service\BoSettings;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Cache\Cache;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -27,22 +28,23 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class BoEntityForm extends ContentEntityForm {
 
   /**
-   * @var BoSettings
+   * @var BoBundle
    */
-  private BoSettings $boSettings;
+  private BoBundle $boBundle;
 
   /**
-   * @var BoView
+   * @var BoCollection
    */
-  private BoView $boView;
+  private BoCollection $boCollection;
+
 
   /**
    *
    */
-  public function __construct(EntityRepositoryInterface $entity_repository, EntityTypeBundleInfoInterface $entity_type_bundle_info, TimeInterface $time, BoSettings $boSettings, BoView $boView) {
+  public function __construct(EntityRepositoryInterface $entity_repository, EntityTypeBundleInfoInterface $entity_type_bundle_info, TimeInterface $time, BoBundle $boBundle, BoCollection $boCollection) {
     parent::__construct($entity_repository, $entity_type_bundle_info, $time);
-    $this->boSettings = $boSettings;
-    $this->boView = $boView;
+    $this->boBundle = $boBundle;
+    $this->boCollection = $boCollection;
   }
 
   /**
@@ -53,8 +55,8 @@ class BoEntityForm extends ContentEntityForm {
       $container->get('entity.repository'),
       $container->get('entity_type.bundle.info'),
       $container->get('datetime.time'),
-      $container->get('bo.settings'),
-      $container->get('bo.view')
+      $container->get('bo.bundle'),
+      $container->get('bo.collection')
     );
   }
 
@@ -64,28 +66,18 @@ class BoEntityForm extends ContentEntityForm {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
 
-    // Needed for working with Media browser. BoSettings service is not set for whatever reason.
-    if (!isset($this->boSettings)) {
-      $this->boSettings = \Drupal::service('bo.settings');
+    // Needed for working with Media browser. BoBundle service is not set for whatever reason.
+    if (!isset($this->boBundle)) {
+      $this->boBundle = \Drupal::service('bo.bundle');
     }
 
-    $current_bundle_name = $this->entity->getBundle();
+    $to_path = \Drupal::request()->query->get('to_path');
+    $collection_id = \Drupal::request()->query->get('collection_id');
 
     $current_route_name = \Drupal::routeMatch()->getRouteName();
-
-
     if ($current_route_name == "entity.bo.add_form" || $current_route_name == "entity.bo.insert_form") {
-
-      $display_id = \Drupal::request()->query->get('display_id');
-      $to_path = \Drupal::request()->query->get('to_path');
-      $collection_id = \Drupal::request()->query->get('collection_id');
-
       $form["to_path"]["widget"][0]["value"]["#default_value"] = $to_path;
       $form["collection_id"]["widget"][0]["value"]["#default_value"] = $collection_id;
-      $form["display_id"]["widget"][0]["value"]["#default_value"] = $display_id;
-    }
-    else {
-      $display_id = $form["display_id"]["widget"][0]["value"]["#default_value"];
     }
 
     if ($current_route_name == "entity.bo.add_form") {
@@ -102,25 +94,27 @@ class BoEntityForm extends ContentEntityForm {
       ];
     }
 
+    // Internal fields. No need to edit them.
     $form["to_path"]["#access"] = FALSE;
     $form["collection_id"]["#access"] = FALSE;
-    $form["display_id"]["#access"] = FALSE;
 
-    $form["type"]["#access"] = FALSE;
-
-    $internal_title = $this->boSettings->getBundles($current_bundle_name)["internal_title"];
-
+    // Set some bundle depended settings.
+    $bundle = $this->boBundle->getBundle($this->entity->getBundle());
+    $internal_title = $bundle->getInternalTitle();
     if ($internal_title == 1) {
       $form["title"]["widget"][0]["value"]["#title"] = Markup::create(t("Internal title"));
     }
     else {
-      $override_title_label = $this->boSettings->getBundles($current_bundle_name)["override_title_label"];
+      $override_title_label = $bundle->getOverrideTitleLabel();
       if ($override_title_label != "") {
         $form["title"]["widget"][0]["value"]["#title"] = Markup::create($override_title_label);
       }
     }
 
-    if (boEntity::isCustomSizeEnabled($display_id) == FALSE) {
+    // Only show the size field when bootstrap grid.
+    // @todo: needs some work.
+    [$view_id, $display_id] = $this->boCollection->getCollectionView($collection_id);
+    if (boEntity::isCustomSizeEnabled($view_id, $display_id) == FALSE) {
       $form["size"]["widget"]["#default_value"] = 0;
       $form["size"]["widget"]["#required"] = 0;
       $form["size"]["#access"] = FALSE;
@@ -165,18 +159,15 @@ class BoEntityForm extends ContentEntityForm {
 
     switch ($status) {
       case SAVED_NEW:
-
-        $display_id = $entity->getDisplayId();
-        $display_id_parts = explode("__", $display_id);
         $collection_id = \Drupal::request()->query->get('collection_id');
         $to_path = \Drupal::request()->query->get('to_path');
 
         // Needed for working with Media browser. BoView service is not set for whatever reason.
-        if (!isset($this->boView)) {
-          $this->boView = \Drupal::service('bo.view');
+        if (!isset($this->boCollection)) {
+          $this->boCollection = \Drupal::service('bo.collection');
         }
 
-        $view = $this->boView->prepareBoView($display_id_parts[0], $display_id_parts[1], $collection_id, $to_path);
+        $view = $this->boCollection->prepareCollectionView($collection_id, $to_path);
 
         $current_route_name = \Drupal::routeMatch()->getRouteName();
         switch ($current_route_name) {

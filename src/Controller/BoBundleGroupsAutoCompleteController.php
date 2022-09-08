@@ -2,6 +2,7 @@
 
 namespace Drupal\bo\Controller;
 
+use Drupal\bo\Service\BoBundle;
 use Drupal\bo\Service\BoSettings;
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,10 +14,10 @@ use Drupal\Component\Utility\Xss;
  */
 class BoBundleGroupsAutoCompleteController extends ControllerBase {
 
-  private BoSettings $boSettings;
+  private BoBundle $boBundle;
 
   public function __construct() {
-    $this->boSettings = \Drupal::getContainer()->get('bo.settings');
+    $this->boBundle = \Drupal::getContainer()->get('bo.bundle');
   }
 
   /**
@@ -31,9 +32,10 @@ class BoBundleGroupsAutoCompleteController extends ControllerBase {
     }
     $input = Xss::filter($input);
 
-    $groups = $this->boSettings->getBoBundleGroups();
-    foreach ($groups as $machine_name => $group) {
-      if (strpos($group, $input) !== FALSE) {
+    $groups = $this->boBundle->getBundleGroups();
+    dpm($groups);
+    foreach ($groups as $group) {
+      if (strpos(strtolower($group), strtolower($input)) !== FALSE) {
         $results[] = [
           'value' => $group,
           'label' => $group,

@@ -18,6 +18,11 @@ use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
  *     "uuid" = "uuid",
  *     "type" = "type",
  *     "group" = "group",
+ *     "default" = "default",
+ *     "internal_title" = "internal_title",
+ *     "override_title_label" = "override_title_label",
+ *     "icon" = "icon",
+ *     "collection" = "collection",
  *     "weight" = "weight",
  *   },
  *   config_prefix = "bundle",
@@ -27,6 +32,11 @@ use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
  *     "description",
  *     "type",
  *     "group",
+ *     "default",
+ *     "internal_title",
+ *     "override_title_label",
+ *     "icon",
+ *     "collection",
  *     "weight",
  *   },
  *   handlers = {
@@ -42,7 +52,7 @@ use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
  *       "html" = "Drupal\Core\Entity\Routing\AdminHtmlRouteProvider",
  *     },
  *   },
- *   admin_permission = "administer bo elements",
+ *   admin_permission = "administer bo bundles",
  *   links = {
  *     "add-form" = "/admin/structure/bo/bundle/add/{type}",
  *     "edit-form" = "/admin/structure/bo/bundle/{bundle}/edit",
@@ -97,6 +107,48 @@ class BoBundle extends ConfigEntityBundleBase implements BoBundleInterface {
   protected $weight;
 
   /**
+   * The default of the bo bundle.
+   *
+   * @var boolean
+   */
+  protected $default;
+
+  /**
+   * The internal title of the bo bundle.
+   *
+   * @var string
+   */
+  protected $internal_title;
+
+  /**
+   * The override title label of the bo bundle.
+   *
+   * @var string
+   */
+  protected $override_title_label;
+
+  /**
+   * The icon of the bo bundle.
+   *
+   * @var string
+   */
+  protected $icon;
+
+  /**
+   * The collection of the bo bundle.
+   *
+   * @var array
+   */
+  protected $collection;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getWeight() {
+    return $this->weight;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function getDescription() {
@@ -106,16 +158,57 @@ class BoBundle extends ConfigEntityBundleBase implements BoBundleInterface {
   /**
    * {@inheritdoc}
    */
-  public function setDescription($description) {
-    $this->description = $description;
-    return $this;
+  public function getDefault() {
+    return $this->default;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getWeight() {
-    return $this->weight;
+  public function getInternalTitle() {
+    return $this->internal_title;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getOverrideTitleLabel() {
+    return $this->override_title_label;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getIcon() {
+    return $this->icon;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCollection() {
+    return $this->collection;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCollectionEnabled() {
+    return $this->collection['enabled'];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCollectionBundles() {
+    return $this->collection['bundles'];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCollectionOptions() {
+    return $this->collection['options'];
   }
 
   /**
@@ -137,6 +230,72 @@ class BoBundle extends ConfigEntityBundleBase implements BoBundleInterface {
    */
   public function setWeight($weight) {
     $this->weight = $weight;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setDescription($description) {
+    $this->description = $description;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setDefault($default) {
+    $this->default = $default;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setInternalTitle($internal_title) {
+    $this->internal_title = $internal_title;
+    return $this;
+  }
+
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setOverrideTitleLabel($override_title_label) {
+    $this->override_title_label = $override_title_label;
+    return $this;
+  }
+
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setIcon($icon) {
+    $this->icon = $icon;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setCollectionEnabled($enabled) {
+    $this->collection['enabled'] = $enabled;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setCollectionBundles($bundles) {
+    $this->collection['bundles'] = $bundles;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setCollectionOptions($options) {
+    $this->collection['options'] = $options;
     return $this;
   }
 

@@ -37,8 +37,8 @@ class BoTranslate {
    */
   public function __construct(BoSettings $boSettings, EntityTypeManager $entityTypeManager) {
     $this->boSettings = $boSettings;
-    $this->enabled = $this->boSettings->getBoSetting("google_translate_enabled");
-    $this->key = $this->boSettings->getBoSetting("google_translate_key");
+    $this->enabled = $this->boSettings->getSetting("google_translate_enabled");
+    $this->key = $this->boSettings->getSetting("google_translate_key");
     $this->entityTypeManager = $entityTypeManager;
   }
 

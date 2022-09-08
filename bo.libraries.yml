@@ -26,27 +26,27 @@ bo_entity_form:
     version: 1.x
     css: { theme: { assets/css/bo_entity_form.css: {  } }, component: { //use.fontawesome.com/releases/v5.0.13/css/all.css: {  } } }
     js: { assets/js/bo_entity_form.js: {  } }
-bo_fields_remote_video:
-    css: { theme: { assets/css/bo_fields_remote_video.css: {  } } }
-    js: { assets/js/lib/froogaloop.js: {  }, assets/js/bo_fields_remote_video.js: {  } }
-bo_fields_google_map:
-    css: { theme: { assets/css/bo_fields_google_map.css: {  } } }
-bo_fields_slideshow:
-    css: { theme: { assets/css/bo_fields_slideshow.css: {  } } }
-bo_fields_cards:
-    css: { theme: { assets/css/bo_fields_cards.css: {  } } }
-bo_fields_table:
-    css: { theme: { assets/css/bo_fields_table.css: {  } } }
-bo_fields_tabs:
-    css: { theme: { assets/css/bo_fields_tabs.css: {  } } }
-bo_fields_image:
-    css: { theme: { assets/css/bo_fields_image.css: {  } } }
-bo_fields_popup:
-    css: { theme: { assets/css/bo_fields_popup.css: {  } } }
-    js: { assets/js/bo_fields_popup.js: {  } }
-bo_fields_twig_help:
-    css: { theme: { assets/css/bo_fields_twig_help.css: {  } } }
-    js: { assets/js/lib/clipboard.min.js: {  }, 'https://code.jquery.com/ui/1.13.2/jquery-ui.js': {  } }
+bo_bundle_video:
+    css: { theme: { assets/bundle/css/bo_bundle_video.css: {  } } }
+    js: { assets/js/lib/froogaloop.js: {  }, assets/bundle/js/bo_bundle_remote_video.js: {  } }
+bo_bundle_google_map:
+    css: { theme: { assets/bundle/css/bo_bundle_google_map.css: {  } } }
+bo_bundle_slideshow:
+    css: { theme: { assets/bundle/css/bo_bundle_slideshow.css: {  } } }
+bo_bundle_cards:
+    css: { theme: { assets/bundle/css/bo_bundle_cards.css: {  } } }
+bo_bundle_table:
+    css: { theme: { assets/bundle/css/bo_bundle_table.css: {  } } }
+bo_bundle_tabs:
+    css: { theme: { assets/bundle/css/bo_bundle_tabs.css: {  } } }
+bo_bundle_image:
+    css: { theme: { assets/bundle/css/bo_bundle_image.css: {  } } }
+bo_bundle_popup:
+    css: { theme: { assets/bundle/css/bo_bundle_popup.css: {  } } }
+    js: { assets/bundle/js/bo_bundle_popup.js: {  } }
+bo_help:
+    css: { theme: { assets/css/bo_help.css: {  } } }
+    js: { assets/js/bo_help.js: { }, assets/js/lib/clipboard.min.js: {  }, 'https://code.jquery.com/ui/1.13.2/jquery-ui.js': {  } }
     dependencies: [core/jquery.ui.tooltip]
 bo_parallax:
     js: { templates/assets/parallax.js-1.5.0/parallax.js: {  } }

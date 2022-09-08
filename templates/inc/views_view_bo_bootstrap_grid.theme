@@ -9,7 +9,7 @@
  *   - view: A ViewExecutable object.
  *   - rows: The raw row data.
  */
-function template_preprocess_views_view_bo_bootstrap_grid(array &$vars) {
+function bo_preprocess_views_view_bo_bootstrap_grid(array &$vars) {
   foreach($vars["rows"] as $id => $row) {
     $size = $vars["rows"][$id]["#row"]->_entity->get("size")->value;
     $type = $vars["rows"][$id]["#row"]->_entity->get("type")->value;

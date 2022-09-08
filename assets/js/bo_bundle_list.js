@@ -56,10 +56,11 @@
         let $rowElement = $(dragObject.rowObject.element);
 
         let groupRow = $rowElement.prevAll('tr.group-message').get(0);
-        let groupName = groupRow.className.replace(/([^ ]+[ ]+)*group-([^ ]+)-message([ ]+[^ ]+)*/, '$2');
+        //let groupName = groupRow.className.replace(/([^ ]+[ ]+)*group-([^ ]+)-message([ ]+[^ ]+)*/, '$2');
+        let groupName = $(groupRow).attr('data-group-name');
         let groupField = $rowElement.find('select.bundle-group-select');
 
-        if (groupField.find('option[value=' + groupName + ']').length === 0) {
+        if (groupField.find('option[value="' + groupName + '"]').length === 0) {
           window.alert(Drupal.t('The bundle cannot be placed in this group.'));
 
           groupField.trigger('change');

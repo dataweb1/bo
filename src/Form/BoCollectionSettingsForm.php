@@ -2,10 +2,12 @@
 
 namespace Drupal\bo\Form;
 
+use Drupal\bo\Service\BoBundle;
+use Drupal\bo\Service\BoCollection;
 use Drupal\bo\Service\BoSettings;
 use Drupal\bo\Ajax\RefreshPageCommand;
-use Drupal\bo\Service\BoView;
 use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\CloseDialogCommand;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -23,43 +25,58 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class BoCollectionSettingsForm extends ConfigFormBase {
 
   /**
-   * @var BoSettings
+   * @var \Drupal\bo\Service\BoSettings
    */
   private BoSettings $boSettings;
 
   /**
-   * @var BoView
+   * @var \Drupal\bo\Service\BoBundle
    */
-  private BoView $boView;
+  private BoBundle $boBundle;
+
+  /**
+   * @var mixed
+   */
+  private $collection_id;
+  /**
+   * @var mixed
+   */
+  private $bundle_id;
+  /**
+   * @var mixed
+   */
+  private $via;
+  /**
+   * @var array|mixed|string
+   */
+  private $current_options;
+
+  /**
+   * @var \Drupal\bo\Service\BoCollection
+   */
+  private BoCollection $boCollection;
 
   /**
    *
    */
-  public function __construct(ConfigFactoryInterface $config_factory, BoSettings $boSettings, BoView $boView) {
+  public function __construct(ConfigFactoryInterface $config_factory, BoSettings $boSettings, BoBundle $boBundle, BoCollection $boCollection) {
     parent::__construct($config_factory);
     $this->boSettings = $boSettings;
-    $this->boView = $boView;
+    $this->boBundle = $boBundle;
+    $this->boCollection = $boCollection;
   }
 
+  /**
+   *
+   */
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('config.factory'),
       $container->get('bo.settings'),
-      $container->get('bo.view')
+      $container->get('bo.bundle'),
+      $container->get('bo.collection'),
     );
   }
-
-  /**
-   *
-   */
-  protected $overview_or_collection;
-  protected $display_id;
-  protected $collection_name;
-  protected $save_to_collection_name;
-  protected $collection_id;
-  protected $collection_machine_name;
-  protected $current_options;
-  protected $bundle_name;
 
   /**
    * {@inheritdoc}
@@ -84,42 +101,61 @@ class BoCollectionSettingsForm extends ConfigFormBase {
 
     $form = parent::buildForm($form, $form_state);
 
-    $this->display_id = \Drupal::request()->query->get('display_id');
     $this->collection_id = \Drupal::request()->query->get('collection_id');
-    $this->collection_machine_name = \Drupal::request()->query->get('collection_machine_name');
-    $this->overview_or_collection = \Drupal::request()->query->get('overview_or_collection');
+    $this->bundle_id = \Drupal::request()->query->get('bundle_id');
+    $this->via = \Drupal::request()->query->get('via');
 
-    $parameters = [
-      'overview_or_collection' => $this->overview_or_collection,
-      'display_id' => $this->display_id,
-      'collection_id' => $this->collection_id,
-      'collection_machine_name' => $this->collection_machine_name,
-    ];
+    $reset_markup = '';
+    if ($this->via == 'view') {
+      $this->current_options = $this->boSettings->getCollectionOptions($this->collection_id);
+      if ($this->boSettings->getCollection($this->collection_id)) {
+        $reset_to_url = Url::fromRoute('bo.reset_collection_options_form', [
+          'collection_id' => $this->collection_id,
+        ]);
+        $reset_to_url->setOptions([
+          'attributes' => [
+            'class' => [
+              'button',
+              'button--small',
+            ],
+          ],
+        ]);
 
-    $active_collection = $this->boSettings->getActiveCollectionData($parameters);
-    $this->collection_name = $active_collection["collection_name"];
-    $this->save_to_collection_name = $active_collection["save_to_collection_name"];
-    // kint($active_collection);
-    $this->current_options = $this->boSettings->getCollectionOptions($this->collection_name);
+        $reset_to_link = Link::fromTextAndUrl($this->t('here'), $reset_to_url);
+        $reset_to_collection_label = '';
+        if (intval($this->collection_id) > 0) {
+          $reset_to_collection_label = $this->boCollection->getCollectionLabel($this->collection_id);
+        }
+        else {
+          // A view, so reset to default.
+          $reset_to_collection_label = '';
+        }
 
-    if ($active_collection["options_overrided"] == TRUE) {
-      $reset_to_url = Url::fromRoute('bo.reset_collection_options_form', [
-        'collection_id' => urlencode($this->collection_id),
-        'display_id' => urlencode($this->display_id),
-      ]);
-
-      $reset_to_link = Link::fromTextAndUrl($this->t('here'), $reset_to_url);
-      $reset_markup = Markup::create(t('Reset the element settings to the @reset_to settings', ["@reset_to" => $active_collection["reset_to"]]) . " " . $reset_to_link->toString());
-      \Drupal::messenger()->addMessage($reset_markup);
+        if ($reset_to_collection_label != '') {
+          $reset_markup = Markup::create(t('Reset to the %reset_to bundle collection settings', [
+            "%reset_to" => $reset_to_collection_label,
+          ]) . " " . $reset_to_link->toString());
+        }
+        else {
+          $reset_markup = Markup::create(t('Reset to the default bundle settings') . " " . $reset_to_link->toString());
+        }
+      }
     }
 
-    $form['elements'] = [
+    if ($this->via == 'bundle') {
+      if ($bundle = $this->boBundle->getBundle($this->bundle_id)) {
+        $this->current_options = $this->boBundle->getBundleCollectionOptions($bundle);
+      }
+    }
+
+    // Bundle groups in fieldsets.
+    $form['bundles'] = [
       '#type' => 'fieldset',
       '#title' => 'BO ' . $this->t('elementen'),
-          // '#prefix' => $reset_markup,
+      '#prefix' => $reset_markup,
       '#attributes' => [
         'class' => [
-          'elements',
+          'bundles',
         ],
       ],
       '#description' => $this->t('Select what BO elements are allowed for this collection'),
@@ -129,13 +165,13 @@ class BoCollectionSettingsForm extends ConfigFormBase {
       '#weight' => 0,
     ];
 
-    $bundles = $this->boSettings->getSortedBundles();
-    foreach ($bundles as $group => $group_bundles) {
+    $bundles = $this->boBundle->getSortedBundles();
+    foreach ($bundles as $group => $grouped_bundles) {
       $weight = 0;
       if ($group != "") {
-        $form['elements'][$group] = [
+        $form['bundles'][$group] = [
           '#type' => 'container',
-          '#markup' => "<div class='group-title'>" . $this->boSettings->getBoBundleGroups($group) . "</div>",
+          '#markup' => "<div class='group-title'>" . $group . "</div>",
           '#attributes' => [
             "class" => [
               'group-wrapper',
@@ -148,15 +184,22 @@ class BoCollectionSettingsForm extends ConfigFormBase {
       if ($group == "") {
         $g = "_empty";
       }
-      foreach ($group_bundles as $group_bundle) {
-        $default_value = $this->boSettings->isCollectionElementChecked($this->collection_name, $group_bundle["machine_name"]);
-        $form['elements'][$g][$group_bundle["machine_name"]] = [
+
+      /** @var \Drupal\bo\Entity\BoBundle $bundle */
+      foreach ($grouped_bundles as $bundle) {
+        if ($this->via == 'view') {
+          $default_value = $this->boCollection->isEnabledBundle($this->collection_id, $bundle);
+        }
+        if ($this->via == 'bundle') {
+          $default_value = $this->boCollection->isEnabledBundle($this->bundle_id, $bundle);
+        }
+        $form['bundles'][$g][$bundle->id()] = [
           '#type' => 'checkbox',
-          '#title' => '<span class="' . $group_bundle["icon"] . '"></span>' . $this->t($group_bundle["label"]),
+          '#title' => '<span class="' . $bundle->getIcon() . '"></span>' . $this->t($bundle->label()),
           '#weight' => $weight,
           '#attributes' => [
             'checkbox-group' => 'bo-settings-bundle',
-            'toggle-fieldset' => 'fieldset-bo-settings-bo-' . str_replace('_', '-', $group_bundle['machine_name'] . '-types'),
+            'toggle-fieldset' => 'fieldset-bo-settings-bo-' . str_replace('_', '-', $bundle->id() . '-types'),
           ],
           '#default_value' => $default_value,
         ];
@@ -176,51 +219,58 @@ class BoCollectionSettingsForm extends ConfigFormBase {
     ];
 
     // bo_options > label.
-    // Int or "-".
-    if ($this->overview_or_collection == "overview") {
-      $default_value = $this->current_options["label"];
-
-      $form["bo_options"]["label"] = [
-        '#type' => 'textfield',
-        '#title' => $this->t('Label'),
-        '#description' => $this->t('The label is shown next to the collection operation buttons'),
-        '#default_value' => $default_value,
-      ];
+    $default_value_label = $this->current_options["label"] ?? '';
+    if ($this->via == 'view' && $default_value_label == '') {
+      $default_value_label = $this->boCollection->getCollectionLabel($this->collection_id);
     }
 
+    $form["bo_options"]["label"] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Label'),
+      '#description' => $this->t('The label is shown next to the collection operation buttons'),
+      '#default_value' => $default_value_label,
+    ];
+
     // bo_options > specific_view.
-    if ($this->overview_or_collection == "collection" ||
-          ($this->overview_or_collection == "overview" && $this->collection_id != "" && $this->collection_id != "-")) {
-      $default_value = $this->current_options["specific_view"];
+    $default_value_specific_view = $this->current_options["specific_view"] ?? '';
+    if ($default_value_specific_view == '') {
+      $default_value_specific_view = implode('__', $this->boCollection->getCollectionView($this->collection_id));
+    }
 
-      $bo_views = $this->boView->getBoViews();
-
-      $specific_view_options = ["" => $this->t("default")];
-      foreach ($bo_views as $view_id => $view) {
-
-        foreach ($view as $display) {
-          $specific_view_options[$display["view_label"]][$view_id . "__" . $display["display_id"]] = $display["display_title"];
-        }
+    // Get the BO views options.
+    $specific_view_options = [];
+    $collection_views = $this->boCollection->getCollectionViews();
+    foreach ($collection_views as $view_id => $view) {
+      foreach ($view as $display) {
+        $specific_view_options[$display["view_label"]][$view_id . "__" . $display["display_id"]] = $display["display_title"];
       }
+    }
 
+    if ($this->via == 'bundle' || ($this->via == 'view' && intval($this->collection_id) > 0)) {
       $form["bo_options"]["specific_view"] = [
         '#type' => 'select',
-        '#title' => $this->t('Specific view'),
+        '#title' => $this->t('BO view to use'),
+        '#required' => TRUE,
         '#options' => $specific_view_options,
-        '#description' => $this->t('When default the most outer view will be used'),
-        '#default_value' => $default_value,
+        '#default_value' => $default_value_specific_view,
       ];
-
+    }
+    else {
+      $form["bo_options"]["specific_view"] = [
+        '#type' => 'hidden',
+        '#default_value' => $default_value_specific_view,
+      ];
     }
 
     // bo_options > max_element_count.
-    $default_value = $this->current_options["max_element_count"];
+    $default_value_max_count = $this->boCollection->getCollectionMaxElementCount($this->collection_id);
+
     $form["bo_options"]["max_element_count"] = [
       '#type' => 'number',
-      '#title' => $this->t('Maximum elements count'),
-      '#description' => $this->t('0 = Unlimited elements'),
+      '#title' => $this->t('Maximum item count'),
+      '#description' => $this->t('0 = Unlimited items'),
       '#weight' => $weight,
-      '#default_value' => $default_value,
+      '#default_value' => $default_value_max_count,
     ];
 
     $form['#attached']['library'] = [
@@ -242,29 +292,40 @@ class BoCollectionSettingsForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
 
-    foreach ($form_state->getValue("elements") as $group => $elements) {
-      foreach ($elements as $element => $value) {
-        $settings["collection"][$this->save_to_collection_name]["elements"][$element] = $value;
+    if ($this->via == 'view') {
+      foreach ($form_state->getValue("bundles") as $bundles) {
+        foreach ($bundles as $element => $value) {
+          $settings["collection"][$this->collection_id]["bundles"][$element] = $value;
+        }
       }
-    }
-    $settings["collection"][$this->save_to_collection_name]["options"]["max_element_count"] = $form_state->getValue("bo_options")['max_element_count'];
 
-    if ($this->overview_or_collection == "collection") {
-
-      $settings["collection"][$this->save_to_collection_name]["options"]["max_element_count"] = $form_state->getValue("bo_options")['max_element_count'];
-      $settings["collection"][$this->save_to_collection_name]["options"]["specific_view"] = $form_state->getValue("bo_options")['specific_view'];
-    }
-
-    if ($this->overview_or_collection == "overview") {
-
-      $settings["collection"][$this->save_to_collection_name]["options"]["label"] = $form_state->getValue("bo_options")['label'];
+      $settings["collection"][$this->collection_id]["options"]["max_element_count"] = $form_state->getValue("bo_options")['max_element_count'];
+      $settings["collection"][$this->collection_id]["options"]["label"] = $form_state->getValue("bo_options")['label'];
 
       if ($this->collection_id != "" && $this->collection_id != "-") {
-        $settings["collection"][$this->save_to_collection_name]["options"]["specific_view"] = $form_state->getValue("bo_options")['specific_view'];
+        $settings["collection"][$this->collection_id]["options"]["specific_view"] = $form_state->getValue("bo_options")['specific_view'];
       }
+      $this->boSettings->setSettings($settings);
     }
 
-    $this->boSettings->setSettings($settings);
+    if ($this->via == "bundle") {
+      if ($bundle = $this->boBundle->getBundle($this->bundle_id)) {
+        $collection_bundles = [];
+        foreach ($form_state->getValue("bundles") as $bundles) {
+          foreach ($bundles as $element => $value) {
+            $collection_bundles[$element] = $value;
+          }
+        }
+
+        $bundle->setCollectionBundles($collection_bundles);
+        $bundle->setCollectionOptions([
+          'label' => $form_state->getValue("bo_options")['label'],
+          'max_element_count' => $form_state->getValue("bo_options")['max_element_count'],
+          'specific_view' => $form_state->getValue("bo_options")['specific_view'],
+        ]);
+        $bundle->save();
+      }
+    }
 
     Cache::invalidateTags(["bo:settings"]);
   }
@@ -279,7 +340,12 @@ class BoCollectionSettingsForm extends ConfigFormBase {
    */
   public function afterSubmitCallback(array $form, FormStateInterface $formState) {
     $response = new AjaxResponse();
-    $response->addCommand(new RefreshPageCommand());
+    if ($this->via == 'view') {
+      $response->addCommand(new RefreshPageCommand());
+    }
+    else {
+      $response->addCommand(new CloseDialogCommand('.bo-dialog .ui-dialog-content'));
+    }
     return $response;
   }
 

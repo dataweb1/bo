@@ -1,6 +1,8 @@
 services:
   bo.BoSettingsTwigExtension:
     class: Drupal\bo\Twig\BoSettingsTwigExtension
+    arguments:
+      - '@bo.settings'
     tags:
       - { name: twig.extension }
   bo.CommentStripperTwigExtension:
@@ -11,36 +13,60 @@ services:
     class: Drupal\bo\Routing\RouteSubscriber
     tags:
       - { name: event_subscriber }
-  bo.view:
-    class: Drupal\bo\Service\BoView
-  bo.operations:
-    class: Drupal\bo\Service\BoOperations
+
+  bo.handler:
+    class: Drupal\bo\Service\BoHandler
     arguments:
-      - '@bo.settings'
+      - '@module_handler'
+      - '@extension.list.module'
+
   bo.settings:
     class: Drupal\bo\Service\BoSettings
     arguments:
-      - '@database'
       - '@current_user'
       - '@config.factory'
       - '@module_handler'
       - '@entity_type.manager'
+
+  bo.operations:
+    class: Drupal\bo\Service\BoOperations
+    arguments:
+      - '@bo.collection'
+
   bo.vars:
     class: Drupal\bo\Service\BoVars
     arguments:
-      - '@bo.settings'
       - '@renderer'
       - '@file_url_generator'
       - '@entity_field.manager'
       - '@entity_type.manager'
+      - '@bo.bundle'
+      - '@bo.collection'
+      - '@bo.help'
+
   bo.translate:
     class: Drupal\bo\Service\BoTranslate
     arguments:
       - '@bo.settings'
       - '@entity_type.manager'
+
   bo.entity:
     class: Drupal\bo\Service\BoEntity
     arguments:
       - '@entity_type.manager'
+
+  bo.collection:
+    class: Drupal\bo\Service\BoCollection
+    arguments:
+      - '@database'
+      - '@current_user'
+      - '@bo.settings'
+      - '@bo.bundle'
+
   bo.bundle:
     class: Drupal\bo\Service\BoBundle
+    arguments:
+      - '@entity_type.manager'
+
+  bo.help:
+    class: Drupal\bo\Service\BoHelp

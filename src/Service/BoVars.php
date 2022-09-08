@@ -21,39 +21,57 @@ use Drupal\views\Views;
 class BoVars {
 
   /**
-   * @var BoSettings
-   */
-  private BoSettings $boSettings;
-
-  /**
-   * @var Renderer
+   * @var \Drupal\Core\Render\Renderer
    */
   private Renderer $renderer;
 
   /**
-   * @var FileUrlGenerator
+   * @var \Drupal\Core\File\FileUrlGenerator
    */
   private FileUrlGenerator $fileUrlGenerator;
 
   /**
-   * @var EntityFieldManager
+   * @var \Drupal\Core\Entity\EntityFieldManager
    */
   private EntityFieldManager $entityFieldManager;
 
   /**
-   * @var EntityTypeManager
+   * @var \Drupal\Core\Entity\EntityTypeManager
    */
   private EntityTypeManager $entityTypeManager;
 
   /**
-   *
+   * @var BoBundle
    */
-  public function __construct(BoSettings $boSettings, Renderer $renderer, FileUrlGenerator $fileUrlGenerator, EntityFieldManager $entityFieldManager, EntityTypeManager $entityTypeManager) {
-    $this->boSettings = $boSettings;
+  private BoBundle $boBundle;
+
+  /**
+   * @var BoCollection
+   */
+  private BoCollection $boCollection;
+
+  /**
+   * @var BoHelp
+   */
+  private BoHelp $boHelp;
+
+  /**
+   * @param \Drupal\Core\Render\Renderer $renderer
+   * @param \Drupal\Core\File\FileUrlGenerator $fileUrlGenerator
+   * @param \Drupal\Core\Entity\EntityFieldManager $entityFieldManager
+   * @param \Drupal\Core\Entity\EntityTypeManager $entityTypeManager
+   * @param BoSettings $boSettings
+   * @param BoBundle $boBundle
+   * @param BoCollection $boCollection
+   */
+  public function __construct(Renderer $renderer, FileUrlGenerator $fileUrlGenerator, EntityFieldManager $entityFieldManager, EntityTypeManager $entityTypeManager, BoBundle $boBundle, BoCollection $boCollection, BoHelp $boHelp) {
     $this->renderer = $renderer;
     $this->fileUrlGenerator = $fileUrlGenerator;
     $this->entityFieldManager = $entityFieldManager;
     $this->entityTypeManager = $entityTypeManager;
+    $this->boBundle = $boBundle;
+    $this->boCollection = $boCollection;
+    $this->boHelp = $boHelp;
   }
 
   /**
@@ -72,31 +90,27 @@ class BoVars {
     if ($entity) {
       $current_user = \Drupal::currentUser();
 
-      $bundle = $entity->getBundle();
+      /** @var \Drupal\bo\Entity\BoBundle $bundle */
+      $bundle = $this->boBundle->getBundle($entity->getBundle());
       $current_display = $view->getDisplay();
-      $entity_size = $entity->getSize();
       $current_view_display_settings = $entity->getCurrentViewDisplaySettings();
-      $entity_id = $entity->id();
-
-      $view_id = $view->id();
-      $display_id = $view->current_display;
 
       if (in_array("basic", $return)) {
-        $vars["bo"]["id"] = $entity_id;
-        $vars["bo"]["view_id"] = $view_id;
-        $vars["bo"]["display_id"] = $display_id;
+        $vars["bo"]["id"] = $entity->id();
+        $vars["bo"]["view_id"] = $view->id();
+        $vars["bo"]["display_id"] = $view->current_display;
         $vars["bo"]["plugin_id"] = $current_view_display_settings["plugin_id"];
 
         $vars["bo"]["row_count"] = count($view->result);
         if (isset($view->row_index)) {
           $vars["bo"]["row_index"] = $view->row_index;
         }
-        $vars["bo"]["bundle"] = $bundle;
-        $vars["bo"]["size"] = $entity_size;
+        $vars["bo"]["bundle"] = $bundle->id();
+        $vars["bo"]["size"] = $entity->getSize();
+        ;
       }
 
       $fields = $entity->getFields();
-
       if (in_array("fields", $return)) {
         foreach ($fields as $field_name => $field) {
 
@@ -108,7 +122,7 @@ class BoVars {
             $field_name != "changed" &&
             $field_name != "weight") {
             if ($field_name == "title") {
-              if ($this->boSettings->isTitleInternal($bundle) == TRUE) {
+              if ($bundle->getInternalTitle() == TRUE) {
                 continue;
               }
             }
@@ -124,10 +138,8 @@ class BoVars {
       }
 
       if (in_array("collection", $return)) {
-        $is_collection = $this->boSettings->isBundleCollection($bundle);
-
+        $is_collection = $bundle->getCollection()['enabled'] ?? FALSE;
         if ($is_collection) {
-
           $collection_data = $this->getCollectionData(
             $view,
             $entity,
@@ -144,15 +156,11 @@ class BoVars {
 
       if (in_array("help", $return)) {
         if ($current_user->hasPermission("show twig help")) {
-          $vars["help"] = $this->getHelpLink(
-            $view->id(),
-            $view->current_display,
+          $vars["help"] = $this->boHelp->getHelpLink(
             $view->filter['bo_current_collection_id_filter']->value,
             $view->argument['bo_current_path_argument']->argument,
             $vars['bo']['id']
           );
-
-          $library[] = 'bo/bo_fields_twig_help';
         }
       }
     }
@@ -169,48 +177,22 @@ class BoVars {
    * @param array $return
    * @return array
    */
-  private function getCollectionData(ViewExecutable $view, BoEntity $entity, &$vars, array $return = []) {
+  private function getCollectionData(ViewExecutable $view, BoEntity $collection, &$vars, array $return = []) {
 
     $data = [];
 
-    $view_id = $view->id();
-    $display_id = $view->current_display;
-
-    $collection_id = $entity->id();
-
     if (in_array("items", $return)) {
-      $overview_name = $view_id . "__" . $display_id;
-      if ($collection_id != "" && $collection_id != "-") {
-        $overview_name .= "__" . $collection_id;
-      }
-
-      $specific_view = $this->boSettings->getCollectionOptions($overview_name, "specific_view");
-
-      if ($specific_view == "") {
-        $collection_machine_name = $this->boSettings->getCollectionBundleMachineNameViaId($collection_id);
-
-        $specific_view = $this->boSettings->getCollectionOptions($collection_machine_name, "specific_view");
-      }
-
-      if ($specific_view != "") {
-        $a_specific_view = explode("__", $specific_view);
-        $collection_view_id = $a_specific_view[0];
-        $collection_display_id = $a_specific_view[1];
-      }
-      else {
-        $collection_view_id = $view_id;
-        $collection_display_id = $display_id;
-      }
+      [$collection_view_id, $collection_display_id] = $this->boCollection->getCollectionView($collection->id());
 
       $view_collection = Views::getView($collection_view_id);
       $view_collection->setDisplay($collection_display_id);
 
-      $_POST["collection_id"] = "";
+      $_POST["collection_id"] = '';
 
       if (!isset($view_collection->filter["bo_current_collection_id_filter"])) {
         $view_collection->filter["bo_current_collection_id_filter"] = new \stdClass();
       }
-      $view_collection->filter["bo_current_collection_id_filter"]->value = $collection_id;
+      $view_collection->filter["bo_current_collection_id_filter"]->value = $collection->id();
 
       $view_collection->preExecute();
       $view_collection->execute();
@@ -223,7 +205,9 @@ class BoVars {
         /** @var \Drupal\bo\Entity\BoEntity $item_entity */
         $item_entity = $row->_entity;
         $item_entity_id = $item_entity->id();
-        $item_entity_bundle = $item_entity->getBundle();
+
+        /** @var \Drupal\bo\Entity\BoBundle $item_entity_bundle */
+        $item_entity_bundle = $this->boBundle->getBundle($item_entity->getBundle());
 
         $item_current_display = $view_collection->getDisplay();
 
@@ -241,7 +225,7 @@ class BoVars {
             $level = 0;
 
             if ($field_name == "title") {
-              if ($this->boSettings->isTitleInternal($item_entity_bundle) == TRUE) {
+              if ($item_entity_bundle->getInternalTitle() == TRUE) {
                 continue;
               }
             }
@@ -263,10 +247,9 @@ class BoVars {
     }
 
     if (in_array('rendered_collection', $return)) {
-      $collection = $view_collection->render();
-      $collection["#cache"]["tags"][] = $entity->getBundle();
-      // kint($collection["#cache"]);.
-      $data["collection"] = $collection;
+      $rendered_collection = $view_collection->render();
+      $rendered_collection["#cache"]["tags"][] = $collection->getBundle();
+      $data["collection"] = $rendered_collection;
     }
 
     return $data;
@@ -294,12 +277,12 @@ class BoVars {
 
       if (strpos($field_table, $field_name) !== FALSE) {
         $rendered_markup = $current_display->getHandlers('field')[$name]->advancedRender($row);
-        $element["rendered_value"]["view_" . $n] = $rendered_markup;
+        $element["rendered"]["view_" . $n] = $rendered_markup;
       }
       else {
         if (strpos($name, $field_name) !== FALSE) {
           $rendered_markup = $current_display->getHandlers('field')[$name]->advancedRender($row);
-          $element["rendered_value"]["view_" . $n] = $rendered_markup;
+          $element["rendered"]["view_" . $n] = $rendered_markup;
         }
       }
     }
@@ -307,7 +290,7 @@ class BoVars {
   }
 
   /**
-   * @param BoEntity $entity
+   * @param \Drupal\bo\Entity\BoEntity $entity
    * @param $field_name
    * @param $vars
    * @param int $level
@@ -382,11 +365,11 @@ class BoVars {
         '#title' => $title,
       ];
 
-      $e["rendered_value"]["basic"] = $this->renderer->render($basic);
-      $e["raw_value"]["uri"] = $uri;
-      $e["raw_value"]["url"] = $url_string;
-      $e["raw_value"]["title"] = $title;
-      $e["raw_value"]["target"] = $target;
+      $e["rendered"]["basic"] = $this->renderer->render($basic);
+      $e["raw"]["uri"] = $uri;
+      $e["raw"]["url"] = $url_string;
+      $e["raw"]["title"] = $title;
+      $e["raw"]["target"] = $target;
 
       $this->smartValue($url_string, $e, $vars);
 
@@ -423,7 +406,7 @@ class BoVars {
 
       $raw_markup = Markup::create($raw_summary);
 
-      $e["raw_value"]["summary"] = $raw_markup;
+      $e["raw"]["summary"] = $raw_markup;
 
       if ($cardinality == 1) {
         if (!empty($element)) {
@@ -455,10 +438,10 @@ class BoVars {
 
     foreach ($entity->get($field_name) as $key => $item) {
       $cardinality = $entity->getFieldDefinition($field_name)->getFieldStorageDefinition()->getCardinality();
-      $raw_value = $item->name;
-      $raw_markup = Markup::create($raw_value);
+      $raw = $item->name;
+      $raw_markup = Markup::create($raw);
 
-      $e["raw_value"]["name"] = $raw_markup;
+      $e["raw"]["name"] = $raw_markup;
 
       if ($cardinality == 1) {
         if (!empty($element)) {
@@ -490,29 +473,29 @@ class BoVars {
     $cardinality = $entity->getFieldDefinition($field_name)->getFieldStorageDefinition()->getCardinality();
 
     foreach ($entity->get($field_name) as $key => $item) {
-      $raw_value = $item->value;
+      $raw = $item->value;
 
-      $raw_markup = Markup::create($raw_value);
+      $raw_markup = Markup::create($raw);
 
       if ($field_name == "created" || $field_name == "changed") {
-        $e["raw_value"]["timestamp"] = $raw_markup;
-        $e["raw_value"]["day"] = date("d", $raw_markup->__toString());
-        $e["raw_value"]["month"] = date("m", $raw_markup->__toString());
-        $e["raw_value"]["year"] = date("Y", $raw_markup->__toString());
-        $e["raw_value"]["hour"] = date("H", $raw_markup->__toString());
-        $e["raw_value"]["minute"] = date("i", $raw_markup->__toString());
-        $e["raw_value"]["second"] = date("s", $raw_markup->__toString());
+        $e["raw"]["timestamp"] = $raw_markup;
+        $e["raw"]["day"] = date("d", $raw_markup->__toString());
+        $e["raw"]["month"] = date("m", $raw_markup->__toString());
+        $e["raw"]["year"] = date("Y", $raw_markup->__toString());
+        $e["raw"]["hour"] = date("H", $raw_markup->__toString());
+        $e["raw"]["minute"] = date("i", $raw_markup->__toString());
+        $e["raw"]["second"] = date("s", $raw_markup->__toString());
       }
       else {
-        $e["raw_value"]["value"] = $raw_markup;
+        $e["raw"]["value"] = $raw_markup;
       }
 
       $this->smartValue($item->value, $e, $vars);
 
       if ($cardinality == 1) {
 
-        if (!empty($element["raw_value"])) {
-          $element["raw_value"] = array_merge($element["raw_value"], $e["raw_value"]);
+        if (!empty($element["raw"])) {
+          $element["raw"] = array_merge($element["raw"], $e["raw"]);
         }
         else {
           $element = $e;
@@ -520,8 +503,8 @@ class BoVars {
 
       }
       else {
-        if (!empty($element[$key]["raw_value"])) {
-          $element[$key]["raw_value"] = array_merge($element[$key]["raw_value"], $e["raw_value"]);
+        if (!empty($element[$key]["raw"])) {
+          $element[$key]["raw"] = array_merge($element[$key]["raw"], $e["raw"]);
         }
         else {
           $element[$key] = $e;
@@ -562,223 +545,68 @@ class BoVars {
         $uri = "/" . str_replace("_", "/", $target_type) . "/" . $target_entity->id();
         $url = Url::fromUserInput($uri)->toString();
 
-        if ($settings["handler"] == "default:webform") {
-          if ($cardinality == 1) {
-            $r = &$element;
-          }
-          else {
-            $r = &$element[$parent_key];
-          }
+        switch (TRUE) {
+          // Node or term.
+          case ($settings["handler"] == "default:node" || $settings["handler"] == "default:taxonomy_term"):
 
-          $r["entity_type"] = $target_type;
-          $r["link"]["raw_value"]["form"] = $target_id;
-          $r["cardinality"] = $cardinality;
-        }
-
-        if ($settings["handler"] == "default:node" || $settings["handler"] == "default:taxonomy_term") {
-
-          if ($cardinality == 1) {
-            $r = &$element;
-          }
-          else {
-            $r = &$element[$parent_key];
-          }
-
-          $r["entity_type"] = $target_type;
-          $r["link"]["raw_value"]["url"] = $url;
-          $r["cardinality"] = $cardinality;
-
-          foreach ($settings["handler_settings"]["target_bundles"] as $target_bundle) {
-
-            $r["entity_bundle"] = $target_bundle;
-
-            $bundle_fields = $this->entityFieldManager->getFieldDefinitions($target_type, $target_bundle);
-            foreach ($bundle_fields as $field) {
-              $field_name_2 = $field->getName();
-              if ($field_name_2 == "name" ||
-                $field_name_2 == "title" ||
-                $field_name_2 == "created" ||
-                $field_name_2 == "changed" ||
-                $field_name_2 == "body" ||
-                substr($field_name_2, 0, 6) == "field_") {
-
-                $r[$field_name_2] = $this->processField($target_entity, $field_name_2, $vars, $level, $r[$field_name_2]);
-              }
-            }
-          }
-
-        }
-
-        if ($settings["handler"] == "default:file" && !isset($settings["default_image"])) {
-          $target_media_entity = $this->entityTypeManager->getStorage("file")->load($target_id);
-
-          $uri = $target_media_entity->getFileUri();
-          $filename = $target_media_entity->getFileName();
-          $size = $target_media_entity->getSize();
-          $attributes = ["target" => "_blank"];
-          $url = Url::fromUri($this->fileUrlGenerator->generateAbsoluteString($target_media_entity->getFileUri()));
-          // $url->setOptions(array("attributes" => $attributes));
-          $type = str_replace("/", "-", $target_media_entity->getMimeType());
-          $basic = [
-            '#type' => 'link',
-            '#url' => $url,
-            '#attributes' => ["target" => "_blank"],
-            '#title' => $filename,
-          ];
-
-          $e["rendered_value"]["basic"] = $this->renderer->render($basic);
-          $e["raw_value"]["uri"] = $uri;
-          $e["raw_value"]["url"] = $url;
-          $e["raw_value"]["filename"] = $filename;
-          $e["raw_value"]["size"] = $size;
-          $e["rendered_value"]["size"] = format_bytes($size);
-          $e["raw_value"]["type"] = $type;
-          $e["raw_value"]["target"] = "_blank";
-
-          if ($cardinality == 1) {
-            if (!empty($element)) {
-              $element = array_merge($element, $e);
+            if ($cardinality == 1) {
+              $r = &$element;
             }
             else {
-              $element = $e;
+              $r = &$element[$parent_key];
             }
 
-          }
-          else {
-            $element[$parent_key] = $e;
-          }
-        }
+            $r["entity_type"] = $target_type;
+            $r["link"]["raw"]["url"] = $url;
+            $r["cardinality"] = $cardinality;
 
-        if ($settings["handler"] == "default:file" && isset($settings["default_image"])) {
+            foreach ($settings["handler_settings"]["target_bundles"] as $target_bundle) {
 
-          $target_media_entity = $this->entityTypeManager->getStorage("file")->load($target_id);
+              $r["entity_bundle"] = $target_bundle;
 
-          $uri = $target_media_entity->getFileUri();
-          $filename = $target_media_entity->getFileName();
-          $size = $target_media_entity->getSize();
-          $original_url = $this->fileUrlGenerator->generateAbsoluteString($target_media_entity->getFileUri());
-          $type = str_replace("/", "-", $target_media_entity->getMimeType());
-          $alt = $item->alt;
+              $bundle_fields = $this->entityFieldManager->getFieldDefinitions($target_type, $target_bundle);
+              foreach ($bundle_fields as $field) {
+                $field_name_2 = $field->getName();
+                if ($field_name_2 == "name" ||
+                  $field_name_2 == "title" ||
+                  $field_name_2 == "created" ||
+                  $field_name_2 == "changed" ||
+                  $field_name_2 == "body" ||
+                  substr($field_name_2, 0, 6) == "field_") {
 
-          $optimized_url = "";
-          $style_name = 'bo_' . $bo_entity_size;
+                  $r[$field_name_2] = $this->processField($target_entity, $field_name_2, $vars, $level, $r[$field_name_2]);
+                }
+              }
+            }
+            break;
 
-          $image_style = ImageStyle::load($style_name);
-          if ($image_style) {
-            $optimized_url = $image_style->buildUrl($uri);
+          // Regular file.
+          case ($settings["handler"] == "default:file" && !isset($settings["default_image"])):
 
+            $target_media_entity = $this->entityTypeManager->getStorage("file")->load($target_id);
+
+            $uri = $target_media_entity->getFileUri();
+            $filename = $target_media_entity->getFileName();
+            $size = $target_media_entity->getSize();
+            $attributes = ["target" => "_blank"];
+            $url = Url::fromUri($this->fileUrlGenerator->generateAbsoluteString($target_media_entity->getFileUri()));
+            // $url->setOptions(array("attributes" => $attributes));
+            $type = str_replace("/", "-", $target_media_entity->getMimeType());
             $basic = [
-              '#theme' => 'image_style',
-              '#style_name' => $style_name,
-              '#alt' => $alt,
-              '#uri' => $uri,
+              '#type' => 'link',
+              '#url' => $url,
+              '#attributes' => ["target" => "_blank"],
+              '#title' => $filename,
             ];
-            $e["rendered_value"]["basic"] = $this->renderer->render($basic);
-          }
 
-          $e["raw_value"]["uri"] = $uri;
-          $e["raw_value"]["original_url"] = $original_url;
-          $e["raw_value"]["optimized_url"] = $optimized_url;
-          $e["raw_value"]["type"] = $type;
-          $e["raw_value"]["alt"] = $alt;
-          $e["raw_value"]["filename"] = $filename;
-          $e["raw_value"]["size"] = $size;
-          $e["rendered_value"]["size"] = format_bytes($size);
-
-          if ($cardinality == 1) {
-            if (!empty($element)) {
-              $element = array_merge($element, $e);
-            }
-            else {
-              $element = $e;
-            }
-
-          }
-          else {
-            $element[$parent_key] = $e;
-          }
-        }
-
-        if ($settings["handler"] == "default:media") {
-          $target_media_entity = $this->entityTypeManager->getStorage("media")->load($target_id);
-
-          if ($target_media_entity) {
-            $e["media_bundle"] = $target_media_entity->bundle();
-
-            $name = "";
-
-            if ($target_media_entity->bundle() == "remote_video") {
-              $url = $target_media_entity->field_media_oembed_video->value;
-              $name = $target_media_entity->name->value;
-
-              $thumbnail_target_id = $target_media_entity->thumbnail->target_id;
-              $thumbnail = $this->entityTypeManager->getStorage("media")->load($thumbnail_target_id);
-              $this->smartValue($url, $e, $vars);
-            }
-
-            if ($target_media_entity->bundle() == "image") {
-
-              $uri = $target_media_entity->field_media_image->entity->getFileUri();
-              $original_url = $this->fileUrlGenerator->generateAbsoluteString($target_media_entity->field_media_image->entity->getFileUri());
-              $alt = $target_media_entity->field_media_image->alt;
-              $type = str_replace("/", "-", $target_media_entity->field_media_image->entity->getMimeType());
-              $filename = $target_media_entity->field_media_image->entity->getFileName();
-              $size = $target_media_entity->field_media_image->entity->getSize();
-
-              $optimized_url = "";
-              $style_name = 'bo_' . $bo_entity_size;
-              $image_style = ImageStyle::load($style_name);
-              if ($image_style) {
-                $optimized_url = $image_style->buildUrl($uri);
-
-                $basic = [
-                  '#theme' => 'image_style',
-                  '#style_name' => $style_name,
-                  '#alt' => $alt,
-                  '#uri' => $uri,
-                ];
-                $e["rendered_value"]["basic"] = $this->renderer->render($basic);
-              }
-
-              $e["raw_value"]["uri"] = $uri;
-              $e["raw_value"]["original_url"] = $original_url;
-              $e["raw_value"]["optimized_url"] = $optimized_url;
-              $e["raw_value"]["type"] = $type;
-              $e["raw_value"]["alt"] = $alt;
-              $e["raw_value"]["filename"] = $filename;
-              $e["raw_value"]["size"] = $size;
-              $e["rendered_value"]["size"] = format_bytes($size);
-            }
-
-            if ($target_media_entity->bundle() == "file") {
-              $uri = $target_media_entity->field_media_file->entity->getFileUri();
-              $filename = $target_media_entity->field_media_file->entity->getFileName();
-              $name = $target_media_entity->get("name")->value;
-              $size = $target_media_entity->field_media_file->entity->getSize();
-              $attributes = ["target" => "_blank"];
-              $url = Url::fromUri($this->fileUrlGenerator->generateAbsoluteString($target_media_entity->field_media_file->entity->getFileUri()));
-              // $url->setOptions(array("attributes" => $attributes));
-              $type = str_replace("/", "-", $target_media_entity->field_media_file->entity->getMimeType());
-              $basic = [
-                '#type' => 'link',
-                '#url' => $url,
-                '#attributes' => $attributes,
-                '#title' => $name,
-              ];
-
-              $e["rendered_value"]["basic"] = $this->renderer->render($basic);
-              $e["raw_value"]["uri"] = $uri;
-              $e["raw_value"]["url"] = $url;
-              $e["raw_value"]["name"] = $name;
-              $e["raw_value"]["filename"] = $filename;
-              $e["raw_value"]["size"] = $size;
-              $e["rendered_value"]["size"] = format_bytes($size);
-              $e["raw_value"]["type"] = $type;
-              $e["raw_value"]["target"] = "_blank";
-            }
-
-            $e["raw_value"]["name"] = $name;
-            $e["raw_value"]["url"] = $url;
+            $e["rendered"]["basic"] = $this->renderer->render($basic);
+            $e["raw"]["uri"] = $uri;
+            $e["raw"]["url"] = $url;
+            $e["raw"]["filename"] = $filename;
+            $e["raw"]["size"] = $size;
+            $e["rendered"]["size"] = format_bytes($size);
+            $e["raw"]["type"] = $type;
+            $e["raw"]["target"] = "_blank";
 
             if ($cardinality == 1) {
               if (!empty($element)) {
@@ -792,8 +620,170 @@ class BoVars {
             else {
               $element[$parent_key] = $e;
             }
-          }
+            break;
+
+          // Regular image.
+          case ($settings["handler"] == "default:file" && isset($settings["default_image"]));
+
+            $target_media_entity = $this->entityTypeManager->getStorage("file")->load($target_id);
+
+            $uri = $target_media_entity->getFileUri();
+            $filename = $target_media_entity->getFileName();
+            $size = $target_media_entity->getSize();
+            $original_url = $this->fileUrlGenerator->generateAbsoluteString($target_media_entity->getFileUri());
+            $type = str_replace("/", "-", $target_media_entity->getMimeType());
+            $alt = $item->alt;
+
+            $optimized_url = "";
+            $style_name = 'bo_' . $bo_entity_size;
+
+            $image_style = ImageStyle::load($style_name);
+            if ($image_style) {
+              $optimized_url = $image_style->buildUrl($uri);
+
+              $basic = [
+                '#theme' => 'image_style',
+                '#style_name' => $style_name,
+                '#alt' => $alt,
+                '#uri' => $uri,
+              ];
+              $e["rendered"]["basic"] = $this->renderer->render($basic);
+            }
+
+            $e["raw"]["uri"] = $uri;
+            $e["raw"]["original_url"] = $original_url;
+            $e["raw"]["optimized_url"] = $optimized_url;
+            $e["raw"]["type"] = $type;
+            $e["raw"]["alt"] = $alt;
+            $e["raw"]["filename"] = $filename;
+            $e["raw"]["size"] = $size;
+            $e["rendered"]["size"] = format_bytes($size);
+
+            if ($cardinality == 1) {
+              if (!empty($element)) {
+                $element = array_merge($element, $e);
+              }
+              else {
+                $element = $e;
+              }
+
+            }
+            else {
+              $element[$parent_key] = $e;
+            }
+            break;
+
+          // Media.
+          case ($settings["handler"] == "default:media"):
+
+            $target_media_entity = $this->entityTypeManager->getStorage("media")->load($target_id);
+
+            if ($target_media_entity) {
+              $e["media_bundle"] = $target_media_entity->bundle();
+
+              $name = "";
+
+              if ($target_media_entity->bundle() == "remote_video") {
+                $url = $target_media_entity->field_media_oembed_video->value;
+                $name = $target_media_entity->name->value;
+
+                $thumbnail_target_id = $target_media_entity->thumbnail->target_id;
+                $thumbnail = $this->entityTypeManager->getStorage("media")->load($thumbnail_target_id);
+                $this->smartValue($url, $e, $vars);
+              }
+
+              if ($target_media_entity->bundle() == "image") {
+
+                $uri = $target_media_entity->field_media_image->entity->getFileUri();
+                $original_url = $this->fileUrlGenerator->generateAbsoluteString($target_media_entity->field_media_image->entity->getFileUri());
+                $alt = $target_media_entity->field_media_image->alt;
+                $type = str_replace("/", "-", $target_media_entity->field_media_image->entity->getMimeType());
+                $filename = $target_media_entity->field_media_image->entity->getFileName();
+                $size = $target_media_entity->field_media_image->entity->getSize();
+
+                $optimized_url = "";
+                $style_name = 'bo_' . $bo_entity_size;
+                $image_style = ImageStyle::load($style_name);
+                if ($image_style) {
+                  $optimized_url = $image_style->buildUrl($uri);
+
+                  $basic = [
+                    '#theme' => 'image_style',
+                    '#style_name' => $style_name,
+                    '#alt' => $alt,
+                    '#uri' => $uri,
+                  ];
+                  $e["rendered"]["basic"] = $this->renderer->render($basic);
+                }
+
+                $e["raw"]["uri"] = $uri;
+                $e["raw"]["original_url"] = $original_url;
+                $e["raw"]["optimized_url"] = $optimized_url;
+                $e["raw"]["type"] = $type;
+                $e["raw"]["alt"] = $alt;
+                $e["raw"]["filename"] = $filename;
+                $e["raw"]["size"] = $size;
+                $e["rendered"]["size"] = format_bytes($size);
+              }
+
+              if ($target_media_entity->bundle() == "file") {
+                $uri = $target_media_entity->field_media_file->entity->getFileUri();
+                $filename = $target_media_entity->field_media_file->entity->getFileName();
+                $name = $target_media_entity->get("name")->value;
+                $size = $target_media_entity->field_media_file->entity->getSize();
+                $attributes = ["target" => "_blank"];
+                $url = Url::fromUri($this->fileUrlGenerator->generateAbsoluteString($target_media_entity->field_media_file->entity->getFileUri()));
+                // $url->setOptions(array("attributes" => $attributes));
+                $type = str_replace("/", "-", $target_media_entity->field_media_file->entity->getMimeType());
+                $basic = [
+                  '#type' => 'link',
+                  '#url' => $url,
+                  '#attributes' => $attributes,
+                  '#title' => $name,
+                ];
+
+                $e["rendered"]["basic"] = $this->renderer->render($basic);
+                $e["raw"]["uri"] = $uri;
+                $e["raw"]["url"] = $url;
+                $e["raw"]["name"] = $name;
+                $e["raw"]["filename"] = $filename;
+                $e["raw"]["size"] = $size;
+                $e["rendered"]["size"] = format_bytes($size);
+                $e["raw"]["type"] = $type;
+                $e["raw"]["target"] = "_blank";
+              }
+
+              $e["raw"]["name"] = $name;
+              $e["raw"]["url"] = $url;
+
+              if ($cardinality == 1) {
+                if (!empty($element)) {
+                  $element = array_merge($element, $e);
+                }
+                else {
+                  $element = $e;
+                }
+
+              }
+              else {
+                $element[$parent_key] = $e;
+              }
+            }
+            break;
+
+          default:
+            if ($cardinality == 1) {
+              $r = &$element;
+            }
+            else {
+              $r = &$element[$parent_key];
+            }
+
+            $r["entity_type"] = $target_type;
+            $r["target_id"] = $target_id;
+            $r["cardinality"] = $cardinality;
         }
+
       }
     }
     return $element;
@@ -819,44 +809,11 @@ class BoVars {
     if (isset($element["smart_value"])) {
       if ($element["smart_value"]["type"] == "youtube_url" ||
         $element["smart_value"]["type"] == "vimeo_url") {
-        if (!array_search("bo/bo_fields_remote_video", $vars["#attached"]["library"])) {
-          $vars["#attached"]["library"][] = "bo/bo_fields_remote_video";
+        if (!array_search("bo/bo_bundle_remote_video", $vars["#attached"]["library"])) {
+          $vars["#attached"]["library"][] = "bo/bo_bundle_remote_video";
         }
       }
     }
-  }
-
-  /**
-   * @param $view_id
-   * @param $display_id
-   * @param $collection_id
-   * @param $to_path
-   * @param $entity_id
-   * @return array
-   */
-  public function getHelpLink($view_id, $display_id, $collection_id, $to_path, $entity_id) {
-
-    $attributes = [
-      'class' => [
-        'bo-trigger',
-        'bo-trigger-help',
-      ],
-    ];
-
-    $url = Url::fromRoute('bo.help', [
-      'view_id' => $view_id,
-      'display_id' => $display_id,
-      'collection_id' => $collection_id,
-      'to_path' => $to_path,
-      'entity_id' => $entity_id,
-    ]);
-
-    return [
-      '#title' => '',
-      '#type' => 'link',
-      '#url' => $url,
-      '#attributes' => $attributes,
-    ];
   }
 
 }

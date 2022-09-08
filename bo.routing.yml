@@ -14,7 +14,7 @@ bo.collection_settings_form:
     _form: '\Drupal\bo\Form\BoCollectionSettingsForm'
     _title: 'BO Collection Settings'
   requirements:
-    _permission: 'administer bo elements'
+    _permission: 'administer bo bundles'
   options:
     _admin_route: 'TRUE'
 
@@ -24,7 +24,7 @@ bo.reset_collection_options_form:
     _form: '\Drupal\bo\Form\BoResetCollectionOptionsForm'
     _title: 'Reset collection options'
   requirements:
-    _permission: 'administer bo elements'
+    _permission: 'administer bo bundles'
   options:
     _admin_route: 'TRUE'
 
@@ -69,25 +69,25 @@ bo.entity.bundle.add_form:
     _admin_route: 'TRUE'
 
 bo.reorder:
-  path: '/bo/reorder/{display_id}/{collection_id}/{view_dom_id}'
+  path: '/bo/reorder/{collection_id}/{view_dom_id}'
   defaults:
     _controller: '\Drupal\bo\Controller\BoOperationsController::reorder'
     _title: 'Reorder'
   requirements:
-    _permission: 'administer bo elements'
+    _permission: 'administer bo bundles'
     method: 'nojs|ajax'
 
 bo.multi:
-  path: '/bo/multi/{action}/{display_id}/{collection_id}/{entity_id}/{entity_weight}/{view_dom_id}'
+  path: '/bo/multi/{action}/{collection_id}/{entity_id}/{entity_weight}/{view_dom_id}'
   defaults:
     _controller: '\Drupal\bo\Controller\BoOperationsController::multi'
     _title: 'Add Multi'
   requirements:
-    _permission: 'administer bo elements'
+    _permission: 'administer bo bundles'
     method: 'nojs|ajax'
 
 bo.help:
-  path: '/bo/help/{view_id}/{display_id}/{collection_id}/{entity_id}'
+  path: '/bo/help/{collection_id}/{entity_id}'
   defaults:
     _controller: '\Drupal\bo\Controller\BoEntityController::help'
     _title: 'Help'

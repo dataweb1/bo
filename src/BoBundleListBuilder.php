@@ -3,6 +3,7 @@
 namespace Drupal\bo;
 
 use Drupal\bo\Entity\BoBundleInterface;
+use Drupal\bo\Service\BoBundle;
 use Drupal\bo\Service\BoSettings;
 use Drupal\Core\Config\Entity\ConfigEntityListBuilder;
 use Drupal\Core\Entity\EntityStorageInterface;
@@ -69,6 +70,11 @@ class BoBundleListBuilder extends ConfigEntityListBuilder implements FormInterfa
   private BoSettings $boSettings;
 
   /**
+   * @var BoBundle
+   */
+  private BoBundle $boBundle;
+
+  /**
    * Constructs a new BlockListBuilder object.
    *
    * @param \Drupal\Core\Entity\EntityTypeInterface $entity_type
@@ -80,13 +86,13 @@ class BoBundleListBuilder extends ConfigEntityListBuilder implements FormInterfa
    * @param \Drupal\Core\Form\FormBuilderInterface $form_builder
    *   The form builder.
    */
-  public function __construct(EntityTypeInterface $entity_type, EntityStorageInterface $storage, ThemeManagerInterface $theme_manager, FormBuilderInterface $form_builder, MessengerInterface $messenger, \Drupal\bo\Service\BoSettings $boSettings) {
+  public function __construct(EntityTypeInterface $entity_type, EntityStorageInterface $storage, ThemeManagerInterface $theme_manager, FormBuilderInterface $form_builder, MessengerInterface $messenger, BoSettings $boSettings, BoBundle $boBundle) {
     parent::__construct($entity_type, $storage);
-
     $this->themeManager = $theme_manager;
     $this->formBuilder = $form_builder;
     $this->messenger = $messenger;
     $this->boSettings = $boSettings;
+    $this->boBundle = $boBundle;
   }
 
   /**
@@ -99,7 +105,8 @@ class BoBundleListBuilder extends ConfigEntityListBuilder implements FormInterfa
           $container->get('theme.manager'),
           $container->get('form_builder'),
           $container->get('messenger'),
-          $container->get('bo.settings')
+          $container->get('bo.settings'),
+          $container->get('bo.bundle')
       );
   }
 
@@ -159,90 +166,34 @@ class BoBundleListBuilder extends ConfigEntityListBuilder implements FormInterfa
   /**
    * {@inheritdoc}
    */
-  public function buildRow(BoBundleInterface $entity) {
+  public function buildForm(array $form, FormStateInterface $form_state) {
+    // $form = parent::buildForm($form, $form_state);
+    $form['#attached']['library'][] = 'core/drupal.tableheader';
+    $form['#attributes']['class'][] = 'clearfix';
 
-    $bundle = $this->boSettings->getBundles($entity->id());
+    $form['#attached']['library'][] = "bo/bo_init";
+    $form['#attached']['library'][] = "bo/bo_bundle";
+    $form['#attached']['library'][] = "bo/bo_bundle_list";
 
-    $row['label']['#markup'] = $this->t($entity->label());
-    $row['description']['#markup'] = $entity->getDescription();
+    $form['bundles'] = $this->buildBundlesForm();
 
-    $row['id']['#markup'] = "<div class='bundle-machine-name'>" . $entity->id() . "</div>";
-
-    $row['default'] = [
-      '#type' => 'checkbox',
-      '#default_value' => $bundle["default"] ?? FALSE,
-      "#name" => 'default[' . $entity->id() . ']',
-        // '#checked' => (bool)$bundle["default"],
-      '#attributes' => ["class" => ["bo-bundle-checkbox-default"]],
+    $form['actions'] = [
+      '#tree' => FALSE,
+      '#type' => 'actions',
+    ];
+    $form['actions']['submit'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Save bundles'),
+      '#button_type' => 'primary',
     ];
 
-    $row['internal_title'] = [
-      '#type' => 'checkbox',
-      '#default_value' => $bundle["internal_title"] ?? FALSE,
-      "#name" => 'internal_title[' . $entity->id() . ']',
-        // '#checked' => (bool)$bundle["internal_title"],
-      '#attributes' => ["class" => ["bo-bundle-checkbox-internal-title"]],
-    ];
-
-    $row['override_title_label'] = [
-      '#type' => 'textfield',
-      '#placeholder' => $this->t("Label"),
-      "#name" => 'override_title_label[' . $entity->id() . ']',
-      '#value' => $bundle["override_title_label"] ?? '',
-      '#attributes' => ["class" => ["bo-bundle-text-override-title-label"]],
-    ];
-
-    $row['icon'] = [
-      '#type' => 'textfield',
-      "#name" => 'icon[' . $entity->id() . ']',
-      "#required" => 0,
-      '#value' => $bundle["icon"] ?? '',
-      "#size" => 10,
-      '#attributes' => ["class" => ["bo-bundle-text-icon"]],
-    ];
-
-    $url = Url::fromRoute('bo.collection_settings_form', [
-      'overview_or_collection' => 'collection',
-      'collection_machine_name' => $entity->id(),
-    ]);
-    $collection_settings_link = Link::fromTextAndUrl('Settings', $url)->toString();
-
-    $row['collection'] = [
-      '#type' => 'checkbox',
-      '#default_value' => $bundle["collection"] ?? FALSE,
-      "#name" => 'collection[' . $entity->id() . ']',
-      '#suffix' => '<div class="right-to-checkbox bo-bundle-collection">' . $collection_settings_link . '</div>',
-      '#attributes' => ["class" => ["bo-bundle-checkbox-collection"]],
-    ];
-
-    return $row;
+    return $form;
   }
 
   /**
    * {@inheritdoc}
    */
   public function buildBundlesForm() {
-    $entities = $this->load();
-
-    foreach ($entities as $entity_id => $entity) {
-
-      if ($entity->getType() == $this->type) {
-        $bundle_settings = $this->boSettings->getBundles($entity_id);
-        $group = $entity->getGroup();
-        if ($group == "" || $group == "n-a") {
-          $group = "_empty";
-        }
-
-        $bundles[$group][$entity_id] = [
-          'label' => $entity->label(),
-          'entity_id' => $entity_id,
-          'weight' => $entity->getWeight(),
-          'entity' => $entity,
-          'settings' => $bundle_settings,
-          'group' => (string) $group,
-        ];
-      }
-    }
 
     $form = [
       '#type' => 'table',
@@ -252,21 +203,31 @@ class BoBundleListBuilder extends ConfigEntityListBuilder implements FormInterfa
       ],
     ];
 
+    $groups = ['_empty' => ''] + $this->boBundle->getBundleGroups($this->type);
+
+    $entities = $this->load();
+    $bundles = [];
+    foreach ($entities as $bundle) {
+      if ($this->type != $bundle->getType()) {
+        continue;
+      }
+      $group = $bundle->getGroup();
+      if ($group == '') { $group = '_empty'; }
+
+      $bundles[$group][] = $bundle;
+
+      if (!in_array($group, $groups)) {
+        $groups[$group] = $group;
+      }
+    }
+
     // Weights range from -delta to +delta, so delta should be at least half
     // of the amount of blocks present. This makes sure all blocks in the same
     // group get an unique weight.
     $weight_delta = round(count($entities) / 2);
 
-    $groups = $this->boSettings->getBoBundleGroups();
-    $groups_options = ["_empty" => ""];
-    foreach ($groups as $group_machine_name => $group_label) {
-      $groups_options[$group_machine_name] = $group_label;
-    }
-
-    $groups = ["_empty" => ""] + $groups;
-
-    foreach ($groups as $group_machine_name => $group_label) {
-      // kint($group_machine_name);
+    foreach ($groups as $label) {
+      $group_machine_name = $label;
       $form['#tabledrag'][] = [
         'action' => 'match',
         'relationship' => 'sibling',
@@ -295,7 +256,7 @@ class BoBundleListBuilder extends ConfigEntityListBuilder implements FormInterfa
             '#attributes' => ['class' => 'group-title__action'],
           ],
         ],
-        '#prefix' => $group_label,
+        '#prefix' => $label,
         '#wrapper_attributes' => [
           'colspan' => 10,
         ],
@@ -308,6 +269,7 @@ class BoBundleListBuilder extends ConfigEntityListBuilder implements FormInterfa
             'group-' . $group_machine_name . '-message',
             empty($bundles[$group_machine_name]) ? 'group-empty' : 'group-populated',
           ],
+          'data-group-name' => $group_machine_name,
         ],
       ];
       $form['group-' . $group_machine_name . '-message']['message'] = [
@@ -319,18 +281,16 @@ class BoBundleListBuilder extends ConfigEntityListBuilder implements FormInterfa
 
       if (isset($bundles[$group_machine_name])) {
         foreach ($bundles[$group_machine_name] as $bundle) {
-          $entity_id = $bundle["entity_id"];
-          $entity = $bundle["entity"];
 
-          $form[$entity_id] = $this->buildRow($entity);
+          $form[$bundle->id()] = $this->buildRow($bundle);
 
-          $form[$entity_id]['#attributes'] = ['class' => ['draggable']];
+          $form[$bundle->id()]['#attributes'] = ['class' => ['draggable']];
 
-          $form[$entity_id]['weight'] = [
+          $form[$bundle->id()]['weight'] = [
             '#type' => 'weight',
-            '#default_value' => $entity->getWeight(),
+            '#default_value' => $bundle->getWeight(),
             '#delta' => $weight_delta,
-            '#title' => $this->t('Weight for @bundle', ['@bundle' => $bundle['label']]),
+            '#title' => $this->t('Weight for @bundle', ['@bundle' => $bundle->label()]),
             '#title_display' => 'invisible',
             '#attributes' => [
               'class' => [
@@ -340,24 +300,23 @@ class BoBundleListBuilder extends ConfigEntityListBuilder implements FormInterfa
             ],
           ];
 
-          $form[$entity_id]['label']['group'] = [
+          $form[$bundle->id()]['label']['group'] = [
             '#type' => 'select',
             '#default_value' => $group_machine_name,
             '#required' => TRUE,
-            '#title' => $this->t('Group for @bundle bundle', ['@bundle' => $bundle['label']]),
+            '#title' => $this->t('Group for @bundle bundle', ['@bundle' => $bundle->label()]),
             '#title_display' => 'invisible',
-            '#options' => $groups_options,
+            '#options' => $groups,
             '#attributes' => [
               'class' => [
                 'bundle-group-select',
                 'bundle-group-' . $group_machine_name,
               ],
             ],
-            '#parents' => ['bundles', $entity_id, 'group'],
+            '#parents' => ['bundles', $bundle->id(), 'group'],
           ];
 
-          $form[$entity_id]['operations'] = $this->buildOperations($entity);
-
+          $form[$bundle->id()]['operations'] = $this->buildOperations($bundle);
         }
       }
     }
@@ -365,31 +324,65 @@ class BoBundleListBuilder extends ConfigEntityListBuilder implements FormInterfa
     return $form;
   }
 
+
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
-    // $form = parent::buildForm($form, $form_state);
-    $form['#attached']['library'][] = 'core/drupal.tableheader';
-    $form['#attributes']['class'][] = 'clearfix';
+  public function buildRow(BoBundleInterface $bundle) {
 
-    $form['#attached']['library'][] = "bo/bo_init";
-    $form['#attached']['library'][] = "bo/bo_bundle";
-    $form['#attached']['library'][] = "bo/bo_bundle_list";
+    $row['label']['#markup'] = $this->t($bundle->label());
+    $row['description']['#markup'] = $bundle->getDescription();
 
-    $form['bundles'] = $this->buildBundlesForm();
+    $row['id']['#markup'] = "<div class='bundle-machine-name'>" . $bundle->id() . "</div>";
 
-    $form['actions'] = [
-      '#tree' => FALSE,
-      '#type' => 'actions',
-    ];
-    $form['actions']['submit'] = [
-      '#type' => 'submit',
-      '#value' => $this->t('Save bundles'),
-      '#button_type' => 'primary',
+    $row['default'] = [
+      '#type' => 'checkbox',
+      '#default_value' => $bundle->getDefault() ?? FALSE,
+      "#name" => 'default[' . $bundle->id() . ']',
+      '#attributes' => ["class" => ["bo-bundle-checkbox-default"]],
     ];
 
-    return $form;
+    $row['internal_title'] = [
+      '#type' => 'checkbox',
+      '#default_value' => $bundle->getInternalTitle() ?? FALSE,
+      "#name" => 'internal_title[' . $bundle->id() . ']',
+      // '#checked' => (bool)$bundle["internal_title"],
+      '#attributes' => ["class" => ["bo-bundle-checkbox-internal-title"]],
+    ];
+
+    $row['override_title_label'] = [
+      '#type' => 'textfield',
+      '#placeholder' => $this->t("Label"),
+      "#name" => 'override_title_label[' . $bundle->id() . ']',
+      '#value' => $bundle->getOverrideTitleLabel() ?? '',
+      '#attributes' => ["class" => ["bo-bundle-text-override-title-label"]],
+    ];
+
+    $row['icon'] = [
+      '#type' => 'textfield',
+      "#name" => 'icon[' . $bundle->id() . ']',
+      "#required" => 0,
+      '#value' => $bundle->getIcon() ?? '',
+      "#size" => 10,
+      '#attributes' => ["class" => ["bo-bundle-text-icon"]],
+    ];
+
+    $url = Url::fromRoute('bo.collection_settings_form', [
+      'via' => 'bundle',
+      'title' => $this->t("BO collection settings for bundle '@bundle'", ['@bundle' => $bundle->label()]),
+      'bundle_id' => $bundle->id(),
+    ]);
+    $collection_settings_link = Link::fromTextAndUrl('Settings', $url)->toString();
+
+    $row['collection'] = [
+      '#type' => 'checkbox',
+      '#default_value' => $bundle->getCollectionEnabled() ?? FALSE,
+      "#name" => 'collection[' . $bundle->id() . ']',
+      '#suffix' => '<div class="right-to-checkbox bo-bundle-collection">' . $collection_settings_link . '</div>',
+      '#attributes' => ["class" => ["bo-bundle-checkbox-collection"]],
+    ];
+
+    return $row;
   }
 
   /**
@@ -405,50 +398,44 @@ class BoBundleListBuilder extends ConfigEntityListBuilder implements FormInterfa
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
     $entities = $this->storage->loadMultiple(array_keys($form_state->getValue('bundles')));
+    $entity_input = $form_state->getUserInput();
 
     /** @var \Drupal\bo\Entity\BoBundleInterface $entity */
     foreach ($entities as $entity_id => $entity) {
+
       $entity_values = $form_state->getValue(['bundles', $entity_id]);
+
+      $default = (int) $entity_input['default'][$entity_id];
+      $entity->setDefault($default);
+
+      $internal_title = (int) $entity_input['internal_title'][$entity_id];
+      $entity->setInternalTitle($internal_title);
+
+      $override_title_label = $entity_input['override_title_label'][$entity_id];
+      if ($internal_title == 1) {
+        $override_title_label = '';
+      }
+      $entity->setOverrideTitleLabel($override_title_label);
+
+      $icon = $entity_input['icon'][$entity_id];
+      $entity->setIcon($icon);
+
+      $collection = (int) $entity_input['collection'][$entity_id];
+      $entity->setCollectionEnabled($collection);
 
       $group = $entity_values['group'];
       if ($group == "_empty") {
         $group = "";
       }
-
-      $entity->setWeight($entity_values['weight']);
       $entity->setGroup($group);
+
+      $weight = $entity_values['weight'];
+      $entity->setWeight($weight);
+
       $entity->save();
-
     }
-
-    $groups_with_bundles = [];
-    $all_entities = $this->load();
-    foreach ($all_entities as $entity_id => $entity) {
-      $group = $entity->getGroup();
-
-      if ($group != "") {
-        $groups_with_bundles[] = $group;
-      }
-    }
-    $this->boSettings->cleanupBundleGroups($groups_with_bundles);
 
     $this->messenger->addStatus($this->t('The bundles settings have been updated.'));
-
-    $input = $form_state->getUserInput();
-
-    $bundle_settings = $this->boSettings->getBundles();
-
-    $bundles = $form_state->getValue('bundles');
-    foreach ($bundles as $bundle_machine_name => $bundle) {
-      $bundle_settings[$bundle_machine_name]["label"] = $bundle["label"] ?? '';
-      $bundle_settings[$bundle_machine_name]["default"] = $input["default"][$bundle_machine_name] ?? FALSE;
-      $bundle_settings[$bundle_machine_name]["internal_title"] = $input["internal_title"][$bundle_machine_name] ?? FALSE;
-      $bundle_settings[$bundle_machine_name]["collection"] = $input["collection"][$bundle_machine_name] ?? FALSE;
-      $bundle_settings[$bundle_machine_name]["icon"] = $input["icon"][$bundle_machine_name];
-      $bundle_settings[$bundle_machine_name]["override_title_label"] = $input["override_title_label"][$bundle_machine_name];
-    }
-
-    $this->boSettings->replaceSettings($bundle_settings, "bundles");
   }
 
 }

@@ -11,7 +11,7 @@
  *   - rows: An array of row items. Each row is an array of content.
  */
 
-function template_preprocess_views_view_bo(&$variables) {
+function bo_preprocess_views_view_bo(&$variables) {
     $view = &$variables["view"];
     $display_plugin = $view->display_handler->display['display_plugin'];
     $variables['attributes']['class'][] = 'bo-overview';

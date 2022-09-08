@@ -12,7 +12,7 @@ use Drupal\user\Entity\User;
 /**
  *
  */
-class BoBundleAdministerContentTypesMenuLinksDerivative extends DeriverBase implements ContainerDeriverInterface {
+class BoBundleAdministerContentMenuLinksDerivative extends DeriverBase implements ContainerDeriverInterface {
 
   use StringTranslationTrait;
 

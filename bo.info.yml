@@ -13,4 +13,3 @@ dependencies:
   - drupal:claro_media_library_theme
   - drupal:views_bootstrap
   - drupal:image_url_formatter
-  - drupal:webform

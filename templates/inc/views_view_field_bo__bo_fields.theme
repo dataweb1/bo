@@ -1,4 +1,7 @@
 <?php
+
+use Drupal\Core\Cache\Cache;
+
 /**
  * Prepares variables for views field templates.
  *
@@ -15,23 +18,29 @@
  *   - help: The help link that visualized the bo variables.
  */
 
-function template_preprocess_views_view_field_bo__bo_fields(array &$vars) {
-    $view = $vars["view"];
-    $row = $vars["row"];
+function bo_preprocess_views_view_field_bo__bo_fields(array &$vars) {
+  $view = $vars["view"];
+  $row = $vars["row"];
 
-    /** @var \Drupal\bo\Service\BoVars $boVars */
-    $boVars = \Drupal::service('bo.vars');
-    $boVars->getVariables(
-      $view,
-      $row,
-      $vars, [
-        'basic',
-        'fields',
-        'collection',
-        'help'
-      ]
-    );
+  /** @var \Drupal\bo\Service\BoVars $boVars */
+  $boVars = \Drupal::service('bo.vars');
+  $boVars->getVariables(
+    $view,
+    $row,
+    $vars, [
+      'basic',
+      'fields',
+      'collection',
+      'help'
+    ]
+  );
 
-    $cacheTags = $row->_entity->getCacheTags();
-    $vars["#cache"]["tags"] = $cacheTags;
+  /** @var \Drupal\bo\Service\BoHelp $boHelp */
+  $boHelp = \Drupal::service('bo.help');
+  /** @var \Drupal\bo\Entity\BoEntity $entity */
+  $entity = $row->_entity;
+  $vars['#attached']['drupalSettings']['bo'][$entity->id()] = $boHelp->renderHelp($vars['bo']);
+
+  $cacheTags = $row->_entity->getCacheTags();
+  $vars["#cache"]["tags"][] = $cacheTags;
 }

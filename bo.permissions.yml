@@ -1,5 +1,5 @@
 administer bo bundles:
-  title: 'Administer BO elements'
+  title: 'Administer BO bundles'
   restrict access: true
 
 permission_callbacks:

@@ -12,7 +12,8 @@
 }
 
 .bundle-group-select,
-.bundle-title-_empty {
+.bundle-title-_empty,
+.bundle-title- {
     display: none;
 }
 

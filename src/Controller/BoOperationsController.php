@@ -2,6 +2,8 @@
 
 namespace Drupal\bo\Controller;
 
+use Drupal\bo\Service\BoBundle;
+use Drupal\bo\Service\BoCollection;
 use Drupal\bo\Service\BoSettings;
 use Drupal\bo\Ajax\SlideCommand;
 use Drupal\bo\Service\BoOperations;
@@ -16,13 +18,22 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class BoOperationsController extends ControllerBase {
 
-  private BoSettings $boSettings;
+  /**
+   * @var BoBundle
+   */
+  private BoBundle $boBundle;
+
+  /**
+   * @var BoCollection
+   */
+  private BoCollection $boCollection;
 
   /**
    *
    */
-  public function __construct(BoSettings $boSettings) {
-    $this->boSettings = $boSettings;
+  public function __construct(BoBundle $boBundle, BoCollection $boCollection) {
+    $this->boBundle = $boBundle;
+    $this->boCollection = $boCollection;
   }
 
   /**
@@ -30,17 +41,17 @@ class BoOperationsController extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('bo.settings'),
+      $container->get('bo.bundle'),
+      $container->get('bo.collection')
     );
   }
 
   /**
    *
    */
-  public function reorder($display_id, $collection_id, $view_dom_id) {
+  public function reorder($collection_id, $view_dom_id) {
 
     $args = [
-      'display_id' => $display_id,
       'collection_id' => $collection_id,
       'view_dom_id' => $view_dom_id,
       'to_path' => \Drupal::request()->query->get('to_path'),
@@ -59,11 +70,10 @@ class BoOperationsController extends ControllerBase {
   /**
    *
    */
-  public function multi($action, $display_id, $collection_id, $entity_id, $entity_weight, $view_dom_id) {
+  public function multi($action, $collection_id, $entity_id, $entity_weight, $view_dom_id) {
 
     $args = [
       'action' => $action,
-      'display_id' => $display_id,
       'collection_id' => $collection_id,
       'entity_id' => $entity_id,
       'entity_weight' => $entity_weight,
@@ -71,8 +81,7 @@ class BoOperationsController extends ControllerBase {
       'to_path' => \Drupal::request()->query->get('to_path'),
     ];
 
-    $enabled_bundles = $this->boSettings->getEnabledBundles($args);
-    $add_multi = $this->getMultiLinksList($args, $enabled_bundles);
+    $add_multi = $this->getMultiLinksList($args);
 
     if (intval($entity_id) == 0) {
       $selector = "#bo_operations_pane_" . $view_dom_id;
@@ -92,41 +101,36 @@ class BoOperationsController extends ControllerBase {
   /**
    * Get Add/insert Buttons.
    */
-  public function getMultiLinksList($parameters, $enabled_bundles): array {
+  public function getMultiLinksList($args): array {
     $buttons = [];
-
-    foreach ($enabled_bundles as $bundle_name => $bundle) {
-
-      $parameters['title'] = $this->t($bundle["label"]);
-      $parameters['bundle_name'] = $bundle_name;
-
-      switch ($parameters['action']) {
+    $enabled_bundles = $this->boCollection->getEnabledBundles($args['collection_id']);
+    /** @var \Drupal\bo\Entity\BoBundle $bundle  */
+    foreach ($enabled_bundles as $bundle) {
+      switch ($args['action']) {
         case 'add':
           $url = Url::fromRoute('entity.bo.add_form', [
-            'bundle' => $parameters['bundle_name'],
-            'to_path' => $parameters['to_path'],
-            'collection_id' => $parameters['collection_id'],
-            'display_id' => $parameters['display_id'],
-            'view_dom_id' => $parameters['view_dom_id'],
+            'bundle' => $bundle->id(),
+            'to_path' => $args['to_path'],
+            'collection_id' => $args['collection_id'],
+            'view_dom_id' => $args['view_dom_id'],
           ]);
           break;
 
         case 'insert';
           $url = Url::fromRoute('entity.bo.insert_form', [
-            'bundle' => $parameters['bundle_name'],
-            'to_path' => $parameters['to_path'],
-            'collection_id' => $parameters['collection_id'],
-            'display_id' => $parameters['display_id'],
-            'view_dom_id' => $parameters['view_dom_id'],
-            'insert_under_entity_id' => $parameters["entity_id"],
-            'insert_under_entity_weight' => $parameters["entity_weight"],
+            'bundle' => $bundle->id(),
+            'to_path' => $args['to_path'],
+            'collection_id' => $args['collection_id'],
+            'view_dom_id' => $args['view_dom_id'],
+            'insert_under_entity_id' => $args["entity_id"],
+            'insert_under_entity_weight' => $args["entity_weight"],
           ]);
           break;
       }
 
       $buttons[] = [
         '#title' => [
-          "#markup" => '<span class="' . $bundle["icon"] . '"></span>' . $parameters["title"],
+          "#markup" => '<span class="' . $bundle->getIcon() . '"></span>' . $this->t($bundle->label()),
         ],
         '#type' => 'link',
         '#url' => $url,
@@ -134,7 +138,6 @@ class BoOperationsController extends ControllerBase {
           'class' => [
             'bo-add-multi-item-link',
           ],
-          'bundle-name' => $bundle_name,
         ],
         '#cache' => [
           "tags" => [

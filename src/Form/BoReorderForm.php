@@ -3,11 +3,12 @@
 namespace Drupal\bo\Form;
 
 use Drupal\bo\Ajax\RefreshViewCommand;
-use Drupal\bo\Service\BoView;
+use Drupal\bo\Service\BoBundle;
+use Drupal\bo\Service\BoCollection;
+use Drupal\bo\Service\BoSettings;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\bo\Entity\BoEntity;
-use Drupal\views\Views;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\bo\Ajax\SlideCommand;
 use Drupal\Core\Ajax\HtmlCommand;
@@ -19,7 +20,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class BoReorderForm extends FormBase {
 
   protected $view_dom_id;
-  protected $display_id;
   protected $collection_id;
   protected $to_path;
   protected static $instance_id;
@@ -27,17 +27,30 @@ class BoReorderForm extends FormBase {
   protected $args;
 
   /**
-   * @var BoView
+   * @var BoSettings
    */
-  private BoView $boView;
+  private BoSettings $boSettings;
 
-  public function __construct(BoView $boView) {
-    $this->boView = $boView;
+  /**
+   * @var BoBundle
+   */
+  private BoBundle $boBundle;
+
+  /**
+   * @var BoCollection
+   */
+  private BoCollection $boCollection;
+
+
+  public function __construct(BoBundle $boBundle, BoCollection $boCollection) {
+    $this->boBundle = $boBundle;
+    $this->boCollection = $boCollection;
   }
 
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('bo.view')
+      $container->get('bo.bundle'),
+      $container->get('bo.collection'),
     );
   }
 
@@ -56,15 +69,14 @@ class BoReorderForm extends FormBase {
     // For refreshing view after reorder.
     $view_dom_id = $args["view_dom_id"];
 
-    // Prepare the view.
-    $display_id = $args["display_id"];
-    $display_id_parts = explode('__', $display_id);
     $to_path = $args["to_path"];
     $collection_id = $args["collection_id"];
 
-    $view = $this->boView->prepareBoView($display_id_parts[0], $display_id_parts[1], $collection_id, $to_path);
+    // Prepare the view.
+    $view = $this->boCollection->prepareCollectionView($collection_id, $to_path);
 
     // Process the result.
+    $items = [];
     $weight = 0;
     foreach ($view->result as $row) {
       $bo_entity = $row->_entity;
@@ -79,7 +91,7 @@ class BoReorderForm extends FormBase {
 
     $group_class = 'group-order-weight';
 
-    $form['#prefix'] = '<div id="bo_reorder_form_wrapper__' . $args["display_id"] . "__" . $args["collection_id"] . '" class="bo-reorder-form-wrapper">';
+    $form['#prefix'] = '<div id="bo_reorder_form_wrapper__' . $args["collection_id"] . '" class="bo-reorder-form-wrapper">';
     $form['#suffix'] = '</div>';
 
     $form["title"] = [
@@ -110,7 +122,7 @@ class BoReorderForm extends FormBase {
       '#empty' => $this->t('No items.'),
       '#tableselect' => FALSE,
       '#attributes' => [
-        'id' => 'bo_table_reorder_' . $display_id . '__' . $collection_id,
+        'id' => 'bo_table_reorder_' . $collection_id,
         'class' => [
           'bo-table-reorder',
         ],
@@ -169,7 +181,7 @@ class BoReorderForm extends FormBase {
       ],
       '#submit' => ['::submitForm'],
       '#ajax' => [
-        'wrapper' => 'bo_reorder_form_wrapper__' . $display_id . "__" . $collection_id,
+        'wrapper' => 'bo_reorder_form_wrapper__' . $collection_id,
         'callback' => [
           $this,
           'afterReorderCallback',

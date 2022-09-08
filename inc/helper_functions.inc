@@ -42,9 +42,5 @@ function slugify($text) {
   // Lowercase.
   $text = strtolower($text);
 
-  if (empty($text)) {
-    return 'n-a';
-  }
-
   return $text;
 }

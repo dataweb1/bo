@@ -73,20 +73,20 @@ class BoSettingsForm extends ConfigFormBase {
     $form['google']['google_translate_enabled'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Enable Google Translate'),
-      '#default_value' => $this->boSettings->getBoSetting("google_translate_enabled"),
+      '#default_value' => $this->boSettings->getSetting("google_translate_enabled"),
     ];
 
     $form['google']['google_translate_key'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Google Translate API Key'),
-      '#default_value' => $this->boSettings->getBoSetting("google_translate_key"),
+      '#default_value' => $this->boSettings->getSetting("google_translate_key"),
     ];
 
     $form['google']['google_maps_key'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Google Maps API Key'),
       '#description' => $this->t('Get it at <a target="_blank" href="https://developers.google.com/maps/documentation/embed/get-api-key">https://developers.google.com/maps/documentation/embed/get-api-key</a>'),
-      '#default_value' => $this->boSettings->getBoSetting("google_maps_key"),
+      '#default_value' => $this->boSettings->getSetting("google_maps_key"),
     ];
 
     $form['bootstrap'] = [
@@ -101,7 +101,7 @@ class BoSettingsForm extends ConfigFormBase {
     $form["bootstrap"]['load_bootstrap'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Load Bootstrap'),
-      '#default_value' => $this->boSettings->getBoSetting("load_bootstrap"),
+      '#default_value' => $this->boSettings->getSetting("load_bootstrap"),
     ];
 
     $file = DRUPAL_ROOT . "/" . \Drupal::service('module_handler')->getModule('bo')->getPath() . '/bo.libraries.yml';

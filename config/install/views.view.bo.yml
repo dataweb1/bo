@@ -10,7 +10,7 @@ dependencies:
     - image_url_formatter
     - media
 _core:
-  default_config_hash: UPCVwDvwY3tJ7fK9HfdtpRvAPp1IzWGyTZQxGMNSzTY
+  default_config_hash: DU6Oq48izkosOHHvuOLHNfndlZdvdggX8BtOnt0lMvs
 id: bo
 label: BO
 module: views
@@ -202,45 +202,6 @@ display:
             fail: 'not found'
           validate_options: {  }
       filters:
-        bo_current_display_id_filter:
-          id: bo_current_display_id_filter
-          table: bo
-          field: bo_current_display_id_filter
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: bo
-          plugin_id: bo_current_display_id
-          operator: '='
-          value: ''
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
         bo_current_collection_id_filter:
           id: bo_current_collection_id_filter
           table: bo
@@ -546,45 +507,6 @@ display:
           field_api_classes: false
       arguments: {  }
       filters:
-        bo_current_display_id_filter:
-          id: bo_current_display_id_filter
-          table: bo
-          field: bo_current_display_id_filter
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: bo
-          plugin_id: bo_current_display_id
-          operator: '='
-          value: ''
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
         bo_current_collection_id_filter:
           id: bo_current_collection_id_filter
           table: bo
@@ -839,93 +761,10 @@ display:
     position: 1
     display_options:
       enabled: true
-      filters:
-        bo_current_display_id_filter:
-          id: bo_current_display_id_filter
-          table: bo
-          field: bo_current_display_id_filter
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: bo
-          plugin_id: bo_current_display_id
-          operator: '='
-          value: ''
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-        bo_current_collection_id_filter:
-          id: bo_current_collection_id_filter
-          table: bo
-          field: bo_current_collection_id_filter
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: bo
-          plugin_id: bo_current_collection_id
-          operator: '='
-          value: ''
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-      filter_groups:
-        operator: AND
-        groups:
-          1: AND
       defaults:
         arguments: true
-        filters: false
-        filter_groups: false
+        filters: true
+        filter_groups: true
       display_description: ''
       display_extenders: {  }
     cache_metadata:

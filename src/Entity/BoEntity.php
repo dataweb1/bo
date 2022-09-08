@@ -9,7 +9,7 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\user\UserInterface;
 use Drupal\views\Views;
-use Drupal\bo\Service\BoSettings;
+use Drupal\bo\Service\BoCollection;
 
 /**
  * Defines the BO bundle.
@@ -59,15 +59,19 @@ class BoEntity extends ContentEntityBase implements BoEntityInterface {
 
   use EntityChangedTrait;
 
-  private BoSettings $boSettings;
+  /**
+   * @var BoCollection|object|null
+   */
+  private BoCollection $boCollection;
 
   /**
    *
    */
   public function __construct(array $values, $entity_type, $bundle = FALSE, $translations = []) {
     parent::__construct($values, $entity_type, $bundle, $translations);
-    $this->boSettings = \Drupal::getContainer()->get('bo.settings');
+    $this->boCollection = \Drupal::getContainer()->get('bo.collection');
   }
+
 
   /**
    * {@inheritdoc}
@@ -88,13 +92,6 @@ class BoEntity extends ContentEntityBase implements BoEntityInterface {
    */
   public function getType() {
     return $this->get("type")->value;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getBundleLabel() {
-    return $this->boSettings->getBundleLabel($this->getBundle());
   }
 
   /**
@@ -181,34 +178,29 @@ class BoEntity extends ContentEntityBase implements BoEntityInterface {
   /**
    * {@inheritdoc}
    */
-  public function getDisplayId() {
-    return $this->get('display_id')->value;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getCurrentViewDisplaySettings() {
-    $display_id = $this->getDisplayId();
-    if ($display_id != "") {
-      $a_display_id = explode("__", $display_id);
-      $view = Views::getView($a_display_id[0]);
-      $view->setDisplay($a_display_id[1]);
-      $view->preExecute();
-      $settings = $view->style_plugin->options;
-      $settings["plugin_id"] = $view->style_plugin->getPluginId();
+    if (!isset($this->boCollection)) {
+      $this->boCollection = \Drupal::service('bo.collection');
     }
+
+    [$view_id, $display_id] = $this->boCollection->getCollectionView($this->getCollectionId());
+
+    $view = Views::getView($view_id);
+    $view->setDisplay($display_id);
+    $view->preExecute();
+    $settings = $view->style_plugin->options;
+    $settings["plugin_id"] = $view->style_plugin->getPluginId();
+
     return $settings;
   }
 
   /**
    * {@inheritdoc}
    */
-  public static function getViewDisplaySettings($display_id) {
+  public static function getViewDisplaySettings($view_id, $display_id) {
     if ($display_id != "") {
-      $a_display_id = explode("__", $display_id);
-      $view = Views::getView($a_display_id[0]);
-      $view->setDisplay($a_display_id[1]);
+      $view = Views::getView($view_id);
+      $view->setDisplay($display_id);
       $view->preExecute();
       $settings = $view->style_plugin->options;
       $settings["plugin_id"] = $view->style_plugin->getPluginId();
@@ -271,9 +263,9 @@ class BoEntity extends ContentEntityBase implements BoEntityInterface {
   /**
    * {@inheritdoc}
    */
-  public static function isCustomSizeEnabled($display_id) {
+  public static function isCustomSizeEnabled($view_id, $display_id) {
     if ($display_id != "") {
-      $settings = BoEntity::getViewDisplaySettings($display_id);
+      $settings = BoEntity::getViewDisplaySettings($view_id, $display_id);
       if ($settings["plugin_id"] == "views_view_bo_bootstrap_grid") {
         return TRUE;
       }
@@ -351,22 +343,6 @@ class BoEntity extends ContentEntityBase implements BoEntityInterface {
       ]);
     // ->setDisplayConfigurable('form', TRUE)
     // ->setDisplayConfigurable('view', TRUE);
-    $fields['display_id'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Display ID'))
-      ->setSettings([
-        'max_length' => 50,
-        'text_processing' => 0,
-      ])
-      ->setDefaultValue('')
-      ->setDisplayOptions('view', [
-        'label' => 'hidden',
-        'type' => 'string',
-        'weight' => 4,
-      ])
-      ->setDisplayOptions('form', [
-        'type' => 'string_textfield',
-        'weight' => 4,
-      ]);
 
     /** @var BoSettings $boSettings */
     $boSettings = \Drupal::getContainer()->get('bo.settings');

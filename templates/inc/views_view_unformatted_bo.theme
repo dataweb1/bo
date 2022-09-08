@@ -1,5 +1,6 @@
 <?php
 use Drupal\bo\Entity\BoEntity;
+use Drupal\Core\Cache\Cache;
 
 /**
  * Prepares variables for views unformatted rows templates.
@@ -12,7 +13,10 @@ use Drupal\bo\Entity\BoEntity;
  *   - rows: An array of row items. Each row is an array of content.
  */
 
-function template_preprocess_views_view_unformatted_bo(&$vars) {
+function bo_preprocess_views_view_unformatted_bo(&$vars) {
+
+  /** @var \Drupal\bo\Service\BoVars $boVars */
+  $boVars = \Drupal::service('bo.vars');
 
   $view = $vars['view'];
   $current_display = $view->getDisplay();
@@ -23,11 +27,13 @@ function template_preprocess_views_view_unformatted_bo(&$vars) {
 
   $view_collection_id = $view->filter["bo_current_collection_id_filter"]->value;
   if (intval($view_collection_id) > 0) {
-    /** @var \Drupal\bo\Service\BoSettings $boSettings */
-    $boSettings = \Drupal::getContainer()->get('bo.settings');
-
     $view_collection_entity = BoEntity::load($view_collection_id);
-    $view_collection_bundle = $view_collection_entity->getBundle();
+
+    /** @var \Drupal\bo\Service\BoBundle $boBundle */
+    $boBundle = \Drupal::service('bo.bundle');
+
+    /** @var \Drupal\bo\Entity\BoBundle $view_collection_bundle */
+    $view_collection_bundle = $boBundle->getBundle($view_collection_entity->getBundle());
 
     $fields = $view_collection_entity->getFields();
 
@@ -40,15 +46,12 @@ function template_preprocess_views_view_unformatted_bo(&$vars) {
         $field_name != "changed" &&
         $field_name != "weight") {
         if ($field_name == "title") {
-          if ($boSettings->isTitleInternal($view_collection_bundle) == true) {
+          if ($view_collection_bundle->getInternalTitle() == true) {
               continue;
           }
         }
 
         if ($view_collection_entity->hasField($field_name)) {
-          /** @var \Drupal\bo\Service\BoVars $boVars */
-          $boVars = \Drupal::service('bo.vars');
-
           $element = $boVars->processField($view_collection_entity, $field_name, $vars);
           $vars["bo"][$field_name] = $element;
         }
@@ -68,9 +71,6 @@ function template_preprocess_views_view_unformatted_bo(&$vars) {
 
     $entity = $view->result[$id]->_entity;
     if ($entity) {
-      /** @var \Drupal\bo\Service\BoVars $boVars */
-      $boVars = \Drupal::service('bo.vars');
-
       $data = $boVars->getVariables(
         $view,
         $view->result[$id],
@@ -82,18 +82,18 @@ function template_preprocess_views_view_unformatted_bo(&$vars) {
 
       $operations = NULL;
       $boVars->getRenderedViewFields($current_display, $view->result[$id], "bo_operations", $operations);
-      $data["bo"]["operations"] = $operations["rendered_value"]["view_bo_operations"];
+      $data["bo"]["operations"] = $operations["rendered"]["view_bo_operations"];
 
 
       if ($data["bo"]) {
-          $data["bo"]["row_index"] = $id;
-          $vars["bo"]["collection"][] = $data["bo"];
+        $data["bo"]["row_index"] = $id;
+
+        // Add the entity data to the $vars variable.
+        $vars["bo"]["collection"][] = $data["bo"];
       }
 
       $cacheTags = $entity->getCacheTags();
-
       $vars["#cache"]["tags"][] = $cacheTags[0];
-
     }
   }
 }
