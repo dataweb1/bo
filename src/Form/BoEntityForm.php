@@ -66,9 +66,13 @@ class BoEntityForm extends ContentEntityForm {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
 
-    // Needed for working with Media browser. BoBundle service is not set for whatever reason.
+    // Needed for working with Media browser. BoBundle / BoCollection service is not set for whatever reason.
     if (!isset($this->boBundle)) {
       $this->boBundle = \Drupal::service('bo.bundle');
+    }
+
+    if (!isset($this->boCollection)) {
+      $this->boCollection = \Drupal::service('bo.collection');
     }
 
     $to_path = \Drupal::request()->query->get('to_path');
@@ -162,7 +166,7 @@ class BoEntityForm extends ContentEntityForm {
         $collection_id = \Drupal::request()->query->get('collection_id');
         $to_path = \Drupal::request()->query->get('to_path');
 
-        // Needed for working with Media browser. BoView service is not set for whatever reason.
+        // Needed for working with Media browser. BoCollection service is not set for whatever reason.
         if (!isset($this->boCollection)) {
           $this->boCollection = \Drupal::service('bo.collection');
         }
