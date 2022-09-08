@@ -13,7 +13,8 @@ use Drupal\image\Entity\ImageStyle;
 function bo_install() {
   /** @var \Drupal\bo\Service\BoSettings $boSettings */
   $boSettings = \Drupal::getContainer()->get('bo.settings');
-
+  $boSettings->loadInstallSettings();
+  
   // Build image styles.
   foreach ($boSettings->getStyles() as $label => $style) {
     $imageStyle = ImageStyle::load("bo_" . $style["size"]);

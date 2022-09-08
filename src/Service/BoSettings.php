@@ -188,7 +188,7 @@ class BoSettings {
   /**
    *
    */
-  public function parseSettingsYml() {
+  public function loadInstallSettings() {
     $file = DRUPAL_ROOT . "/" . $this->moduleHandler->getModule('bo')->getPath() . '/config/install/bo.settings.yml';
     $file_contents = file_get_contents($file);
     $settings_data = Yaml::parse($file_contents);
