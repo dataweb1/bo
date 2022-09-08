@@ -5,10 +5,13 @@ dependencies:
   module:
     - bo
     - webform
+  enforced:
+    module:
+      - bo_webform
 _core:
-  default_config_hash: sqD4935Qi8YHNZNH3wxxnz6rBmtwUYU-22x_kc7E5jw
-id: bo.field_form
-field_name: field_form
+  default_config_hash: Y26kssPBkyNeAEnrV9XXzyHcGfw3KMPxEWkeCqdoNUM
+id: bo.field_webform
+field_name: field_webform
 entity_type: bo
 type: webform
 settings:

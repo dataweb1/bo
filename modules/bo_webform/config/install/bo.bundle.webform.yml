@@ -1,0 +1,21 @@
+uuid: 09c948bb-8b9f-4b76-83cf-7898cb8fadbe
+langcode: nl
+status: true
+dependencies:
+  enforced:
+    module:
+      - bo_webform
+_core:
+  default_config_hash: b93zA12CvXXi8MpLHKvJk7jbij4aTwn_9Qa27Fpke2U
+id: webform
+label: Webform
+description: ''
+type: element
+group: ''
+default: 1
+internal_title: null
+override_title_label: null
+icon: 'fab fa-wpforms'
+collection:
+  enabled: 0
+weight: '10'

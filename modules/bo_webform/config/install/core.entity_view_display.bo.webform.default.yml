@@ -3,18 +3,21 @@ langcode: nl
 status: true
 dependencies:
   config:
-    - bo.bundle.form
-    - field.field.bo.form.field_form
+    - bo.bundle.webform
+    - field.field.bo.webform.field_webform
   module:
     - webform
+  enforced:
+    module:
+      - bo_webform
 _core:
-  default_config_hash: ptWU-5b51V7NLBrS7FgQhmGX_kGHh2z7MN-ic8ZN5g0
-id: bo.form.default
+  default_config_hash: FYl2FWUG9DvTag9oh58RlSQBmYIX7olYBQaPaXbQvtY
+id: bo.webform.default
 targetEntityType: bo
-bundle: form
+bundle: webform
 mode: default
 content:
-  field_form:
+  field_webform:
     weight: 6
     label: above
     settings:

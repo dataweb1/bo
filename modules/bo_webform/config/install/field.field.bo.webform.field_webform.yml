@@ -3,17 +3,20 @@ langcode: nl
 status: true
 dependencies:
   config:
-    - bo.bundle.form
-    - field.storage.bo.field_form
+    - bo.bundle.webform
+    - field.storage.bo.field_webform
   module:
     - webform
+  enforced:
+    module:
+      - bo_webform
 _core:
-  default_config_hash: y1x3jbJhnibqgzTguXugwvu4ShB1eAP-Kf6ueDKAA8I
-id: bo.form.field_form
-field_name: field_form
+  default_config_hash: NSFE8xLYW8yaxnp2ViBAOQ5XOoIfCrnkrMzmh6REMBw
+id: bo.webform.field_webform
+field_name: field_webform
 entity_type: bo
-bundle: form
-label: Form
+bundle: webform
+label: Webform
 description: ''
 required: true
 translatable: false

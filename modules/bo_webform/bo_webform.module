@@ -1,0 +1,38 @@
+<?php
+
+use Drupal\Core\Cache\Cache;
+use Drupal\Core\Form\FormState;
+use Drupal\views\ViewExecutable;
+
+/**
+ * Implements hook_install().
+ */
+function bo_webform_uninstall() {
+  // Delete all bo entities of bundle 'webform'.
+  $storage_handler = \Drupal::entityTypeManager()
+    ->getStorage('bo');
+  $nodes = $storage_handler->loadByProperties(['bundle' => 'webform']);
+  $storage_handler->delete($nodes);
+}
+
+/**
+ * @param array $vars
+ */
+function bo_webform_preprocess_views_view_field_bo__webform(array &$vars) {
+  $renderer = \Drupal::service('renderer');
+  $form = [
+    '#lazy_builder' => [
+      '\Drupal\bo_webform\WebformLazyBuilder::buildWebform', [
+        $vars['bo']['field_webform']['target_id'],
+      ],
+      '#create_placeholder' => TRUE,
+    ]
+  ];
+  $vars['bo']['field_webform']['rendered']['form'] = $renderer->render($form);
+
+  /** @var \Drupal\bo\Service\BoHelp $boHelp */
+  $boHelp = \Drupal::service('bo.help');
+  /** @var \Drupal\bo\Entity\BoEntity $entity */
+  $entity = $vars['row']->_entity;
+  $vars['#attached']['drupalSettings']['bo'][$entity->id()] = $boHelp->renderHelp($vars['bo']);
+}

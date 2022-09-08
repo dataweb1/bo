@@ -1,0 +1,10 @@
+name: BO Webform
+type: module
+description: Webform support for BO.
+core_version_requirement: ^8 || ^9
+package: BO
+
+# Dependencies
+dependencies:
+  - drupal:bo
+  - drupal:webform
