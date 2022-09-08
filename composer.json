@@ -11,7 +11,6 @@
   ],
   "require": {
     "drupal/image_url_formatter": "^1.0",
-    "drupal/webform": "^6.1",
     "drupal/claro_media_library_theme": "^1.0@alpha",
     "drupal/views_bootstrap": "^5.4"
   },
