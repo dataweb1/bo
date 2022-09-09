@@ -117,14 +117,19 @@ class BoEntityForm extends ContentEntityForm {
 
     // Only show the size field when bootstrap grid.
     // @todo: needs some work.
-    [$view_id, $display_id] = $this->boCollection->getCollectionView($collection_id);
-    if (boEntity::isCustomSizeEnabled($view_id, $display_id) == FALSE) {
+    if ([$view_id, $display_id] = $this->boCollection->getCollectionView($collection_id)) {
+      if (boEntity::isCustomSizeEnabled($view_id, $display_id) == FALSE) {
+        $form["size"]["widget"]["#default_value"] = 0;
+        $form["size"]["widget"]["#required"] = 0;
+        $form["size"]["#access"] = FALSE;
+      } else {
+        unset($form["size"]["widget"]["#options"][0]);
+      }
+    }
+    else {
       $form["size"]["widget"]["#default_value"] = 0;
       $form["size"]["widget"]["#required"] = 0;
       $form["size"]["#access"] = FALSE;
-    }
-    else {
-      unset($form["size"]["widget"]["#options"][0]);
     }
 
     if (isset($form["actions"]["delete"]["#url"])) {
