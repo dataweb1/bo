@@ -1,7 +1,10 @@
 <?php
 \Drupal::moduleHandler()->loadInclude('bo', 'inc', 'inc/helper_functions');
 \Drupal::moduleHandler()->loadInclude('bo', 'inc', 'templates/inc/theme');
+\Drupal::moduleHandler()->loadInclude('bo', 'theme', 'templates/inc/views_view_bo');
+\Drupal::moduleHandler()->loadInclude('bo', 'theme', 'templates/inc/views_view_unformatted_bo');
 \Drupal::moduleHandler()->loadInclude('bo', 'theme', 'templates/inc/views_view_fields');
+\Drupal::moduleHandler()->loadInclude('bo', 'theme', 'templates/inc/views_view_field_bo__bo_fields');
 
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Form\FormStateInterface;
@@ -14,7 +17,7 @@ function bo_install() {
   /** @var \Drupal\bo\Service\BoSettings $boSettings */
   $boSettings = \Drupal::getContainer()->get('bo.settings');
   $boSettings->loadInstallSettings();
-  
+
   // Build image styles.
   foreach ($boSettings->getStyles() as $label => $style) {
     $imageStyle = ImageStyle::load("bo_" . $style["size"]);
