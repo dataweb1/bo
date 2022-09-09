@@ -60,35 +60,38 @@ class BoCollection {
    */
   public function prepareCollectionView($collection_id, string $to_path = ''): ?ViewExecutable {
 
-    [$view_id, $display_id] = $this->getCollectionView($collection_id);
+    if ([$view_id, $display_id] = $this->getCollectionView($collection_id)) {
 
-    /** @var \Drupal\views\ViewExecutable $view */
-    $view = Views::getView($view_id);
-    $view->setDisplay($display_id);
-    $view->preExecute();
-    $argument = $view->argument;
-    $filter = $view->filter;
+      /** @var \Drupal\views\ViewExecutable $view */
+      $view = Views::getView($view_id);
+      $view->setDisplay($display_id);
+      $view->preExecute();
+      $argument = $view->argument;
+      $filter = $view->filter;
 
-    $view = Views::getView($view_id);
-    $view->setDisplay($display_id);
+      $view = Views::getView($view_id);
+      $view->setDisplay($display_id);
 
-    $view->filter = $filter;
+      $view->filter = $filter;
 
-    // Set the current collection id filter if defined in the view.
-    if (array_key_exists('bo_current_collection_id_filter', $filter)) {
-      $view->filter["bo_current_collection_id_filter"]->value = $collection_id;
-    }
-
-    // Set current path argument if defined in the view.
-    if ($to_path != '') {
-      if (array_key_exists('bo_current_path_argument', $argument)) {
-        $view->args[array_search("bo_current_path_argument", array_keys($argument))] = $to_path;
+      // Set the current collection id filter if defined in the view.
+      if (array_key_exists('bo_current_collection_id_filter', $filter)) {
+        $view->filter["bo_current_collection_id_filter"]->value = $collection_id;
       }
+
+      // Set current path argument if defined in the view.
+      if ($to_path != '') {
+        if (array_key_exists('bo_current_path_argument', $argument)) {
+          $view->args[array_search("bo_current_path_argument", array_keys($argument))] = $to_path;
+        }
+      }
+
+      $view->execute();
+
+      return $view;
     }
 
-    $view->execute();
-
-    return $view;
+    return null;
   }
 
   /**
@@ -171,7 +174,7 @@ class BoCollection {
       }
     }
 
-    if ($collection_view === NULL) {
+    if ($collection_view !== NULL) {
       if ($collection_id !== NULL) {
         $block = Block::load($collection_id);
         [$type, $view] = explode(':', $block->getPluginId());
@@ -180,7 +183,7 @@ class BoCollection {
         return explode('__', $collection_view);
       }
     }
-    return false;
+    return FALSE;
   }
 
   /**
@@ -237,7 +240,7 @@ class BoCollection {
 
     // Coming via a view (add / insert / collection settings). xxx
     if ($collection = $this->boSettings->getCollectionBundles($collection_id)) {
-      return $collection['bundles'][$bundle_to_check->id()];
+      return $collection['bundles'][$bundle_to_check->id()] ?? FALSE;
     }
     else {
       // Coming via een collection in a view (add / insert / collection settings).
