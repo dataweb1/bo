@@ -183,15 +183,18 @@ class BoEntity extends ContentEntityBase implements BoEntityInterface {
       $this->boCollection = \Drupal::service('bo.collection');
     }
 
-    [$view_id, $display_id] = $this->boCollection->getCollectionView($this->getCollectionId());
+    if ([$view_id, $display_id] = $this->boCollection->getCollectionView($this->getCollectionId())) {
 
-    $view = Views::getView($view_id);
-    $view->setDisplay($display_id);
-    $view->preExecute();
-    $settings = $view->style_plugin->options;
-    $settings["plugin_id"] = $view->style_plugin->getPluginId();
+      $view = Views::getView($view_id);
+      $view->setDisplay($display_id);
+      $view->preExecute();
+      $settings = $view->style_plugin->options;
+      $settings["plugin_id"] = $view->style_plugin->getPluginId();
 
-    return $settings;
+      return $settings;
+    }
+
+    return FALSE;
   }
 
   /**
@@ -220,21 +223,22 @@ class BoEntity extends ContentEntityBase implements BoEntityInterface {
     }
     else {
       $max_size = 0;
-      $settings = $this->getCurrentViewDisplaySettings();
-      if ($settings["plugin_id"] == "views_bootstrap_grid") {
-        $size["xs"] = $settings["col_xs"];
-        $size["sm"] = $settings["col_sm"];
-        $size["md"] = $settings["col_md"];
-        $size["lg"] = $settings["col_lg"];
+      if ($settings = $this->getCurrentViewDisplaySettings()) {
+        if ($settings["plugin_id"] == "views_bootstrap_grid") {
+          $size["xs"] = $settings["col_xs"];
+          $size["sm"] = $settings["col_sm"];
+          $size["md"] = $settings["col_md"];
+          $size["lg"] = $settings["col_lg"];
 
-        foreach ($size as $s) {
-          if (preg_match('~col-[a-z]{2}-([0-9]*)~', $s, $matches)) {
-            if ($matches[1] > $max_size) {
-              $max_size = $matches[1];
+          foreach ($size as $s) {
+            if (preg_match('~col-[a-z]{2}-([0-9]*)~', $s, $matches)) {
+              if ($matches[1] > $max_size) {
+                $max_size = $matches[1];
+              }
             }
           }
+          return $max_size;
         }
-        return $max_size;
       }
     }
     return 12;
@@ -252,9 +256,10 @@ class BoEntity extends ContentEntityBase implements BoEntityInterface {
    */
   public function isCurrentCustomSizeEnabled() {
     if ($this->display_id != "") {
-      $settings = $this->getCurrentViewDisplaySettings();
-      if ($settings["plugin_id"] == "views_view_bo_bootstrap_grid") {
-        return TRUE;
+      if ($settings = $this->getCurrentViewDisplaySettings()) {
+        if ($settings["plugin_id"] == "views_view_bo_bootstrap_grid") {
+          return TRUE;
+        }
       }
     }
     return FALSE;
