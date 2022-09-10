@@ -1,8 +1,8 @@
 (function ($) {
 
-  Drupal.bo_bundle = Drupal.bo_bundle || {};
+  Drupal.bo_bundle = Drupal.bo_bundle_list || {};
 
-  Drupal.behaviors.bo_bundle = {
+  Drupal.behaviors.bo_bundle_list = {
     attach: function (context) {
 
       $(".bo-bundle-text-override-title-label").each(function () {

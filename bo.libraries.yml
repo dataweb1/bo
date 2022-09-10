@@ -22,6 +22,10 @@ bo_entity_form:
     version: 1.x
     css: { theme: { assets/css/bo_entity_form.css: {  } }, component: { //use.fontawesome.com/releases/v5.0.13/css/all.css: {  } } }
     js: { assets/js/bo_entity_form.js: {  } }
+bo_bundle_form:
+    version: 1.x
+    css: { theme: { assets/css/bo_bundle_form.css: {  } } }
+    js: { assets/js/bo_bundle_form.js: {  } }
 bo_bundle_video:
     css: { theme: { assets/bundle/css/bo_bundle_video.css: {  } } }
     js: { assets/js/lib/froogaloop.js: {  }, assets/bundle/js/bo_bundle_remote_video.js: {  } }
@@ -42,7 +46,7 @@ bo_bundle_popup:
     js: { assets/bundle/js/bo_bundle_popup.js: {  } }
 bo_help:
     css: { theme: { assets/css/bo_help.css: {  } } }
-    js: { assets/js/bo_help.js: { }, assets/js/lib/clipboard.min.js: {  }, 'https://code.jquery.com/ui/1.13.2/jquery-ui.js': {  } }
+    js: { assets/js/bo_help.js: {  }, assets/js/lib/clipboard.min.js: {  }, 'https://code.jquery.com/ui/1.13.2/jquery-ui.js': {  } }
     dependencies: [core/jquery.ui.tooltip]
 bo_parallax:
     js: { templates/assets/parallax.js-1.5.0/parallax.js: {  } }

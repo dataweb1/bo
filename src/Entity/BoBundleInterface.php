@@ -87,6 +87,15 @@ interface BoBundleInterface extends ConfigEntityInterface, EntityDescriptionInte
    */
   public function getCollectionOptions();
 
+
+  /**
+   * Gets the BO bundle related bundles.
+   *
+   * @return string
+   *   Related bundles of the BO bundle.
+   */
+  public function getRelatedBundles();
+
   /**
    * Sets the BO bundle icon.
    */
@@ -121,5 +130,10 @@ interface BoBundleInterface extends ConfigEntityInterface, EntityDescriptionInte
    * Sets the BO bundle collection options.
    */
   public function setCollectionOptions($options);
+
+  /**
+   * Sets the BO bundle related bundles.
+   */
+  public function setRelatedBundles($related_bundles);
 
 }

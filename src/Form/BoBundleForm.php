@@ -2,10 +2,10 @@
 
 namespace Drupal\bo\Form;
 
+use Drupal\bo\Service\BoBundle;
 use Drupal\Core\Entity\BundleEntityFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\field_ui\FieldUI;
-use Drupal\bo\Service\BoSettings;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -14,16 +14,23 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class BoBundleForm extends BundleEntityFormBase {
 
-  private BoSettings $boSettings;
+  private BoBundle $boBundle;
 
+  /**
+   * @param ContainerInterface $container
+   * @return BoBundleForm|static
+   */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('bo.settings')
+      $container->get('bo.bundle')
     );
   }
 
-  public function __construct(BoSettings $boSettings) {
-    $this->boSettings = $boSettings;
+  /**
+   * @param BoBundle $boBundle
+   */
+  public function __construct(BoBundle $boBundle) {
+    $this->boBundle = $boBundle;
   }
 
   /**
@@ -106,6 +113,32 @@ class BoBundleForm extends BundleEntityFormBase {
       '#autocomplete_route_name' => 'bo.autocomplete.bundle_groups',
     ];
 
+    $related_bundles_options = [];
+    foreach($this->boBundle->getSortedBundles() as $group_name => $group_bundles) {
+      $related_bundles_options['group__'.$group_name] = $group_name;
+      /** @var \Drupal\bo\Entity\BoBundle $group_bundle */
+      foreach($group_bundles as $group_bundle) {
+        if ($group_bundle->id() != $entity_bundle->id()) {
+          $related_bundles_options[$group_bundle->id()] = $group_bundle->label();
+        }
+      }
+    }
+
+    $form['related_bundles'] = [
+      '#type' => 'checkboxes',
+      '#options' => $related_bundles_options,
+      '#title' => $this->t('Related bundles'),
+      '#description' => $this->t("Related bundles to switch between on adding/editing an entity."),
+      '#attributes' => [
+        'class' => [
+          'related_bundles',
+        ],
+      ],
+      '#default_value' => $entity_bundle->getRelatedBundles(),
+    ];
+
+    $form['#attached']['library'][] = 'bo/bo_bundle_form';
+
     return $this->protectBundleIdElement($form);
   }
 
@@ -147,6 +180,14 @@ class BoBundleForm extends BundleEntityFormBase {
 
     $collection = $form_state->getValue("collection");
     $entity_bundle->setCollectionEnabled($collection);
+
+    $related_bundles_to_save = [];
+    foreach($form_state->getValue('related_bundles') as $related_bundle) {
+      if (!is_int($related_bundle)) {
+        $related_bundles_to_save[] = $related_bundle;
+      }
+    }
+    $entity_bundle->setRelatedBundles($related_bundles_to_save);
 
     $status = $entity_bundle->save();
     $message_params = [

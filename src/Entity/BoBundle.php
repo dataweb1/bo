@@ -23,6 +23,7 @@ use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
  *     "override_title_label" = "override_title_label",
  *     "icon" = "icon",
  *     "collection" = "collection",
+ *     "related_bundles" = "related_bundles",
  *     "weight" = "weight",
  *   },
  *   config_prefix = "bundle",
@@ -37,6 +38,7 @@ use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
  *     "override_title_label",
  *     "icon",
  *     "collection",
+ *     "related_bundles",
  *     "weight",
  *   },
  *   handlers = {
@@ -142,6 +144,13 @@ class BoBundle extends ConfigEntityBundleBase implements BoBundleInterface {
   protected $collection;
 
   /**
+   * The related bundle of the bo bundle.
+   *
+   * @var array
+   */
+  protected $related_bundles;
+
+  /**
    * {@inheritdoc}
    */
   public function getWeight() {
@@ -209,6 +218,13 @@ class BoBundle extends ConfigEntityBundleBase implements BoBundleInterface {
    */
   public function getCollectionOptions() {
     return $this->collection['options'];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRelatedBundleS() {
+    return $this->related_bundles;
   }
 
   /**
@@ -296,6 +312,14 @@ class BoBundle extends ConfigEntityBundleBase implements BoBundleInterface {
    */
   public function setCollectionOptions($options) {
     $this->collection['options'] = $options;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setRelatedBundles($related_bundles) {
+    $this->related_bundles = $related_bundles;
     return $this;
   }
 
