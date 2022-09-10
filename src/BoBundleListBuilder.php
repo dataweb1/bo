@@ -207,6 +207,7 @@ class BoBundleListBuilder extends ConfigEntityListBuilder implements FormInterfa
 
     $entities = $this->load();
     $bundles = [];
+    $bundle_count = 0;
     foreach ($entities as $bundle) {
       if ($this->type != $bundle->getType()) {
         continue;
@@ -219,12 +220,13 @@ class BoBundleListBuilder extends ConfigEntityListBuilder implements FormInterfa
       if (!in_array($group, $groups)) {
         $groups[$group] = $group;
       }
+      $bundle_count++;
     }
 
     // Weights range from -delta to +delta, so delta should be at least half
     // of the amount of blocks present. This makes sure all blocks in the same
     // group get an unique weight.
-    $weight_delta = round(count($entities) / 2);
+    $weight_delta = round($bundle_count / 2);
 
     foreach ($groups as $label) {
       $group_machine_name = $label;
