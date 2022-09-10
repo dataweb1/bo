@@ -170,9 +170,6 @@ class BoBundleListBuilder extends ConfigEntityListBuilder implements FormInterfa
     // $form = parent::buildForm($form, $form_state);
     $form['#attached']['library'][] = 'core/drupal.tableheader';
     $form['#attributes']['class'][] = 'clearfix';
-
-    $form['#attached']['library'][] = "bo/bo_init";
-    $form['#attached']['library'][] = "bo/bo_bundle";
     $form['#attached']['library'][] = "bo/bo_bundle_list";
 
     $form['bundles'] = $this->buildBundlesForm();

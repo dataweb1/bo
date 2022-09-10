@@ -10,14 +10,10 @@ bo_operations:
 bo_settings:
     version: 1.x
     css: { theme: { assets/css/bo_settings.css: {  } }, js: { assets/js/bo_settings.js: {  } } }
-bo_bundle:
-    version: 1.x
-    css: { theme: { assets/css/bo_bundle.css: {  } } }
-    js: { assets/js/bo_bundle.js: {  } }
 bo_bundle_list:
     version: 1.x
     css: { theme: { assets/css/bo_bundle_list.css: {  } } }
-    js: { assets/js/bo_bundle_list.js: {  } }
+    js: { assets/js/bo_bundle_list.js: {  }, assets/js/bo_bundle_list_drag.js: {  } }
 bo_collection_settings:
     version: 1.x
     css: { theme: { assets/css/bo_collection_settings.css: {  } }, component: { //use.fontawesome.com/releases/v5.0.13/css/all.css: {  } } }
