@@ -8,7 +8,7 @@ id: article
 label: Article
 description: ''
 type: content
-group: custom
+group: Custom
 default: 0
 internal_title: null
 override_title_label: null

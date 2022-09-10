@@ -5,6 +5,7 @@ namespace Drupal\bo\Controller;
 use Drupal\bo\Service\BoBundle;
 use Drupal\bo\Service\BoSettings;
 use Drupal\Core\Controller\ControllerBase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Component\Utility\Xss;
@@ -16,8 +17,21 @@ class BoBundleGroupsAutoCompleteController extends ControllerBase {
 
   private BoBundle $boBundle;
 
-  public function __construct() {
-    $this->boBundle = \Drupal::getContainer()->get('bo.bundle');
+  /**
+   * @param BoBundle $boBundle
+   */
+  public function __construct(BoBundle $boBundle) {
+    $this->boBundle = $boBundle;
+  }
+
+  /**
+   * @param ContainerInterface $container
+   * @return BoBundleGroupsAutoCompleteController|static
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('bo_bundle')
+    );
   }
 
   /**
@@ -33,7 +47,6 @@ class BoBundleGroupsAutoCompleteController extends ControllerBase {
     $input = Xss::filter($input);
 
     $groups = $this->boBundle->getBundleGroups();
-    dpm($groups);
     foreach ($groups as $group) {
       if (strpos(strtolower($group), strtolower($input)) !== FALSE) {
         $results[] = [

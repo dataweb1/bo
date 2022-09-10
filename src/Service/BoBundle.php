@@ -67,11 +67,11 @@ class BoBundle {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function getBundleGroups($type) {
+  public function getBundleGroups($type = '') {
     $groups_with_bundles = [];
     $all_bundles = $this->getBundles();
     foreach ($all_bundles as $bundle) {
-      if ($bundle->getType() == $type) {
+      if ($type == '' || $bundle->getType() == $type) {
         $group = $bundle->getGroup();
 
         if ($group != "" && !in_array($group, $groups_with_bundles)) {
