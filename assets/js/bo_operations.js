@@ -14,7 +14,7 @@
         Drupal.behaviors.bo_operations.closeOperationsPane();
       }
 
-      // Show/hide Edit / Delete button.
+      // Show/hide Edit / Delete / Help button.
       $(".bo-content-operations").once().each(function () {
 
         let parent_wrapper = $(this).closest(".bo-entity");
@@ -27,6 +27,14 @@
         $(parent_wrapper).on("mouseleave", function (e) {
           $(this).find(".bo-content-operations").first().css("display", "none");
           $(this).removeClass("bo-wrapper-selected");
+        });
+
+        $(parent_wrapper).on("mouseenter", function (e) {
+          $(this).find(".bo-trigger-help").first().css("display", "block");
+        });
+
+        $(parent_wrapper).on("mouseleave", function (e) {
+          $(this).find(".bo-trigger-help").first().css("display", "none");
         });
       });
 

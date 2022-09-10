@@ -12,20 +12,4 @@
     }
   };
 
-  $(document).ready(function () {
-    // Show/hide Help button.
-    $(".bo-content-operations").each(function () {
-
-      let parent_wrapper = $(this).closest(".bo-entity");
-
-      $(parent_wrapper).on("mouseenter", function (e) {
-        $(this).find(".bo-trigger-help").first().css("display", "block");
-      });
-
-      $(parent_wrapper).on("mouseleave", function (e) {
-        $(this).find(".bo-trigger-help").first().css("display", "none");
-      });
-    });
-  });
-
 })(jQuery, Drupal, drupalSettings);
