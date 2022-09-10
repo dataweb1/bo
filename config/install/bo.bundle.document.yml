@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: oedwwej1oNSPC_w1DF5sdF66oYfSjYZ6r9vf3SZo6Ss
+  default_config_hash: JEZHTjeqtgP_7hIUliunfovwr9wogo_9tsfN5nAkO8s
 id: document
 label: Document
 description: ''
@@ -15,4 +15,5 @@ override_title_label: ''
 icon: 'fa fa-file'
 collection:
   enabled: 0
+related_bundles: null
 weight: '5'

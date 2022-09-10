@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: zmWbsGFf3OzzX-lqj7Cw6ajJf6PMi2vMomMZWgeXOcM
+  default_config_hash: tUgm153AEnAFwwOethWOJ8urzWfuSWTNTXm9i8ltBEY
 id: gallery
 label: Gallery
 description: ''
@@ -13,6 +13,7 @@ default: 1
 internal_title: 0
 override_title_label: ''
 icon: 'fa fa-images'
-collection:
-  enabled: 0
+collection: 0
+related_bundles:
+  - slideshow
 weight: '1'

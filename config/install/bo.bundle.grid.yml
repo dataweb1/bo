@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: bH_ND18HH972NFTbHhzbfT45Y524gwgcn_wcnxLhUzo
+  default_config_hash: nXIUmSbk2qNmgzyu-GQUDfLNE0UJCK7XE4OA-ds8oyU
 id: grid
 label: Grid
 description: ''
@@ -42,4 +42,5 @@ collection:
     label: Grid
     max_element_count: ''
     specific_view: bo__grid
+related_bundles: null
 weight: '-3'

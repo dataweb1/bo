@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: Xy2UVmgY-CsArurrCCV-HShUdeOGD_n-inX5yqtkdrc
+  default_config_hash: LKKBMsp3FxyZUzJJ1iH8H339-Ehh6Y3VkLxY22dhB9E
 id: cards
 label: Cards
 description: ''
@@ -13,33 +13,8 @@ default: 1
 internal_title: 0
 override_title_label: ''
 icon: 'fa fa-address-card'
-collection:
-  enabled: 1
-  bundles:
-    card: 1
-    section: 0
-    slideshow: 0
-    tab: 0
-    table: 0
-    table_row: 0
-    tabs: 0
-    grid: 0
-    text: 0
-    quote: 0
-    video: 0
-    gallery: 0
-    accordion_item: 0
-    image: 0
-    accordion: 0
-    document: 0
-    title: 0
-    popup: 0
-    google_map: 0
-    cards: 0
-    webform: 0
-    article: 0
-  options:
-    label: Cards
-    max_element_count: '3'
-    specific_view: bo__cards
-weight: '9'
+collection: 1
+related_bundles:
+  - webform
+  - cards
+weight: '10'

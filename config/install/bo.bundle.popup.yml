@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: 89bZbYMYVoWGAHryWa61FVUxeFSSmzxt4teAGuLTCw8
+  default_config_hash: RXsX6Ynn3ukEF5eDiScL3V3gxQ8iB0STr3b9jQ6c-DU
 id: popup
 label: Popup
 description: ''
@@ -42,4 +42,5 @@ collection:
     label: Popup
     max_element_count: ''
     specific_view: bo__overview
+related_bundles: null
 weight: '7'

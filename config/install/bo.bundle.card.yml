@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: CzbVHSYc3mvx_KVC144F-i7x9UEhjoeQkYH4Qtqy5DY
+  default_config_hash: pegDBykMYVG2j6rXNolTDRcWdLjWs5V1gYcMpWKzyy8
 id: card
 label: Card
 description: ''
@@ -42,4 +42,5 @@ collection:
     label: Card
     max_element_count: ''
     specific_view: bo__overview
+related_bundles: null
 weight: '-10'

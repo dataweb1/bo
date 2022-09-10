@@ -6,16 +6,16 @@ dependencies:
     module:
       - bo_webform
 _core:
-  default_config_hash: b93zA12CvXXi8MpLHKvJk7jbij4aTwn_9Qa27Fpke2U
+  default_config_hash: ZyX0XWY5-EcrI-G0yt8cxw42q0_Tv1n0gkma6JldxpE
 id: webform
 label: Webform
 description: ''
 type: element
 group: ''
 default: 1
-internal_title: null
-override_title_label: null
+internal_title: 0
+override_title_label: ''
 icon: 'fab fa-wpforms'
-collection:
-  enabled: 0
-weight: '10'
+collection: 0
+related_bundles: {  }
+weight: '9'

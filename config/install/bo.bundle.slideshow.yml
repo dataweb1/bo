@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: O-CkEwx_IyAcS4JQ8kYiI_d7fWwweVW4JXE7FC90QiM
+  default_config_hash: g0T-yhBHLG4h6GI-klD3jI04bsIPxIXrmaCrokmZKUI
 id: slideshow
 label: Slideshow
 description: ''
@@ -13,6 +13,7 @@ default: 1
 internal_title: 0
 override_title_label: ''
 icon: 'fa fa-film'
-collection:
-  enabled: 0
+collection: 0
+related_bundles:
+  - gallery
 weight: '-8'

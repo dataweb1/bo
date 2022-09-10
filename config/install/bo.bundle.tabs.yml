@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: qFROkyoAp2DgWfhV6n8wHBw8UrJm-t0kQsyPe8j_FxU
+  default_config_hash: QeaxCOSQJ9TE3xUwTB8T-H3tpB1z0Pr6iLqBecqQ9K4
 id: tabs
 label: Tabs
 description: ''
@@ -42,4 +42,5 @@ collection:
     label: Tabs
     max_element_count: ''
     specific_view: bo__tabs
+related_bundles: null
 weight: '-4'

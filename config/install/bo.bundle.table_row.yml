@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: Un4tU9sCa87aC9xpsxERCdCwM0ib1jhVnBZIEVu33OI
+  default_config_hash: wWG5SBXQROjJCqIFy3lBv3nmNWjTuivZBWcNbSPyB54
 id: table_row
 label: 'Table row'
 description: ''
@@ -15,4 +15,5 @@ override_title_label: ''
 icon: ''
 collection:
   enabled: 0
+related_bundles: null
 weight: '-5'

@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: 3sbKsfhGmxrCAFJ3YjxZE3EoRF2KTh0yPtP3kT-9xUY
+  default_config_hash: AajMEZ0ERL5ZGAdukXwpCkYlcUeXrVcBWYc-MoJ4ER0
 id: accordion
 label: Accordion
 description: ''
@@ -42,4 +42,5 @@ collection:
     label: Accordion
     max_element_count: ''
     specific_view: bo__overview
+related_bundles: null
 weight: '4'

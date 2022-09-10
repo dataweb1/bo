@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: '-Jr_VXClxKI8Dwy_o7rWP46C0pXGMaFNcQGYEAtfSMo'
+  default_config_hash: 9PWNrIjNQdT6YrFd_tUlF3RqB0JTZyXt5HcudD0-i2c
 id: quote
 label: Quote
 description: ''
@@ -15,4 +15,5 @@ override_title_label: From
 icon: 'fa fa-quote-left'
 collection:
   enabled: 0
+related_bundles: null
 weight: '-1'

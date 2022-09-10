@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: uraCI5xG2waVFELJYpm6P3iAxipuioaGNfC9cJgP6dM
+  default_config_hash: C1YDJiUDcXo1M6YHslG8ykSlyUhHyRm8xyk7pCFyTB8
 id: google_map
 label: 'Google Map'
 description: ''
@@ -15,4 +15,5 @@ override_title_label: Name
 icon: 'fa fa-map-marker-alt'
 collection:
   enabled: 0
+related_bundles: null
 weight: '8'
