@@ -29,7 +29,8 @@ class BoOperationsController extends ControllerBase {
   private BoCollection $boCollection;
 
   /**
-   *
+   * @param BoBundle $boBundle
+   * @param BoCollection $boCollection
    */
   public function __construct(BoBundle $boBundle, BoCollection $boCollection) {
     $this->boBundle = $boBundle;
@@ -37,7 +38,8 @@ class BoOperationsController extends ControllerBase {
   }
 
   /**
-   *
+   * @param ContainerInterface $container
+   * @return BoOperationsController|static
    */
   public static function create(ContainerInterface $container) {
     return new static(
@@ -47,7 +49,9 @@ class BoOperationsController extends ControllerBase {
   }
 
   /**
-   *
+   * @param $collection_id
+   * @param $view_dom_id
+   * @return AjaxResponse
    */
   public function reorder($collection_id, $view_dom_id) {
 

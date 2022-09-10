@@ -53,7 +53,7 @@ bo.entity.bundle.content_list:
 bo.autocomplete.bundle_groups:
   path: '/admin/bo/autocomplete/bundle_groups'
   defaults:
-    _controller: '\Drupal\bo\Controller\BoBundleGroupsAutoCompleteController::handleAutocomplete'
+    _controller: '\Drupal\bo\Controller\BoBundleController::handleGroupAutocomplete'
     _format: json
   requirements:
     _permission: 'administer bundle entity'
@@ -89,7 +89,7 @@ bo.multi:
 bo.help:
   path: '/bo/help/{collection_id}/{entity_id}'
   defaults:
-    _controller: '\Drupal\bo\Controller\BoEntityController::help'
+    _controller: '\Drupal\bo\Controller\BoHelpController::help'
     _title: 'Help'
   requirements:
     _permission: 'show twig help'
