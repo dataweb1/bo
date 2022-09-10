@@ -108,7 +108,7 @@ class BoHelp {
           foreach ($keys as $k) {
             $elements .= "." . $k;
           }
-          $twigFieldName = "{{&nbsp;" . $elements . "&nbsp;}}";
+          $twigFieldName = "{{&nbsp;bo." . $elements . "&nbsp;}}";
 
           $help .= '<td><code class="copy" data-clipboard-action="copy" data-clipboard-text="' . str_replace("&nbsp;", " ", $twigFieldName) . '">' . $twigFieldName . "</code></td>";
           $help .= "<td>" . htmlentities(remove_html_comments($value)) . "</td>";
