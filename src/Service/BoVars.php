@@ -797,23 +797,23 @@ class BoVars {
   private function smartValue($value, &$element, &$vars) {
 
     if (preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/", $value, $matches)) {
-      $element["smart_value"]["type"] = "youtube_url";
-      $element["smart_value"]["video_id"] = $matches[1];
+      $element["type"] = "youtube_url";
+      $element['raw']["video_id"] = $matches[1];
     }
 
     if (preg_match("/(https?:\/\/)?(www\.)?(player\.)?vimeo\.com\/([a-z]*\/)*([0-9]{6,11})[?]?.*/", $value, $matches)) {
-      $element["smart_value"]["type"] = "vimeo_url";
-      $element["smart_value"]["video_id"] = $matches[5];
+      $element["type"] = "vimeo_url";
+      $element['raw']["video_id"] = $matches[5];
     }
 
-    if (isset($element["smart_value"])) {
-      if ($element["smart_value"]["type"] == "youtube_url" ||
-        $element["smart_value"]["type"] == "vimeo_url") {
-        if (!array_search("bo/bo_bundle_remote_video", $vars["#attached"]["library"])) {
-          $vars["#attached"]["library"][] = "bo/bo_bundle_remote_video";
-        }
+
+    if ($element["type"] == "youtube_url" ||
+      $element["type"] == "vimeo_url") {
+      if (!array_search("bo/bo_bundle_remote_video", $vars["#attached"]["library"])) {
+        $vars["#attached"]["library"][] = "bo/bo_bundle_remote_video";
       }
     }
+
   }
 
 }
