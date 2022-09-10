@@ -13,6 +13,7 @@ use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\MessageCommand;
 use Drupal\Core\Ajax\PrependCommand;
 use Drupal\Core\Ajax\RemoveCommand;
+use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
@@ -75,6 +76,9 @@ class BoEntityForm extends ContentEntityForm {
       $this->boCollection = \Drupal::service('bo.collection');
     }
 
+    /** @var \Drupal\bo\Entity\BoBundle $entityBundle */
+    $entityBundle = $this->boBundle->getBundle($this->entity->getBundle());
+
     $to_path = \Drupal::request()->query->get('to_path');
     $collection_id = \Drupal::request()->query->get('collection_id');
 
@@ -98,18 +102,43 @@ class BoEntityForm extends ContentEntityForm {
       ];
     }
 
+    /*
+    if ($current_route_name == "entity.bo.edit_form") {
+      $relatedBundles = $entityBundle->getRelatedBundles();
+      if (count($relatedBundles) > 0) {
+        $relatedBundleOptions = [''];
+        foreach($relatedBundles as $relatedBundle) {
+          $relatedBundleEntity = $this->boBundle->getBundle($relatedBundle);
+          $relatedBundleOptions[$relatedBundle] = $relatedBundleEntity->label();
+        }
+
+        $form['change_bundle'] = [
+          '#type' => 'select',
+          '#title' => $this->t('Change to'),
+          '#options' => $relatedBundleOptions,
+          '#ajax' => [
+            'callback' => [
+              $this,
+              'changeBundleAjaxCallback',
+            ],
+            'wrapper' => 'form_wrapper',
+          ],
+        ];
+      }
+    }
+    */
+
     // Internal fields. No need to edit them.
     $form["to_path"]["#access"] = FALSE;
     $form["collection_id"]["#access"] = FALSE;
 
     // Set some bundle depended settings.
-    $bundle = $this->boBundle->getBundle($this->entity->getBundle());
-    $internal_title = $bundle->getInternalTitle();
+    $internal_title = $entityBundle->getInternalTitle();
     if ($internal_title == 1) {
       $form["title"]["widget"][0]["value"]["#title"] = Markup::create(t("Internal title"));
     }
     else {
-      $override_title_label = $bundle->getOverrideTitleLabel();
+      $override_title_label = $entityBundle->getOverrideTitleLabel();
       if ($override_title_label != "") {
         $form["title"]["widget"][0]["value"]["#title"] = Markup::create($override_title_label);
       }
@@ -292,5 +321,16 @@ class BoEntityForm extends ContentEntityForm {
     }
     return $response;
   }
+
+  /**
+   * @param array $form
+   * @param FormStateInterface $formState
+   * @return mixed
+   */
+  public function changeBundleAjaxCallback(array $form, FormStateInterface &$formState) {
+    $response = new AjaxResponse();
+
+    return $response;
+ }
 
 }
