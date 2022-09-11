@@ -543,7 +543,7 @@ class BoVars {
       if ($target_entity = $this->entityTypeManager->getStorage($target_type)->load($target_id)) {
 
         $uri = "/" . str_replace("_", "/", $target_type) . "/" . $target_entity->id();
-        $url = Url::fromUserInput($uri)->toString();
+        $url = Url::fromUserInput($uri);
 
         switch (TRUE) {
           // Node or term.
@@ -725,16 +725,18 @@ class BoVars {
                 $e["raw"]["size"] = $size;
                 $e["rendered"]["size"] = format_bytes($size);
               }
-
-              if ($target_media_entity->bundle() == "file") {
-                $uri = $target_media_entity->field_media_file->entity->getFileUri();
-                $filename = $target_media_entity->field_media_file->entity->getFileName();
+/*
+              if ($target_media_entity->bundle() == "document") {
+                $uri = $target_media_entity->field_media_document->entity->getFileUri();
+                $filename = $target_media_entity->field_media_document->entity->getFileName();
                 $name = $target_media_entity->get("name")->value;
-                $size = $target_media_entity->field_media_file->entity->getSize();
+                $size = $target_media_entity->field_media_document->entity->getSize();
                 $attributes = ["target" => "_blank"];
-                $url = Url::fromUri($this->fileUrlGenerator->generateAbsoluteString($target_media_entity->field_media_file->entity->getFileUri()));
+
+                $url = Url::fromUri($this->fileUrlGenerator->generateAbsoluteString($uri));
+
                 // $url->setOptions(array("attributes" => $attributes));
-                $type = str_replace("/", "-", $target_media_entity->field_media_file->entity->getMimeType());
+                $type = str_replace("/", "-", $target_media_entity->field_media_document->entity->getMimeType());
                 $basic = [
                   '#type' => 'link',
                   '#url' => $url,
@@ -744,7 +746,42 @@ class BoVars {
 
                 $e["rendered"]["basic"] = $this->renderer->render($basic);
                 $e["raw"]["uri"] = $uri;
-                $e["raw"]["url"] = $url;
+                $e["raw"]["name"] = $name;
+                $e["raw"]["filename"] = $filename;
+                $e["raw"]["size"] = $size;
+                $e["rendered"]["size"] = format_bytes($size);
+                $e["raw"]["type"] = $type;
+                $e["raw"]["target"] = "_blank";
+              }
+*/
+              if ($target_media_entity->bundle() == "file" || $target_media_entity->bundle() == "document") {
+                $file = $this->entityTypeManager->getStorage("file")->load($target_media_entity->id());
+
+                //dpm($this->renderer->render($file_link);
+                $field = 'field_media_'. $target_media_entity->bundle();
+                $uri = $target_media_entity->{$field}->entity->getFileUri();
+                $filename = $target_media_entity->{$field}->entity->getFileName();
+                $name = $target_media_entity->get("name")->value;
+                $size = $target_media_entity->{$field}->entity->getSize();
+                $attributes = ["target" => "_blank"];
+                $url = Url::fromUri($this->fileUrlGenerator->generateAbsoluteString($target_media_entity->{$field}->entity->getFileUri()));
+                // $url->setOptions(array("attributes" => $attributes));
+                $type = str_replace("/", "-", $target_media_entity->{$field}->entity->getMimeType());
+                $basic = [
+                  '#type' => 'link',
+                  '#url' => $url,
+                  '#attributes' => $attributes,
+                  '#title' => $name,
+                ];
+
+                $extended = [
+                  '#theme' => 'file_link',
+                  '#file' => $file,
+                ];
+
+                $e["rendered"]["basic"] = $this->renderer->render($basic);
+                $e["rendered"]["extended"] = $this->renderer->render($extended);
+                $e["raw"]["uri"] = $uri;
                 $e["raw"]["name"] = $name;
                 $e["raw"]["filename"] = $filename;
                 $e["raw"]["size"] = $size;
@@ -754,7 +791,7 @@ class BoVars {
               }
 
               $e["raw"]["name"] = $name;
-              $e["raw"]["url"] = $url;
+              $e["raw"]["url"] = $url->toString();
 
               if ($cardinality == 1) {
                 if (!empty($element)) {

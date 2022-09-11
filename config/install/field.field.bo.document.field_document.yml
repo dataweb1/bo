@@ -1,25 +1,29 @@
-uuid: fe7ab15b-9123-458a-aebc-2d56ca13ecde
+uuid: 61420ebc-ecc8-48b6-9b35-80080f0a0bba
 langcode: nl
 status: true
 dependencies:
   config:
     - bo.bundle.document
     - field.storage.bo.field_document
-  module:
-    - file
-_core:
-  default_config_hash: YK95pH-uadjIKRUhHbUSHRH8qicRX-SZ2m-YudPce4o
+    - media.type.document
 id: bo.document.field_document
 field_name: field_document
 entity_type: bo
 bundle: document
 label: Document
 description: ''
-required: true
-translatable: false
+required: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
   handler: 'default:media'
-  handler_settings: {  }
-field_type: file
+  handler_settings:
+    target_bundles:
+      document: document
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

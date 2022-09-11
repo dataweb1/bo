@@ -6,37 +6,36 @@ dependencies:
     - bo.bundle.document
     - field.field.bo.document.field_document
 _core:
-  default_config_hash: 9XPkx-9z1wZZ0AamjmthrTzPL89znPEamD1D1y27bFE
+  default_config_hash: mySeMceCt1eapeayoWp2HpbwlViJKXGqUTTqrhVI0lI
 id: bo.document.default
 targetEntityType: bo
 bundle: document
 mode: default
 content:
   field_document:
-    type: entity_reference_entity_view
-    weight: 6
+    type: entity_reference_label
     label: above
     settings:
-      view_mode: default
-      link: false
+      link: true
     third_party_settings: {  }
+    weight: 6
     region: content
   title:
-    label: hidden
     type: string
-    weight: 1
-    region: content
+    label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-  weight:
-    label: hidden
+    weight: 1
     region: content
-    weight: 5
+  weight:
+    type: number_integer
+    label: hidden
     settings:
       thousand_separator: ''
       prefix_suffix: true
     third_party_settings: {  }
-    type: number_integer
+    weight: 5
+    region: content
 hidden:
   langcode: true
