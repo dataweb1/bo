@@ -727,18 +727,16 @@ class BoVars {
               }
 
               if ($target_media_entity->bundle() == "file" || $target_media_entity->bundle() == "document") {
-                $file = $this->entityTypeManager->getStorage("file")->load($target_media_entity->id());
-
-                //dpm($this->renderer->render($file_link);
                 $field = 'field_media_'. $target_media_entity->bundle();
-                $uri = $target_media_entity->{$field}->entity->getFileUri();
-                $filename = $target_media_entity->{$field}->entity->getFileName();
+                $file = $this->entityTypeManager->getStorage("file")->load($target_media_entity->{$field}->entity->id());
+                $uri = $file->getFileUri();
+                $filename = $file->getFileName();
                 $name = $target_media_entity->get("name")->value;
-                $size = $target_media_entity->{$field}->entity->getSize();
+                $size = $file->getSize();
                 $attributes = ["target" => "_blank"];
-                $url = Url::fromUri($this->fileUrlGenerator->generateAbsoluteString($target_media_entity->{$field}->entity->getFileUri()));
+                $url = Url::fromUri($this->fileUrlGenerator->generateAbsoluteString($uri));
                 // $url->setOptions(array("attributes" => $attributes));
-                $type = str_replace("/", "-", $target_media_entity->{$field}->entity->getMimeType());
+                $type = str_replace("/", "-", $file->getMimeType());
                 $basic = [
                   '#type' => 'link',
                   '#url' => $url,
