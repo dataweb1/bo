@@ -684,12 +684,12 @@ class BoVars {
               $name = "";
 
               if ($target_media_entity->bundle() == "remote_video") {
-                $url = $target_media_entity->field_media_oembed_video->value;
+                $url = Url::fromUri($target_media_entity->field_media_oembed_video->value);
                 $name = $target_media_entity->name->value;
 
                 $thumbnail_target_id = $target_media_entity->thumbnail->target_id;
                 $thumbnail = $this->entityTypeManager->getStorage("media")->load($thumbnail_target_id);
-                $this->smartValue($url, $e, $vars);
+                $this->smartValue($url->toString(), $e, $vars);
               }
 
               if ($target_media_entity->bundle() == "image") {
@@ -725,35 +725,7 @@ class BoVars {
                 $e["raw"]["size"] = $size;
                 $e["rendered"]["size"] = format_bytes($size);
               }
-/*
-              if ($target_media_entity->bundle() == "document") {
-                $uri = $target_media_entity->field_media_document->entity->getFileUri();
-                $filename = $target_media_entity->field_media_document->entity->getFileName();
-                $name = $target_media_entity->get("name")->value;
-                $size = $target_media_entity->field_media_document->entity->getSize();
-                $attributes = ["target" => "_blank"];
 
-                $url = Url::fromUri($this->fileUrlGenerator->generateAbsoluteString($uri));
-
-                // $url->setOptions(array("attributes" => $attributes));
-                $type = str_replace("/", "-", $target_media_entity->field_media_document->entity->getMimeType());
-                $basic = [
-                  '#type' => 'link',
-                  '#url' => $url,
-                  '#attributes' => $attributes,
-                  '#title' => $name,
-                ];
-
-                $e["rendered"]["basic"] = $this->renderer->render($basic);
-                $e["raw"]["uri"] = $uri;
-                $e["raw"]["name"] = $name;
-                $e["raw"]["filename"] = $filename;
-                $e["raw"]["size"] = $size;
-                $e["rendered"]["size"] = format_bytes($size);
-                $e["raw"]["type"] = $type;
-                $e["raw"]["target"] = "_blank";
-              }
-*/
               if ($target_media_entity->bundle() == "file" || $target_media_entity->bundle() == "document") {
                 $file = $this->entityTypeManager->getStorage("file")->load($target_media_entity->id());
 
