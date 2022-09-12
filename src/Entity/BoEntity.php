@@ -27,7 +27,7 @@ use Drupal\bo\Service\BoCollection;
  *     "changed" = "changed",
  *   },
  *   fieldable = TRUE,
- *   admin_permission = "administer bo bundles",
+ *   admin_permission = "administer bo entities",
  *   handlers = {
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\bo\BoEntityListBuilder",
