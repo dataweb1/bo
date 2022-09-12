@@ -17,5 +17,11 @@ function bo_preprocess_views_view_bo(&$variables) {
     $variables['attributes']['class'][] = 'bo-overview';
     $variables['attributes']['class'][] = 'bo-overview-'.$display_plugin;
     $variables['dom_id'] = $view->dom_id;
-    $variables['attributes']['data-collection-id'] = $view->filter['bo_current_collection_id_filter']->value;
+
+    $collection_id = $view->filter['bo_current_collection_id_filter']->value;
+    $variables['attributes']['data-collection-id'] = $collection_id;
+
+    /** @var \Drupal\bo\Service\BoCollection $boCollection */
+    $boCollection = \Drupal::service('bo.collection');
+    $variables['attributes']['data-reload'] = (int)$boCollection->getCollectionReload($collection_id);
 }

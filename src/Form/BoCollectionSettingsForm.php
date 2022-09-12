@@ -273,6 +273,17 @@ class BoCollectionSettingsForm extends ConfigFormBase {
       '#default_value' => $default_value_max_count,
     ];
 
+    // bo_options > max_element_count.
+    $default_reload = $this->boCollection->getCollectionReload($this->collection_id);
+
+    $form["bo_options"]["reload"] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Reload'),
+      '#description' => $this->t('Reload after add/insert/delete'),
+      '#weight' => $weight,
+      '#default_value' => $default_reload,
+    ];
+
     $form['#attached']['library'] = [
       'bo/bo_collection_settings',
       'bo/bo_ajax_commands',
@@ -300,6 +311,7 @@ class BoCollectionSettingsForm extends ConfigFormBase {
       }
 
       $settings["collection"][$this->collection_id]["options"]["max_element_count"] = $form_state->getValue("bo_options")['max_element_count'];
+      $settings["collection"][$this->collection_id]["options"]["reload"] = $form_state->getValue("bo_options")['reload'];
       $settings["collection"][$this->collection_id]["options"]["label"] = $form_state->getValue("bo_options")['label'];
 
       if ($this->collection_id != "" && $this->collection_id != "-") {

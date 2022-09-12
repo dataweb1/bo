@@ -156,6 +156,24 @@ class BoCollection {
 
   /**
    * @param $collection_id
+   * @return bool
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function getCollectionReload($collection_id) {
+    // If collection settings overridden on view level.
+    $reload = $this->boSettings->getCollectionOptions($collection_id)['reload'] ?? '';
+    if ($reload == '') {
+      // If not get collection settings from bundle.
+      if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
+        $reload = $collection_bundle->getCollectionOptions()['reload'];
+      }
+    }
+    return (bool)$reload;
+  }
+
+  /**
+   * @param $collection_id
    * @return false|string[]
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
