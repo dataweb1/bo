@@ -2,7 +2,7 @@ administer bo bundles:
   title: 'Administer BO bundles'
   restrict access: true
 
-administer bo entites:
+administer bo entities:
   title: 'Administer BO entities'
   restrict access: true
 

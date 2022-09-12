@@ -104,43 +104,47 @@ class BoHeader extends AreaPluginBase {
         $links[] = $this->getSettingsLink($collection_id);
       }
 
-      $parameters = [
-        'collection_id' => $collection_id,
-        'view_dom_id' => $view_dom_id,
-        'to_path' => $to_path,
-        'entity_id' => 0,
-        'entity_weight' => 0,
-        'action' => 'add',
-      ];
+      $administer_entities = $this->current_user->hasPermission("administer bo entities");
+      if ($administer_entities) {
+        $parameters = [
+          'collection_id' => $collection_id,
+          'view_dom_id' => $view_dom_id,
+          'to_path' => $to_path,
+          'entity_id' => 0,
+          'entity_weight' => 0,
+          'action' => 'add',
+        ];
 
-      // Add / Insert single or multi link.
-      if ($this->boOperations->showAddInsertLink($view_result_count, $collection_id)) {
-        $links[] = $this->boOperations->getSingleOrMultiAddInsertLink($parameters);
-      }
+        // Add / Insert single or multi link.
+        if ($this->boOperations->showAddInsertLink($view_result_count, $collection_id)) {
+          $links[] = $this->boOperations->getSingleOrMultiAddInsertLink($parameters);
+        }
 
-      // Reorder link.
-      $show_reorder = FALSE;
-      if ($this->boCollection->hasEditBundlePermissionsForCollection($collection_id)) {
-        if ($view_result_count > 1) {
-          foreach ($view_sort as $s) {
-            if ($s->realField == "weight") {
-              $show_reorder = TRUE;
-              break;
+        // Reorder link.
+        $show_reorder = FALSE;
+        if ($this->boCollection->hasEditBundlePermissionsForCollection($collection_id)) {
+          if ($view_result_count > 1) {
+            foreach ($view_sort as $s) {
+              if ($s->realField == "weight") {
+                $show_reorder = TRUE;
+                break;
+              }
             }
-          }
-          if ($show_reorder) {
-            $links[] = $this->getReorderLink($parameters);
+            if ($show_reorder) {
+              $links[] = $this->getReorderLink($parameters);
+            }
           }
         }
       }
 
-      $bo_header_operations = [
-        '#theme' => 'bo_header_operations_item_list',
-        '#items' => $links,
-      ];
-
       // Render all.
+      $html_header = '';
       if (count($links) > 0) {
+        $bo_header_operations = [
+          '#theme' => 'bo_header_operations_item_list',
+          '#items' => $links,
+        ];
+
         $class = "";
 
         $html_header = '<div class="bo-header ' . $class . '">';
@@ -152,25 +156,24 @@ class BoHeader extends AreaPluginBase {
         }
 
         $html_header .= '</div>';
-
-        $markup = Markup::create($html_header);
-
-        return [
-          '#attached' => [
-            "library" => [
-              'bo/bo_operations',
-              'bo/bo_ajax_commands',
-            ],
-          ],
-          '#markup' => $markup,
-          '#cache' => [
-            "tags" => [
-              "bo:settings",
-            ],
-          ],
-        ];
       }
+
+      return [
+        '#attached' => [
+          "library" => [
+            'bo/bo_operations',
+            'bo/bo_ajax_commands',
+          ],
+        ],
+        '#markup' => Markup::create($html_header),
+        '#cache' => [
+          "tags" => [
+            "bo:settings",
+          ],
+        ],
+      ];
     }
+
 
     return [];
   }
