@@ -91,76 +91,76 @@ class BoVars {
       $current_user = \Drupal::currentUser();
 
       /** @var \Drupal\bo\Entity\BoBundle $bundle */
-      $bundle = $this->boBundle->getBundle($entity->getBundle());
-      $current_display = $view->getDisplay();
-      $current_view_display_settings = $entity->getCurrentViewDisplaySettings();
+      if ($bundle = $this->boBundle->getBundle($entity->getBundle())) {
+        $current_display = $view->getDisplay();
+        $current_view_display_settings = $entity->getCurrentViewDisplaySettings();
 
-      if (in_array("basic", $return)) {
-        $vars["bo"]["id"] = $entity->id();
-        $vars["bo"]["view_id"] = $view->id();
-        $vars["bo"]["display_id"] = $view->current_display;
-        $vars["bo"]["plugin_id"] = $current_view_display_settings["plugin_id"];
+        if (in_array("basic", $return)) {
+          $vars["bo"]["id"] = $entity->id();
+          $vars["bo"]["view_id"] = $view->id();
+          $vars["bo"]["display_id"] = $view->current_display;
+          $vars["bo"]["plugin_id"] = $current_view_display_settings["plugin_id"];
 
-        $vars["bo"]["row_count"] = count($view->result);
-        if (isset($view->row_index)) {
-          $vars["bo"]["row_index"] = $view->row_index;
+          $vars["bo"]["row_count"] = count($view->result);
+          if (isset($view->row_index)) {
+            $vars["bo"]["row_index"] = $view->row_index;
+          }
+          $vars["bo"]["bundle"] = $bundle->id();
+          $vars["bo"]["size"] = $entity->getSize();;
         }
-        $vars["bo"]["bundle"] = $bundle->id();
-        $vars["bo"]["size"] = $entity->getSize();
-        ;
-      }
 
-      $fields = $entity->getFields();
-      if (in_array("fields", $return)) {
-        foreach ($fields as $field_name => $field) {
+        $fields = $entity->getFields();
+        if (in_array("fields", $return)) {
+          foreach ($fields as $field_name => $field) {
 
-          $level = 0;
-          if ($field_name != "bundle" &&
-            $field_name != "id" &&
-            $field_name != "size" &&
-            $field_name != "display_id" &&
-            $field_name != "changed" &&
-            $field_name != "weight") {
-            if ($field_name == "title") {
-              if ($bundle->getInternalTitle() == TRUE) {
-                continue;
+            $level = 0;
+            if ($field_name != "bundle" &&
+              $field_name != "id" &&
+              $field_name != "size" &&
+              $field_name != "display_id" &&
+              $field_name != "changed" &&
+              $field_name != "weight") {
+              if ($field_name == "title") {
+                if ($bundle->getInternalTitle() == TRUE) {
+                  continue;
+                }
               }
-            }
 
-            if ($entity->hasField($field_name)) {
-              $element = $this->processField($entity, $field_name, $vars, $level);
-              $this->getRenderedViewFields($current_display, $row, $field_name, $element);
-              $vars["bo"][$field_name] = $element;
-            }
+              if ($entity->hasField($field_name)) {
+                $element = $this->processField($entity, $field_name, $vars, $level);
+                $this->getRenderedViewFields($current_display, $row, $field_name, $element);
+                $vars["bo"][$field_name] = $element;
+              }
 
+            }
           }
         }
-      }
 
-      if (in_array("collection", $return)) {
-        $is_collection = $bundle->getCollection()['enabled'] ?? FALSE;
-        if ($is_collection) {
-          $collection_data = $this->getCollectionData(
-            $view,
-            $entity,
-            $vars,
-            [
-              'items',
-              'rendered_collection',
-            ]
-          );
-          $vars["bo"]["collection"] = $collection_data["items"];
-          $vars["collection"] = $collection_data["collection"];
+        if (in_array("collection", $return)) {
+          $is_collection = $bundle->getCollection()['enabled'] ?? FALSE;
+          if ($is_collection) {
+            $collection_data = $this->getCollectionData(
+              $view,
+              $entity,
+              $vars,
+              [
+                'items',
+                'rendered_collection',
+              ]
+            );
+            $vars["bo"]["collection"] = $collection_data["items"];
+            $vars["collection"] = $collection_data["collection"];
+          }
         }
-      }
 
-      if (in_array("help", $return)) {
-        if ($current_user->hasPermission("show twig help")) {
-          $vars["help"] = $this->boHelp->getHelpLink(
-            $view->filter['bo_current_collection_id_filter']->value,
-            $view->argument['bo_current_path_argument']->argument,
-            $vars['bo']['id']
-          );
+        if (in_array("help", $return)) {
+          if ($current_user->hasPermission("show twig help")) {
+            $vars["help"] = $this->boHelp->getHelpLink(
+              $view->filter['bo_current_collection_id_filter']->value,
+              $view->argument['bo_current_path_argument']->argument,
+              $vars['bo']['id']
+            );
+          }
         }
       }
     }
