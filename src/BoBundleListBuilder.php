@@ -373,10 +373,10 @@ class BoBundleListBuilder extends ConfigEntityListBuilder implements FormInterfa
     ]);
     $collection_settings_link = Link::fromTextAndUrl('Settings', $url)->toString();
 
-    $row['collection'] = [
+    $row['collection_enabled'] = [
       '#type' => 'checkbox',
       '#default_value' => $bundle->getCollectionEnabled() ?? FALSE,
-      "#name" => 'collection[' . $bundle->id() . ']',
+      "#name" => 'collection_enabled[' . $bundle->id() . ']',
       '#suffix' => '<div class="right-to-checkbox bo-bundle-collection">' . $collection_settings_link . '</div>',
       '#attributes' => ["class" => ["bo-bundle-checkbox-collection"]],
     ];
@@ -419,9 +419,10 @@ class BoBundleListBuilder extends ConfigEntityListBuilder implements FormInterfa
       $icon = $entity_input['icon'][$entity_id];
       $entity->setIcon($icon);
 
-      $collection = (int) $entity_input['collection'][$entity_id];
-      $entity->setCollectionEnabled($collection);
+      $collection_enabled = (int) $entity_input['collection_enabled'][$entity_id];
+      $entity->setCollectionEnabled($collection_enabled);
 
+      //dpm($entity);
       $group = $entity_values['group'];
       if ($group == "_empty") {
         $group = "";

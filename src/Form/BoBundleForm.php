@@ -99,7 +99,7 @@ class BoBundleForm extends BundleEntityFormBase {
       '#description' => $this->t("Icon for the %bundle bundle.", ['%bundle' => $bundle]),
     ];
 
-    $form['collection'] = [
+    $form['collection_enabled'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Collection'),
       '#default_value' => $entity_bundle->getCollectionEnabled(),
@@ -178,8 +178,8 @@ class BoBundleForm extends BundleEntityFormBase {
     $icon = $form_state->getValue("icon");
     $entity_bundle->setIcon($icon);
 
-    $collection = $form_state->getValue("collection");
-    $entity_bundle->setCollectionEnabled($collection);
+    $collection_enabled = $form_state->getValue("collection_enabled");
+    $entity_bundle->setCollectionEnabled($collection_enabled);
 
     $related_bundles_to_save = [];
     foreach($form_state->getValue('related_bundles') as $related_bundle) {

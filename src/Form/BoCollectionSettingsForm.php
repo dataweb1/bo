@@ -8,6 +8,9 @@ use Drupal\bo\Service\BoSettings;
 use Drupal\bo\Ajax\RefreshPageCommand;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\CloseDialogCommand;
+use Drupal\Core\Ajax\HtmlCommand;
+use Drupal\Core\Ajax\PrependCommand;
+use Drupal\Core\Ajax\RemoveCommand;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -294,6 +297,9 @@ class BoCollectionSettingsForm extends ConfigFormBase {
       'afterSubmitCallback',
     ];
 
+    $form['#prefix'] = '<div id="form_wrapper">';
+    $form['#suffix'] = '</div>';
+
     return $form;
   }
 
@@ -352,11 +358,39 @@ class BoCollectionSettingsForm extends ConfigFormBase {
    */
   public function afterSubmitCallback(array $form, FormStateInterface $formState) {
     $response = new AjaxResponse();
-    if ($this->via == 'view') {
-      $response->addCommand(new RefreshPageCommand());
+    $messages = \Drupal::messenger()->all();
+    if (!isset($messages['error'])) {
+      if ($this->via == 'view') {
+        $response->addCommand(new RefreshPageCommand());
+      }
+      else {
+        $response->addCommand(new CloseDialogCommand('.bo-dialog .ui-dialog-content'));
+      }
     }
     else {
-      $response->addCommand(new CloseDialogCommand('.bo-dialog .ui-dialog-content'));
+      /** @var \Drupal\Core\Render\RendererInterface $renderer */
+      $renderer = \Drupal::service('renderer');
+
+      /** @var \Drupal\Core\Extension\ModuleHandler $moduleHandler */
+      $moduleHandler = \Drupal::service('module_handler');
+      if ($moduleHandler->moduleExists('inline_form_errors')) {
+        $response->addCommand(new HtmlCommand('#form_wrapper', $form));
+      }
+
+      $messagesElement = [
+        '#type' => 'container',
+        '#attributes' => [
+          'class' => 'bo-messages',
+        ],
+        'messages' => ['#type' => 'status_messages'],
+      ];
+
+      $response->addCommand(new RemoveCommand('.bo-messages'));
+
+      $response->addCommand(new PrependCommand(
+        '#form_wrapper',
+        $renderer->renderRoot($messagesElement)
+      ));
     }
     return $response;
   }
