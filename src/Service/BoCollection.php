@@ -174,6 +174,7 @@ class BoCollection {
 
   /**
    * @param $collection_id
+   *
    * @return false|string[]
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
@@ -192,15 +193,17 @@ class BoCollection {
       }
     }
 
-    if ($collection_view !== NULL) {
+    if ($collection_view !== NULL && $collection_view != '') {
+      return explode('__', $collection_view);
+    }
+    else {
       if ($collection_id !== NULL) {
         $block = Block::load($collection_id);
         [$type, $view] = explode(':', $block->getPluginId());
         return explode('-', $view);
-      } else {
-        return explode('__', $collection_view);
       }
     }
+
     return FALSE;
   }
 
