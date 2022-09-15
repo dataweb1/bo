@@ -107,6 +107,9 @@ function add_views_view_bo_suggestion_to_templates($elements, $theme, &$template
  */
 function add_views_view_unformatted_bo_suggestion_to_templates($elements, $theme, &$templates) {
 
+  /** @var \Drupal\bo\Service\BoHandler $boHandler */
+  $boHandler = \Drupal::service('bo.handler');
+
   $all_elements = "";
   foreach ($elements as $key => $element) {
     if ($key > 0) {
@@ -115,16 +118,20 @@ function add_views_view_unformatted_bo_suggestion_to_templates($elements, $theme
     $all_elements .= $element;
     $template = 'views-view-unformatted-bo--' . str_replace("_", "-", $all_elements);
 
-    $module_template_file = DRUPAL_ROOT . "/" . \Drupal::service('module_handler')->getModule('bo')->getPath() . "/templates/" . $template . ".html.twig";
-    $theme_template_file = DRUPAL_ROOT . "/" . $theme->getPath() . "/templates/" . $template . ".html.twig";
-
     $s = 'views_view_unformatted_bo__' . $all_elements;
     $t = $template;
     $template_path = "";
-    if (file_exists($module_template_file)) {
-      $template_path = \Drupal::service('module_handler')->getModule('bo')->getPath() . "/templates";
 
+    foreach ($boHandler->getModulesPaths() as $modules_path) {
+      $module_template_file = DRUPAL_ROOT . '/' . $modules_path . "/templates/" . $template . ".html.twig";
+      if (file_exists($module_template_file)) {
+        $t = $template;
+        $template_path = $modules_path . "/templates";
+        break;
+      }
     }
+
+    $theme_template_file = DRUPAL_ROOT . "/" . $theme->getPath() . "/templates/" . $template . ".html.twig";
     if (file_exists($theme_template_file)) {
       $template_path = $theme->getPath() . "/templates";
     }
@@ -134,12 +141,24 @@ function add_views_view_unformatted_bo_suggestion_to_templates($elements, $theme
         'template_preprocess_views_view_unformatted',
         'bo_preprocess_views_view_unformatted_bo',
         'bo_preprocess_views_view_unformatted_bo__' . $elements[0],
-        'bo_preprocess_views_view_unformatted_bo__' . $elements[0] . '__' . $elements[1],
+        'bo_preprocess_views_view_unformatted_bo__' . $elements[0] . '__' . $elements[1]];
+
+      foreach ($boHandler->getModulesPaths() as $module_name => $modules_path) {
+        $preprocess_functions = array_merge($preprocess_functions, [
+          $module_name . '_preprocess_views_view_unformatted',
+          $module_name . '_preprocess_views_view_unformatted_bo',
+          $module_name . '_preprocess_views_view_unformatted_bo__' . $elements[0],
+          $module_name . '_preprocess_views_view_unformatted_bo__' . $elements[0] . '__' . $elements[1],
+        ]);
+      }
+
+      $preprocess_functions = array_merge($preprocess_functions, [
         $theme->getName() . '_preprocess_views_view_unformatted',
         $theme->getName() . '_preprocess_views_view_unformatted_bo',
         $theme->getName() . '_preprocess_views_view_unformatted_bo__' . $elements[0],
         $theme->getName() . '_preprocess_views_view_unformatted_bo__' . $elements[0] . '__' . $elements[1],
-      ];
+      ]);
+
       $templates[$s] = [
         'template' => $t,
         'file' => 'inc/views_view_unformatted_bo.theme',
@@ -152,16 +171,19 @@ function add_views_view_unformatted_bo_suggestion_to_templates($elements, $theme
 
       $template = 'views-view-unformatted-bo';
 
-      $module_template_file = DRUPAL_ROOT . "/" . \Drupal::service('module_handler')->getModule('bo')->getPath() . "/templates/" . $template . ".html.twig";
-      $theme_template_file = DRUPAL_ROOT . "/" . $theme->getPath() . "/templates/" . $template . ".html.twig";
-
       $s = 'views_view_unformatted_' . $all_elements;
       $t = $template;
       $template_path = "";
-      if (file_exists($module_template_file)) {
-        $template_path = \Drupal::service('module_handler')->getModule('bo')->getPath() . "/templates";
-
+      foreach ($boHandler->getModulesPaths() as $modules_path) {
+        $module_template_file = DRUPAL_ROOT . '/' . $modules_path . "/templates/" . $template . ".html.twig";
+        if (file_exists($module_template_file)) {
+          $t = $template;
+          $template_path = $modules_path . "/templates";
+          break;
+        }
       }
+
+      $theme_template_file = DRUPAL_ROOT . "/" . $theme->getPath() . "/templates/" . $template . ".html.twig";
       if (file_exists($theme_template_file)) {
         $template_path = $theme->getPath() . "/templates";
       }
@@ -180,12 +202,23 @@ function add_views_view_unformatted_bo_suggestion_to_templates($elements, $theme
             'template_preprocess_views_view_unformatted',
             'bo_preprocess_views_view_unformatted_bo',
             'bo_preprocess_views_view_unformatted_bo__' . $elements[0],
-            'bo_preprocess_views_view_unformatted_bo__' . $elements[0] . '__' . $elements[1],
+            'bo_preprocess_views_view_unformatted_bo__' . $elements[0] . '__' . $elements[1]];
+
+          foreach ($boHandler->getModulesPaths() as $module_name => $modules_path) {
+            $preprocess_functions = array_merge($preprocess_functions, [
+              $module_name . '_preprocess_views_view_unformatted',
+              $module_name . '_preprocess_views_view_unformatted_bo',
+              $module_name . '_preprocess_views_view_unformatted_bo__' . $elements[0],
+              $module_name . '_preprocess_views_view_unformatted_bo__' . $elements[0] . '__' . $elements[1],
+            ]);
+          }
+
+          $preprocess_functions = array_merge($preprocess_functions, [
             $theme->getName() . '_preprocess_views_view_unformatted',
             $theme->getName() . '_preprocess_views_view_unformatted_bo',
             $theme->getName() . '_preprocess_views_view_unformatted_bo__' . $elements[0],
             $theme->getName() . '_preprocess_views_view_unformatted_bo__' . $elements[0] . '__' . $elements[1],
-          ];
+          ]);
         }
         $templates[$s] = [
           'template' => $t,
