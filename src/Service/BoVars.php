@@ -350,6 +350,10 @@ class BoVars {
       $url = Url::fromUri($uri);
       $title = $item->title;
       $url_string = $url->toString();
+      if ($url_string == '') {
+        $url_string = '#';
+      }
+
       $target = "";
 
       $attributes = [];
