@@ -349,12 +349,17 @@ class BoVars {
       $uri = $item->uri;
       $url = Url::fromUri($uri);
       $title = $item->title;
-
       $url_string = $url->toString();
       $target = "";
+
       $attributes = [];
+      $item_value = $item->getValue();
+      if (isset($item_value['options']['attributes'])) {
+        $attributes = $item_value['options']['attributes'];
+      }
+
       if ($url->isExternal() == 1) {
-        $attributes = ["target" => "_blank"];
+        $attributes["target"] = "_blank";
         $target = "_blank";
       }
 
@@ -369,6 +374,9 @@ class BoVars {
       $e["raw"]["uri"] = $uri;
       $e["raw"]["url"] = $url_string;
       $e["raw"]["title"] = $title;
+      foreach ($attributes as $attribute_key => $attribute_value) {
+        $e['raw'][$attribute_key] = implode(' ', $attribute_value);
+      }
       $e["raw"]["target"] = $target;
 
       $this->smartValue($url_string, $e, $vars);
