@@ -44,6 +44,11 @@ services:
       - '@bo.collection'
       - '@bo.help'
 
+  bo.vars_helper:
+    class: Drupal\bo\Service\BoVarsHelper
+    arguments:
+      - '@file_url_generator'
+
   bo.translate:
     class: Drupal\bo\Service\BoTranslate
     arguments:
