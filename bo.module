@@ -234,8 +234,11 @@ function bo_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   }
 
   if ($route_name == 'entity.bo.add_form' ||  $route_name == 'entity.bo.insert_form' || $route_name == 'entity.bo.edit_form') {
-    $form['#after_build'][] = '_entity_form_after_build';
+    $form['#after_build'][] = '_bo_entity_form_after_build';
   }
+
+  $form['#after_build'][] = '_form_after_build';
+
 }
 
 /**
@@ -422,7 +425,7 @@ function _add_translation_submit($form, FormStateInterface $formState) {
  *
  * @return array
  */
-function _entity_form_after_build($form, FormStateInterface $formState) {
+function _bo_entity_form_after_build($form, FormStateInterface $formState) {
   foreach($form as $delta => $element) {
     if ($element['widget'][0]['#type'] == 'text_format') {
       unset($form[$delta]['widget'][0]['format']['help']);
@@ -431,6 +434,21 @@ function _entity_form_after_build($form, FormStateInterface $formState) {
       $form[$delta]['widget'][0]['format']['#prefix'] = '<div class="hide">';
       $form[$delta]['widget'][0]['format']['#suffix'] = '</div>';
     }
+  }
+
+  //dpm($form['actions']);
+  return $form;
+}
+
+/**
+ * @param $form
+ * @param \Drupal\Core\Form\FormStateInterface $formState
+ *
+ * @return array
+ */
+function _form_after_build($form, FormStateInterface $formState) {
+  if (isset($form['actions']['delete'])) {
+    $form['actions']['delete']['#options']['attributes']['class'][] = 'button';
   }
   return $form;
 }
