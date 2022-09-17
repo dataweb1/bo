@@ -73,13 +73,13 @@ class BoSettingsForm extends ConfigFormBase {
     $form['google']['google_translate_enabled'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Enable Google Translate'),
-      '#default_value' => $this->boSettings->getSetting("google_translate_enabled"),
+      '#default_value' => $this->boSettings->getGoogleTranslateEnabled(),
     ];
 
     $form['google']['google_translate_key'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Google Translate API Key'),
-      '#default_value' => $this->boSettings->getSetting("google_translate_key"),
+      '#default_value' => $this->boSettings->getGoogleTranslateKey(),
     ];
 
     $form['google']['google_maps_key'] = [

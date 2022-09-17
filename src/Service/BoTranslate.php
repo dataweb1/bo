@@ -37,8 +37,8 @@ class BoTranslate {
    */
   public function __construct(BoSettings $boSettings, EntityTypeManager $entityTypeManager) {
     $this->boSettings = $boSettings;
-    $this->enabled = $this->boSettings->getSetting("google_translate_enabled");
-    $this->key = $this->boSettings->getSetting("google_translate_key");
+    $this->enabled = $this->boSettings->getGoogleTranslateEnabled();
+    $this->key = $this->boSettings->getGoogleTranslateKey();
     $this->entityTypeManager = $entityTypeManager;
   }
 
@@ -52,7 +52,6 @@ class BoTranslate {
    */
   public function translatePathContent($from_langcode, $to_langcode, $to_path) {
     if ($this->enabled == TRUE) {
-
       $query = \Drupal::entityQuery('bo')
         ->condition('to_path', $to_path)
         ->condition('langcode', $from_langcode);
@@ -65,10 +64,10 @@ class BoTranslate {
         $new_bo_entity = $bo_entity->createDuplicate();
         $new_bo_entity->set("langcode", $to_langcode);
 
-        $fields = $this->boSettings->getFields($new_bo_entity->getBundle());
-
-        foreach ($fields as $field_name) {
-          if ($new_bo_entity->hasField($field_name)) {
+        $fields = $new_bo_entity->getFields();
+        foreach ($fields as $field_name => $field) {
+          if ($field->getFieldDefinition()->isTranslatable()) {
+            //if ($new_bo_entity->hasField($field_name)) {
             if (isset($new_bo_entity->get($field_name)->value)) {
               foreach ($new_bo_entity->get($field_name) as $key => &$item) {
                 $new_bo_entity->get($field_name)[$key]->value = $this->translateValue($new_bo_entity->get($field_name)[$key]->value, $from_langcode, $to_langcode);

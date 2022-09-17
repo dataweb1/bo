@@ -73,7 +73,7 @@
       if (view_dom_id !== "") {
         if (Drupal.views) {
           if (Drupal.views.instances["views_dom_id:" + view_dom_id]) {
-            var current_path = "/" + drupalSettings.path.currentPath;
+            var current_path = '/' + drupalSettings.path.currentPath;
             var collection_id = $(".js-view-dom-id-" + view_dom_id).attr("data-collection-id");
             var reload = $(".js-view-dom-id-" + view_dom_id).attr("data-reload");
             if (reload == '0') {

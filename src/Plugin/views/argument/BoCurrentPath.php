@@ -42,8 +42,9 @@ class BoCurrentPath extends Standard {
     return $this->validateArgument($arg);
   }
 
+
   /**
-   *
+   * @param false $group_by
    */
   public function query($group_by = FALSE) {
     $this->ensureMyTable();
@@ -51,25 +52,15 @@ class BoCurrentPath extends Standard {
   }
 
   /**
-   *
+   * @return array|mixed|string|string[]
    */
   public function getCurrentPath() {
+    $current_path = \Drupal::request()->get('to_path');
 
-    /* @todo: current_path -> to_path; */
-    $c = \Drupal::request()->get('current_path');
-    if ($c == "") {
-      $c = \Drupal::request()->get('to_path');
-    }
-
-    if ($c != "") {
-      $current_path = str_replace("|", "/", $c);
-    }
-    else {
-
+    if ($current_path == "") {
       $current_path = \Drupal::service('path.current')->getPath();
       $base_url = \Drupal::request()->getBaseUrl();
       $current_path = str_replace($base_url, "", $current_path);
-      $current_path = str_replace("//", "/", $current_path);
     }
 
     return $current_path;

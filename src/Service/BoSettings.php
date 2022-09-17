@@ -94,19 +94,6 @@ class BoSettings {
   }
 
   /**
-   * @param string $bundle
-   * @return mixed
-   */
-  public function getFields($bundle = '') {
-    if ($bundle != "") {
-      return $this->settings["fields"][$bundle];
-    }
-    else {
-      return $this->settings["fields"];
-    }
-  }
-
-  /**
    * @return false|mixed
    */
   public function getCollections() {
@@ -170,11 +157,17 @@ class BoSettings {
   }
 
   /**
-   *
+   * @return mixed
    */
   public function getGoogleTranslateEnabled() {
-    ;
     return $this->settings["google_translate_enabled"];
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getGoogleTranslateKey() {
+    return $this->settings['google_translate_key'];
   }
 
   /**

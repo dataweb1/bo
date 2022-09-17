@@ -216,13 +216,12 @@ function bo_preprocess_page_title(&$variables) {
  * Implements hook_form_alter().
  */
 function bo_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  $current_uri = \Drupal::request()->getRequestUri();
-  if (strpos($current_uri, "translations/add") !== false) {
+  if (\Drupal::routeMatch()->getRouteName() == 'entity.node.content_translation_add') {
     $form["actions"]["submit"]["#submit"][] = "_add_translation_submit";
 
     /** @var \Drupal\bo\Service\BoSettings $boSettings */
     $boSettings = \Drupal::getContainer()->get('bo.settings');
-    if ($boSettings->getSetting("google_translate_enabled")) {
+    if ($boSettings->getGoogleTranslateEnabled()) {
       $form['google_translate'] = [
         '#type' => 'checkbox',
         '#title' => t('Translate BO textual content via Google Translate'),
@@ -396,13 +395,10 @@ function bo_link_alter(&$variables) {
  */
 function _add_translation_submit($form, FormStateInterface $formState) {
   $google_translate = (bool)$formState->getValue("google_translate");
-  if ($google_translate == true) {
-    $from_langcode = $formState->getValue("source_langcode")["source"];
-    if ($from_langcode == "") {
-      $from_langcode = $formState->getValue("to_path")[0]["langcode"];
-    }
+  if ($google_translate == TRUE) {
+    $from_langcode = $formState->getValue("path")[0]["langcode"];
     $to_langcode = $formState->getValue("langcode")[0]["value"];
-    $to_path = $formState->getBuildInfo()['callback_object']->getEntity()->toArray()["to_path"][0]["source"];
+    $to_path = $formState->getValue("path")[0]["source"];
 
     /** @var \Drupal\bo\Service\BoTranslate $boTranslate */
     $boTranslate = \Drupal::service('bo.translate');
