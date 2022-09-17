@@ -367,6 +367,11 @@ function bo_link_alter(&$variables) {
     'bo.multi',
     'bo.reorder',
     'bo.reset_collection_options_form',
+    'entity.node.edit_form',
+    'entity.node.delete_form',
+    'node.add',
+    'entity.node.content_translation_overview',
+    'entity.node.content_translation_add',
     'bo.help',
   ];
 
