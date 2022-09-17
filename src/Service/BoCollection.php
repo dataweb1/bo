@@ -169,7 +169,7 @@ class BoCollection {
         $reload = $collection_bundle->getCollectionOptions()['reload'];
       }
     }
-    return (bool)$reload;
+    return (bool) $reload;
   }
 
   /**
@@ -187,7 +187,7 @@ class BoCollection {
         $ignore_current_path = $collection_bundle->getCollectionOptions()['ignore_current_path'];
       }
     }
-    return (bool)ignore_current_path;
+    return (bool) $ignore_current_path;
   }
 
   /**
