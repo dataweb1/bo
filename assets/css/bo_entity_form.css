@@ -1,3 +1,7 @@
+.hide {
+  display: none;
+}
+
 .radio-button-group .js-form-item {
     display: inline-block;
     margin-right: 10px!important;

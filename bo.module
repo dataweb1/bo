@@ -216,7 +216,8 @@ function bo_preprocess_page_title(&$variables) {
  * Implements hook_form_alter().
  */
 function bo_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  if (\Drupal::routeMatch()->getRouteName() == 'entity.node.content_translation_add') {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if ($route_name == 'entity.node.content_translation_add') {
     $form["actions"]["submit"]["#submit"][] = "_add_translation_submit";
 
     /** @var \Drupal\bo\Service\BoSettings $boSettings */
@@ -230,6 +231,10 @@ function bo_form_alter(&$form, FormStateInterface $form_state, $form_id) {
         '#group' => "footer",
       ];
     }
+  }
+
+  if ($route_name == 'entity.bo.add_form' ||  $route_name == 'entity.bo.insert_form' || $route_name == 'entity.bo.edit_form') {
+    $form['#after_build'][] = '_entity_form_after_build';
   }
 }
 
@@ -404,4 +409,23 @@ function _add_translation_submit($form, FormStateInterface $formState) {
     $boTranslate = \Drupal::service('bo.translate');
     $boTranslate->translatePathContent($from_langcode, $to_langcode, $to_path);
   }
+}
+
+/**
+ * @param $form
+ * @param \Drupal\Core\Form\FormStateInterface $formState
+ *
+ * @return array
+ */
+function _entity_form_after_build($form, FormStateInterface $formState) {
+  foreach($form as $delta => $element) {
+    if ($element['widget'][0]['#type'] == 'text_format') {
+      unset($form[$delta]['widget'][0]['format']['help']);
+      unset($form[$delta]['widget'][0]['format']['guidelines']);
+      $form[$delta]['widget'][0]['format']['#attributes']['class'][] = 'hide';
+      $form[$delta]['widget'][0]['format']['#prefix'] = '<div class="hide">';
+      $form[$delta]['widget'][0]['format']['#suffix'] = '</div>';
+    }
+  }
+  return $form;
 }
