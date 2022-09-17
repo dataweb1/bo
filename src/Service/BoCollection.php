@@ -174,6 +174,24 @@ class BoCollection {
 
   /**
    * @param $collection_id
+   * @return bool
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function getCollectionIgnoreCurrentPath($collection_id) {
+    // If collection settings overridden on view level.
+    $ignore_current_path = $this->boSettings->getCollectionOptions($collection_id)['ignore_current_path'] ?? '';
+    if ($ignore_current_path == '') {
+      // If not get collection settings from bundle.
+      if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
+        $ignore_current_path = $collection_bundle->getCollectionOptions()['ignore_current_path'];
+      }
+    }
+    return (bool)ignore_current_path;
+  }
+
+  /**
+   * @param $collection_id
    *
    * @return false|string[]
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException

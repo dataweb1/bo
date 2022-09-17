@@ -276,15 +276,24 @@ class BoCollectionSettingsForm extends ConfigFormBase {
       '#default_value' => $default_value_max_count,
     ];
 
-    // bo_options > max_element_count.
+    // Collection options > max_element_count.
     $default_reload = $this->boCollection->getCollectionReload($this->collection_id);
-
     $form["bo_options"]["reload"] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Reload'),
-      '#description' => $this->t('Reload after add/insert/delete'),
+      '#description' => $this->t('Reload after add/insert/delete instead of an AJAX refresh.'),
       '#weight' => $weight,
       '#default_value' => $default_reload,
+    ];
+
+    // Collection options > ignore_current_path.
+    $default_value_ignore_current_path = $this->boCollection->getCollectionIgnoreCurrentPath($this->collection_id);
+    $form["bo_options"]["ignore_current_path"] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Ignore current path filter'),
+      '#description' => $this->t('Show all collection items regardless of the current path'),
+      '#weight' => $weight,
+      '#default_value' => $default_value_ignore_current_path,
     ];
 
     $form['#attached']['library'] = [
@@ -318,6 +327,7 @@ class BoCollectionSettingsForm extends ConfigFormBase {
 
       $settings["collection"][$this->collection_id]["options"]["max_element_count"] = $form_state->getValue("bo_options")['max_element_count'];
       $settings["collection"][$this->collection_id]["options"]["reload"] = $form_state->getValue("bo_options")['reload'];
+      $settings["collection"][$this->collection_id]["options"]["ignore_current_path"] = $form_state->getValue("bo_options")['ignore_current_path'];
       $settings["collection"][$this->collection_id]["options"]["label"] = $form_state->getValue("bo_options")['label'];
 
       if ($this->collection_id != "" && $this->collection_id != "-") {

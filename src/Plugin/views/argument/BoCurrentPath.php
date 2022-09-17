@@ -2,9 +2,11 @@
 
 namespace Drupal\bo\Plugin\views\argument;
 
+use Drupal\bo\Service\BoCollection;
 use Drupal\views\Plugin\views\argument\Standard;
 use Drupal\views\Plugin\views\display\DisplayPluginBase;
 use Drupal\views\ViewExecutable;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Defines a filter for Current Path.
@@ -16,28 +18,46 @@ use Drupal\views\ViewExecutable;
 class BoCurrentPath extends Standard {
 
   /**
-   * {@inheritdoc}
+   * @var BoCollection
    */
-  public function init(ViewExecutable $view, DisplayPluginBase $display, array &$options = NULL) {
-    parent::init($view, $display, $options);
+  private BoCollection $boCollection;
 
-    //if ((string) $this->argument == "" || (string) $this->argument == "all") {
-      $this->argument = $this->getCurrentPath();
-    //}
+  /**
+   * @var string
+   */
+  private $collection_id;
+
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, BoCollection $boCollection) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->boCollection = $boCollection;
+  }
+
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static ($configuration, $plugin_id, $plugin_definition,
+      \Drupal::service('bo.collection')
+    );
   }
 
   /**
    * {@inheritdoc}
    */
   public function setArgument($arg) {
-    if ((string) $arg == "" || (string) $arg == "all") {
+
+    if ((string) $arg == "" || (string) $arg == "current_path") {
       $arg = $this->getCurrentPath();
     }
 
+    // Set arg to 'all' if bypass current path options is set for collection.
+    $this->collection_id = $this->view->filter['bo_current_collection_id_filter']->value;
+    if ($this->boCollection->getCollectionIgnoreCurrentPath($this->collection_id)) {
+      $arg = 'all';
+    }
+
     // If we are not dealing with the exception argument, example "all".
-    // if ($this->isException($arg)) {
-    //    return parent::setArgument($arg);
-    // }
+    if ($this->isException($arg)) {
+        return parent::setArgument($arg);
+    }
+
     $this->argument = $arg;
     return $this->validateArgument($arg);
   }
