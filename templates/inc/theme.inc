@@ -141,7 +141,8 @@ function add_views_view_unformatted_bo_suggestion_to_templates($elements, $theme
         'template_preprocess_views_view_unformatted',
         'bo_preprocess_views_view_unformatted_bo',
         'bo_preprocess_views_view_unformatted_bo__' . $elements[0],
-        'bo_preprocess_views_view_unformatted_bo__' . $elements[0] . '__' . $elements[1]];
+        'bo_preprocess_views_view_unformatted_bo__' . $elements[0] . '__' . $elements[1]
+      ];
 
       foreach ($boHandler->getModulesPaths() as $module_name => $modules_path) {
         $preprocess_functions = array_merge($preprocess_functions, [
@@ -202,7 +203,8 @@ function add_views_view_unformatted_bo_suggestion_to_templates($elements, $theme
             'template_preprocess_views_view_unformatted',
             'bo_preprocess_views_view_unformatted_bo',
             'bo_preprocess_views_view_unformatted_bo__' . $elements[0],
-            'bo_preprocess_views_view_unformatted_bo__' . $elements[0] . '__' . $elements[1]];
+            'bo_preprocess_views_view_unformatted_bo__' . $elements[0] . '__' . $elements[1]
+          ];
 
           foreach ($boHandler->getModulesPaths() as $module_name => $modules_path) {
             $preprocess_functions = array_merge($preprocess_functions, [

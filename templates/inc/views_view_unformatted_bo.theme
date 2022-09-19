@@ -14,7 +14,6 @@ use Drupal\Core\Cache\Cache;
  */
 
 function bo_preprocess_views_view_unformatted_bo(&$vars) {
-
   /** @var \Drupal\bo\Service\BoVars $boVars */
   $boVars = \Drupal::service('bo.vars');
 
@@ -71,25 +70,24 @@ function bo_preprocess_views_view_unformatted_bo(&$vars) {
 
     $entity = $view->result[$id]->_entity;
     if ($entity) {
-      $data = $boVars->getVariables(
+      $boVars->getVariables(
         $view,
         $view->result[$id],
         $vars, [
           'basic',
-          'fields'
+          'fields',
         ]
       );
 
       $operations = NULL;
       $boVars->getRenderedViewFields($current_display, $view->result[$id], "bo_operations", $operations);
-      $data["bo"]["operations"] = $operations["rendered"]["view_bo_operations"];
+      $vars["bo"]["operations"] = $operations["rendered"]["view_bo_operations"];
 
-
-      if ($data["bo"]) {
-        $data["bo"]["row_index"] = $id;
+      if ($vars["bo"]) {
+        $vars["bo"]["row_index"] = $id;
 
         // Add the entity data to the $vars variable.
-        $vars["bo"]["collection"][] = $data["bo"];
+        $vars["bo"]["collection"][] = $vars["bo"];
       }
 
       $cacheTags = $entity->getCacheTags();

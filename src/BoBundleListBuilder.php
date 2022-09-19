@@ -422,7 +422,6 @@ class BoBundleListBuilder extends ConfigEntityListBuilder implements FormInterfa
       $collection_enabled = (int) $entity_input['collection_enabled'][$entity_id];
       $entity->setCollectionEnabled($collection_enabled);
 
-      //dpm($entity);
       $group = $entity_values['group'];
       if ($group == "_empty") {
         $group = "";

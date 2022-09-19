@@ -106,15 +106,12 @@ class BoVars {
             $vars["bo"]["row_index"] = $view->row_index;
           }
           $vars["bo"]["bundle"] = $bundle->id();
-          $vars["bo"]["size"] = $entity->getSize();;
+          $vars["bo"]["size"] = $entity->getSize();
         }
 
         $fields = $entity->getFields();
         if (in_array("fields", $return)) {
           foreach ($fields as $field_name => $field) {
-            if ($field_name == 'field_markers') {
-              dpm($field);
-            }
             $level = 0;
             if ($field_name != "bundle" &&
               $field_name != "id" &&
@@ -130,9 +127,10 @@ class BoVars {
 
               if ($entity->hasField($field_name)) {
                 $element = [
-                  'field_type' => $field->getFieldDefinition()->getFieldStorageDefinition()->getType()
+                  'field_type' => $field->getFieldDefinition()->getFieldStorageDefinition()->getType(),
                 ];
                 $element = array_merge($element, $this->processField($entity, $field_name, $vars, $level));
+
                 $this->getRenderedViewFields($current_display, $row, $field_name, $element);
 
                 $vars["bo"][$field_name] = $element;

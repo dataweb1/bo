@@ -19,6 +19,7 @@ use Drupal\Core\Cache\Cache;
  */
 
 function bo_preprocess_views_view_field_bo__bo_fields(array &$vars) {
+  /** @var \Drupal\views\ViewExecutable $view */
   $view = $vars["view"];
   $row = $vars["row"];
 

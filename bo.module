@@ -238,7 +238,6 @@ function bo_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   }
 
   if (isset($form['field_buttons'])) {
-    //dpm($form['field_buttons']);
     foreach ($form['field_buttons']['widget'] as $delta => &$button) {
       if (is_int($delta)) {
         $button['uri']['#description'] = '';
@@ -445,7 +444,6 @@ function _bo_entity_form_after_build($form, FormStateInterface $formState) {
     }
   }
 
-  //dpm($form['actions']);
   return $form;
 }
 
