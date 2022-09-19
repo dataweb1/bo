@@ -4,7 +4,7 @@
 
     <!-- Indicators -->
     <ul class="carousel-indicators">
-    {% for key, item in bo.field_images %}
+    {% for key, item in bo.field_images.items %}
         {% set class = "" %}
         {% if key == 0 %}
             {% set class ="active" %}
@@ -15,7 +15,7 @@
 
     <!-- The slideshow -->
     <div class="carousel-inner">
-        {% for key, item in bo.field_images %}
+        {% for key, item in bo.field_images.items %}
             {% set class ="" %}
             {% if key == 0 %}
                 {% set class ="active" %}

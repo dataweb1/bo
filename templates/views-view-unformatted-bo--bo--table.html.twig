@@ -21,7 +21,7 @@
 
 <table>
     <tr>
-    {% for key, item in bo.field_header %}
+    {% for key, item in bo.field_header.items %}
         <th>{{ item.raw.value }}</th>
     {% endfor %}
     </tr>
