@@ -112,7 +112,9 @@ class BoVars {
         $fields = $entity->getFields();
         if (in_array("fields", $return)) {
           foreach ($fields as $field_name => $field) {
-
+            if ($field_name == 'field_markers') {
+              dpm($field);
+            }
             $level = 0;
             if ($field_name != "bundle" &&
               $field_name != "id" &&
@@ -127,8 +129,12 @@ class BoVars {
               }
 
               if ($entity->hasField($field_name)) {
-                $element = $this->processField($entity, $field_name, $vars, $level);
+                $element = [
+                  'field_type' => $field->getFieldDefinition()->getFieldStorageDefinition()->getType()
+                ];
+                $element = array_merge($element, $this->processField($entity, $field_name, $vars, $level));
                 $this->getRenderedViewFields($current_display, $row, $field_name, $element);
+
                 $vars["bo"][$field_name] = $element;
               }
 
@@ -395,7 +401,7 @@ class BoVars {
 
       }
       else {
-        $element[$key] = $e;
+        $element['items'][$key] = $e;
       }
     }
 
@@ -430,7 +436,7 @@ class BoVars {
 
       }
       else {
-        $element[$key] = $e;
+        $element['items'][$key] = $e;
       }
 
     }
@@ -465,7 +471,7 @@ class BoVars {
 
       }
       else {
-        $element[$key] = $e;
+        $element['items'][$key] = $e;
       }
 
     }
@@ -515,11 +521,11 @@ class BoVars {
 
       }
       else {
-        if (!empty($element[$key]["raw"])) {
-          $element[$key]["raw"] = array_merge($element[$key]["raw"], $e["raw"]);
+        if (!empty($element['items'][$key]["raw"])) {
+          $element['items'][$key]["raw"] = array_merge($element['items'][$key]["raw"], $e["raw"]);
         }
         else {
-          $element[$key] = $e;
+          $element['items'][$key] = $e;
         }
       }
 
@@ -565,7 +571,7 @@ class BoVars {
               $r = &$element;
             }
             else {
-              $r = &$element[$parent_key];
+              $r = &$element['items'][$parent_key];
             }
 
             $r["entity_type"] = $target_type;
@@ -630,7 +636,7 @@ class BoVars {
 
             }
             else {
-              $element[$parent_key] = $e;
+              $element['items'][$parent_key] = $e;
             }
             break;
 
@@ -681,7 +687,7 @@ class BoVars {
 
             }
             else {
-              $element[$parent_key] = $e;
+              $element['items'][$parent_key] = $e;
             }
             break;
 
@@ -785,7 +791,7 @@ class BoVars {
 
               }
               else {
-                $element[$parent_key] = $e;
+                $element['items'][$parent_key] = $e;
               }
             }
             break;
@@ -795,7 +801,7 @@ class BoVars {
               $r = &$element;
             }
             else {
-              $r = &$element[$parent_key];
+              $r = &$element['items'][$parent_key];
             }
 
             $r["entity_type"] = $target_type;
