@@ -1,0 +1,17 @@
+uuid: cd08e504-5530-4d22-aef0-67bdb75afa4a
+langcode: nl
+status: true
+dependencies: {  }
+id: buttons
+label: Button(s)
+description: ''
+type: element
+group: ''
+default: 0
+internal_title: 0
+override_title_label: ''
+icon: ''
+collection:
+  enabled: 0
+related_bundles: {  }
+weight: null
