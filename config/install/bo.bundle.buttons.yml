@@ -7,11 +7,11 @@ label: Button(s)
 description: ''
 type: element
 group: ''
-default: 0
-internal_title: 0
+default: 1
+internal_title: 1
 override_title_label: ''
 icon: ''
 collection:
   enabled: 0
 related_bundles: {  }
-weight: null
+weight: '-12'
