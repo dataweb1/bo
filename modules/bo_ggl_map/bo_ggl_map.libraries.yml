@@ -1,0 +1,4 @@
+bo_ggl_map:
+  version: 1.x
+  js:
+    js/bo_ggl_map.js: { }

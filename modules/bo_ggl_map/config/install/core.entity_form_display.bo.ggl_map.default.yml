@@ -1,0 +1,35 @@
+uuid: 0fb88144-083e-4f11-9ea0-e55c8aea99f4
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bundle.ggl_map
+    - field.field.bo.ggl_map.field_markers
+  module:
+    - ggl_map
+id: bo.ggl_map.default
+targetEntityType: bo
+bundle: ggl_map
+mode: default
+content:
+  field_markers:
+    type: ggl_map_markers_widget
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  size:
+    type: options_select
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }

@@ -1,0 +1,24 @@
+uuid: 9a19fe1c-364d-4c97-be35-677428e405f5
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bundle.ggl_map
+    - field.storage.bo.field_markers
+  module:
+    - ggl_map
+id: bo.ggl_map.field_markers
+field_name: field_markers
+entity_type: bo
+bundle: ggl_map
+label: Markers
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  icon_url_via_template: 1
+  icon_height_via_template: 1
+  icon_width_via_template: 1
+field_type: ggl_map_markers_field

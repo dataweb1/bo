@@ -1,0 +1,10 @@
+name: BO GGL Map
+type: module
+description: GGL Map support for BO.
+core_version_requirement: ^8 || ^9
+package: BO
+
+# Dependencies
+dependencies:
+  - drupal:bo
+  - drupal:ggl_map

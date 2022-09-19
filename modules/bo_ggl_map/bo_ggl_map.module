@@ -1,0 +1,59 @@
+<?php
+
+use Drupal\bo\Entity\BoEntity;
+
+/**
+ * Implements hook_install().
+ */
+function bo_ggl_map_uninstall() {
+  // Delete all bo entities of bundle 'ggl_map'.
+  $storage_handler = \Drupal::entityTypeManager()
+    ->getStorage('bo');
+  $nodes = $storage_handler->loadByProperties(['bundle' => 'ggl_map']);
+  $storage_handler->delete($nodes);
+}
+
+
+/**
+ * @param array $vars
+ */
+function bo_ggl_map_preprocess_views_view_field_bo(array &$vars) {
+  foreach ($vars['bo'] as $field_name => $element) {
+    if ($element['field_type'] == 'ggl_map_markers_field') {
+      $markers = [];
+      $entity = BoEntity::load($vars['bo']['id']);
+      foreach ($entity->get($field_name)->getValue() as $delta => $value) {
+        $marker = [
+          'id' => $field_name. '_' . $delta,
+          'lat' => $value['lat'],
+          'lng' => $value['lng'],
+          'popup' => [
+            'content' => $value['content'],
+          ]
+        ];
+        if ($value['icon_url'] !== NULL || $value['icon_height'] !== NULL || $value['icon_width'] !== NULL) {
+          $icon = [];
+          if ($value['icon_url'] !== NULL) {
+            $icon['url'] = $value['icon_url'];
+          }
+          if ($value['icon_height'] !== NULL) {
+            $icon['height'] = $value['icon_height'];
+          }
+          if ($value['icon_width'] !== NULL) {
+            $icon['width'] = $value['icon_width'];
+          }
+          $marker['icon'] = $icon;
+        }
+
+        $markers[] = $marker;
+      }
+      $vars['bo'][$field_name]['items'] = $markers;
+    }
+  }
+
+  /** @var \Drupal\bo\Service\BoHelp $boHelp */
+  $boHelp = \Drupal::service('bo.help');
+  /** @var \Drupal\bo\Entity\BoEntity $entity */
+  $entity = $vars['row']->_entity;
+  $vars['#attached']['drupalSettings']['bo'][$entity->id()] = $boHelp->renderHelp($vars['bo']);
+}

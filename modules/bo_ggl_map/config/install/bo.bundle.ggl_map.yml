@@ -1,0 +1,17 @@
+uuid: ec4648b3-b1e2-4ba1-801d-e9a9249a5602
+langcode: nl
+status: true
+dependencies: {  }
+id: ggl_map
+label: 'GGL Map'
+description: ''
+type: element
+group: ''
+default: 1
+internal_title: 1
+override_title_label: ''
+icon: 'fa fa-map-marker-alt'
+collection:
+  enabled: 0
+related_bundles: {  }
+weight: '-12'
