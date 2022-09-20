@@ -9,6 +9,13 @@
   Drupal.behaviors.bo_operations = {
     attach: function (context, settings) {
 
+      // Execute a bo:refreshView trigger after refreshing a BO view.
+      if ($('.bo-overview', context).once().length > 0) {
+        let view_dom_id = $(context).attr('data-view-dom-id');
+        let collection_id = $(context).attr('data-collection-id');
+        $(window).trigger('bo:refreshView', {'view_dom_id': view_dom_id, 'collection_id': collection_id});
+      }
+
       // Close the operations pane if a BO entity form or a BO entity delete form is opened.
       if ($('.bo-form', context).length > 0 || $(context).hasClass('bo-confirm-form') > 0) {
         Drupal.behaviors.bo_operations.closeOperationsPane();
@@ -77,14 +84,11 @@
             var collection_id = $(".js-view-dom-id-" + view_dom_id).attr("data-collection-id");
             var reload = $(".js-view-dom-id-" + view_dom_id).attr("data-reload");
             if (reload == '0') {
+              Drupal.views.instances["views_dom_id:" + view_dom_id].refreshViewAjax.options.data.view_dom_id = view_dom_id;
               Drupal.views.instances["views_dom_id:" + view_dom_id].refreshViewAjax.options.data.current_path = current_path;
               Drupal.views.instances["views_dom_id:" + view_dom_id].refreshViewAjax.options.data.collection_id = collection_id;
 
-              $(window).trigger('bo:refreshView', {'view_dom_id': view_dom_id, 'current_path': current_path, 'collection_id': collection_id});
-
               $(".js-view-dom-id-" + view_dom_id).triggerHandler("RefreshView");
-
-              Drupal.attachBehaviors();
             }
             else {
               Drupal.AjaxCommands.prototype.refreshPageCommand();

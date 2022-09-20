@@ -16,7 +16,8 @@ function bo_preprocess_views_view_bo(&$variables) {
     $display_plugin = $view->display_handler->display['display_plugin'];
     $variables['attributes']['class'][] = 'bo-overview';
     $variables['attributes']['class'][] = 'bo-overview-'.$display_plugin;
-    $variables['dom_id'] = $view->dom_id;
+    //$variables['dom_id'] = $view->dom_id;
+    $variables['attributes']['data-view-dom-id'] = $view->dom_id;;
 
     $collection_id = $view->filter['bo_current_collection_id_filter']->value;
     $variables['attributes']['data-collection-id'] = $collection_id;
