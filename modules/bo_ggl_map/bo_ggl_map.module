@@ -28,7 +28,7 @@ function bo_ggl_map_preprocess_views_view_field_bo(array &$vars) {
           'lat' => $value['lat'],
           'lng' => $value['lng'],
           'popup' => [
-            'content' => $value['content'],
+            'content' => nl2br($value['content']),
           ]
         ];
         if ($value['icon_url'] !== NULL || $value['icon_height'] !== NULL || $value['icon_width'] !== NULL) {
