@@ -10,7 +10,7 @@
     attach: function (context, settings) {
 
       // Execute a bo:refreshView trigger after refreshing a BO view.
-      if ($('.bo-overview', context).once().length > 0) {
+      if ($(context).hasClass('bo-overview')) {
         let view_dom_id = $(context).attr('data-view-dom-id');
         let collection_id = $(context).attr('data-collection-id');
         $(window).trigger('bo:refreshView', {'view_dom_id': view_dom_id, 'collection_id': collection_id});
