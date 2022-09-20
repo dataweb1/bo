@@ -2,3 +2,6 @@ bo_ggl_map:
   version: 1.x
   js:
     js/bo_ggl_map.js: { }
+  css:
+    theme:
+      css/bo_ggl_map.css: {}

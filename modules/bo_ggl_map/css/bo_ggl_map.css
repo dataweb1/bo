@@ -1,0 +1,10 @@
+#ggl_map [id^='popup_content_'] {
+  line-height: 1.5rem;
+  font-size: 1rem;
+}
+
+#ggl_map .ggl-map-google-link {
+  font-size: .8rem;
+  margin-top: 1rem;
+  display: inline-block;
+}

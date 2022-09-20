@@ -23,12 +23,14 @@ function bo_ggl_map_preprocess_views_view_field_bo(array &$vars) {
       $markers = [];
       $entity = BoEntity::load($vars['bo']['id']);
       foreach ($entity->get($field_name)->getValue() as $delta => $value) {
+        $content = nl2br($value['content']);
+        $google = 'https://maps.google.com/?q=' . $value['lat']. ',' . $value['lng'];
         $marker = [
           'id' => $field_name. '_' . $delta,
           'lat' => $value['lat'],
           'lng' => $value['lng'],
           'popup' => [
-            'content' => nl2br($value['content']),
+            'content' => $content . ' <br /><a class="ggl-map-google-link" target="_blank" href="'.$google.'">' . t('Bekijk in Google Maps') . '</a>',
           ]
         ];
         if ($value['icon_url'] !== NULL || $value['icon_height'] !== NULL || $value['icon_width'] !== NULL) {
