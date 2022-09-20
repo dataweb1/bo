@@ -16,10 +16,8 @@
 
   $(window).on({
     'bo:refreshView': function boGglMapRefreshView(event, result) {
-      console.log(result.view_dom_id);
       if ($(".js-view-dom-id-" + result.view_dom_id).find(' #ggl_map').length > 0) {
-        Drupal.gglMap.attached = false;
-        //}
+          Drupal.gglMap.attached = false;
       }
     }
   });
