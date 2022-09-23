@@ -64,23 +64,25 @@ class BoTranslate {
         $new_bo_entity = $bo_entity->createDuplicate();
         $new_bo_entity->set("langcode", $to_langcode);
 
+        // Translate title.
+        $new_bo_entity->setTitle($this->translateValue($new_bo_entity->getTitle(), $from_langcode, $to_langcode));
+
+        // Translate 'textual' fields.
+        $translatable_properties = ['value', 'summary', 'title'];
         $fields = $new_bo_entity->getFields();
         foreach ($fields as $field_name => $field) {
           if ($field->getFieldDefinition()->isTranslatable()) {
             //if ($new_bo_entity->hasField($field_name)) {
-            if (isset($new_bo_entity->get($field_name)->value)) {
-              foreach ($new_bo_entity->get($field_name) as $key => &$item) {
-                $new_bo_entity->get($field_name)[$key]->value = $this->translateValue($new_bo_entity->get($field_name)[$key]->value, $from_langcode, $to_langcode);
-              }
-            }
-
-            if (isset($new_bo_entity->get($field_name)->summary)) {
-              foreach ($new_bo_entity->get($field_name) as $key => &$item) {
-                $new_bo_entity->get($field_name)[$key]->summary = $this->translateValue($new_bo_entity->get($field_name)[$key]->summary, $from_langcode, $to_langcode);
+            foreach($translatable_properties as $property) {
+              if (isset($new_bo_entity->get($field_name)[0]->{$property})) {
+                foreach ($new_bo_entity->get($field_name) as $key => &$item) {
+                  $new_bo_entity->get($field_name)[$key]->{$property} = $this->translateValue($new_bo_entity->get($field_name)[$key]->{$property}, $from_langcode, $to_langcode);
+                }
               }
             }
           }
         }
+
         $new_bo_entity->save();
       }
     }
