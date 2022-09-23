@@ -1,0 +1,7 @@
+{% if bo.field_buttons.items is not empty  %}
+  <div>
+    {% for button in bo.field_buttons.items %}
+      <a class="button" href="{{ button.raw.url }}">{{ button.raw.title }}</a>
+    {% endfor %}
+  </div>
+{% endif %}
