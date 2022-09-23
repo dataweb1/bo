@@ -48,12 +48,13 @@ class BoVarsHelper {
 
   /**
    * @param $content
-   * @param $element
+   * @param $elements
    * @param \Drupal\Core\Template\Attribute $attributes
    */
-  public function addAttributesToElement(&$content, $element, Attribute $attributes) {
-    $content = Markup::create(
-      str_replace('<' . $element, '<' .$element. ' ' . $attributes->jsonSerialize(), $content));
+  public function addAttributesToElement(&$content, array $elements, Attribute $attributes) {
+    foreach($elements as $element) {
+      $content = Markup::create(
+        str_replace('<' . $element, '<' . $element . ' ' . $attributes->jsonSerialize(), $content));
+    }
   }
-
 }
