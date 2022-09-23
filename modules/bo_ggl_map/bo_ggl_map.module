@@ -30,7 +30,7 @@ function bo_ggl_map_preprocess_views_view_field_bo(array &$vars) {
           'lat' => $value['lat'],
           'lng' => $value['lng'],
           'popup' => [
-            'content' => $content . ' <br /><a class="ggl-map-google-link" target="_blank" href="'.$google.'">' . t('Bekijk in Google Maps') . '</a>',
+            'content' => $content . ' <br /><a class="ggl-map-google-link" target="_blank" href="'.$google.'">' . t('View in Google Maps') . '</a>',
           ]
         ];
         if ($value['icon_url'] !== NULL || $value['icon_height'] !== NULL || $value['icon_width'] !== NULL) {
