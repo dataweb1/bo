@@ -3,6 +3,7 @@
 namespace Drupal\bo\Service;
 
 use Drupal\Core\Entity\EntityTypeManager;
+use Google\Cloud\Translate\V2\TranslateClient;
 
 /**
  *
@@ -32,6 +33,9 @@ class BoTranslate {
    */
   private $enabled;
 
+
+  private TranslateClient $translateClient;
+
   /**
    *
    */
@@ -40,6 +44,7 @@ class BoTranslate {
     $this->enabled = $this->boSettings->getGoogleTranslateEnabled();
     $this->key = $this->boSettings->getGoogleTranslateKey();
     $this->entityTypeManager = $entityTypeManager;
+    $this->translateClient = new TranslateClient(['key' => $this->key]);
   }
 
   /**
@@ -61,6 +66,7 @@ class BoTranslate {
 
       foreach ($bo_entities as $bo_entity) {
 
+        /** @var \Drupal\bo\Entity\BoEntity $new_bo_entity */
         $new_bo_entity = $bo_entity->createDuplicate();
         $new_bo_entity->set("langcode", $to_langcode);
 
@@ -72,7 +78,6 @@ class BoTranslate {
         $fields = $new_bo_entity->getFields();
         foreach ($fields as $field_name => $field) {
           if ($field->getFieldDefinition()->isTranslatable()) {
-            //if ($new_bo_entity->hasField($field_name)) {
             foreach($translatable_properties as $property) {
               if (isset($new_bo_entity->get($field_name)[0]->{$property})) {
                 foreach ($new_bo_entity->get($field_name) as $key => &$item) {
@@ -96,15 +101,11 @@ class BoTranslate {
    */
   public function translateValue($value, $from_langcode, $to_langcode) {
     if ($this->key != '') {
-      $url = $this->endpoint . '?key=' . $this->key . '&q=' . rawurlencode($value) . '&source=' . $from_langcode . '&target=' . $to_langcode;
-
-      $handle = curl_init($url);
-      curl_setopt($handle, CURLOPT_RETURNTRANSFER, TRUE);
-      $response = curl_exec($handle);
-      $responseDecoded = json_decode($response, TRUE);
-      curl_close($handle);
-
-      return $responseDecoded['data']['translations'][0]['translatedText'];
+      $result = $this->translateClient->translate($value, [
+        'source' => $from_langcode,
+        'target' => $to_langcode
+      ]);
+      return $result['text'];
     }
     else {
       \Drupal::messenger()->addWarning('Google translation key undefined.');
