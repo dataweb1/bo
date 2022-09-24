@@ -84,26 +84,28 @@ class BoVarsHelper {
           if (isset($link['data-entity-type']) && $link['data-entity-type'] == 'node') {
             // Get the link entity by the UUID.
             $link_entity_uuid = $link['data-entity-uuid']->__toString();
+            if ($link_entity_uuid !== '') {
+              // Search for the link entity by the UUID.
+              $link_entity = \Drupal::entityTypeManager()
+                ->getStorage('node')
+                ->loadByProperties(['uuid' => $link_entity_uuid]);
 
-            $link_entity = \Drupal::entityTypeManager()
-              ->getStorage('node')
-              ->loadByProperties(['uuid' => $link_entity_uuid]);
-            /** @var \Drupal\node\Entity\Node $link_entity */
-            $link_entity = reset($link_entity);
+              /** @var \Drupal\node\Entity\Node $link_entity */
+              $link_entity = reset($link_entity);
+              if ($link_entity) {
+                // If entity has a translation.
+                if (isset($link_entity->getTranslationLanguages()[$this->languageManager->getCurrentLanguage()
+                    ->getId()])) {
+                  // Add prefix itself.
+                  $updated_href = $link['href'];
+                  $updated_href = '/' . $this->languageManager->getCurrentLanguage()
+                      ->getId() . $updated_href;
 
-            if ($link_entity) {
-              // If entity has a translation.
-              if (isset($link_entity->getTranslationLanguages()[$this->languageManager->getCurrentLanguage()
-                  ->getId()])) {
-                // Add prefix itself.
-                $updated_href = $link['href'];
-                $updated_href = '/' . $this->languageManager->getCurrentLanguage()
-                    ->getId() . $updated_href;
+                  // Replace to href by the updates href.
+                  $content = str_replace($link['href'], $updated_href, $content);
 
-                // Replace to href by the updates href.
-                $content = str_replace($link['href'], $updated_href, $content);
-
-                $links_transformed = TRUE;
+                  $links_transformed = TRUE;
+                }
               }
             }
           }
