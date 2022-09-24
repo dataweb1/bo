@@ -4,6 +4,7 @@ namespace Drupal\bo\Service;
 
 
 use Drupal\Core\File\FileUrlGenerator;
+use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Template\Attribute;
 use Drupal\image\Entity\ImageStyle;
@@ -18,9 +19,16 @@ class BoVarsHelper {
    */
   private FileUrlGenerator $fileUrlGenerator;
 
-  public function __construct(FileUrlGenerator $fileUrlGenerator) {
+  /**
+   * @var \Drupal\Core\Language\LanguageManager
+   */
+  private LanguageManager $languageManager;
+
+  public function __construct(FileUrlGenerator $fileUrlGenerator, LanguageManager $languageManager) {
     $this->fileUrlGenerator = $fileUrlGenerator;
+    $this->languageManager = $languageManager;
   }
+
 
   /**
    * @param $content
@@ -55,6 +63,45 @@ class BoVarsHelper {
     foreach($elements as $element) {
       $content = Markup::create(
         str_replace('<' . $element, '<' . $element . ' ' . $attributes->jsonSerialize(), $content));
+    }
+  }
+
+  /**
+   * @param $content
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function addCurrentLanguagePrefixToLinks(&$content) {
+    if ($this->languageManager->getCurrentLanguage()->getId() != $this->languageManager->getDefaultLanguage()->getId()) {
+      $doc = new \DOMDocument();
+      $doc->loadHTML($content);
+      $xml = \simplexml_import_dom($doc); // just to make xpath more simple
+      $links = $xml->xpath('//a');
+      $links_transformed = FALSE;
+      foreach ($links as $link) {
+        if (strpos($link['href'], '/' . $this->languageManager->getCurrentLanguage()->getId() . '/') === FALSE) {
+          if (isset($link['data-entity-type']) && $link['data-entity-type'] == 'node') {
+            $link_entity_uuid = $link['data-entity-uuid']->__toString();
+            $link_entity = \Drupal::entityTypeManager()
+              ->getStorage('node')
+              ->loadByProperties(['uuid' => $link_entity_uuid]);
+            $link_entity = reset($link_entity);
+
+            // Add prefix itself.
+            $updated_href = $link['href'];
+            $updated_href = '/' . $this->languageManager->getCurrentLanguage()->getId() . $updated_href;
+
+            // Replace to href by the updates href.
+            $content = str_replace($link['href'], $updated_href, $content);
+
+            $links_transformed = TRUE;
+          }
+        }
+      }
+      if ($links_transformed) {
+        $content = Markup::create($content);
+      }
     }
   }
 }

@@ -48,6 +48,7 @@ services:
     class: Drupal\bo\Service\BoVarsHelper
     arguments:
       - '@file_url_generator'
+      - '@language_manager'
 
   bo.translate:
     class: Drupal\bo\Service\BoTranslate
