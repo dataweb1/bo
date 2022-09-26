@@ -562,6 +562,19 @@ class BoVars {
         $url = Url::fromUserInput($uri);
 
         switch (TRUE) {
+          // User.
+          case ($settings["handler"] == "default" && $target_type == 'user'):
+            if ($cardinality == 1) {
+              $r = &$element;
+            }
+            else {
+              $r = &$element['items'][$parent_key];
+            }
+
+            $r['account_name'] = $target_entity->getAccountName();
+            $r['account_email'] = $target_entity->getEmail();
+            break;
+
           // Node or term.
           case ($settings["handler"] == "default:node" || $settings["handler"] == "default:taxonomy_term"):
 
