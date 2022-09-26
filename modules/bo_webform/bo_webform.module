@@ -37,9 +37,12 @@ function bo_webform_preprocess_views_view_field_bo(array &$vars) {
     }
   }
 
-  /** @var \Drupal\bo\Service\BoHelp $boHelp */
-  $boHelp = \Drupal::service('bo.help');
-  /** @var \Drupal\bo\Entity\BoEntity $entity */
-  $entity = $vars['row']->_entity;
-  $vars['#attached']['drupalSettings']['bo'][$entity->id()] = $boHelp->renderHelp($vars['bo']);
+  $administer_entities = \Drupal::currentUser()->hasPermission("show twig help");
+  if ($administer_entities) {
+    /** @var \Drupal\bo\Service\BoHelp $boHelp */
+    $boHelp = \Drupal::service('bo.help');
+    /** @var \Drupal\bo\Entity\BoEntity $entity */
+    $entity = $vars['row']->_entity;
+    $vars['#attached']['drupalSettings']['bo'][$entity->id()] = $boHelp->renderHelp($vars['bo']);
+  }
 }

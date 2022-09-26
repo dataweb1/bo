@@ -84,7 +84,7 @@ class BoVarsHelper {
           if (isset($link['data-entity-type']) && $link['data-entity-type'] == 'node') {
             // Get the link entity by the UUID.
             $link_entity_uuid = $link['data-entity-uuid']->__toString();
-            if ($link_entity_uuid !== '') {
+            if ($link_entity_uuid != '') {
               // Search for the link entity by the UUID.
               $link_entity = \Drupal::entityTypeManager()
                 ->getStorage('node')
