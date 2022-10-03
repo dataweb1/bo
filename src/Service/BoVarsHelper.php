@@ -116,4 +116,25 @@ class BoVarsHelper {
       }
     }
   }
+
+  /**
+   * @param string $content
+   * @return array|string|string[]|null
+   */
+  function removeHtmlComments($content = '') {
+    return preg_replace('/<!--(.|\s)*?-->/', '', $content);
+  }
+
+  /**
+   * @param $size
+   * @param int $precision
+   * @return string
+   */
+  function formatBytes($size, $precision = 2) {
+    $base = log($size, 1024);
+    $suffixes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+
+    return round(pow(1024, $base - floor($base)), $precision) . ' ' . $suffixes[floor($base)];
+  }
+
 }

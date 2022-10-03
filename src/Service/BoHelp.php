@@ -14,6 +14,18 @@ class BoHelp {
   use StringTranslationTrait;
 
   /**
+   * @var BoVarsHelper
+   */
+  private BoVarsHelper $boVarsHelper;
+
+  /**
+   * @param BoVarsHelper $boVarsHelper
+   */
+  public function __construct(BoVarsHelper $boVarsHelper) {
+    $this->boVarsHelper = $boVarsHelper;
+  }
+
+  /**
    * @param $collection_id
    * @param $to_path
    * @param $entity_id
@@ -66,7 +78,7 @@ class BoHelp {
           $twigFieldName = "{{&nbsp;bo." . $fieldName . "&nbsp;}}";
 
           $help .= '<td><code class="copy" data-clipboard-action="copy" data-clipboard-text="' . str_replace("&nbsp;", " ", $twigFieldName) . '">' . $twigFieldName . "</code></td>";
-          $help .= "<td>" . htmlentities(remove_html_comments($field)) . "</td>";
+          $help .= "<td>" . htmlentities($this->boVarsHelper->removeHtmlComments($field)) . "</td>";
 
           $help .= "</tr>";
         }
@@ -111,7 +123,7 @@ class BoHelp {
           $twigFieldName = "{{&nbsp;bo." . $elements . "&nbsp;}}";
 
           $help .= '<td><code class="copy" data-clipboard-action="copy" data-clipboard-text="' . str_replace("&nbsp;", " ", $twigFieldName) . '">' . $twigFieldName . "</code></td>";
-          $help .= "<td>" . htmlentities(remove_html_comments($value)) . "</td>";
+          $help .= "<td>" . htmlentities($this->boVarsHelper->removeHtmlComments($value)) . "</td>";
           $help .= "</tr>";
         }
         else {

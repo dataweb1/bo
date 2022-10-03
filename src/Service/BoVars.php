@@ -14,6 +14,7 @@ use Drupal\views\Plugin\views\display\DisplayPluginBase;
 use Drupal\views\ResultRow;
 use Drupal\views\ViewExecutable;
 use Drupal\views\Views;
+use voku\helper\URLify;
 
 /**
  *
@@ -56,15 +57,21 @@ class BoVars {
   private BoHelp $boHelp;
 
   /**
-   * @param \Drupal\Core\Render\Renderer $renderer
-   * @param \Drupal\Core\File\FileUrlGenerator $fileUrlGenerator
-   * @param \Drupal\Core\Entity\EntityFieldManager $entityFieldManager
-   * @param \Drupal\Core\Entity\EntityTypeManager $entityTypeManager
-   * @param BoSettings $boSettings
+   * @var BoVarsHelper
+   */
+  private BoVarsHelper $boVarsHelper;
+
+  /**
+   * @param Renderer $renderer
+   * @param FileUrlGenerator $fileUrlGenerator
+   * @param EntityFieldManager $entityFieldManager
+   * @param EntityTypeManager $entityTypeManager
    * @param BoBundle $boBundle
    * @param BoCollection $boCollection
+   * @param BoHelp $boHelp
+   * @param BoVarsHelper $boVarsHelper
    */
-  public function __construct(Renderer $renderer, FileUrlGenerator $fileUrlGenerator, EntityFieldManager $entityFieldManager, EntityTypeManager $entityTypeManager, BoBundle $boBundle, BoCollection $boCollection, BoHelp $boHelp) {
+  public function __construct(Renderer $renderer, FileUrlGenerator $fileUrlGenerator, EntityFieldManager $entityFieldManager, EntityTypeManager $entityTypeManager, BoBundle $boBundle, BoCollection $boCollection, BoHelp $boHelp, BoVarsHelper $boVarsHelper) {
     $this->renderer = $renderer;
     $this->fileUrlGenerator = $fileUrlGenerator;
     $this->entityFieldManager = $entityFieldManager;
@@ -72,6 +79,7 @@ class BoVars {
     $this->boBundle = $boBundle;
     $this->boCollection = $boCollection;
     $this->boHelp = $boHelp;
+    $this->boVarsHelper = $boVarsHelper;
   }
 
   /**
@@ -633,7 +641,7 @@ class BoVars {
             $e["raw"]["url"] = $url;
             $e["raw"]["filename"] = $filename;
             $e["raw"]["size"] = $size;
-            $e["rendered"]["size"] = format_bytes($size);
+            $e["rendered"]["size"] = $this->boVarsHelper->formatBytes($size);
             $e["raw"]["type"] = $type;
             $e["raw"]["target"] = "_blank";
 
@@ -686,7 +694,7 @@ class BoVars {
             $e["raw"]["alt"] = $alt;
             $e["raw"]["filename"] = $filename;
             $e["raw"]["size"] = $size;
-            $e["rendered"]["size"] = format_bytes($size);
+            $e["rendered"]["size"] = $this->boVarsHelper->formatBytes($size);
 
             if ($cardinality == 1) {
               if (!empty($element)) {
@@ -752,7 +760,7 @@ class BoVars {
                 $e["raw"]["alt"] = $alt;
                 $e["raw"]["filename"] = $filename;
                 $e["raw"]["size"] = $size;
-                $e["rendered"]["size"] = format_bytes($size);
+                $e["rendered"]["size"] = $this->boVarsHelper->formatBytes($size);
               }
 
               if ($target_media_entity->bundle() == "file" || $target_media_entity->bundle() == "document") {
@@ -784,7 +792,7 @@ class BoVars {
                 $e["raw"]["name"] = $name;
                 $e["raw"]["filename"] = $filename;
                 $e["raw"]["size"] = $size;
-                $e["rendered"]["size"] = format_bytes($size);
+                $e["rendered"]["size"] = $this->boVarsHelper->formatBytes($size);
                 $e["raw"]["type"] = $type;
                 $e["raw"]["target"] = "_blank";
               }
