@@ -413,6 +413,30 @@ function bo_link_alter(&$variables) {
   $variables['#attached']['library'][] = 'core/drupal.dialog.ajax';
 }
 
+
+/**
+ * Implements hook_css_alter().
+ */
+function bo_css_alter(&$css, \Drupal\Core\Asset\AttachedAssetsInterface $assets) {
+  $front_theme_name = \Drupal::config('system.theme')->get('default');
+  if (\Drupal::service('theme.manager')->getActiveTheme()->getName() == $front_theme_name) {
+    // Remove all (stable9) off-canvas styling.
+    foreach ($css as $key => $css_data) {
+      if (str_contains($key, 'off-canvas')) {
+        if (!in_array($key, [
+          'off-canvas.css',
+          'off-canvas.theme.css',
+          'off-canvas.reset.css',
+          'off-canvas.base.css',
+          'off-canvas.motion.css',
+          'off-canvas.layout.css'])) {
+          unset($css[$key]);
+        }
+      }
+    }
+  }
+}
+
 /**
  * @param $form
  * @param FormStateInterface $formState
