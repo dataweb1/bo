@@ -235,6 +235,7 @@ class BoHeader extends AreaPluginBase {
         'class' => [
           'bo-trigger',
           'bo-trigger-reorder',
+          'use-ajax',
         ],
         'id' => 'bo_trigger_reorder_' . $parameters["view_dom_id"],
       ],

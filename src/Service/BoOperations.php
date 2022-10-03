@@ -86,6 +86,7 @@ class BoOperations {
           'bo-trigger',
           'bo-trigger-multi',
           'bo-trigger-' . $parameters['action'],
+          'use-ajax',
         ];
 
         $url = Url::fromRoute('bo.multi', [
