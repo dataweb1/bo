@@ -271,7 +271,7 @@ class BoVars {
     foreach ($current_display->getHandlers('field') as $name => $field) {
 
       if ($field->options["label"] != "") {
-        $n = str_replace("-", "_", slugify($field->options["label"]));
+        $n = str_replace("-", "_", URLify::filter($field->options["label"]));
       }
       else {
         $n = $name;
