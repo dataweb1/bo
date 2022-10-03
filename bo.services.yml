@@ -43,6 +43,7 @@ services:
       - '@bo.bundle'
       - '@bo.collection'
       - '@bo.help'
+      - '@bo.vars_helper'
 
   bo.vars_helper:
     class: Drupal\bo\Service\BoVarsHelper
@@ -76,3 +77,5 @@ services:
 
   bo.help:
     class: Drupal\bo\Service\BoHelp
+    arguments:
+      - '@bo.vars_helper'
