@@ -187,12 +187,7 @@ function bo_theme_suggestions_alter(array &$suggestions, array $variables, $hook
  */
 function bo_preprocess_html(&$variables) {
   $variables['#attached']['library'][] =  'bo/bo';
-}
 
-/**
- * Implements hook_preprocess_page().
- */
-function bo_preprocess_page(&$variables) {
   if (!\Drupal::service('router.admin_context')->isAdminRoute()) {
     /** @var \Drupal\bo\Service\BoSettings $boSettings */
     $boSettings = \Drupal::getContainer()->get('bo.settings');
@@ -238,7 +233,7 @@ function bo_form_alter(&$form, FormStateInterface $form_state, $form_id) {
     }
   }
 
-  if ($route_name == 'entity.bo.add_form' ||  $route_name == 'entity.bo.insert_form' || $route_name == 'entity.bo.edit_form') {
+  if (in_array($route_name, ['entity.bo.add_form', 'entity.bo.insert_form', 'entity.bo.edit_form'])) {
     $form['#after_build'][] = '_bo_entity_form_after_build';
   }
 
@@ -375,23 +370,25 @@ function bo_link_alter(&$variables) {
   $routeName = $url->getRouteName();
 
   $toModalRoutes = [
-    'bo.collection_settings_form',
-    'entity.bo.edit_form',
-    'entity.bo.add_form',
-    'entity.bo.insert_form',
-    'entity.bo.delete_form',
-    'bo.multi',
-    'bo.reorder',
-    'bo.reset_collection_options_form',
-    'entity.node.edit_form',
-    'entity.node.delete_form',
-    'node.add',
-    'entity.node.content_translation_overview',
-    'entity.node.content_translation_add',
-    'bo.help',
+    'bo.collection_settings_form' => 'dialog',
+    'entity.bo.edit_form' => 'off_canvas',
+    'entity.bo.add_form' => 'off_canvas',
+    'entity.bo.insert_form' => 'off_canvas',
+    'entity.bo.delete_form' => 'dialog',
+    'bo.multi' => 'ajax',
+    'bo.reorder' => 'ajax',
+    'bo.reset_collection_options_form' => 'dialog',
+    'entity.node.edit_form' => 'dialog',
+    'entity.node.delete_form' => 'dialog',
+    'node.add' => 'dialog',
+    'entity.node.content_translation_overview' => 'dialog',
+    'entity.node.content_translation_add' => 'dialog',
+    'bo.help' => 'dialog',
   ];
 
-  if (!in_array($routeName, $toModalRoutes)) {
+  $variables['options']['attributes']['class'][] = 'use-ajax';
+
+  if (!in_array($toModalRoutes[$routeName], ['dialog', 'off_canvas'])) {
     return;
   }
 
@@ -407,9 +404,13 @@ function bo_link_alter(&$variables) {
     $dialog_options['title'] = $url->getRouteParameters()['title'];
   }
 
-  $variables['options']['attributes']['class'][] = 'use-ajax';
+  if ($toModalRoutes[$routeName] == 'off_canvas') {
+    $variables['options']['attributes']['data-dialog-renderer'] = 'off_canvas';
+  }
   $variables['options']['attributes']['data-dialog-type'] = 'dialog';
   $variables['options']['attributes']['data-dialog-options'] = Json::encode($dialog_options);
+
+  $variables['#attached']['library'][] = 'core/drupal.dialog.ajax';
 }
 
 /**
