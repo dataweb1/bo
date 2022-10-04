@@ -370,63 +370,51 @@ function bo_link_alter(&$variables) {
   $dialogRoutes = [
     'bo.collection_settings_form' => [
       'use' => 'dialog',
-      'width' => '60%',
-      'maxWidth' => 1000,
+      'width' => '1000',
     ],
     'entity.bo.edit_form' => [
       'use' => 'off_canvas',
       'width' => '40%',
-      'maxWidth' => 0,
     ],
     'entity.bo.add_form' => [
       'use' => 'off_canvas',
       'width' => '40%',
-      'maxWidth' => 0,
     ],
     'entity.bo.insert_form' => [
       'use' => 'off_canvas',
       'width' => '40%',
-      'maxWidth' => 0,
     ],
     'entity.bo.delete_form' => [
       'use' => 'dialog',
-      'width' => '40%',
-      'maxWidth' => '600',
+      'width' => '600',
     ],
     'bo.reset_collection_options_form' => [
       'use' => 'dialog',
-      'width' => '40%',
-      'maxWidth' => '600',
+      'width' => '600',
     ],
     'entity.node.edit_form' => [
       'use' => 'dialog',
-      'width' => '60%',
-      'maxWidth' => 800,
+      'width' => '900',
     ],
     'node.add' => [
       'use' => 'dialog',
-      'width' => '60%',
-      'maxWidth' => 800,
+      'width' => '900',
     ],
     'entity.node.delete_form' => [
       'use' => 'dialog',
-      'width' => '40%',
-      'maxWidth' => 600,
+      'width' => '600',
     ],
     'entity.node.content_translation_overview' => [
       'use' => 'dialog',
-      'width' => '40%',
-      'maxWidth' => 600,
+      'width' => '600',
     ],
     'entity.node.content_translation_add' => [
       'use' => 'dialog',
-      'width' => '40%',
-      'maxWidth' => 600,
+      'width' => '800',
     ],
     'bo.help' => [
       'use' => 'dialog',
       'width' => '60%',
-      'maxWidth' => 1000,
     ],
   ];
 
@@ -442,7 +430,6 @@ function bo_link_alter(&$variables) {
 
   $dialog_options = [
     'width' =>  $dialogRoutes[$routeName]['width'],
-    'maxWith' => $dialogRoutes[$routeName]['maxWidth'],
     'height' => 'auto',
     'modal' => TRUE,
     'dialogClass' => 'bo-dialog',
