@@ -238,13 +238,17 @@ function bo_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   }
 
   if (isset($form['field_buttons'])) {
+    $form['field_buttons']['#type'] = "fieldset";
+    $form['field_buttons']['#title'] = $form['field_buttons']["widget"]['#title'];
+    unset($form['field_buttons']["widget"]['#title']);
+
     foreach ($form['field_buttons']['widget'] as $delta => &$button) {
       if (is_int($delta)) {
         $button['uri']['#description'] = '';
       }
     }
   }
-
+  
   $form['#after_build'][] = '_form_after_build';
 
 }
