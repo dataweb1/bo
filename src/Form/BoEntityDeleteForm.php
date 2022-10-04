@@ -20,6 +20,7 @@ class BoEntityDeleteForm extends ContentEntityDeleteForm {
     $form = parent::buildForm($form, $form_state);
 
     $form["actions"]["submit"]["#name"] = 'submit';
+    $form["actions"]["submit"]["#attributes"]['class'][] = 'button--danger';
     $form["actions"]["submit"]["#ajax"]['callback'] = [
       $this,
       'afterSubmitFallback',
