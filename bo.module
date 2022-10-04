@@ -406,7 +406,7 @@ function bo_link_alter(&$variables) {
     ],
     'entity.node.content_translation_overview' => [
       'use' => 'dialog',
-      'width' => '600',
+      'width' => '900',
     ],
     'entity.node.content_translation_add' => [
       'use' => 'dialog',
