@@ -79,11 +79,10 @@ class BoOperations extends EntityOperations {
    */
   public function render(ResultRow $values) {
 
-    $bo_content_operations = [];
-
+    $markup = '';
     $administer_entities = \Drupal::currentUser()->hasPermission("administer bo entities");
     if ($administer_entities) {
-      $markup = '';
+
 
       $view_dom_id = $this->view->dom_id;
       $view_result_count = count($this->view->result);
@@ -150,10 +149,12 @@ class BoOperations extends EntityOperations {
           ],
         ],
       ];
+
+      $markup .= $this->renderer->render($bo_content_operations);
     }
 
     return [
-      '#markup' => $this->renderer->render($bo_content_operations),
+      '#markup' => $markup,
     ];
   }
 
