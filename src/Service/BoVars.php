@@ -685,6 +685,20 @@ class BoVars {
                 '#uri' => $uri,
               ];
               $e["rendered"]["basic"] = $this->renderer->render($basic);
+
+              $display_options = [
+                'label'    => 'hidden',
+                'type'     => 'responsive_image',
+                'settings' => [
+                  'responsive_image_style' => $style_name,
+                ],
+              ];
+
+              // Get image, apply display options
+              $image = $target_media_entity->get('field_media_image')->view($display_options);
+
+              // Render
+              $e["rendered"]["responsive"] = $this->renderer->render($image);
             }
 
             $e["raw"]["uri"] = $uri;
@@ -751,6 +765,20 @@ class BoVars {
                     '#uri' => $uri,
                   ];
                   $e["rendered"]["basic"] = $this->renderer->render($basic);
+
+                  $display_options = [
+                    'label'    => 'hidden',
+                    'type'     => 'responsive_image',
+                    'settings' => [
+                      'responsive_image_style' => 'wide',
+                    ],
+                  ];
+
+                  // Get image, apply display options
+                  $image = $target_media_entity->get('field_media_image')->view($display_options);
+
+                  // Render
+                  $e["rendered"]["responsive"] = $this->renderer->render($image);
                 }
 
                 $e["raw"]["uri"] = $uri;
