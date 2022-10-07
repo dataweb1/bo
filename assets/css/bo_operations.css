@@ -147,8 +147,9 @@
 .bo-content-operations li a,
 .bo-entity-operations li a,
 .bo-header-operations li a {
-  display: inline-block;
-  padding: .2rem 0.5rem 0 .5rem;
+  display: flex!important;
+  align-items: center!important;
+  padding: 0 0.5rem 0 .5rem!important;
   border: 2px solid;/* rgb(220,220,220);*/
   background-color: rgba(255,255,255)!important;
   border-radius: 20px;
@@ -159,7 +160,8 @@
   height: 2.3rem;
   font-size: 1rem;
 }
-
+.bo-content-operations li a:before,
+.bo-entity-operations li a:before,
 .bo-header-operations li a:before {
   height: auto!important;
   width: auto!important;
