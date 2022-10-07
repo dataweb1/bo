@@ -111,7 +111,7 @@
 .bo-entity-operations {
   display: none;
   position: absolute;
-  bottom: -24px;
+  bottom: -1.75rem;
   left: 0;
   z-index: 1001;
   text-align: center;
@@ -173,6 +173,11 @@
   color: #2494db;
 }
 
+.bo-content-operations li a span,
+.bo-entity-operations li a span,
+.bo-header-operations li a span {
+  margin-left: .5rem;
+}
 /*
 .bo-content-operations button,
 .bo-content-operations a {
@@ -391,12 +396,14 @@ ul.bo-add-multi-content li a:before {
   padding-right: 10px;
 }
 
+/*
 .bo-content-operations li a,
 .bo-entity-operations li a,
 .bo-header-operations li a {
   text-transform: uppercase;
   font-size: 12px;
 }
+*/
 
 .ajax-progress-fullscreen {
   padding: 20px!important;

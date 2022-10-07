@@ -134,7 +134,19 @@ class BoOperations {
     }
 
     if ($url !== NULL) {
-      $link = Link::fromTextAndUrl(' ' . $parameters['title'], $url)->toRenderable();
+      $link = [
+        '#type' => 'link',
+        '#title' => [
+          '#markup' => '<span>' . $parameters['title'] . '</span>',
+        ],
+        '#url' => $url,
+      ];
+
+      if ($parameters['title'] == '') {
+        $link['#title']['#markup'] = '';
+      }
+
+      //$link = Link::fromTextAndUrl( $parameters['title'], $url)->toRenderable();
       $link['#attributes'] = $attributes;
 
       return $link;
