@@ -148,15 +148,21 @@
 .bo-entity-operations li a,
 .bo-header-operations li a {
   display: inline-block;
-  padding: .2rem .5rem;
-  outline: none;
+  padding: .2rem 0.5rem 0 .5rem;
+  border: 2px solid;/* rgb(220,220,220);*/
   background-color: rgba(255,255,255)!important;
   border-radius: 20px;
-  border: 1px solid rgb(220,220,220);
   color: #C0C0C0;
+  outline: 0;
   text-decoration: none;
   font-weight: normal;
-  font-size: .5rem;
+  height: 2.3rem;
+  font-size: 1rem;
+}
+
+.bo-header-operations li a:before {
+  height: auto!important;
+  width: auto!important;
 }
 
 .bo-content-operations li a:hover,
