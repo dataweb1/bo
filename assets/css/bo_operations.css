@@ -108,6 +108,11 @@
   padding: 0!important;
 }
 
+.bo-content-operations,
+.bo-header-operations {
+  margin: .5rem!important;
+}
+
 .bo-entity-operations {
   display: none;
   position: absolute;
@@ -129,17 +134,16 @@
 .bo-operations-pane.insert-pane {
   left: 50%;
   transform: translate(-50%, 0);
-  bottom: 24px;
+  bottom: 28px;
   /*margin-bottom: .5rem;*/
-}
+} 
 
 .bo-content-operations li,
 .bo-entity-operations li,
 .bo-header-operations li {
   display: inline-block;
   justify-content: center;
-  margin-right: .5rem;
-  margin-bottom: .5rem;
+  margin-left: .5rem;
   text-align: center;
 }
 
@@ -177,6 +181,7 @@
 .bo-entity-operations li a span,
 .bo-header-operations li a span {
   margin-left: .5rem;
+  font-weight: bold;
 }
 /*
 .bo-content-operations button,
