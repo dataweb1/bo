@@ -183,6 +183,13 @@
   margin-left: .5rem;
   font-weight: bold;
 }
+
+.bo-content-operations li .ajax-progress,
+.bo-entity-operations li .ajax-progress,
+.bo-header-operations li .ajax-progress {
+  display: none;
+}
+
 /*
 .bo-content-operations button,
 .bo-content-operations a {
