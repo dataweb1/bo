@@ -116,7 +116,7 @@
 .bo-entity-operations {
   display: none;
   position: absolute;
-  bottom: -1.75rem;
+  bottom: -1.35rem;
   left: 0;
   z-index: 1001;
   text-align: center;
@@ -134,9 +134,9 @@
 .bo-operations-pane.insert-pane {
   left: 50%;
   transform: translate(-50%, 0);
-  bottom: 28px;
+  /*bottom: 24px;*/
   /*margin-bottom: .5rem;*/
-} 
+}
 
 .bo-content-operations li,
 .bo-entity-operations li,
