@@ -115,7 +115,7 @@ class BoHeader extends AreaPluginBase {
           'action' => 'add',
         ];
 
-        // Add / Insert single or multi link.
+        // Add single or multi link.
         if ($this->boOperations->showAddLink($view_result_count, $collection_id)) {
           $links[] = $this->boOperations->getSingleOrMultiAddInsertLink($parameters);
         }
@@ -143,6 +143,7 @@ class BoHeader extends AreaPluginBase {
         $bo_header_operations = [
           '#theme' => 'bo_header_operations_item_list',
           '#items' => $links,
+          '#label' => $this->boCollection->getCollectionLabel($collection_id),
         ];
 
         $class = "";

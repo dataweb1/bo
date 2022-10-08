@@ -154,6 +154,7 @@
   margin-right: 0;
 }
 
+.bo-header-operations li label,
 .bo-content-operations li a,
 .bo-entity-operations li a,
 .bo-header-operations li a {
@@ -170,6 +171,22 @@
   height: 2.3rem;
   font-size: 1rem;
 }
+
+.bo-header-operations li label {
+  border: none!important;
+  font-weight: bold;
+}
+
+.bo-header-operations li label:before {
+  font-family: "Font Awesome 5 Free";
+  font-size: 18px;
+  content: "\f02b";
+  color: #C0C0C0;
+  font-weight: 900;
+  margin-right: .5rem;
+}
+
+
 .bo-content-operations li a:before,
 .bo-entity-operations li a:before,
 .bo-header-operations li a:before {

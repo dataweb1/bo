@@ -98,7 +98,8 @@ function bo_theme() {
       "items" => NULL,
       "empty" => NULL,
       "wrapper_attributes" => NULL,
-      "context" => NULL
+      "context" => NULL,
+      'label' => NULL,
     ],
   ];
 

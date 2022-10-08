@@ -27,6 +27,9 @@
     {%- for item in items -%}
       <li>{{ item }}</li>
     {%- endfor -%}
+    {% if label != '' %}
+      <li><label>{{ label }}</label></li>
+    {% endif %}
     </ul>
   {%- else -%}
     {{- empty -}}
