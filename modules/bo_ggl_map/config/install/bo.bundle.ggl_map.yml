@@ -3,7 +3,7 @@ langcode: nl
 status: true
 dependencies: {  }
 id: ggl_map
-label: 'GGL Map'
+label: 'Map'
 description: ''
 type: element
 group: ''
