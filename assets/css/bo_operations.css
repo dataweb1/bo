@@ -143,10 +143,16 @@
 .bo-header-operations li {
   display: inline-block;
   justify-content: center;
-  margin-left: .5rem;
+  margin-right: .5rem;
   text-align: center;
 }
 
+.bo-content-operations li:last-child,
+.bo-entity-operations li:last-child,
+.bo-header-operations li:last-child {
+  justify-content: center;
+  margin-right: 0;
+}
 
 .bo-content-operations li a,
 .bo-entity-operations li a,
