@@ -30,7 +30,35 @@ class BoOperations {
    * @See \Drupal\bo\Plugin\views\area\BoHeader
    * @See \Drupal\bo\Plugin\views\field\BoOperations
    */
-  public function showAddInsertLink($view_result_count, $collection_id) {
+  public function showAddLink($view_result_count, $collection_id) {
+    $create_permissions = $this->boCollection->hasCreateBundlePermissionsForCollection($collection_id);
+    if (!$create_permissions) {
+      return FALSE;
+    }
+
+    $max_element_count = $this->boCollection->getCollectionMaxElementCount($collection_id);
+
+    if ((int) $max_element_count > 0) {
+      if ($view_result_count >= $max_element_count) {
+        return FALSE;
+      }
+    }
+    return TRUE;
+  }
+
+  /**
+   * @param $view_result_count
+   * @param $overview_name
+   * @return bool
+   *
+   * @See \Drupal\bo\Plugin\views\area\BoHeader
+   * @See \Drupal\bo\Plugin\views\field\BoOperations
+   */
+  public function showInsertLink($view_result_count, $collection_id) {
+    if ($this->boCollection->disableInsert($collection_id)) {
+      return FALSE;
+    }
+
     $create_permissions = $this->boCollection->hasCreateBundlePermissionsForCollection($collection_id);
     if (!$create_permissions) {
       return FALSE;

@@ -42,5 +42,6 @@ collection:
     label: Tabs
     max_element_count: ''
     specific_view: bo__tabs
+    disable_insert: 1
 related_bundles: null
 weight: '-4'

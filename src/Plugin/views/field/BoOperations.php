@@ -104,7 +104,8 @@ class BoOperations extends EntityOperations {
 
       /* Insert link */
       $links = [];
-      if ($this->boOperations->showAddInsertLink($view_result_count, $collection_id)) {
+
+      if ($this->boOperations->showInsertLink($view_result_count, $collection_id)) {
         $links[] = $this->boOperations->getSingleOrMultiAddInsertLink($parameters);
         $bo_entity_operations = [
           '#theme' => 'bo_entity_operations_item_list',
@@ -129,6 +130,7 @@ class BoOperations extends EntityOperations {
           $markup .= '<div id="bo_operations_pane_' . $view_dom_id . '_' . $entity_id . '" class="insert-pane bo-operations-pane"></div>';
         }
       }
+
 
       /* Edit / Delete links */
       $links = [];

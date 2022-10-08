@@ -116,7 +116,7 @@ class BoHeader extends AreaPluginBase {
         ];
 
         // Add / Insert single or multi link.
-        if ($this->boOperations->showAddInsertLink($view_result_count, $collection_id)) {
+        if ($this->boOperations->showAddLink($view_result_count, $collection_id)) {
           $links[] = $this->boOperations->getSingleOrMultiAddInsertLink($parameters);
         }
 

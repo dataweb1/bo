@@ -286,6 +286,16 @@ class BoCollectionSettingsForm extends ConfigFormBase {
       '#default_value' => $default_reload,
     ];
 
+    // Collection options > insert_element_button.
+    $default_disable_insert = $this->boCollection->disableInsert($this->collection_id);
+    $form["bo_options"]["disable_insert"] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Disable Insert element?'),
+      '#description' => $this->t('Disable insert element?'),
+      '#weight' => $weight,
+      '#default_value' => $default_disable_insert,
+    ];
+
     // Collection options > ignore_current_path.
     $default_value_ignore_current_path = $this->boCollection->getCollectionIgnoreCurrentPath($this->collection_id);
     $form["bo_options"]["ignore_current_path"] = [
@@ -327,6 +337,7 @@ class BoCollectionSettingsForm extends ConfigFormBase {
 
       $settings["collection"][$this->collection_id]["options"]["max_element_count"] = $form_state->getValue("bo_options")['max_element_count'];
       $settings["collection"][$this->collection_id]["options"]["reload"] = $form_state->getValue("bo_options")['reload'];
+      $settings["collection"][$this->collection_id]["options"]["disable_insert"] = $form_state->getValue("bo_options")['disable_insert'];
       $settings["collection"][$this->collection_id]["options"]["ignore_current_path"] = $form_state->getValue("bo_options")['ignore_current_path'];
       $settings["collection"][$this->collection_id]["options"]["label"] = $form_state->getValue("bo_options")['label'];
 
