@@ -134,7 +134,7 @@
 .bo-operations-pane.insert-pane {
   left: 50%;
   transform: translate(-50%, 0);
-  /*bottom: 24px;*/
+  bottom: 24px;
   /*margin-bottom: .5rem;*/
 }
 
