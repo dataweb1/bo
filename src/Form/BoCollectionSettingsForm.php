@@ -266,18 +266,23 @@ class BoCollectionSettingsForm extends ConfigFormBase {
     }
 
     // bo_options > max_element_count.
-    $default_value_max_count = $this->boCollection->getCollectionMaxElementCount($this->collection_id);
-
+    $default_max_count = $this->current_options['max_element_count'] ?? '';
+    if ($this->via == 'view' && $default_max_count == '') {
+      $default_max_count = $this->boCollection->getCollectionMaxElementCount($this->collection_id);
+    }
     $form["bo_options"]["max_element_count"] = [
       '#type' => 'number',
       '#title' => $this->t('Maximum item count'),
       '#description' => $this->t('0 = Unlimited items'),
       '#weight' => $weight,
-      '#default_value' => $default_value_max_count,
+      '#default_value' => $default_max_count,
     ];
 
     // Collection options > max_element_count.
-    $default_reload = $this->boCollection->getCollectionReload($this->collection_id);
+    $default_reload = $this->current_options['reload'] ?? '';
+    if ($this->via == 'view' && $default_reload == '') {
+      $default_reload = $this->boCollection->getCollectionReload($this->collection_id);
+    }
     $form["bo_options"]["reload"] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Reload'),
@@ -287,7 +292,10 @@ class BoCollectionSettingsForm extends ConfigFormBase {
     ];
 
     // Collection options > insert_element_button.
-    $default_disable_insert = $this->boCollection->disableInsert($this->collection_id);
+    $default_disable_insert = $this->current_options['disable_insert'] ?? '';
+    if ($this->via == 'view' && $default_disable_insert == '') {
+      $default_disable_insert = $this->boCollection->getDisableInsert($this->collection_id);
+    }
     $form["bo_options"]["disable_insert"] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Disable Insert element?'),
@@ -296,14 +304,30 @@ class BoCollectionSettingsForm extends ConfigFormBase {
       '#default_value' => $default_disable_insert,
     ];
 
+    // Collection options > insert_element_button.
+    $default_disable_bundle_label = $this->current_options['disable_bundle_label'] ?? '';
+    if ($this->via == 'view' && $default_disable_bundle_label == '') {
+      $default_disable_bundle_label = $this->boCollection->getDisableBundleLabel($this->collection_id);
+    }
+    $form["bo_options"]["disable_bundle_label"] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Disable bundle label?'),
+      '#description' => $this->t('Disable bundle label?'),
+      '#weight' => $weight,
+      '#default_value' => $default_disable_bundle_label,
+    ];
+
     // Collection options > ignore_current_path.
-    $default_value_ignore_current_path = $this->boCollection->getCollectionIgnoreCurrentPath($this->collection_id);
+    $default_ignore_current_path = $this->current_options['ignore_current_path'] ?? '';
+    if ($this->via == 'view' && $default_ignore_current_path == '') {
+      $default_ignore_current_path = $this->boCollection->getCollectionIgnoreCurrentPath($this->collection_id);
+    }
     $form["bo_options"]["ignore_current_path"] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Ignore current path filter'),
       '#description' => $this->t('Show all collection items regardless of the current path'),
       '#weight' => $weight,
-      '#default_value' => $default_value_ignore_current_path,
+      '#default_value' => $default_ignore_current_path,
     ];
 
     $form['#attached']['library'] = [
@@ -338,6 +362,7 @@ class BoCollectionSettingsForm extends ConfigFormBase {
       $settings["collection"][$this->collection_id]["options"]["max_element_count"] = $form_state->getValue("bo_options")['max_element_count'];
       $settings["collection"][$this->collection_id]["options"]["reload"] = $form_state->getValue("bo_options")['reload'];
       $settings["collection"][$this->collection_id]["options"]["disable_insert"] = $form_state->getValue("bo_options")['disable_insert'];
+      $settings["collection"][$this->collection_id]["options"]["disable_bundle_label"] = $form_state->getValue("bo_options")['disable_bundle_label'];
       $settings["collection"][$this->collection_id]["options"]["ignore_current_path"] = $form_state->getValue("bo_options")['ignore_current_path'];
       $settings["collection"][$this->collection_id]["options"]["label"] = $form_state->getValue("bo_options")['label'];
 
@@ -360,7 +385,11 @@ class BoCollectionSettingsForm extends ConfigFormBase {
         $bundle->setCollectionOptions([
           'label' => $form_state->getValue("bo_options")['label'],
           'max_element_count' => $form_state->getValue("bo_options")['max_element_count'],
+          'reload' => $form_state->getValue("bo_options")['reload'],
           'specific_view' => $form_state->getValue("bo_options")['specific_view'],
+          'disable_bundle_label' => $form_state->getValue("bo_options")['disable_bundle_label'],
+          'ignore_current_path' => $form_state->getValue("bo_options")['ignore_current_path'],
+          'disable_insert' => $form_state->getValue("bo_options")['disable_insert'],
         ]);
         $bundle->save();
       }

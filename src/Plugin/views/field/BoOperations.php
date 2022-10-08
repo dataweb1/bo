@@ -149,10 +149,15 @@ class BoOperations extends EntityOperations {
         $links[] = $this->getDeleteLink($bo_content["#links"]["delete"]["url"], $entity, $view_dom_id);
       }
 
+      $bundle_label = '';
+      if (!$this->boCollection->getDisableBundleLabel($entity->id())) {
+        $label = $this->boBundle->getBundle($entity->bundle())->label();
+        $bundle_label = $this->t($label);
+      }
       $bo_content_operations = [
         '#theme' => 'bo_content_operations_item_list',
         '#items' => $links,
-        '#label' => $this->t($this->boBundle->getBundle($entity->bundle())->label()),
+        '#label' => $bundle_label,
         '#attached' => [
           'library' => [
             'bo/bo_operations',
