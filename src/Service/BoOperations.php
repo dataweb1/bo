@@ -55,7 +55,7 @@ class BoOperations {
    * @See \Drupal\bo\Plugin\views\field\BoOperations
    */
   public function showInsertLink($view_result_count, $collection_id) {
-    if ($this->boCollection->disableInsert($collection_id)) {
+    if ($this->boCollection->getDisableInsert($collection_id)) {
       return FALSE;
     }
 

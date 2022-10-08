@@ -178,7 +178,7 @@ class BoCollection {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function disableInsert($collection_id) {
+  public function getDisableInsert($collection_id) {
     // If collection settings overridden on view level.
     $disable_insert = $this->boSettings->getCollectionOptions($collection_id)['disable_insert'] ?? '';
     if ($disable_insert == '') {
@@ -188,6 +188,24 @@ class BoCollection {
       }
     }
     return (bool) $disable_insert;
+  }
+
+  /**
+   * @param $collection_id
+   * @return bool
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function getDisableBundleLabel($collection_id) {
+    // If collection settings overridden on view level.
+    $disable_bundle_label = $this->boSettings->getCollectionOptions($collection_id)['disable_bundle_label'] ?? '';
+    if ($disable_bundle_label == '') {
+      // If not get collection settings from bundle.
+      if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
+        $disable_bundle_label = $collection_bundle->getCollectionOptions()['disable_bundle_label'];
+      }
+    }
+    return (bool) $disable_bundle_label;
   }
 
   /**
