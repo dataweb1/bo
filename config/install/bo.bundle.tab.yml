@@ -16,6 +16,8 @@ icon: 'fa fa-folder'
 collection:
   enabled: 1
   bundles:
+    buttons: 0
+    ggl_map: 0
     card: 0
     section: 1
     slideshow: 1
@@ -35,12 +37,16 @@ collection:
     title: 1
     popup: 1
     google_map: 1
-    cards: 1
     webform: 1
+    cards: 1
     article: 0
   options:
     label: Tab
     max_element_count: ''
+    reload: 0
     specific_view: bo__overview
+    disable_bundle_label: 1
+    ignore_current_path: 0
+    disable_insert: 0
 related_bundles: null
 weight: '-7'
