@@ -38,12 +38,18 @@ class BoOperations extends EntityOperations {
   private BoCollection $boCollection;
 
   /**
+   * @var BoBundle
+   */
+  private BoBundle $boBundle;
+
+  /**
    *
    */
-  public function __construct(array $configuration, $plugin_id, array $plugin_definition, EntityTypeManagerInterface $entity_type_manager, LanguageManagerInterface $language_manager, EntityRepositoryInterface $entity_repository, BoOperationsService $boOperations, BoCollection $boCollection) {
+  public function __construct(array $configuration, $plugin_id, array $plugin_definition, EntityTypeManagerInterface $entity_type_manager, LanguageManagerInterface $language_manager, EntityRepositoryInterface $entity_repository, BoOperationsService $boOperations, BoCollection $boCollection, BoBundle $boBundle) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $entity_type_manager, $language_manager, $entity_repository);
     $this->boOperations = $boOperations;
     $this->boCollection = $boCollection;
+    $this->boBundle = $boBundle;
 
     // If for whatever reason the renderer is not loaded.
     if (!isset($this->renderer)) {
@@ -64,6 +70,7 @@ class BoOperations extends EntityOperations {
       $container->get('entity.repository'),
       $container->get('bo.operations'),
       $container->get('bo.collection'),
+      $container->get('bo.bundle'),
     );
   }
 
@@ -110,6 +117,7 @@ class BoOperations extends EntityOperations {
         $bo_entity_operations = [
           '#theme' => 'bo_entity_operations_item_list',
           '#items' => $links,
+          '#label' => '',
           '#attached' => [
             'library' => [
               'bo/bo_operations',
@@ -131,7 +139,6 @@ class BoOperations extends EntityOperations {
         }
       }
 
-
       /* Edit / Delete links */
       $links = [];
       $bo_content = parent::render($values);
@@ -145,6 +152,7 @@ class BoOperations extends EntityOperations {
       $bo_content_operations = [
         '#theme' => 'bo_content_operations_item_list',
         '#items' => $links,
+        '#label' => $this->t($this->boBundle->getBundle($entity->bundle())->label()),
         '#attached' => [
           'library' => [
             'bo/bo_operations',

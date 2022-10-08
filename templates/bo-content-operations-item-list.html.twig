@@ -24,6 +24,9 @@
 
   {%- if items -%}
     <ul class="bo-content-operations">
+    {% if label != '' %}
+      <li><span class="label">{{ label }}</span></li>
+    {% endif %}
     {%- for item in items -%}
       <li>{{ item }}</li>
     {%- endfor -%}
