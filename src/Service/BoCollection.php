@@ -145,7 +145,7 @@ class BoCollection {
   public function getCollectionMaxElementCount($collection_id) {
     // If collection settings overridden on view level.
     $max_element_count = $this->boSettings->getCollectionOptions($collection_id)['max_element_count'] ?? '';
-    if ($max_element_count == '') {
+    if ((string) $max_element_count == '') {
       // If not get collection settings from bundle.
       if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
         $max_element_count = $collection_bundle->getCollectionOptions()['max_element_count'];
@@ -163,7 +163,7 @@ class BoCollection {
   public function getCollectionReload($collection_id) {
     // If collection settings overridden on view level.
     $reload = $this->boSettings->getCollectionOptions($collection_id)['reload'] ?? '';
-    if ($reload == '') {
+    if ((string) $reload == '') {
       // If not get collection settings from bundle.
       if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
         $reload = $collection_bundle->getCollectionOptions()['reload'];
@@ -181,7 +181,7 @@ class BoCollection {
   public function getDisableInsert($collection_id) {
     // If collection settings overridden on view level.
     $disable_insert = $this->boSettings->getCollectionOptions($collection_id)['disable_insert'] ?? '';
-    if ($disable_insert == '') {
+    if ((string) $disable_insert == '') {
       // If not get collection settings from bundle.
       if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
         $disable_insert = $collection_bundle->getCollectionOptions()['disable_insert'];
@@ -199,7 +199,7 @@ class BoCollection {
   public function getDisableBundleLabel($collection_id) {
     // If collection settings overridden on view level.
     $disable_bundle_label = $this->boSettings->getCollectionOptions($collection_id)['disable_bundle_label'] ?? '';
-    if ($disable_bundle_label == '') {
+    if ((string) $disable_bundle_label == '') {
       // If not get collection settings from bundle.
       if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
         $disable_bundle_label = $collection_bundle->getCollectionOptions()['disable_bundle_label'];
@@ -217,7 +217,7 @@ class BoCollection {
   public function getCollectionIgnoreCurrentPath($collection_id) {
     // If collection settings overridden on view level.
     $ignore_current_path = $this->boSettings->getCollectionOptions($collection_id)['ignore_current_path'] ?? '';
-    if ($ignore_current_path == '') {
+    if ((string) $ignore_current_path == '') {
       // If not get collection settings from bundle.
       if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
         $ignore_current_path = $collection_bundle->getCollectionOptions()['ignore_current_path'];
