@@ -267,7 +267,7 @@ class BoCollectionSettingsForm extends ConfigFormBase {
 
     // bo_options > max_element_count.
     $default_max_count = $this->current_options['max_element_count'] ?? '';
-    if ($this->via == 'view' && $default_max_count == '') {
+    if ($this->via == 'view' && (string) $default_max_count == '') {
       $default_max_count = $this->boCollection->getCollectionMaxElementCount($this->collection_id);
     }
     $form["bo_options"]["max_element_count"] = [
@@ -280,7 +280,7 @@ class BoCollectionSettingsForm extends ConfigFormBase {
 
     // Collection options > max_element_count.
     $default_reload = $this->current_options['reload'] ?? '';
-    if ($this->via == 'view' && $default_reload == '') {
+    if ($this->via == 'view' && (string) $default_reload == '') {
       $default_reload = $this->boCollection->getCollectionReload($this->collection_id);
     }
     $form["bo_options"]["reload"] = [
@@ -293,33 +293,34 @@ class BoCollectionSettingsForm extends ConfigFormBase {
 
     // Collection options > insert_element_button.
     $default_disable_insert = $this->current_options['disable_insert'] ?? '';
-    if ($this->via == 'view' && $default_disable_insert == '') {
+    if ($this->via == 'view' && (string) $default_disable_insert == '') {
       $default_disable_insert = $this->boCollection->getDisableInsert($this->collection_id);
     }
     $form["bo_options"]["disable_insert"] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Disable Insert element?'),
-      '#description' => $this->t('Disable insert element?'),
+      '#description' => $this->t('Disable insert element for this collection?'),
       '#weight' => $weight,
       '#default_value' => $default_disable_insert,
     ];
 
-    // Collection options > insert_element_button.
+    // Collection options > disable_bundle_label.
     $default_disable_bundle_label = $this->current_options['disable_bundle_label'] ?? '';
-    if ($this->via == 'view' && $default_disable_bundle_label == '') {
+    if ($this->via == 'view' && (string) $default_disable_bundle_label == '') {
       $default_disable_bundle_label = $this->boCollection->getDisableBundleLabel($this->collection_id);
     }
+
     $form["bo_options"]["disable_bundle_label"] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Disable bundle label?'),
-      '#description' => $this->t('Disable bundle label?'),
+      '#description' => $this->t('Disable bundle label for collection items?'),
       '#weight' => $weight,
       '#default_value' => $default_disable_bundle_label,
     ];
 
     // Collection options > ignore_current_path.
     $default_ignore_current_path = $this->current_options['ignore_current_path'] ?? '';
-    if ($this->via == 'view' && $default_ignore_current_path == '') {
+    if ($this->via == 'view' && (string) $default_ignore_current_path == '') {
       $default_ignore_current_path = $this->boCollection->getCollectionIgnoreCurrentPath($this->collection_id);
     }
     $form["bo_options"]["ignore_current_path"] = [
