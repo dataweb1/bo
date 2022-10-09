@@ -174,7 +174,6 @@ class BoOperations {
         $link['#title']['#markup'] = '';
       }
 
-      //$link = Link::fromTextAndUrl( $parameters['title'], $url)->toRenderable();
       $link['#attributes'] = $attributes;
 
       return $link;

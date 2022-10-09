@@ -150,9 +150,16 @@ class BoOperations extends EntityOperations {
       }
 
       $bundle_label = '';
-      if (!$this->boCollection->getDisableBundleLabel($entity->id())) {
-        $label = $this->boBundle->getBundle($entity->bundle())->label();
-        $bundle_label = $this->t($label);
+      /** @var \Drupal\bo\Entity\BoBundle $bundle */
+      $bundle = $this->boBundle->getBundle($entity->bundle());
+      // If current entity is not a collection.
+      if (!$bundle->getCollectionEnabled()) {
+        // If the collection of the current entity has
+        // bundle label not disabled.
+        if (!$this->boCollection->getDisableBundleLabel($collection_id)) {
+          $label = $bundle->label();
+          $bundle_label = $this->t($label);
+        }
       }
       $bo_content_operations = [
         '#theme' => 'bo_content_operations_item_list',
