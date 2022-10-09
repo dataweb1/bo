@@ -178,8 +178,12 @@
 .bo-header-operations li .label {
   border: none!important;
   font-weight: bold;
+  background-color: #F8F8F8!important;
+  min-width: 70px;
+  justify-content: center;
 }
 
+/*
 .bo-content-operations li .label:before,
 .bo-entity-operations li .label:before,
 .bo-header-operations li .label:before {
@@ -190,6 +194,7 @@
   font-weight: 900;
   margin-right: .5rem;
 }
+ */
 
 
 .bo-content-operations li a:before,
