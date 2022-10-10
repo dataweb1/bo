@@ -107,14 +107,10 @@
   margin: .5rem!important;
 }
 
-.bo-insert-operations {
-  display: none;
-  position: absolute;
-  bottom: -1.35rem;
-  left: 0;
-  z-index: 1001;
-  text-align: center;
-  width: 100%;
+.bo-operations {
+  display: inline-block;
+  margin: 0!important;
+  padding: 0!important;
 }
 
 .node-operations,
@@ -126,6 +122,16 @@
   right: 0;
 }
 
+.bo-insert-operations {
+  display: none;
+  position: absolute;
+  bottom: -1.35rem;
+  left: 0;
+  z-index: 1001;
+  text-align: center;
+  width: 100%;
+}
+
 .bo-operations-pane.insert-pane {
   left: 50%;
   transform: translate(-50%, 0);
@@ -133,11 +139,7 @@
   /*margin-bottom: .5rem;*/
 }
 
-.bo-operations {
-  display: inline-block;
-  margin: 0!important;
-  padding: 0!important;
-}
+
 
 .bo-operations li {
   display: inline-block;
