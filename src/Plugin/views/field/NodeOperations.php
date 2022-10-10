@@ -36,9 +36,12 @@ class NodeOperations extends EntityOperations {
 
     $links = [];
     $node_content = parent::render($values);
-
-    $links[] = $this->getEditLink($node_content["#links"]["edit"]["url"], $entity, $view_dom_id);
-    $links[] = $this->getDeleteLink($node_content["#links"]["delete"]["url"], $entity, $view_dom_id);
+    if (isset($node_content["#links"]["edit"])) {
+      $links[] = $this->getEditLink($node_content["#links"]["edit"]["url"], $entity, $view_dom_id);
+    }
+    if (isset($node_content["#links"]["delete"])) {
+      $links[] = $this->getDeleteLink($node_content["#links"]["delete"]["url"], $entity, $view_dom_id);
+    }
 
     $node_operations = [
       '#theme' => 'node_entity_operations_item_list',

@@ -384,7 +384,7 @@ function bo_views_data_alter(array &$data) {
   $data['node']['node_entity_operations'] = [
     'title' => t('Node edit/delete link (BO style)'),
     'field' => [
-      'title' => t('Node operations links'),
+      'title' => t('Node edit/delete link (BO style)'),
       'help' => t('Provides links to perform edit/delete node operations in popup.'),
       'id' => 'node_entity_operations',
     ],
