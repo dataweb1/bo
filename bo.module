@@ -113,7 +113,7 @@ function bo_theme() {
     ],
   ];
 
-  $templates["bo_content_operations_item_list"] = [
+  $templates["bo_insert_operations_item_list"] = [
     'variables' => [
       "items" => NULL,
       "empty" => NULL,

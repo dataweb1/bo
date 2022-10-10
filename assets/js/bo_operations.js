@@ -22,17 +22,17 @@
       }
 
       // Show/hide Edit / Delete / Help button.
-      $(".bo-content-operations").once().each(function () {
+      $(".bo-entity-operations").once().each(function () {
 
         let parent_wrapper = $(this).closest(".bo-entity");
 
         $(parent_wrapper).on("mouseenter", function (e) {
-          $(this).find(".bo-content-operations").first().css("display", "block");
+          $(this).find(".bo-entity-operations").first().css("display", "block");
           $(this).addClass("bo-wrapper-selected");
         });
 
         $(parent_wrapper).on("mouseleave", function (e) {
-          $(this).find(".bo-content-operations").first().css("display", "none");
+          $(this).find(".bo-entity-operations").first().css("display", "none");
           $(this).removeClass("bo-wrapper-selected");
         });
 
@@ -46,19 +46,19 @@
       });
 
       // Show/hide Insert button.
-      $(".bo-entity-operations").once().each(function () {
+      $(".bo-insert-operations").once().each(function () {
 
         let parent_wrapper = $(this).closest(".bo-entity");
 
         $(parent_wrapper).on("mouseenter", function (e) {
-          $(this).find(".bo-entity-operations").first().css("display", "block");
+          $(this).find(".bo-insert-operations").first().css("display", "block");
           //$(this).find(".bo-trigger-reorder").css("display", "block");
           $(this).addClass("bo-wrapper-selected");
 
         });
 
         $(parent_wrapper).on("mouseleave", function (e) {
-          $(this).find(".bo-entity-operations").first().css("display", "none");
+          $(this).find(".bo-insert-operations").first().css("display", "none");
           $(this).removeClass("bo-wrapper-selected");
           Drupal.behaviors.bo_operations.closeOperationsPane(true);
         });

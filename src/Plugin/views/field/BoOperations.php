@@ -5,7 +5,6 @@ namespace Drupal\bo\Plugin\views\field;
 use Drupal\bo\Entity\BoEntity;
 use Drupal\bo\Service\BoBundle;
 use Drupal\bo\Service\BoCollection;
-use Drupal\bo\Service\BoSettings;
 use Drupal\bo\Service\BoOperations as BoOperationsService;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -27,11 +26,6 @@ class BoOperations extends EntityOperations {
    * @var BoOperationsService
    */
   private BoOperationsService $boOperations;
-
-  /**
-   * @var BoSettings
-   */
-  private BoSettings $boSettings;
 
   /**
    * @var BoCollection
@@ -90,8 +84,6 @@ class BoOperations extends EntityOperations {
     $markup = '';
     $administer_entities = \Drupal::currentUser()->hasPermission("administer bo entities");
     if ($administer_entities) {
-
-
       $view_dom_id = $this->view->dom_id;
       $view_result_count = count($this->view->result);
       $collection_id = $this->view->filter["bo_current_collection_id_filter"]->value;
@@ -113,11 +105,10 @@ class BoOperations extends EntityOperations {
 
       /* Insert link */
       $links = [];
-
       if ($this->boOperations->showInsertLink($view_result_count, $collection_id)) {
         $links[] = $this->boOperations->getSingleOrMultiAddInsertLink($parameters);
-        $bo_entity_operations = [
-          '#theme' => 'bo_entity_operations_item_list',
+        $bo_insert_operations = [
+          '#theme' => 'bo_insert_operations_item_list',
           '#items' => $links,
           '#label' => '',
           '#attached' => [
@@ -133,7 +124,7 @@ class BoOperations extends EntityOperations {
           ],
         ];
 
-        $markup .= $this->renderer->render($bo_entity_operations);
+        $markup .= $this->renderer->render($bo_insert_operations);
 
         if (count($this->boCollection->getEnabledBundles($collection_id)) > 1) {
           $markup .= '<div id="bo_operations_pane_' . $view_dom_id . '_' . $entity_id . '" class="insert-pane bo-operations-pane"></div>';
@@ -168,8 +159,8 @@ class BoOperations extends EntityOperations {
           $bundle_label = $this->t($label);
         }
       }
-      $bo_content_operations = [
-        '#theme' => 'bo_content_operations_item_list',
+      $bo_entity_operations = [
+        '#theme' => 'bo_entity_operations_item_list',
         '#items' => $links,
         '#label' => $bundle_label,
         '#attached' => [
@@ -179,7 +170,7 @@ class BoOperations extends EntityOperations {
         ],
       ];
 
-      $markup .= $this->renderer->render($bo_content_operations);
+      $markup .= $this->renderer->render($bo_entity_operations);
     }
 
     return [
