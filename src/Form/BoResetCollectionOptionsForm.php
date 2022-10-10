@@ -90,7 +90,7 @@ class BoResetCollectionOptionsForm extends ConfigFormBase {
 
       $this->boSettings->replaceSettings($collection_settings, "collection");
 
-      Cache::invalidateTags(["bo:settings"]);
+      Cache::invalidateTags(["bo:collection:" . $collection_id]);
     }
   }
 

@@ -396,7 +396,7 @@ class BoCollectionSettingsForm extends ConfigFormBase {
       }
     }
 
-    Cache::invalidateTags(["bo:settings"]);
+    Cache::invalidateTags(["bo:collection:" . $this->collection_id]);
   }
 
   /**

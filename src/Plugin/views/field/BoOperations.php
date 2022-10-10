@@ -126,8 +126,7 @@ class BoOperations extends EntityOperations {
           ],
           '#cache' => [
             "tags" => [
-              "bo:settings",
-              "bo:order",
+              "bo:collection:" . $collection_id,
             ],
           ],
         ];

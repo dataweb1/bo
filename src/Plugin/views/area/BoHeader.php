@@ -169,7 +169,7 @@ class BoHeader extends AreaPluginBase {
         '#markup' => Markup::create($html_header),
         '#cache' => [
           "tags" => [
-            "bo:settings",
+            "bo:collection:" . $collection_id,
           ],
         ],
       ];
@@ -210,7 +210,7 @@ class BoHeader extends AreaPluginBase {
       ],
       '#cache' => [
         'tags' => [
-          'bo:settings',
+          'bo:collection:' . $collection_id,
         ],
       ],
     ];
@@ -242,7 +242,7 @@ class BoHeader extends AreaPluginBase {
       ],
       '#cache' => [
         'tags' => [
-          'bo:settings',
+          'bo:collection:' . $parameters['collection_id'],
         ],
       ],
     ];
