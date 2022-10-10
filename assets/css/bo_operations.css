@@ -1,3 +1,8 @@
+.node-entity,
+.bo-entity {
+  position: relative;
+}
+
 .bo-overview {
   transition: 0.15s padding ease-out, 0.15s margin ease-out, 0.15s border ease-out;
 }
@@ -101,19 +106,20 @@
 }
 */
 
-.node-operations,
-.bo-entity-operations,
-.bo-header-operations {
-  margin: .5rem!important;
-}
-
 .bo-operations {
   display: inline-block;
   margin: 0!important;
   padding: 0!important;
 }
 
-.node-operations,
+.node-entity-operations,
+.node-area-operations,
+.bo-entity-operations,
+.bo-header-operations {
+  margin: .5rem!important;
+}
+
+.node-entity-operations,
 .bo-entity-operations {
   display: none;
   position: absolute;
@@ -391,7 +397,8 @@ ul.bo-add-multi-content li a:before {
 }
 
 .bo-insert-operations li.collection-label,
-.bo-header-operations li.collection-label {
+.bo-header-operations li.collection-label,
+.node-area-operations li.collection-label {
   background-color: transparent!important;
   color: #707070;
   text-transform: uppercase;

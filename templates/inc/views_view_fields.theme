@@ -28,7 +28,13 @@ function bo_preprocess_views_view_fields(&$variables) {
 
     if ($class == "Drupal\bo\Entity\BoEntity") {
       $variables["options"]["default_field_elements"] = 0;
-      $variables["bo_row"] = "bo-entity bo-entity-" . $variables['row']->id;
+      $variables["bo_row"] = "bo-entity bo-entity-" . $variables['row']->_entity->id();
+      $variables["display_id"] = $view->current_display;
+    }
+
+    if ($class == "Drupal\\node\Entity\Node") {
+      $variables["options"]["default_field_elements"] = 0;
+      $variables["bo_row"] = "node-entity node-entity-" . $variables['row']->_entity->id();
       $variables["display_id"] = $view->current_display;
     }
   }

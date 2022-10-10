@@ -123,6 +123,26 @@ function bo_theme() {
     ],
   ];
 
+  $templates["node_entity_operations_item_list"] = [
+    'variables' => [
+      "items" => NULL,
+      "empty" => NULL,
+      "wrapper_attributes" => NULL,
+      "context" => NULL,
+      'label' => NULL,
+    ],
+  ];
+
+  $templates["node_area_operations_item_list"] = [
+    'variables' => [
+      "items" => NULL,
+      "empty" => NULL,
+      "wrapper_attributes" => NULL,
+      "context" => NULL,
+      'label' => NULL,
+    ],
+  ];
+
   return $templates;
 }
 
@@ -350,6 +370,23 @@ function bo_views_data_alter(array &$data) {
     'help' => t('Provides header operation links for the BO overview.'),
     'area' => [
       'id' => 'bo_header',
+    ],
+  ];
+
+  $data['node']['node_area_operations'] = [
+    'title' => t('Node add link (BO style)'),
+    'help' => t('Provides header/footer operation links for a view of nodes (E.g. add).'),
+    'area' => [
+      'id' => 'node_area_operations',
+    ],
+  ];
+
+  $data['node']['node_entity_operations'] = [
+    'title' => t('Node edit/delete link (BO style)'),
+    'field' => [
+      'title' => t('Node operations links'),
+      'help' => t('Provides links to perform edit/delete node operations in popup.'),
+      'id' => 'node_entity_operations',
     ],
   ];
 

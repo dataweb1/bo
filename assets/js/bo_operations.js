@@ -22,6 +22,21 @@
       }
 
       // Show/hide Edit / Delete / Help button.
+      $(".node-entity-operations").once().each(function () {
+        let parent_wrapper = $(this).closest(".node-entity");
+
+        $(parent_wrapper).on("mouseenter", function (e) {
+          $(this).find(".node-entity-operations").first().css("display", "block");
+          $(this).addClass("bo-wrapper-selected");
+        });
+
+        $(parent_wrapper).on("mouseleave", function (e) {
+          $(this).find(".node-entity-operations").first().css("display", "none");
+          $(this).removeClass("bo-wrapper-selected");
+        });
+      });
+
+          // Show/hide Edit / Delete / Help button.
       $(".bo-entity-operations").once().each(function () {
 
         let parent_wrapper = $(this).closest(".bo-entity");

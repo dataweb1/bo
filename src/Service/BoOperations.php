@@ -103,7 +103,7 @@ class BoOperations {
    * @param $type
    * @return array|mixed[]
    */
-  private function getAddInsertLink($parameters, $single_or_multi) {
+  public function getAddInsertLink($parameters, $single_or_multi) {
     $attributes = [];
 
     $url = NULL;
