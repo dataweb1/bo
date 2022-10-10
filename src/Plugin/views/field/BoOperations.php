@@ -2,6 +2,7 @@
 
 namespace Drupal\bo\Plugin\views\field;
 
+use Drupal\bo\Entity\BoEntity;
 use Drupal\bo\Service\BoBundle;
 use Drupal\bo\Service\BoCollection;
 use Drupal\bo\Service\BoSettings;
@@ -96,6 +97,7 @@ class BoOperations extends EntityOperations {
       $collection_id = $this->view->filter["bo_current_collection_id_filter"]->value;
       $to_path = $this->view->argument["bo_current_path_argument"]->argument ?? '';
 
+      /** @var BoEntity $entity */
       $entity = $values->_entity;
       $entity_id = $entity->id();
       $entity_weight = $entity->getWeight();
@@ -156,6 +158,12 @@ class BoOperations extends EntityOperations {
         // If the collection of the current entity has
         // bundle label not disabled.
         if (!$this->boCollection->getDisableBundleLabel($collection_id)) {
+          $label = $bundle->label();
+          $bundle_label = $this->t($label);
+        }
+      }
+      else {
+        if (!$this->boCollection->getDisableBundleLabel($entity->getCollectionId())) {
           $label = $bundle->label();
           $bundle_label = $this->t($label);
         }
