@@ -101,13 +101,7 @@
 }
 */
 
-.bo-insert-operations,
-.bo-header-operations {
-  display: inline-block;
-  margin: 0!important;
-  padding: 0!important;
-}
-
+.node-operations,
 .bo-entity-operations,
 .bo-header-operations {
   margin: .5rem!important;
@@ -123,6 +117,7 @@
   width: 100%;
 }
 
+.node-operations,
 .bo-entity-operations {
   display: none;
   position: absolute;
@@ -138,28 +133,26 @@
   /*margin-bottom: .5rem;*/
 }
 
-.bo-entity-operations li,
-.bo-insert-operations li,
-.bo-header-operations li {
+.bo-operations {
+  display: inline-block;
+  margin: 0!important;
+  padding: 0!important;
+}
+
+.bo-operations li {
   display: inline-block;
   justify-content: center;
   margin-right: .5rem;
   text-align: center;
 }
 
-.bo-entity-operations li:last-child,
-.bo-insert-operations li:last-child,
-.bo-header-operations li:last-child {
+.bo-operations li:last-child {
   justify-content: center;
   margin-right: 0;
 }
 
-.bo-entity-operations li .label,
-.bo-insert-operations li .label,
-.bo-header-operations li .label,
-.bo-entity-operations li a,
-.bo-insert-operations li a,
-.bo-header-operations li a {
+.bo-operations li .label,
+.bo-operations li a {
   display: flex!important;
   align-items: center!important;
   padding: 0 0.5rem 0 .5rem!important;
@@ -173,9 +166,7 @@
   height: 2.3rem;
   font-size: 1rem;
 }
-.bo-entity-operations li .label,
-.bo-insert-operations li .label,
-.bo-header-operations li .label {
+.bo-operations li .label {
   border: none!important;
   font-weight: bold;
   background-color: #F8F8F8!important;
@@ -183,57 +174,24 @@
   justify-content: center;
 }
 
-/*
-.bo-entity-operations li .label:before,
-.bo-insert-operations li .label:before,
-.bo-header-operations li .label:before {
-  font-family: "Font Awesome 5 Free";
-  font-size: 18px;
-  content: "\f02b";
-  color: #C0C0C0;
-  font-weight: 900;
-  margin-right: .5rem;
-}
- */
-
-
-.bo-entity-operations li a:before,
-.bo-insert-operations li a:before,
-.bo-header-operations li a:before {
+.bo-operations li a:before {
   height: auto!important;
   width: auto!important;
 }
 
-.bo-entity-operations li a:hover,
-.bo-insert-operations li a:hover,
-.bo-header-operations li a:hover {
+.bo-operations li a:hover {
   color: #2494db;
 }
 
-.bo-entity-operations li a span,
-.bo-insert-operations li a span,
-.bo-header-operations li a span {
+.bo-operations li a span {
   margin-left: .5rem;
   font-weight: bold;
 }
 
-.bo-entity-operations li .ajax-progress,
-.bo-insert-operations li .ajax-progress,
-.bo-header-operations li .ajax-progress {
+.bo-operations li .ajax-progress {
   display: none;
 }
 
-/*
-.bo-entity-operations button,
-.bo-entity-operations a {
-    color: #000!important;
-}
-
-.bo-entity-operations .dropbutton-multiple {
-    padding-right: 0!important;
-    margin-right: 0!important;
-}
-*/
 
 .bo-wrapper-selected {
   outline: 1px dashed #d6d6d6;
