@@ -168,6 +168,11 @@ class BoOperations extends EntityOperations {
             'bo/bo_operations',
           ],
         ],
+        '#cache' => [
+          "tags" => [
+            "bo:collection:" . $collection_id,
+          ],
+        ],
       ];
 
       $markup .= $this->renderer->render($bo_entity_operations);
