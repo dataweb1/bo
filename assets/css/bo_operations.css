@@ -185,7 +185,7 @@
 .bo-operations li .no-link {
   border: 2px solid #F8F8F8!important;
   background-color: #F8F8F8!important;
-  min-width: 70px;
+  /*min-width: 100px;*/
   justify-content: center;
 }
 
@@ -211,6 +211,11 @@
 }
 .bo-operations li .no-icon span {
   margin-left: 0;
+}
+
+.bo-operations li .no-link span {
+  padding-left: .5rem;
+  padding-right: .5rem;
 }
 
 .bo-operations li .ajax-progress {
