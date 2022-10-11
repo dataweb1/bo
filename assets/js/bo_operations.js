@@ -21,6 +21,16 @@
         Drupal.behaviors.bo_operations.closeOperationsPane();
       }
 
+      $('.bo-trigger').once().each(function() {
+        $(this).on("mouseenter", function (e) {
+          $(this).find('.show-hide').show();
+        });
+
+        $(this).on("mouseleave", function (e) {
+          $(this).find('.show-hide').hide();
+        });
+      });
+
       // Show/hide Edit / Delete / Help button.
       $(".node-entity-operations").once().each(function () {
         let parent_wrapper = $(this).closest(".node-entity");

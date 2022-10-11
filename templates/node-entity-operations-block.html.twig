@@ -1,0 +1,16 @@
+{% if items or empty -%}
+
+{%- if items -%}
+<ul class="node-entity-operations-block bo-operations">
+  {% if label != '' %}
+  <li><span class="label">{{ label }}</span></li>
+  {% endif %}
+  {%- for item in items -%}
+  <li>{{ item }}</li>
+  {%- endfor -%}
+</ul>
+{%- else -%}
+{{- empty -}}
+{%- endif -%}
+
+{%- endif %}

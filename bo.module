@@ -143,6 +143,13 @@ function bo_theme() {
     ],
   ];
 
+  $templates["node_entity_operations_block"] = [
+    'variables' => [
+      "items" => NULL,
+      'label' => NULL,
+    ],
+  ];
+
   return $templates;
 }
 
@@ -217,6 +224,10 @@ function bo_preprocess_html(&$variables) {
     if ($boSettings->getSetting("load_bootstrap")) {
       $variables['#attached']['library'][] = 'bo/bo_bootstrap';
     }
+  }
+
+  if (\Drupal::routeMatch()->getRouteName() == 'entity.node.content_translation_overview') {
+    dpm(\Drupal::routeMatch()->getParameters());
   }
 }
 

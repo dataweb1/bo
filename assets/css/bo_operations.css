@@ -26,6 +26,10 @@
   display: none;
 }
 
+.show-hide {
+  display: none;
+}
+
 .bo-trigger.active {
   /*border-top: 2px solid rgba(0,0,0,.2);*/
   box-shadow: 0 2px 0 rgba(0,0,0,.2) inset;
@@ -53,6 +57,14 @@
   font-family: "Font Awesome 5 Free";
   font-size: 18px;
   content: "\f2ed";
+  font-weight: 900;
+}
+
+.bo-trigger-translate:before {
+  /*background-image: url('../img/gear.png');*/
+  font-family: "Font Awesome 5 Free";
+  font-size: 18px;
+  content: "\f0ac";
   font-weight: 900;
 }
 
