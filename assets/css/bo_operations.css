@@ -169,19 +169,19 @@
   display: flex!important;
   align-items: center!important;
   padding: 0 0.5rem 0 .5rem!important;
-  border: 2px solid;/* rgb(220,220,220);*/
+  border: 2px solid;
   background-color: rgba(255,255,255)!important;
   border-radius: 20px;
-  color: #C0C0C0;
+  color: silver;
   outline: 0;
   text-decoration: none;
   font-weight: normal;
   height: 2.3rem;
   font-size: 1rem;
 }
+ 
 .bo-operations li .label {
-  border: none!important;
-  font-weight: bold;
+  border: 2px solid #F8F8F8!important;
   background-color: #F8F8F8!important;
   min-width: 70px;
   justify-content: center;
