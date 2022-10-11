@@ -197,8 +197,7 @@ class BoOperations extends EntityOperations {
       ],
       'attributes' => [
         'class' => [
-          'bo-trigger',
-          'bo-trigger-delete',
+          'bo-operation-delete',
         ],
       ],
     ];
@@ -222,8 +221,7 @@ class BoOperations extends EntityOperations {
   public function getEditLink($url, $entity, $view_dom_id, $collection_id) {
     $attributes = [
       'class' => [
-        'bo-trigger',
-        'bo-trigger-edit',
+        'bo-operation-edit',
       ],
     ];
 

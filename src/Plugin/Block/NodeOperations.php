@@ -119,8 +119,7 @@ class NodeOperations extends BlockBase {
       '#type' => 'link',
       '#attributes' => [
         'class' => [
-          'bo-trigger',
-          'bo-trigger-edit',
+          'bo-operation-edit',
         ],
       ],
       '#title' => [
@@ -144,8 +143,7 @@ class NodeOperations extends BlockBase {
       '#type' => 'link',
       '#attributes' => [
         'class' => [
-          'bo-trigger',
-          'bo-trigger-delete',
+          'bo-operation-delete',
         ],
       ],
       '#title' => [
@@ -169,8 +167,7 @@ class NodeOperations extends BlockBase {
       '#type' => 'link',
       '#attributes' => [
         'class' => [
-          'bo-trigger',
-          'bo-trigger-translate',
+          'bo-operation-translate',
         ],
       ],
       '#title' => [

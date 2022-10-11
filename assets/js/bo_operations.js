@@ -21,7 +21,7 @@
         Drupal.behaviors.bo_operations.closeOperationsPane();
       }
 
-      $('.bo-trigger').once().each(function() {
+      $('.bo-operations a').once().each(function() {
         $(this).on("mouseenter", function (e) {
           $(this).find('.show-hide').show();
         });
@@ -62,11 +62,11 @@
         });
 
         $(parent_wrapper).on("mouseenter", function (e) {
-          $(this).find(".bo-trigger-help").first().css("display", "block");
+          $(this).find(".bo-operation-help").first().css("display", "block");
         });
 
         $(parent_wrapper).on("mouseleave", function (e) {
-          $(this).find(".bo-trigger-help").first().css("display", "none");
+          $(this).find(".bo-operation-help").first().css("display", "none");
         });
       });
 
@@ -77,7 +77,7 @@
 
         $(parent_wrapper).on("mouseenter", function (e) {
           $(this).find(".bo-insert-operations").first().css("display", "block");
-          //$(this).find(".bo-trigger-reorder").css("display", "block");
+          //$(this).find(".bo-operation-reorder").css("display", "block");
           $(this).addClass("bo-wrapper-selected");
 
         });

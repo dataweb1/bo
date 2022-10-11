@@ -140,8 +140,7 @@ class NodeOperations extends AreaPluginBase {
       '#type' => 'link',
       '#attributes' => [
         'class' => [
-          'bo-trigger',
-          'bo-trigger-add',
+          'bo-operation-add',
         ],
       ],
       '#title' => [

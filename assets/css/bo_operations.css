@@ -30,13 +30,13 @@
   display: none;
 }
 
-.bo-trigger.active {
+.bo-operations > a.active {
   /*border-top: 2px solid rgba(0,0,0,.2);*/
   box-shadow: 0 2px 0 rgba(0,0,0,.2) inset;
 }
 
-
-.bo-trigger:before {
+.bo-operations > span:before,
+.bo-operations > a:before {
   height: 16px;
   width: 16px;
   background-size: 16px 16px;
@@ -44,7 +44,7 @@
   content: "";
 }
 
-.bo-trigger-edit:before {
+.bo-operations .bo-operation-edit:before {
   /*background-image: url('../img/gear.png');*/
   font-family: "Font Awesome 5 Free";
   font-size: 18px;
@@ -52,7 +52,7 @@
   font-weight: 900;
 }
 
-.bo-trigger-delete:before {
+.bo-operations .bo-operation-delete:before {
   /*background-image: url('../img/gear.png');*/
   font-family: "Font Awesome 5 Free";
   font-size: 18px;
@@ -60,7 +60,7 @@
   font-weight: 900;
 }
 
-.bo-trigger-translate:before {
+.bo-operations .bo-operation-translate:before {
   /*background-image: url('../img/gear.png');*/
   font-family: "Font Awesome 5 Free";
   font-size: 18px;
@@ -68,7 +68,7 @@
   font-weight: 900;
 }
 
-.bo-trigger-gear:before {
+.bo-operations .bo-operation-gear:before {
   /*background-image: url('../img/gear.png');*/
   font-family: "Font Awesome 5 Free";
   font-size: 18px;
@@ -76,7 +76,7 @@
   font-weight: 900;
 }
 
-.bo-trigger-reorder:before {
+.bo-operations .bo-operation-reorder:before {
   /*background-image: url('../img/updown.png');*/
   font-family: "Font Awesome 5 Free";
   font-size: 18px;
@@ -84,12 +84,12 @@
   font-weight: 900;
 }
 
-.bo-trigger-help:before {
+.bo-operations .bo-operation-help:before {
   background-image: url('../img/twig.png');
 }
 
-.bo-trigger-add:before,
-.bo-trigger-insert:before {
+.bo-operations .bo-operation-add:before,
+.bo-operations .bo-operation-insert:before {
   /*background-image: url('../img/plus.png');*/
   font-family: "Font Awesome 5 Free";
   font-size: 18px;
@@ -97,7 +97,7 @@
   font-weight: 900;
 }
 
-.bo-trigger-help {
+.bo-operations .bo-operation-help {
   display: none;
   position: absolute!important;
   left: 0;
@@ -106,7 +106,7 @@
 }
 
 /*
-.bo-trigger-insert:after {
+.bo-operation-insert:after {
   position: absolute;
   right: 0;
   bottom: -10px;
@@ -179,7 +179,7 @@
   height: 2.3rem;
   font-size: 1rem;
 }
- 
+
 .bo-operations li .label {
   border: 2px solid #F8F8F8!important;
   background-color: #F8F8F8!important;

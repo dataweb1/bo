@@ -111,9 +111,8 @@ class BoOperations {
     switch ($single_or_multi) {
       case 'multi':
         $attributes["class"] = [
-          'bo-trigger',
-          'bo-trigger-multi',
-          'bo-trigger-' . $parameters['action'],
+          'bo-operation-multi',
+          'bo-operation-' . $parameters['action'],
           'use-ajax',
         ];
 
@@ -131,9 +130,8 @@ class BoOperations {
 
       case 'single':
         $attributes['class'] = [
-          'bo-trigger',
-          'bo-trigger-single',
-          'bo-trigger-' . $parameters['action'],
+          'bo-operation-single',
+          'bo-operation-' . $parameters['action'],
         ];
 
         if ($parameters['action'] == 'add') {

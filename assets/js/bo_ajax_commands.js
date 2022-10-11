@@ -36,7 +36,7 @@
 
     if (action !== window.open_action && window.keep_closed === false) {
       $(selector).slideDown(200, function() {
-        $(".bo-trigger").removeClass("active");
+        $(".bo-operations a").removeClass("active");
         $(selector).addClass("open");
         window.open_action = action;
       });

@@ -31,25 +31,3 @@
   top: 5px;
   margin-left: 5px;
 }
-
-
-
-
-
-.bo-trigger:before {
-
-  height: 16px;
-  width: 16px;
-  background-size: 16px 16px;
-  display: inline-block;
-  content: "";
-  font-weight: 900;
-}
-
-.bo-trigger-gear:before {
-  /*background-image: url('../img/gear.png');*/
-  font-family: "Font Awesome 5 Free";
-  font-size: 18px;
-  content: "\f013";
-  font-weight: 900;
-}

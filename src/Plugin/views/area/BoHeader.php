@@ -204,8 +204,7 @@ class BoHeader extends AreaPluginBase {
       '#url' => $url,
       '#attributes' => [
         'class' => [
-          'bo-trigger',
-          'bo-trigger-gear',
+          'bo-operation-gear',
         ],
       ],
       '#cache' => [
@@ -234,8 +233,7 @@ class BoHeader extends AreaPluginBase {
       '#url' => $url,
       '#attributes' => [
         'class' => [
-          'bo-trigger',
-          'bo-trigger-reorder',
+          'bo-operation-reorder',
           'use-ajax',
         ],
         'id' => 'bo_trigger_reorder_' . $parameters["view_dom_id"],

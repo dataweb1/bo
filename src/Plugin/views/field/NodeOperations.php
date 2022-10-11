@@ -75,8 +75,7 @@ class NodeOperations extends EntityOperations {
       ],
       'attributes' => [
         'class' => [
-          'bo-trigger',
-          'bo-trigger-delete',
+          'bo-operation-delete',
         ],
       ],
     ];
@@ -100,8 +99,7 @@ class NodeOperations extends EntityOperations {
   public function getEditLink($url, $entity, $view_dom_id) {
     $attributes = [
       'class' => [
-        'bo-trigger',
-        'bo-trigger-edit',
+        'bo-operation-edit',
       ],
     ];
 

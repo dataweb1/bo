@@ -34,8 +34,7 @@ class BoHelp {
   public function getHelpLink($collection_id, $to_path, $entity_id) {
     $attributes = [
       'class' => [
-        'bo-trigger',
-        'bo-trigger-help',
+        'bo-operation-help',
       ],
     ];
 
