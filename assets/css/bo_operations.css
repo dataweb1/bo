@@ -120,15 +120,8 @@
 
 .bo-operations {
   display: inline-block;
-  margin: 0!important;
-  padding: 0!important;
-}
-
-.node-entity-operations,
-.node-area-operations,
-.bo-entity-operations,
-.bo-header-operations {
   margin: .5rem!important;
+  padding: 0!important;
 }
 
 .node-entity-operations,
@@ -143,7 +136,7 @@
 .bo-insert-operations {
   display: none;
   position: absolute;
-  bottom: -1.35rem;
+  bottom: -1.85rem;
   left: 0;
   z-index: 1001;
   text-align: center;

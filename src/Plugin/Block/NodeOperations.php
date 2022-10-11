@@ -62,7 +62,7 @@ class NodeOperations extends BlockBase {
         $node_type = NodeType::load($node->bundle());
         // $label = $node_type->label();
         $title = $node->get('title')->value;
-        if (strlen($title) > 15) {
+        if (strlen($title) > 25) {
           $label .= substr($title, 0, 14) . '…';
         }
         else {
