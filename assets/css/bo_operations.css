@@ -209,6 +209,9 @@
   margin-left: .5rem;
   font-weight: bold;
 }
+.bo-operations li .no-icon span {
+  margin-left: 0;
+}
 
 .bo-operations li .ajax-progress {
   display: none;
