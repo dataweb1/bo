@@ -35,7 +35,8 @@
   box-shadow: 0 2px 0 rgba(0,0,0,.2) inset;
 }
 
-.bo-operations > span:before,
+/*
+.bo-operations li > span:before,
 .bo-operations > a:before {
   height: 16px;
   width: 16px;
@@ -43,6 +44,7 @@
   display: inline-block;
   content: "";
 }
+*/
 
 .bo-operations .bo-operation-edit:before {
   /*background-image: url('../img/gear.png');*/
@@ -164,7 +166,7 @@
   margin-right: 0;
 }
 
-.bo-operations li .label,
+.bo-operations li .no-link,
 .bo-operations li a {
   display: flex!important;
   align-items: center!important;
@@ -180,22 +182,29 @@
   font-size: 1rem;
 }
 
-.bo-operations li .label {
+.bo-operations li .no-link {
   border: 2px solid #F8F8F8!important;
   background-color: #F8F8F8!important;
   min-width: 70px;
   justify-content: center;
 }
 
+.bo-operations li .no-link:before,
 .bo-operations li a:before {
   height: auto!important;
   width: auto!important;
+  content: "";
 }
 
+.bo-operations li .no-link:before {
+  height: 12px!important;
+}
+ 
 .bo-operations li a:hover {
   color: #2494db;
 }
 
+.bo-operations li .no-link span,
 .bo-operations li a span {
   margin-left: .5rem;
   font-weight: bold;
