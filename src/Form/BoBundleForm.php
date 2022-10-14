@@ -114,12 +114,14 @@ class BoBundleForm extends BundleEntityFormBase {
     ];
 
     $related_bundles_options = [];
-    foreach($this->boBundle->getSortedBundles() as $group_name => $group_bundles) {
-      $related_bundles_options['group__'.$group_name] = $group_name;
-      /** @var \Drupal\bo\Entity\BoBundle $group_bundle */
-      foreach($group_bundles as $group_bundle) {
-        if ($group_bundle->id() != $entity_bundle->id()) {
-          $related_bundles_options[$group_bundle->id()] = $group_bundle->label();
+    foreach($this->boBundle->getSortedBundles() as $type_name => $type_bundles) {
+      foreach($type_bundles as $group_name => $group_bundles) {
+        $related_bundles_options['group__' . $group_name] = $group_name;
+        /** @var \Drupal\bo\Entity\BoBundle $group_bundle */
+        foreach ($group_bundles as $group_bundle) {
+          if ($group_bundle->id() != $entity_bundle->id()) {
+            $related_bundles_options[$group_bundle->id()] = $group_bundle->label();
+          }
         }
       }
     }

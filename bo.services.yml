@@ -11,6 +11,8 @@ services:
       - { name: twig.extension }
   bo.route_subscriber:
     class: Drupal\bo\Routing\RouteSubscriber
+    arguments:
+      - '@bo.settings'
     tags:
       - { name: event_subscriber }
 

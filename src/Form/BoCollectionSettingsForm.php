@@ -2,6 +2,7 @@
 
 namespace Drupal\bo\Form;
 
+use Drupal\bo\Enum\BoBundleType;
 use Drupal\bo\Service\BoBundle;
 use Drupal\bo\Service\BoCollection;
 use Drupal\bo\Service\BoSettings;
@@ -125,7 +126,6 @@ class BoCollectionSettingsForm extends ConfigFormBase {
         ]);
 
         $reset_to_link = Link::fromTextAndUrl($this->t('here'), $reset_to_url);
-        $reset_to_collection_label = '';
         if (intval($this->collection_id) > 0) {
           $reset_to_collection_label = $this->boCollection->getCollectionLabel($this->collection_id);
         }
@@ -151,65 +151,74 @@ class BoCollectionSettingsForm extends ConfigFormBase {
       }
     }
 
-    // Bundle groups in fieldsets.
-    $form['bundles'] = [
-      '#type' => 'fieldset',
-      '#title' => 'BO ' . $this->t('elementen'),
-      '#prefix' => $reset_markup,
-      '#attributes' => [
-        'class' => [
-          'bundles',
-        ],
-      ],
-      '#description' => $this->t('Select what BO elements are allowed for this collection'),
-      '#collapsibl' => FALSE,
-      '#collapsed' => FALSE,
-      '#tree' => TRUE,
+    $form['reset'] = [
+      '#type' => 'markup',
+      '#markup' => $reset_markup,
       '#weight' => 0,
     ];
 
+    $form['bundles']['#type'] = "fieldset";
+    $form['bundles']['#weight'] = 1;
+    $form['bundles']['#title'] = $this->t('Collection elements');
+    $form['bundles']['#description'] = $this->t('Select what BO elements are allowed for this collection');
+
+    $bundle_types = $this->boSettings->getBundleTypes();
+
+    // Bundle groups in fieldsets.
     $bundles = $this->boBundle->getSortedBundles();
-    foreach ($bundles as $group => $grouped_bundles) {
-      $weight = 0;
-      if ($group != "") {
-        $form['bundles'][$group] = [
-          '#type' => 'container',
-          '#markup' => "<div class='group-title'>" . $group . "</div>",
-          '#attributes' => [
-            "class" => [
-              'group-wrapper',
+    foreach ($bundles as $type => $typed_bundles) {
+      $form['bundles'][$type] = [
+        '#type' => 'details',
+        '#title' => 'BO ' . $this->t($bundle_types[$type]['plural']),
+        '#attributes' => [
+          'class' => [
+            'bundles',
+          ],
+        ],
+        //'#description' => $this->t('Select what BO elements are allowed for this collection'),
+        '#open' => FALSE,
+      ];
+      foreach ($typed_bundles as $group => $grouped_bundles) {
+        $weight = 0;
+        if ($group != "") {
+          $form['bundles'][$type][$group] = [
+            '#type' => 'container',
+            '#markup' => "<div class='group-title'>" . $group . "</div>",
+            '#attributes' => [
+              "class" => [
+                'group-wrapper',
+              ],
             ],
-          ],
-        ];
-      }
-
-      $g = $group;
-      if ($group == "") {
-        $g = "_empty";
-      }
-
-      /** @var \Drupal\bo\Entity\BoBundle $bundle */
-      foreach ($grouped_bundles as $bundle) {
-        if ($this->via == 'view') {
-          $default_value = $this->boCollection->isEnabledBundle($this->collection_id, $bundle);
+          ];
         }
-        if ($this->via == 'bundle') {
-          $default_value = $this->boCollection->isEnabledBundle($this->bundle_id, $bundle);
+
+        $g = $group;
+        if ($group == "") {
+          $g = "_empty";
         }
-        $form['bundles'][$g][$bundle->id()] = [
-          '#type' => 'checkbox',
-          '#title' => '<span class="' . $bundle->getIcon() . '"></span>' . $this->t($bundle->label()),
-          '#weight' => $weight,
-          '#attributes' => [
-            'checkbox-group' => 'bo-settings-bundle',
-            'toggle-fieldset' => 'fieldset-bo-settings-bo-' . str_replace('_', '-', $bundle->id() . '-types'),
-          ],
-          '#default_value' => $default_value,
-        ];
 
-        $weight++;
+        /** @var \Drupal\bo\Entity\BoBundle $bundle */
+        foreach ($grouped_bundles as $bundle) {
+          if ($this->via == 'view') {
+            $default_value = $this->boCollection->isEnabledBundle($this->collection_id, $bundle);
+          }
+          if ($this->via == 'bundle') {
+            $default_value = $this->boCollection->isEnabledBundle($this->bundle_id, $bundle);
+          }
+          $form['bundles'][$type][$g][$bundle->id()] = [
+            '#type' => 'checkbox',
+            '#title' => '<span class="' . $bundle->getIcon() . '"></span>' . $this->t($bundle->label()),
+            '#weight' => $weight,
+            '#attributes' => [
+              'checkbox-group' => 'bo-settings-bundle',
+              'toggle-fieldset' => 'fieldset-bo-settings-bo-' . str_replace('_', '-', $bundle->id() . '-types'),
+            ],
+            '#default_value' => $default_value,
+          ];
+
+          $weight++;
+        }
       }
-
     }
 
     $form['bo_options'] = [
@@ -218,7 +227,7 @@ class BoCollectionSettingsForm extends ConfigFormBase {
       '#collapsible' => FALSE,
       '#collapsed' => FALSE,
       '#tree' => TRUE,
-      '#weight' => 0,
+      '#weight' => 3,
     ];
 
     // bo_options > label.

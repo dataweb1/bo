@@ -28,28 +28,6 @@ bo.reset_collection_options_form:
   options:
     _admin_route: 'TRUE'
 
-bo.entity.bundle.element_list:
-  path: '/admin/structure/bo/bundle/element/list'
-  defaults:
-  # Calls the list controller, defined in the annotation of the BO Type entity.
-    _entity_list: 'bundle'
-    #_title: 'BO elements'
-    _title_callback: '\Drupal\bo\Controller\BoBundleController::getBoBundleElementListTitle'
-  requirements:
-  # Checks for permission directly.
-    _permission: 'administer bundle entity'
-
-bo.entity.bundle.content_list:
-  path: '/admin/structure/bo/bundle/content/list'
-  defaults:
-  # Calls the list controller, defined in the annotation of the BO Type entity.
-    _entity_list: 'bundle'
-    #_title: 'BO content'
-    _title_callback: '\Drupal\bo\Controller\BoBundleController::getBoBundleContentTypeListTitle'
-  requirements:
-  # Checks for permission directly.
-    _permission: 'administer bundle entity'
-
 bo.autocomplete.bundle_groups:
   path: '/admin/bo/autocomplete/bundle_groups'
   defaults:

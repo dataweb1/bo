@@ -5,7 +5,7 @@ dependencies: {  }
 id: ggl_map
 label: 'Map'
 description: ''
-type: element
+type: individual_element
 group: ''
 default: 1
 internal_title: 1

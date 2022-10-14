@@ -7,13 +7,13 @@ _core:
 id: table_row
 label: 'Table row'
 description: ''
-type: element
+type: structure_element
 group: ''
 default: 0
 internal_title: 0
 override_title_label: ''
 icon: ''
 collection:
-  enabled: 0
+  enabled: 1
 related_bundles: null
 weight: '-5'

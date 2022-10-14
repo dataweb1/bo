@@ -171,6 +171,13 @@ class BoSettings {
   }
 
   /**
+   * @return mixed
+   */
+  public function getBundleTypes() {
+    return $this->settings['bundle_types'];
+  }
+
+  /**
    *
    */
   public function getYmlData($file) {

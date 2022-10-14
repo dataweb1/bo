@@ -5,7 +5,7 @@ dependencies: {  }
 id: buttons
 label: Button(s)
 description: ''
-type: element
+type: individual_element
 group: ''
 default: 1
 internal_title: 1

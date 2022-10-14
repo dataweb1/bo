@@ -6,8 +6,8 @@
 }
 
 .group-wrapper,
-fieldset.bundles .fieldset-wrapper,
-fieldset.bundles .fieldset__wrapper {
+details.bundles .details-wrapper,
+details.bundles .details__wrapper {
   list-style: none;
   display: -webkit-box;
   display: -moz-box;
@@ -20,8 +20,8 @@ fieldset.bundles .fieldset__wrapper {
   width: 100%;
 }
 
-fieldset.bundles .fieldset-wrapper,
-fieldset.bundles .fieldset__wrapper {
+details.bundles .details-wrapper,
+details.bundles .details__wrapper {
   margin: 1rem;
 }
 
@@ -30,7 +30,7 @@ fieldset.bundles .fieldset__wrapper {
 }
 
 .group-title,
-fieldset.bundles .description {
+details.bundles .description {
   clear: both;
   width: 100%;
 }
@@ -43,7 +43,7 @@ fieldset.bundles .description {
   margin-left: 5px;
 }
 
-fieldset.bundles .form-item {
+details.bundles .form-item {
   width: 13%;
   border: 2px solid rgba(0,0,0,.1);
   border-radius: 5px;
@@ -60,33 +60,33 @@ fieldset.bundles .form-item {
   flex-direction: column;
 }
 
-fieldset.bundles .form-item input[type='checkbox'] {
+details.bundles .form-item input[type='checkbox'] {
   position: relative;
   top: 0;
   margin: .5rem 0;
 }
 
 
-fieldset.bundles .form-item:hover {
+details.bundles .form-item:hover {
   border: 2px solid rgba(0,0,0,.2);
 }
 
 
-fieldset.bundles .form-item label {
+details.bundles .form-item label {
   display: block;
   padding: 0!important;
   font-size: 1rem;
   line-height: 1rem;
 }
 
-fieldset.bundles .form-item label span {
+details.bundles .form-item label span {
   display: block;
   padding: 0!important;
   margin: 0 0 .5rem;
   font-size: 1.2rem;
 }
 
-fieldset.bundles .form-item label:before {
+details.bundles .form-item label:before {
   display: block;
   color: #555;
   margin-bottom: .5rem;
@@ -94,13 +94,13 @@ fieldset.bundles .form-item label:before {
 }
 
 @media only screen and (max-width: 800px) {
-  fieldset.bundles .form-item {
+  details.bundles .form-item {
     width: 24%;
   }
 }
 
 @media only screen and (max-width: 400px) {
-  fieldset.bundles .form-item {
+  details.bundles .form-item {
     width: 100%;
     margin: 0;
   }

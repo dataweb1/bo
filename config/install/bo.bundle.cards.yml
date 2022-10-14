@@ -7,13 +7,16 @@ _core:
 id: cards
 label: Cards
 description: ''
-type: element
+type: structure_element
 group: ''
 default: 1
 internal_title: 0
 override_title_label: ''
 icon: 'fa fa-address-card'
-collection: 1
+collection:
+  enabled: 1
+  bundles:
+    card: 1
 related_bundles:
   - webform
   - cards

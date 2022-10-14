@@ -10,7 +10,7 @@ _core:
 id: webform
 label: Webform
 description: ''
-type: element
+type: individual_element
 group: ''
 default: 1
 internal_title: 0

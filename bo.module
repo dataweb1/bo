@@ -6,6 +6,7 @@
 \Drupal::moduleHandler()->loadInclude('bo', 'theme', 'templates/inc/views_view_fields');
 \Drupal::moduleHandler()->loadInclude('bo', 'theme', 'templates/inc/views_view_field_bo__bo_fields');
 
+use Drupal\bo\Enum\BoBundleType;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\image\Entity\ImageStyle;
@@ -524,6 +525,52 @@ function bo_css_alter(&$css, \Drupal\Core\Asset\AttachedAssetsInterface $assets)
         }
       }
     }
+  }
+}
+
+/**
+ * Implements hook_menu_local_actions_alter().
+ */
+function bo_menu_local_actions_alter(&$local_actions) {
+  if (\Drupal::currentUser()->hasPermission('administer bo bundles')) {
+    /** @var \Drupal\bo\Service\BoSettings $boSettings */
+    $boSettings = \Drupal::service('bo.settings');
+    foreach ($boSettings->getBundleTypes() as $type_id => $type) {
+      $local_actions['bo_bundle_action_add_' . $type_id] = [
+        'id' => 'bo_bundle_action_add_' . $type_id,
+        'route_name' => 'bo.entity.bundle.add_form',
+        'route_parameters' => [
+          'type' => $type_id,
+        ],
+        'appears_on' => ['bo.entity.bundle.' . $type_id . '_list'],
+        'class' => 'Drupal\bo\Plugin\Menu\LocalAction\BoBundleTypeLocalAction',
+        'provider' => 'bo',
+      ];
+    }
+  }
+}
+
+/**
+ * Implements hook_menu_links_discovered_alter().
+ */
+function bo_menu_links_discovered_alter(&$links) {
+  /** @var \Drupal\bo\Service\BoSettings $boSettings */
+  $boSettings = \Drupal::service('bo.settings');
+
+  foreach ($boSettings->getBundleTypes() as $type_id => $type) {
+    $links['bo_bundle_' . $type_id . '_list_menu:bo_bundle_elements_list_menu'] = [
+      'title' => 'BO ' . $type['plural'],
+      'description' => 'Administer BO ' . $type['plural'],
+      'route_name' => 'bo.entity.bundle.' . $type_id . '_list',
+      'options' => [
+        'query' => [
+          'type' => $type_id,
+        ]
+      ],
+      'parent' => 'system.admin_structure',
+      'provider' => 'bo',
+      'id' => 'bo_bundle_' . $type_id . '_list_menu',
+    ];
   }
 }
 

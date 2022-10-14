@@ -7,7 +7,7 @@ _core:
 id: accordion_item
 label: 'Accordion item'
 description: ''
-type: element
+type: structure_element
 group: ''
 default: 0
 internal_title: 0

@@ -3,8 +3,6 @@
 namespace Drupal\bo\Service;
 
 use Drupal\Core\Entity\EntityTypeManager;
-use Drupal\Core\Session\AccountProxy;
-use Drupal\Core\Database\Connection;
 
 /**
  *
@@ -20,6 +18,11 @@ class BoBundle {
    * @var array
    */
   private array $sortedBundles;
+
+  /**
+   * @var array
+   */
+  private array $types;
 
   /**
    * @param BoSettings $boSettings
@@ -50,13 +53,16 @@ class BoBundle {
       return $this->sortedBundles;
     }
 
+    $this->types = [];
     $bundles = $this->getBundles();
     foreach ($bundles as $bundle) {
-      $this->sortedBundles[$bundle->getGroup()][$bundle->getWeight()] = $bundle;
+      $this->sortedBundles[$bundle->getType()][$bundle->getGroup()][$bundle->getWeight()] = $bundle;
     }
 
-    foreach ($this->sortedBundles as &$group_bundles) {
-      ksort($group_bundles);
+    foreach ($this->getBundleTypes() as $type) {
+      foreach ($this->sortedBundles[$type] as &$group_bundles) {
+        ksort($group_bundles);
+      }
     }
 
     return $this->sortedBundles;
@@ -111,6 +117,23 @@ class BoBundle {
       return $bundles[$id];
     }
     return FALSE;
+  }
+
+  /**
+   * @return array
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function getBundleTypes() {
+    $types_with_bundles = [];
+    $all_bundles = $this->getBundles();
+    foreach ($all_bundles as $bundle) {
+      $type = $bundle->getType();
+      if ($type != "" && !in_array($type, $types_with_bundles)) {
+        $types_with_bundles[$type] = $type;
+      }
+    }
+    return $types_with_bundles;
   }
 
 }

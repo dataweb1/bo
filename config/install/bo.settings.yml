@@ -83,4 +83,14 @@ config:
   google_translate_enabled: false
   google_maps_key: ''
   load_bootstrap: true
+  bundle_types:
+    individual_element:
+      singular: 'Individual Element'
+      plural: 'Individual Elements'
+    structure_element:
+      singular: 'Structure Element'
+      plural: 'Structure Elements'
+    project_element:
+      singular: 'Project Element'
+      plural: 'Projects Elements'
 langcode: nl

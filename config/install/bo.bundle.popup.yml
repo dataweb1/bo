@@ -7,7 +7,7 @@ _core:
 id: popup
 label: Popup
 description: ''
-type: element
+type: individual_element
 group: ''
 default: 1
 internal_title: 0

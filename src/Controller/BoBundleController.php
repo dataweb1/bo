@@ -3,7 +3,9 @@
 namespace Drupal\bo\Controller;
 
 use Drupal\bo\Entity\BoBundle as BoBundleEntity;
+use Drupal\bo\Enum\BoBundleType;
 use Drupal\bo\Service\BoBundle;
+use Drupal\bo\Service\BoSettings;
 use Drupal\Component\Utility\Xss;
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -18,19 +20,26 @@ class BoBundleController extends ControllerBase {
   private BoBundle $boBundle;
 
   /**
-   * @param BoBundle $boBundle
+   * @var mixed
    */
-  public function __construct(BoBundle $boBundle) {
+  private $boBundleTypes;
+
+  /**
+   * @param \Drupal\bo\Service\BoBundle $boBundle
+   */
+  public function __construct(BoBundle $boBundle, BoSettings $boSettings) {
     $this->boBundle = $boBundle;
+    $this->boBundleTypes = $boSettings->getBundleTypes();
   }
 
   /**
-   * @param ContainerInterface $container
-   * @return BoBundleController|static
+   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+   * @return \Drupal\bo\Service\BoBundleController|static
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('bo.bundle')
+      $container->get('bo.bundle'),
+      $container->get('bo.settings'),
     );
   }
 
@@ -38,36 +47,16 @@ class BoBundleController extends ControllerBase {
    * Get title.
    */
   public function getBoBundleAddFormTitle($type) {
-
-    if ($type == "element") {
-      $title = $this->t('Add new @bo_type', [
-        '@bo_type' => "BO " . $this->t("element"),
-      ]);
-    }
-
-    if ($type == "content") {
-      $title = $this->t('Add new @bo_type', [
-        '@bo_type' => "BO " . $this->t("content"),
-      ]);
-    }
-
-    return $title;
+    return $this->t('Add new @bo_bundle', [
+      '@bo_bundle' => "BO " . $this->t($this->boBundleTypes[$type]['singular']),
+    ]);
   }
 
   /**
    * Get title.
    */
-  public function getBoBundleContentTypeListTitle() {
-    $title = "BO " . $this->t("content");
-    return $title;
-  }
-
-  /**
-   * Get title.
-   */
-  public function getBoBundleElementListTitle() {
-    $title = "BO " . $this->t("elements");
-    return $title;
+  public function getBoBundleElementsListTitle($type) {
+    return 'BO ' . $this->t($this->boBundleTypes[$type]['plural']);
   }
 
   /**

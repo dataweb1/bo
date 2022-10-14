@@ -1,24 +1,6 @@
-bo_bundle_element_list_menu:
-  #title: 'BO elements'
-  route_name: bo.entity.bundle.element_list
-  #description: 'Manage BO elements'
-  parent: system.admin_structure
-  class: Drupal\bo\Plugin\Menu\BoBundleMenuLink
-  deriver: \Drupal\bo\Plugin\Menu\CustomLinks\BoBundleAdministerElementsMenuLinksDerivative
-
-bo_bundle_content_list_menu:
-  #title: 'BO content'
-  route_name: bo.entity.bundle.content_list
-  #description: 'Manage BO content'
-  parent: system.admin_structure
-  class: Drupal\bo\Plugin\Menu\BoBundleMenuLink
-  deriver: \Drupal\bo\Plugin\Menu\CustomLinks\BoBundleAdministerContentMenuLinksDerivative
-
 bo.settings_form:
   title: 'BO settings'
   route_name: bo.settings_form
   description: 'BO settings'
   parent: system.admin_config_content
   weight: 99
-
-

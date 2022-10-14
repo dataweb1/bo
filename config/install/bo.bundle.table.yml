@@ -7,7 +7,7 @@ _core:
 id: table
 label: Table
 description: ''
-type: element
+type: structure_element
 group: ''
 default: 0
 internal_title: 1
