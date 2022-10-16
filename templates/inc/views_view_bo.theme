@@ -12,6 +12,7 @@
  */
 
 function bo_preprocess_views_view_bo(&$variables) {
+    /** @var \Drupal\views\ViewExecutable $view */
     $view = &$variables["view"];
     $display_plugin = $view->display_handler->display['display_plugin'];
     $variables['attributes']['class'][] = 'bo-overview';
@@ -25,4 +26,12 @@ function bo_preprocess_views_view_bo(&$variables) {
     /** @var \Drupal\bo\Service\BoCollection $boCollection */
     $boCollection = \Drupal::service('bo.collection');
     $variables['attributes']['data-reload'] = (int)$boCollection->getCollectionReload($collection_id);
+
+    if ($node = \Drupal::routeMatch()->getParameter('node')) {
+      $nid = $node->id();
+    }
+    else {
+      $nid = \Drupal::request()->query->get('nid');
+    }
+    $variables['attributes']['data-nid'] = $nid;
 }

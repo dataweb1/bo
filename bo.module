@@ -8,6 +8,7 @@
 
 use Drupal\bo\Enum\BoBundleType;
 use Drupal\Component\Serialization\Json;
+use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\image\Entity\ImageStyle;
 
@@ -572,6 +573,17 @@ function bo_menu_links_discovered_alter(&$links) {
       'id' => 'bo_bundle_' . $type_id . '_list_menu',
     ];
   }
+}
+
+function bo_update_8002() {
+  $storage_definition = BaseFieldDefinition::create('entity_reference')
+    ->setLabel(t('Node added to'))
+    ->setDescription(t('The node ID where the BO entity is added to.'))
+    ->setSetting('target_type', 'node')
+    ->setSetting('handler', 'default');
+
+  \Drupal::entityDefinitionUpdateManager()
+    ->installFieldStorageDefinition('nid', 'bo', 'bo', $storage_definition);
 }
 
 /**

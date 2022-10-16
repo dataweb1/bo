@@ -108,10 +108,12 @@
             var current_path = '/' + drupalSettings.path.currentPath;
             var collection_id = $(".js-view-dom-id-" + view_dom_id).attr("data-collection-id");
             var reload = $(".js-view-dom-id-" + view_dom_id).attr("data-reload");
+            var nid = $(".js-view-dom-id-" + view_dom_id).attr("data-nid");
             if (reload == '0') {
               Drupal.views.instances["views_dom_id:" + view_dom_id].refreshViewAjax.options.data.view_dom_id = view_dom_id;
               Drupal.views.instances["views_dom_id:" + view_dom_id].refreshViewAjax.options.data.current_path = current_path;
               Drupal.views.instances["views_dom_id:" + view_dom_id].refreshViewAjax.options.data.collection_id = collection_id;
+              Drupal.views.instances["views_dom_id:" + view_dom_id].refreshViewAjax.options.data.nid = nid;
 
               $(".js-view-dom-id-" + view_dom_id).triggerHandler("RefreshView");
             }

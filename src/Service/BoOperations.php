@@ -122,6 +122,7 @@ class BoOperations {
           'entity_id' => $parameters['entity_id'],
           'entity_weight' => $parameters['entity_weight'],
           'view_dom_id' => $parameters['view_dom_id'],
+          'nid' => $parameters['nid'],
           'to_path' => $parameters["to_path"],
           'destination' => \Drupal::request()->getRequestUri(),
         ]);
@@ -137,6 +138,7 @@ class BoOperations {
         if ($parameters['action'] == 'add') {
           $url = Url::fromRoute('entity.bo.add_form', [
             'bundle' => $parameters['bundle'],
+            'nid' => $parameters['nid'],
             'to_path' => $parameters["to_path"],
             'collection_id' => $parameters["collection_id"],
             'view_dom_id' => $parameters["view_dom_id"],
@@ -147,6 +149,7 @@ class BoOperations {
         if ($parameters['action'] == 'insert') {
           $url = Url::fromRoute('entity.bo.insert_form', [
             'bundle' => $parameters['bundle'],
+            'nid' => $parameters['nid'],
             'to_path' => $parameters["to_path"],
             'collection_id' => $parameters["collection_id"],
             'view_dom_id' => $parameters["view_dom_id"],

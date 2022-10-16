@@ -83,6 +83,7 @@ class BoOperationsController extends ControllerBase {
       'entity_weight' => $entity_weight,
       'view_dom_id' => $view_dom_id,
       'to_path' => \Drupal::request()->query->get('to_path'),
+      'nid' => \Drupal::request()->query->get('nid'),
     ];
 
     $add_multi = $this->getMultiLinksList($args);
@@ -114,6 +115,7 @@ class BoOperationsController extends ControllerBase {
         case 'add':
           $url = Url::fromRoute('entity.bo.add_form', [
             'bundle' => $bundle->id(),
+            'nid' => $args['nid'],
             'to_path' => $args['to_path'],
             'collection_id' => $args['collection_id'],
             'view_dom_id' => $args['view_dom_id'],
@@ -123,6 +125,7 @@ class BoOperationsController extends ControllerBase {
         case 'insert';
           $url = Url::fromRoute('entity.bo.insert_form', [
             'bundle' => $bundle->id(),
+            'nid' => $args['nid'],
             'to_path' => $args['to_path'],
             'collection_id' => $args['collection_id'],
             'view_dom_id' => $args['view_dom_id'],

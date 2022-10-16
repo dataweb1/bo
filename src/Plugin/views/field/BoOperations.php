@@ -84,29 +84,37 @@ class BoOperations extends EntityOperations {
     $markup = '';
     $administer_entities = \Drupal::currentUser()->hasPermission("administer bo entities");
     if ($administer_entities) {
-      $view_dom_id = $this->view->dom_id;
-      $view_result_count = count($this->view->result);
-      $collection_id = $this->view->filter["bo_current_collection_id_filter"]->value;
-      $to_path = $this->view->argument["bo_current_path_argument"]->argument ?? '';
+      // Get view filter/argument parameters for link rendering.
+      $collection_id = $this->getViewCollectionIdFilter();
+      $to_path = $this->getViewToPathArgument();
 
+      // Get current entity for insert/edit/delete link.
       /** @var BoEntity $entity */
-      $entity = $values->_entity;
-      $entity_id = $entity->id();
-      $entity_weight = $entity->getWeight();
+      $current_entity = $values->_entity;
 
-      $parameters = [
-        'collection_id' => $collection_id,
-        'view_dom_id' => $view_dom_id,
-        'to_path' => $to_path,
-        'entity_id' => $entity_id,
-        'entity_weight' => $entity_weight,
-        'action' => 'insert',
-      ];
-
-      /* Insert link */
+      /* Insert link. */
       $links = [];
-      if ($this->boOperations->showInsertLink($view_result_count, $collection_id)) {
-        $links[] = $this->boOperations->getSingleOrMultiAddInsertLink($parameters);
+      if ($this->boOperations->showInsertLink(count($this->view->result), $collection_id)) {
+
+        // Get nid for insert link.
+        if ($node = \Drupal::routeMatch()->getParameter('node')) {
+          $nid = $node->id();
+        }
+        else {
+          $nid = \Drupal::request()->query->get('nid');
+        }
+
+        $link_parameters = [
+          'collection_id' => $collection_id,
+          'view_dom_id' => $this->view->dom_id,
+          'nid' => $nid,
+          'to_path' => $to_path,
+          'entity_id' => $current_entity->id(),
+          'entity_weight' => $current_entity->getWeight(),
+          'action' => 'insert',
+        ];
+
+        $links[] = $this->boOperations->getSingleOrMultiAddInsertLink($link_parameters);
         $bo_insert_operations = [
           '#theme' => 'bo_insert_operations_item_list',
           '#items' => $links,
@@ -127,7 +135,7 @@ class BoOperations extends EntityOperations {
         $markup .= $this->renderer->render($bo_insert_operations);
 
         if (count($this->boCollection->getEnabledBundles($collection_id)) > 1) {
-          $markup .= '<div id="bo_operations_pane_' . $view_dom_id . '_' . $entity_id . '" class="insert-pane bo-operations-pane"></div>';
+          $markup .= '<div id="bo_operations_pane_' . $this->view->dom_id . '_' . $current_entity->id() . '" class="insert-pane bo-operations-pane"></div>';
         }
       }
 
@@ -135,15 +143,15 @@ class BoOperations extends EntityOperations {
       $links = [];
       $bo_content = parent::render($values);
       if (isset($bo_content["#links"]["edit"])) {
-        $links[] = $this->getEditLink($bo_content["#links"]["edit"]["url"], $entity, $view_dom_id, $collection_id);
+        $links[] = $this->getEditLink($bo_content["#links"]["edit"]["url"], $current_entity, $this->view->dom_id, $collection_id);
       }
       if (isset($bo_content["#links"]["delete"])) {
-        $links[] = $this->getDeleteLink($bo_content["#links"]["delete"]["url"], $entity, $view_dom_id);
+        $links[] = $this->getDeleteLink($bo_content["#links"]["delete"]["url"], $current_entity, $this->view->dom_id);
       }
 
       $bundle_label = '';
       /** @var \Drupal\bo\Entity\BoBundle $bundle */
-      $bundle = $this->boBundle->getBundle($entity->bundle());
+      $bundle = $this->boBundle->getBundle($current_entity->bundle());
       // If current entity is not a collection.
       if (!$bundle->getCollectionEnabled()) {
         // If the collection of the current entity has
@@ -154,7 +162,7 @@ class BoOperations extends EntityOperations {
         }
       }
       else {
-        if (!$this->boCollection->getDisableBundleLabel($entity->getCollectionId())) {
+        if (!$this->boCollection->getDisableBundleLabel($current_entity->getCollectionId())) {
           $label = $bundle->label();
           $bundle_label = $this->t($label);
         }
@@ -186,10 +194,10 @@ class BoOperations extends EntityOperations {
   /**
    * @param $url
    * @param $entity
-   * @param $parameters
+   * @param $view_dom_id
    * @return array
    */
-  public function getDeleteLink($url, $entity, $view_dom_id) {
+  private function getDeleteLink($url, $entity, $view_dom_id) {
 
     $options = [
       'query' => [
@@ -215,10 +223,11 @@ class BoOperations extends EntityOperations {
   /**
    * @param $url
    * @param $entity
-   * @param $parameters
+   * @param $view_dom_id
+   * @param $collection_id
    * @return array
    */
-  public function getEditLink($url, $entity, $view_dom_id, $collection_id) {
+  private function getEditLink($url, $entity, $view_dom_id, $collection_id) {
     $attributes = [
       'class' => [
         'bo-operation-edit',
@@ -244,4 +253,17 @@ class BoOperations extends EntityOperations {
     ];
   }
 
+  /**
+   * @return string
+   */
+  private function getViewCollectionIdFilter() {
+    return $this->view->filter["bo_current_collection_id_filter"]->value;
+  }
+
+  /**
+   * @return string
+   */
+  private function getViewToPathArgument() {
+    return $this->view->argument["bo_current_path_argument"]->argument ?? '';
+  }
 }

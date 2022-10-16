@@ -89,11 +89,9 @@ class BoHeader extends AreaPluginBase {
 
     if (!$empty || !empty($this->options['empty'])) {
 
-      $view_dom_id = $this->view->dom_id;
-      $view_result_count = count($this->view->result);
-      $view_sort = $this->view->sort;
-      $collection_id = $this->view->filter["bo_current_collection_id_filter"]->value;
-      $to_path = $this->view->argument["bo_current_path_argument"]->argument ?? '';
+      // Get view filter/argument parameters for link rendering.
+      $collection_id = $this->getViewCollectionIdFilter();
+      $to_path = $this->getViewToPathArgument();
 
       // Start adding the links according to the permissions and the collection settings.
       $links = [];
@@ -106,9 +104,18 @@ class BoHeader extends AreaPluginBase {
 
       $administer_entities = $this->current_user->hasPermission("administer bo entities");
       if ($administer_entities) {
-        $parameters = [
+        // Get nid for add link.
+        if ($node = \Drupal::routeMatch()->getParameter('node')) {
+          $nid = $node->id();
+        }
+        else {
+          $nid = \Drupal::request()->query->get('nid');
+        }
+
+        $link_parameters = [
           'collection_id' => $collection_id,
-          'view_dom_id' => $view_dom_id,
+          'view_dom_id' => $this->view->dom_id,
+          'nid' => $nid,
           'to_path' => $to_path,
           'entity_id' => 0,
           'entity_weight' => 0,
@@ -116,22 +123,22 @@ class BoHeader extends AreaPluginBase {
         ];
 
         // Add single or multi link.
-        if ($this->boOperations->showAddLink($view_result_count, $collection_id)) {
-          $links[] = $this->boOperations->getSingleOrMultiAddInsertLink($parameters);
+        if ($this->boOperations->showAddLink(count($this->view->result), $collection_id)) {
+          $links[] = $this->boOperations->getSingleOrMultiAddInsertLink($link_parameters);
         }
 
         // Reorder link.
         $show_reorder = FALSE;
         if ($this->boCollection->hasEditBundlePermissionsForCollection($collection_id)) {
-          if ($view_result_count > 1) {
-            foreach ($view_sort as $s) {
+          if (count($this->view->result) > 1) {
+            foreach ($this->view->sort as $s) {
               if ($s->realField == "weight") {
                 $show_reorder = TRUE;
                 break;
               }
             }
             if ($show_reorder) {
-              $links[] = $this->getReorderLink($parameters);
+              $links[] = $this->getReorderLink($link_parameters);
             }
           }
         }
@@ -153,7 +160,7 @@ class BoHeader extends AreaPluginBase {
 
         $enabled_bundles = $this->boCollection->getEnabledBundles($collection_id);
         if ($show_reorder || count($enabled_bundles) > 1) {
-          $html_header .= '<div id="bo_operations_pane_' . $view_dom_id . '" class="bo-operations-pane"></div>';
+          $html_header .= '<div id="bo_operations_pane_' . $this->view->dom_id . '" class="bo-operations-pane"></div>';
         }
 
         $html_header .= '</div>';
@@ -183,7 +190,7 @@ class BoHeader extends AreaPluginBase {
    * @param $collection_id
    * @return array
    */
-  public function getSettingsLink($collection_id) {
+  private function getSettingsLink($collection_id) {
     $collection_label = $this->boCollection->getCollectionLabel($collection_id);
     if ($collection_label != '') {
       $title = $this->t("BO collection settings for '@collection_label'", ['@collection_label' => $collection_label]);
@@ -216,15 +223,15 @@ class BoHeader extends AreaPluginBase {
   }
 
   /**
-   * @param $parameters
+   * @param $link_parameters
    * @return array
    */
-  private function getReorderLink($parameters) {
+  private function getReorderLink($link_parameters) {
 
     $url = Url::fromRoute('bo.reorder', [
-      'collection_id' => $parameters['collection_id'],
-      'view_dom_id' => $parameters['view_dom_id'],
-      'to_path' => $parameters['to_path'],
+      'collection_id' => $link_parameters['collection_id'],
+      'view_dom_id' => $link_parameters['view_dom_id'],
+      'to_path' => $link_parameters['to_path'],
     ]);
 
     return [
@@ -236,14 +243,28 @@ class BoHeader extends AreaPluginBase {
           'bo-operation-reorder',
           'use-ajax',
         ],
-        'id' => 'bo_trigger_reorder_' . $parameters["view_dom_id"],
+        'id' => 'bo_trigger_reorder_' . $link_parameters["view_dom_id"],
       ],
       '#cache' => [
         'tags' => [
-          'bo:collection:' . $parameters['collection_id'],
+          'bo:collection:' . $link_parameters['collection_id'],
         ],
       ],
     ];
+  }
+
+  /**
+   * @return string
+   */
+  private function getViewCollectionIdFilter() {
+    return $this->view->filter["bo_current_collection_id_filter"]->value;
+  }
+
+  /**
+   * @return string
+   */
+  private function getViewToPathArgument() {
+    return $this->view->argument["bo_current_path_argument"]->argument ?? '';
   }
 
 }

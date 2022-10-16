@@ -25,6 +25,7 @@ use Drupal\bo\Service\BoCollection;
  *     "label" = "title",
  *     "created" = "created",
  *     "changed" = "changed",
+ *     "nnid" = "nid",
  *   },
  *   fieldable = TRUE,
  *   admin_permission = "administer bo entities",
@@ -32,7 +33,7 @@ use Drupal\bo\Service\BoCollection;
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\bo\BoEntityListBuilder",
  *     "access" = "Drupal\bo\BoEntityAccessControlHandler",
- *     "views_data" = "Drupal\views\EntityViewsData",
+ *     "views_data" = "Drupal\bo\BoViewsData",
  *     "form" = {
  *       "default" = "Drupal\bo\Form\BoEntityForm",
  *       "add" = "Drupal\bo\Form\BoEntityForm",
@@ -60,7 +61,7 @@ class BoEntity extends ContentEntityBase implements BoEntityInterface {
   use EntityChangedTrait;
 
   /**
-   * @var BoCollection|object|null
+   * @var \Drupal\bo\Service\BoCollection|object|null
    */
   private BoCollection $boCollection;
 
@@ -71,7 +72,6 @@ class BoEntity extends ContentEntityBase implements BoEntityInterface {
     parent::__construct($values, $entity_type, $bundle, $translations);
     $this->boCollection = \Drupal::getContainer()->get('bo.collection');
   }
-
 
   /**
    * {@inheritdoc}
@@ -178,6 +178,13 @@ class BoEntity extends ContentEntityBase implements BoEntityInterface {
   /**
    * {@inheritdoc}
    */
+  public function getNodeId() {
+    return $this->get('nid')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getCurrentViewDisplaySettings() {
     if (!isset($this->boCollection)) {
       $this->boCollection = \Drupal::service('bo.collection');
@@ -249,6 +256,13 @@ class BoEntity extends ContentEntityBase implements BoEntityInterface {
    */
   public function setWeight($weight) {
     $this->set("weight", $weight);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setNodeId($nid) {
+    $this->set("nid", $nid);
   }
 
   /**
@@ -349,7 +363,7 @@ class BoEntity extends ContentEntityBase implements BoEntityInterface {
     // ->setDisplayConfigurable('form', TRUE)
     // ->setDisplayConfigurable('view', TRUE);
 
-    /** @var BoSettings $boSettings */
+    /** @var \Drupal\bo\Service\BoSettings $boSettings */
     $boSettings = \Drupal::getContainer()->get('bo.settings');
     $styles = $boSettings->getStyles();
     $allowed_values = [0 => "-"];
@@ -373,7 +387,7 @@ class BoEntity extends ContentEntityBase implements BoEntityInterface {
 
     $fields['uid'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Authored by'))
-      ->setDescription(t('The user ID of author of the BO element.'))
+      ->setDescription(t('The user ID of author of the BO entity.'))
       ->setSetting('target_type', 'user')
       ->setSetting('handler', 'default');
 
@@ -394,6 +408,13 @@ class BoEntity extends ContentEntityBase implements BoEntityInterface {
       ])
       ->setDisplayConfigurable('view', TRUE);
 
+    $fields['nid'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Node added to'))
+      ->setDescription(t('The node ID where the BO entity is added to.'))
+      ->setSetting('target_type', 'node')
+      ->setSetting('handler', 'default');
+      //->setDefaultValue(0);
+
     return $fields;
   }
 
@@ -404,9 +425,13 @@ class BoEntity extends ContentEntityBase implements BoEntityInterface {
     parent::preCreate($storage_controller, $values);
 
     $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
-
+    $nid = \Drupal::request()->query->get('nid');
+    if (intval($nid) == 0) {
+      $nid = NULL;
+    }
     $values += [
       'uid' => \Drupal::currentUser()->id(),
+      'nid' => $nid,
       'langcode' => $langcode,
     ];
   }
