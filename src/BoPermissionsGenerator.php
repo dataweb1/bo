@@ -63,7 +63,7 @@ class BoPermissionsGenerator {
       //  'title' => $this->t('%type_name: Delete own %bundle_of', $type_params),
       // ],
       "show twig help" => [
-        'title' => $this->t('Show twig help for BO elements'),
+        'title' => $this->t('Show twig help for BO entity'),
       ],
     ];
   }

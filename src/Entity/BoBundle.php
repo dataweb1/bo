@@ -10,7 +10,7 @@ use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
  *
  * @ConfigEntityType(
  *   id = "bundle",
- *   label = @Translation("BO element"),
+ *   label = @Translation("BO bundle"),
  *   bundle_of = "bo",
  *   entity_keys = {
  *     "id" = "id",
