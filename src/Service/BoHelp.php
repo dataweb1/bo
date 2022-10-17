@@ -66,7 +66,7 @@ class BoHelp {
 
     foreach ($variables as $fieldName => $field) {
       if (substr($fieldName, 0, 1) != '#') {
-        if (!is_array($field)) {
+        if (is_string($field)) {
           $help .= "<tr>";
           $help .= "<td>";
 
@@ -109,7 +109,7 @@ class BoHelp {
     foreach ($field as $key => $value) {
       $keys[] = $key;
       if (substr($key, 0, 1) != '#') {
-        if (!is_array($value)) {
+        if (is_string($value)) {
           $help .= "<tr>";
           $help .= "<td>";
           $help .= $fieldName;
