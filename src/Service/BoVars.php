@@ -4,6 +4,7 @@ namespace Drupal\bo\Service;
 
 use Drupal\bo\Entity\BoEntity;
 use Drupal\Core\Entity\EntityFieldManager;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\File\FileUrlGenerator;
 use Drupal\Core\Render\Markup;
@@ -137,7 +138,8 @@ class BoVars {
                 $element = [
                   'field_type' => $field->getFieldDefinition()->getFieldStorageDefinition()->getType(),
                 ];
-                $element = array_merge($element, $this->processField($entity, $field_name, $vars, $level));
+                $empty_array = [];
+                $element = array_merge($element, $this->processField($entity, $field_name, $vars, $level, $empty_array));
 
                 $this->getRenderedViewFields($current_display, $row, $field_name, $element);
 
@@ -243,7 +245,8 @@ class BoVars {
             }
 
             if ($item_entity->hasField($field_name)) {
-              $element = $this->processField($item_entity, $field_name, $vars, $level);
+              $empty_array = [];
+              $element = $this->processField($item_entity, $field_name, $vars, $level, $empty_array);
               $this->getRenderedViewFields($item_current_display, $row, $field_name, $element);
 
               $item[$field_name] = $element;
@@ -302,7 +305,7 @@ class BoVars {
   }
 
   /**
-   * @param \Drupal\bo\Entity\BoEntity $entity
+   * @param EntityInterface $entity
    * @param $field_name
    * @param $vars
    * @param int $level
@@ -311,7 +314,7 @@ class BoVars {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function processField(BoEntity $entity, $field_name, &$vars, int $level = 0, array &$element = []) {
+  public function processField(EntityInterface $entity, $field_name, &$vars, int $level = 0, array &$element = []) {
 
     // Name.
     if (isset($entity->get($field_name)->name)) {
@@ -333,7 +336,7 @@ class BoVars {
       $element = $this->processValueField($entity, $field_name, $vars, $level, $element);
     }
 
-    // file, image, media, ...
+    // file, image, media, node, ...
     if (isset($entity->get($field_name)->target_id)) {
       if ($level <= 2) {
         $level++;
@@ -346,13 +349,13 @@ class BoVars {
   }
 
   /**
-   * @param \Drupal\bo\Entity\BoEntity $entity
+   * @param EntityInterface $entity
    * @param $field_name
    * @param $vars
    * @param $element
    * @return array|mixed
    */
-  private function processUriField(BoEntity $entity, $field_name, &$vars, $level, &$element) {
+  private function processUriField(EntityInterface $entity, $field_name, &$vars, $level, &$element) {
 
     $cardinality = $entity->getFieldDefinition($field_name)->getFieldStorageDefinition()->getCardinality();
 
@@ -415,13 +418,13 @@ class BoVars {
   }
 
   /**
-   * @param \Drupal\bo\Entity\BoEntity $entity
+   * @param EntityInterface $entity
    * @param $field_name
    * @param $vars
    * @param $element
    * @return array|mixed
    */
-  private function processSummaryField(BoEntity $entity, $field_name, &$vars, $level, &$element) {
+  private function processSummaryField(EntityInterface $entity, $field_name, &$vars, $level, &$element) {
 
     $cardinality = $entity->getFieldDefinition($field_name)->getFieldStorageDefinition()->getCardinality();
 
@@ -430,7 +433,7 @@ class BoVars {
 
       $raw_markup = Markup::create($raw_summary);
 
-      $e["raw"]["summary"] = $raw_markup;
+      $e["raw"]["summary"] = $raw_markup->__toString();
 
       if ($cardinality == 1) {
         if (!empty($element)) {
@@ -450,13 +453,13 @@ class BoVars {
   }
 
   /**
-   * @param \Drupal\bo\Entity\BoEntity $entity
+   * @param EntityInterface $entity
    * @param $field_name
    * @param $vars
    * @param $element
    * @return array|mixed
    */
-  private function processNameField(BoEntity $entity, $field_name, &$vars, $level, &$element) {
+  private function processNameField(EntityInterface $entity, $field_name, &$vars, $level, &$element) {
 
     $cardinality = $entity->getFieldDefinition($field_name)->getFieldStorageDefinition()->getCardinality();
 
@@ -465,7 +468,7 @@ class BoVars {
       $raw = $item->name;
       $raw_markup = Markup::create($raw);
 
-      $e["raw"]["name"] = $raw_markup;
+      $e["raw"]["name"] = $raw_markup->__toString();
 
       if ($cardinality == 1) {
         if (!empty($element)) {
@@ -486,13 +489,13 @@ class BoVars {
   }
 
   /**
-   * @param \Drupal\bo\Entity\BoEntity $entity
+   * @param EntityInterface $entity
    * @param $field_name
    * @param $vars
    * @param $element
    * @return mixed
    */
-  private function processValueField(BoEntity $entity, $field_name, &$vars, $level, &$element) {
+  private function processValueField(EntityInterface $entity, $field_name, &$vars, $level, &$element) {
 
     $cardinality = $entity->getFieldDefinition($field_name)->getFieldStorageDefinition()->getCardinality();
 
@@ -511,7 +514,7 @@ class BoVars {
         $e["raw"]["second"] = date("s", $raw_markup->__toString());
       }
       else {
-        $e["raw"]["value"] = $raw_markup;
+        $e["raw"]["value"] = $raw_markup->__toString();
       }
 
       $this->smartValue($item->value, $e, $vars);
@@ -541,7 +544,7 @@ class BoVars {
   }
 
   /**
-   * @param \Drupal\bo\Entity\BoEntity $entity
+   * @param EntityInterface $entity
    * @param $field_name
    * @param $vars
    * @param $element
@@ -549,7 +552,7 @@ class BoVars {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  private function processTargetField(BoEntity $entity, $field_name, &$vars, $level, &$element) {
+  private function processTargetField(EntityInterface $entity, $field_name, &$vars, $level, &$element) {
     static $bo_entity_size;
     if ($entity->getEntityType()->id() == "bo") {
       if ($vars["view"]) {
@@ -558,20 +561,18 @@ class BoVars {
     }
 
     $cardinality = $entity->getFieldDefinition($field_name)->getFieldStorageDefinition()->getCardinality();
-
     foreach ($entity->get($field_name) as $parent_key => $item) {
-      $target_id = $item->target_id;
+
       $settings = $entity->getFields()[$field_name]->getSettings();
 
-      $target_type = $settings["target_type"];
-      if ($target_entity = $this->entityTypeManager->getStorage($target_type)->load($target_id)) {
+      if ($target_entity = $this->entityTypeManager->getStorage($settings["target_type"])->load($item->target_id)) {
 
-        $uri = "/" . str_replace("_", "/", $target_type) . "/" . $target_entity->id();
+        $uri = "/" . str_replace("_", "/", $settings["target_type"]) . "/" . $target_entity->id();
         $url = Url::fromUserInput($uri);
 
         switch (TRUE) {
           // User.
-          case ($settings["handler"] == "default" && $target_type == 'user'):
+          case ($settings["handler"] == "default" && $settings["target_type"] == 'user'):
             if ($cardinality == 1) {
               $r = &$element;
             }
@@ -584,7 +585,7 @@ class BoVars {
             break;
 
           // Node or term.
-          case ($settings["handler"] == "default:node" || $settings["handler"] == "default:taxonomy_term"):
+          case (($settings["handler"] == "default" && $settings["target_type"] == 'node') || $settings["handler"] == "default:node" || $settings["handler"] == "default:taxonomy_term"):
 
             if ($cardinality == 1) {
               $r = &$element;
@@ -593,34 +594,30 @@ class BoVars {
               $r = &$element['items'][$parent_key];
             }
 
-            $r["entity_type"] = $target_type;
-            $r["link"]["raw"]["url"] = $url;
-            $r["cardinality"] = $cardinality;
+            $r["entity_type"] = $settings["target_type"];
+            $r["link"]["raw"]["url"] = $url->toString();
+            $r["entity_bundle"] = $target_entity->bundle();
 
-            foreach ($settings["handler_settings"]["target_bundles"] as $target_bundle) {
-
-              $r["entity_bundle"] = $target_bundle;
-
-              $bundle_fields = $this->entityFieldManager->getFieldDefinitions($target_type, $target_bundle);
-              foreach ($bundle_fields as $field) {
-                $field_name_2 = $field->getName();
-                if ($field_name_2 == "name" ||
-                  $field_name_2 == "title" ||
-                  $field_name_2 == "created" ||
-                  $field_name_2 == "changed" ||
-                  $field_name_2 == "body" ||
-                  substr($field_name_2, 0, 6) == "field_") {
-
-                  $r[$field_name_2] = $this->processField($target_entity, $field_name_2, $vars, $level, $r[$field_name_2]);
-                }
+            $bundle_fields = $this->entityFieldManager->getFieldDefinitions($settings["target_type"], $target_entity->bundle());
+            foreach ($bundle_fields as $field) {
+              $field_name_2 = $field->getName();
+              if ($field_name_2 == "name" ||
+                $field_name_2 == "title" ||
+                $field_name_2 == "created" ||
+                $field_name_2 == "changed" ||
+                $field_name_2 == "body" ||
+                substr($field_name_2, 0, 6) == "field_") {
+                $r[$field_name_2] = (array) $r[$field_name_2];
+                $r[$field_name_2] = $this->processField($target_entity, $field_name_2, $vars, $level,$r[$field_name_2]);
               }
             }
+
             break;
 
           // Regular file.
           case ($settings["handler"] == "default:file" && !isset($settings["default_image"])):
 
-            $target_media_entity = $this->entityTypeManager->getStorage("file")->load($target_id);
+            $target_media_entity = $this->entityTypeManager->getStorage("file")->load($item->target_id);
 
             $uri = $target_media_entity->getFileUri();
             $filename = $target_media_entity->getFileName();
@@ -638,7 +635,7 @@ class BoVars {
 
             $e["rendered"]["basic"] = $this->renderer->render($basic);
             $e["raw"]["uri"] = $uri;
-            $e["raw"]["url"] = $url;
+            $e["raw"]["url"] = $url->toString();
             $e["raw"]["filename"] = $filename;
             $e["raw"]["size"] = $size;
             $e["rendered"]["size"] = $this->boVarsHelper->formatBytes($size);
@@ -662,7 +659,7 @@ class BoVars {
           // Regular image.
           case ($settings["handler"] == "default:file" && isset($settings["default_image"]));
 
-            $target_media_entity = $this->entityTypeManager->getStorage("file")->load($target_id);
+            $target_media_entity = $this->entityTypeManager->getStorage("file")->load($item->target_id);
 
             $uri = $target_media_entity->getFileUri();
             $filename = $target_media_entity->getFileName();
@@ -685,20 +682,6 @@ class BoVars {
                 '#uri' => $uri,
               ];
               $e["rendered"]["basic"] = $this->renderer->render($basic);
-
-              $display_options = [
-                'label'    => 'hidden',
-                'type'     => 'responsive_image',
-                'settings' => [
-                  'responsive_image_style' => $style_name,
-                ],
-              ];
-
-              // Get image, apply display options
-              $image = $target_media_entity->get('field_media_image')->view($display_options);
-
-              // Render
-              $e["rendered"]["responsive"] = $this->renderer->render($image);
             }
 
             $e["raw"]["uri"] = $uri;
@@ -727,7 +710,7 @@ class BoVars {
           // Media.
           case ($settings["handler"] == "default:media"):
 
-            $target_media_entity = $this->entityTypeManager->getStorage("media")->load($target_id);
+            $target_media_entity = $this->entityTypeManager->getStorage("media")->load($item->target_id);
 
             if ($target_media_entity) {
               $e["media_bundle"] = $target_media_entity->bundle();
@@ -792,7 +775,7 @@ class BoVars {
               }
 
               if ($target_media_entity->bundle() == "file" || $target_media_entity->bundle() == "document") {
-                $field = 'field_media_'. $target_media_entity->bundle();
+                $field = 'field_media_ '. $target_media_entity->bundle();
                 $file = $this->entityTypeManager->getStorage("file")->load($target_media_entity->{$field}->entity->id());
                 $uri = $file->getFileUri();
                 $filename = $file->getFileName();
@@ -851,9 +834,8 @@ class BoVars {
               $r = &$element['items'][$parent_key];
             }
 
-            $r["entity_type"] = $target_type;
-            $r["target_id"] = $target_id;
-            $r["cardinality"] = $cardinality;
+            $r["entity_type"] = $settings["target_type"];
+            $r["target_id"] = (string) $item->target_id;
         }
 
       }
