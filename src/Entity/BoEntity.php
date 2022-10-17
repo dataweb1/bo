@@ -25,7 +25,7 @@ use Drupal\bo\Service\BoCollection;
  *     "label" = "title",
  *     "created" = "created",
  *     "changed" = "changed",
- *     "nnid" = "nid",
+ *     "nid" = "nid",
  *   },
  *   fieldable = TRUE,
  *   admin_permission = "administer bo entities",
@@ -179,8 +179,16 @@ class BoEntity extends ContentEntityBase implements BoEntityInterface {
    * {@inheritdoc}
    */
   public function getNodeId() {
-    return $this->get('nid')->value;
+    return $this->get('nid')->target_id;
   }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getNode() {
+    return $this->get('nid')->entity;
+  }
+
 
   /**
    * {@inheritdoc}
