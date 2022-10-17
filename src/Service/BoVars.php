@@ -775,37 +775,40 @@ class BoVars {
               }
 
               if ($target_media_entity->bundle() == "file" || $target_media_entity->bundle() == "document") {
-                $field = 'field_media_ '. $target_media_entity->bundle();
-                $file = $this->entityTypeManager->getStorage("file")->load($target_media_entity->{$field}->entity->id());
-                $uri = $file->getFileUri();
-                $filename = $file->getFileName();
-                $name = $target_media_entity->get("name")->value;
-                $size = $file->getSize();
-                $attributes = ["target" => "_blank"];
-                $url = Url::fromUri($this->fileUrlGenerator->generateAbsoluteString($uri));
-                // $url->setOptions(array("attributes" => $attributes));
-                $type = str_replace("/", "-", $file->getMimeType());
-                $basic = [
-                  '#type' => 'link',
-                  '#url' => $url,
-                  '#attributes' => $attributes,
-                  '#title' => $name,
-                ];
+                if ($target_media_entity->{$field}->entity) {
+                  $field = 'field_media_ ' . $target_media_entity->bundle();
 
-                $extended = [
-                  '#theme' => 'file_link',
-                  '#file' => $file,
-                ];
+                  $file = $this->entityTypeManager->getStorage("file")->load($target_media_entity->{$field}->entity->id());
+                  $uri = $file->getFileUri();
+                  $filename = $file->getFileName();
+                  $name = $target_media_entity->get("name")->value;
+                  $size = $file->getSize();
+                  $attributes = ["target" => "_blank"];
+                  $url = Url::fromUri($this->fileUrlGenerator->generateAbsoluteString($uri));
+                  // $url->setOptions(array("attributes" => $attributes));
+                  $type = str_replace("/", "-", $file->getMimeType());
+                  $basic = [
+                    '#type' => 'link',
+                    '#url' => $url,
+                    '#attributes' => $attributes,
+                    '#title' => $name,
+                  ];
 
-                $e["rendered"]["basic"] = $this->renderer->render($basic);
-                $e["rendered"]["extended"] = $this->renderer->render($extended);
-                $e["raw"]["uri"] = $uri;
-                $e["raw"]["name"] = $name;
-                $e["raw"]["filename"] = $filename;
-                $e["raw"]["size"] = $size;
-                $e["rendered"]["size"] = $this->boVarsHelper->formatBytes($size);
-                $e["raw"]["type"] = $type;
-                $e["raw"]["target"] = "_blank";
+                  $extended = [
+                    '#theme' => 'file_link',
+                    '#file' => $file,
+                  ];
+
+                  $e["rendered"]["basic"] = $this->renderer->render($basic);
+                  $e["rendered"]["extended"] = $this->renderer->render($extended);
+                  $e["raw"]["uri"] = $uri;
+                  $e["raw"]["name"] = $name;
+                  $e["raw"]["filename"] = $filename;
+                  $e["raw"]["size"] = $size;
+                  $e["rendered"]["size"] = $this->boVarsHelper->formatBytes($size);
+                  $e["raw"]["type"] = $type;
+                  $e["raw"]["target"] = "_blank";
+                }
               }
 
               $e["raw"]["name"] = $name;
