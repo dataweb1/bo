@@ -14,7 +14,8 @@
     "drupal/claro_media_library_theme": "^1.0@alpha",
     "drupal/views_bootstrap": "^5.4",
     "google/cloud-translate": "^1.12",
-    "voku/urlify": "^5.0"
+    "voku/urlify": "^5.0",
+    "drupal/twig_tweak": "^3.1"
   },
   "license": "GPL-2.0-or-later",
   "authors": [
