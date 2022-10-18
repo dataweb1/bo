@@ -84,7 +84,7 @@ label[for="edit-position-bottom"]:after {
 
 .radio-button-group .js-form-item label:after,
 .radio-button-group .js-form-item label {
-    display: inline-block!important;
+    display: block!important;
 }
 
 .radio-button-group .js-form-item label:after {
