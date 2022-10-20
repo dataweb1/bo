@@ -2,7 +2,6 @@
 
 namespace Drupal\bo\Form;
 
-use Drupal\bo\Enum\BoBundleType;
 use Drupal\bo\Service\BoBundle;
 use Drupal\bo\Service\BoCollection;
 use Drupal\bo\Service\BoSettings;
@@ -168,15 +167,29 @@ class BoCollectionSettingsForm extends ConfigFormBase {
     // Bundle groups in fieldsets.
     $bundles = $this->boBundle->getSortedBundles();
     foreach ($bundles as $type => $typed_bundles) {
+
+      $form['bundles']['check_uncheck_' . $type] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Check/Uncheck all'),
+        '#tree' => FALSE,
+        '#attributes' => [
+          'check-uncheck-type' => str_replace('_', '-', $type),
+          'class' => [
+            'check-uncheck-all',
+          ],
+        ],
+      ];
+
       $form['bundles'][$type] = [
         '#type' => 'details',
         '#title' => 'BO ' . $this->t($bundle_types[$type]['plural']),
         '#attributes' => [
           'class' => [
             'bundles',
+            str_replace('_', '-', $type) . '-bundles',
           ],
         ],
-        //'#description' => $this->t('Select what BO elements are allowed for this collection'),
+        // '#description' => $this->t('Select what BO elements are allowed for this collection'),
         '#open' => FALSE,
       ];
       foreach ($typed_bundles as $group => $grouped_bundles) {
@@ -190,6 +203,7 @@ class BoCollectionSettingsForm extends ConfigFormBase {
                 'group-wrapper',
               ],
             ],
+
           ];
         }
 

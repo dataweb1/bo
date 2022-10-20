@@ -24,6 +24,13 @@
         }
       });
 
+      $('.check-uncheck-all').click(function () {
+
+        let check_uncheck_type = $(this).attr('check-uncheck-type');
+        //if ($(this).prop('checked')) {
+          $('.' + check_uncheck_type + '-bundles input[type="checkbox"]').prop('checked', $(this).prop('checked'));
+        //}
+      });
     }
   }
 })(jQuery);
