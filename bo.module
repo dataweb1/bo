@@ -52,8 +52,8 @@ function bo_theme() {
 
   /** @var \Drupal\bo\Service\BoCollection $boCollection */
   $boCollection = \Drupal::getContainer()->get('bo.collection');
-  $collection_views = $boCollection->getBoViews();
-  foreach($collection_views as $view_id => $view) {
+  $bo_views = $boCollection->getBoViews();
+  foreach($bo_views as $view_id => $view) {
     foreach ($view as $display) {
       add_views_view_bo_suggestion_to_templates([
         $view_id,
