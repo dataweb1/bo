@@ -189,8 +189,7 @@ class BoCollectionSettingsForm extends ConfigFormBase {
             str_replace('_', '-', $type) . '-bundles',
           ],
         ],
-        // '#description' => $this->t('Select what BO elements are allowed for this collection'),
-        '#open' => FALSE,
+        //'#open' => FALSE,
       ];
       foreach ($typed_bundles as $group => $grouped_bundles) {
         $weight = 0;
