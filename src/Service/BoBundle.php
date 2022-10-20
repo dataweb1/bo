@@ -20,11 +20,6 @@ class BoBundle {
   private array $sortedBundles;
 
   /**
-   * @var array
-   */
-  private array $types;
-
-  /**
    * @param BoSettings $boSettings
    * @param \Drupal\Core\Session\AccountProxy $currentUser
    * @param \Drupal\Core\Entity\EntityTypeManager $entityTypeManager
@@ -53,10 +48,15 @@ class BoBundle {
       return $this->sortedBundles;
     }
 
-    $this->types = [];
+    $this->sortedBundles = [];
     $bundles = $this->getBundles();
     foreach ($bundles as $bundle) {
-      $this->sortedBundles[$bundle->getType()][$bundle->getGroup()][$bundle->getWeight()] = $bundle;
+      $w = $bundle->getWeight();
+      // Fix a possible duplicate weight by incrementing until a unique one if founds.
+      while (array_key_exists($w, $this->sortedBundles[$bundle->getType()][$bundle->getGroup()])) {
+        $w++;
+      }
+      $this->sortedBundles[$bundle->getType()][$bundle->getGroup()][$w] = $bundle;
     }
 
     foreach ($this->getBundleTypes() as $type) {
