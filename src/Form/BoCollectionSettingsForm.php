@@ -190,7 +190,7 @@ class BoCollectionSettingsForm extends ConfigFormBase {
           ],
         ],
         '#open' => TRUE,
-      ]; 
+      ];
       foreach ($typed_bundles as $group => $grouped_bundles) {
         $weight = 0;
         if ($group != "") {
@@ -265,7 +265,7 @@ class BoCollectionSettingsForm extends ConfigFormBase {
 
     // Get the BO views options.
     $specific_view_options = [];
-    $collection_views = $this->boCollection->getCollectionViews();
+    $collection_views = $this->boCollection->getBoViews();
     foreach ($collection_views as $view_id => $view) {
       foreach ($view as $display) {
         $specific_view_options[$display["view_label"]][$view_id . "__" . $display["display_id"]] = $display["display_title"];

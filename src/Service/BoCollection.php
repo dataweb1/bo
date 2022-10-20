@@ -16,7 +16,7 @@ class BoCollection {
   /**
    * @var array
    */
-  private array $collectionViews;
+  private array $boViews;
 
   /**
    * @var AccountProxy
@@ -97,9 +97,9 @@ class BoCollection {
   /**
    * @return array
    */
-  public function getCollectionViews() {
-    if (!empty($this->collectionViews)) {
-      return $this->collectionViews;
+  public function getBoViews() {
+    if (!empty($this->boViews)) {
+      return $this->boViews;
     }
 
     $views = Views::getAllViews();
@@ -107,7 +107,7 @@ class BoCollection {
       if ($view->get("base_table") == "bo") {
         $displays = $view->get("display");
         foreach ($displays as $display_key => $display) {
-          $this->collectionViews[$view_key][] = [
+          $this->boViews[$view_key][] = [
             "view_label" => $view->get("label"),
             "display_id" => $display_key,
             "display_title" => $display["display_title"],
@@ -115,7 +115,7 @@ class BoCollection {
         }
       }
     }
-    return $this->collectionViews;
+    return $this->boViews;
   }
 
   /**
