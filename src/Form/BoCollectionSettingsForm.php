@@ -189,8 +189,8 @@ class BoCollectionSettingsForm extends ConfigFormBase {
             str_replace('_', '-', $type) . '-bundles',
           ],
         ],
-        //'#open' => FALSE,
-      ];
+        '#open' => TRUE,
+      ]; 
       foreach ($typed_bundles as $group => $grouped_bundles) {
         $weight = 0;
         if ($group != "") {
