@@ -92,5 +92,5 @@ config:
       plural: 'Structure Elements'
     project_element:
       singular: 'Project Element'
-      plural: 'Projects Elements'
+      plural: 'Project Elements'
 langcode: nl
