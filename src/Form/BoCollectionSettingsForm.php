@@ -335,8 +335,8 @@ class BoCollectionSettingsForm extends ConfigFormBase {
 
     $form["bo_options"]["disable_bundle_label"] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Disable bundle label?'),
-      '#description' => $this->t('Disable bundle label for collection items?'),
+      '#title' => $this->t('Disable element label?'),
+      '#description' => $this->t('Disable element label for collection items?'),
       '#weight' => $weight,
       '#default_value' => $default_disable_bundle_label,
     ];

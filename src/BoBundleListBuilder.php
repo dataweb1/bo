@@ -361,7 +361,7 @@ class BoBundleListBuilder extends ConfigEntityListBuilder implements FormInterfa
 
     $url = Url::fromRoute('bo.collection_settings_form', [
       'via' => 'bundle',
-      'title' => $this->t("BO collection settings for bundle '@bundle'", ['@bundle' => $bundle->label()]),
+      'title' => $this->t("BO collection settings for element '@bundle'", ['@bundle' => $bundle->label()]),
       'bundle_id' => $bundle->id(),
     ]);
     $collection_settings_link = Link::fromTextAndUrl('Settings', $url)->toString();
