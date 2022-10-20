@@ -17,6 +17,36 @@ collection:
   enabled: 1
   bundles:
     card: 1
+    section: 0
+    tab: 0
+    table: 0
+    table_row: 0
+    tabs: 0
+    grid: 0
+    accordion_item: 0
+    accordion: 0
+    cards: 0
+    buttons: 0
+    ggl_map: 0
+    slideshow: 0
+    text: 0
+    quote: 0
+    video: 0
+    gallery: 0
+    image: 0
+    document: 0
+    title: 0
+    popup: 0
+    google_map: 0
+    webform: 0
+  options:
+    label: ''
+    max_element_count: ''
+    reload: 0
+    specific_view: bo__cards
+    disable_bundle_label: 0
+    ignore_current_path: 0
+    disable_insert: 0
 related_bundles:
   - webform
   - cards

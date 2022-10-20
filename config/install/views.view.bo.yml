@@ -6,7 +6,6 @@ dependencies:
     - field.storage.media.field_media_image
   module:
     - bo
-    - datetime
     - image_url_formatter
     - media
 _core:
@@ -176,7 +175,7 @@ display:
           admin_label: ''
           entity_type: bo
           plugin_id: bo_current_path
-          default_action: ignore
+          default_action: default
           exception:
             value: all
             title_enable: false
@@ -318,37 +317,6 @@ display:
           plugin_id: bo_header
           empty: true
       footer: {  }
-      display_extenders: {  }
-    cache_metadata:
-      max-age: -1
-      contexts:
-        - 'languages:language_interface'
-        - url
-      tags: {  }
-  block_1:
-    id: block_1
-    display_title: Nieuws
-    display_plugin: block
-    position: 7
-    display_options:
-      sorts:
-        field_date_value:
-          id: field_date_value
-          table: bo__field_date
-          field: field_date_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: datetime
-          order: ASC
-          expose:
-            label: ''
-            field_identifier: ''
-          exposed: false
-          granularity: second
-      defaults:
-        sorts: false
-      display_description: ''
       display_extenders: {  }
     cache_metadata:
       max-age: -1
