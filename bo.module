@@ -50,6 +50,10 @@ function bo_theme() {
 
   $theme = \Drupal::theme()->getActiveTheme();
 
+  /** @var \Drupal\bo\Service\BoBundle $boBundle */
+  $boBundle = \Drupal::getContainer()->get('bo.bundle');
+  $bundles = $boBundle->getBundles();
+
   /** @var \Drupal\bo\Service\BoCollection $boCollection */
   $boCollection = \Drupal::getContainer()->get('bo.collection');
   $bo_views = $boCollection->getBoViews();
@@ -63,12 +67,20 @@ function bo_theme() {
         $view_id,
         $display["display_id"]
       ], $theme, $templates);
+
+      /** @var \Drupal\bo\Entity\BoBundle $bundle */
+      foreach($bundles as $bundle) {
+        if ($bundle->getCollectionOptions()['specific_view'] == $view_id . '__' . $display['display_id']) {
+          add_views_view_unformatted_bo_suggestion_to_templates([
+            $view_id,
+            $display["display_id"],
+            $bundle->id(),
+          ], $theme, $templates);
+        }
+      }
     }
   }
 
-  /** @var \Drupal\bo\Service\BoBundle $boBundle */
-  $boBundle = \Drupal::getContainer()->get('bo.bundle');
-  $bundles = $boBundle->getBundles();
   foreach($bundles as $bundle) {
     add_views_view_field_bo_suggestion_to_templates($bundle->id(), $theme, $templates);
   }
@@ -190,6 +202,17 @@ function bo_theme_suggestions_alter(array &$suggestions, array $variables, $hook
         $suggestions[] = 'views_view_unformatted_bo';
         $suggestions[] = sprintf('views_view_unformatted_bo__%s', $variables['view']->id());
         $suggestions[] = sprintf('views_view_unformatted_bo__%1$s__%2$s', $variables['view']->id(), $variables['view']->current_display);
+
+        // Add collection bundle suggestion if collection argument is set for a specific view.
+        if (isset($variables['view']->filter["bo_current_collection_id_filter"])) {
+          $currentCollectionId = $variables['view']->filter["bo_current_collection_id_filter"]->value;
+
+          /** @var \Drupal\bo\Service\BoCollection $boCollection */
+          $boCollection = \Drupal::getContainer()->get('bo.collection');
+          if ($bundle = $boCollection->getCollectionBundle($currentCollectionId)) {
+            $suggestions[] = sprintf('views_view_unformatted_bo__%1$s__%2$s__%3$s', $variables['view']->id(), $variables['view']->current_display, $bundle->id());
+          }
+        }
       }
 
       if ($hook === 'views_view_fields') {
@@ -226,10 +249,6 @@ function bo_preprocess_html(&$variables) {
     if ($boSettings->getSetting("load_bootstrap")) {
       $variables['#attached']['library'][] = 'bo/bo_bootstrap';
     }
-  }
-
-  if (\Drupal::routeMatch()->getRouteName() == 'entity.node.content_translation_overview') {
-    dpm(\Drupal::routeMatch()->getParameters());
   }
 }
 
