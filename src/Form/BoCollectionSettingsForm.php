@@ -158,6 +158,7 @@ class BoCollectionSettingsForm extends ConfigFormBase {
     ];
 
     $form['bundles']['#type'] = "fieldset";
+    $form['bundles']['#tree'] = TRUE;
     $form['bundles']['#weight'] = 1;
     $form['bundles']['#title'] = $this->t('Collection elements');
     $form['bundles']['#description'] = $this->t('Select what BO elements are allowed for this collection');
@@ -363,9 +364,13 @@ class BoCollectionSettingsForm extends ConfigFormBase {
     parent::submitForm($form, $form_state);
 
     if ($this->via == 'view') {
-      foreach ($form_state->getValue("bundles") as $bundles) {
-        foreach ($bundles as $element => $value) {
-          $settings["collection"][$this->collection_id]["bundles"][$element] = $value;
+      foreach ($form_state->getValue("bundles") as $type_id => $type_bundles) {
+        foreach ($type_bundles as $group_id => $group_bundles) {
+          if ($group_id != '_all') {
+            foreach ($group_bundles as $bundle_id => $checked) {
+              $settings["collection"][$this->collection_id]["bundles"][$bundle_id] = $checked;
+            }
+          }
         }
       }
 
@@ -385,9 +390,13 @@ class BoCollectionSettingsForm extends ConfigFormBase {
     if ($this->via == "bundle") {
       if ($bundle = $this->boBundle->getBundle($this->bundle_id)) {
         $collection_bundles = [];
-        foreach ($form_state->getValue("bundles") as $bundles) {
-          foreach ($bundles as $element => $value) {
-            $collection_bundles[$element] = $value;
+        foreach ($form_state->getValue("bundles") as $type_id => $type_bundles) {
+          foreach ($type_bundles as $group_id => $group_bundles) {
+            if ($group_id != '_all') {
+              foreach ($group_bundles as $bundle_id => $checked) {
+                $collection_bundles[$bundle_id] = $checked;
+              }
+            }
           }
         }
 
