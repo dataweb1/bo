@@ -142,6 +142,24 @@ class BoCollection {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
+  public function getHeaderOperationsOverlap($collection_id) {
+    // If collection settings overridden on view level.
+    $collection_header_operations_overlap = $this->boSettings->getCollectionOptions($collection_id)['header_operations_overlap'] ?? '';
+    if ($collection_header_operations_overlap == '') {
+      // If not get collection settings from bundle.
+      if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
+        $collection_header_operations_overlap = $collection_bundle->getCollectionOptions()['collection_header_operations_overlap'];
+      }
+    }
+    return (bool) $collection_header_operations_overlap;
+  }
+
+  /**
+   * @param $collection_id
+   * @return mixed|string
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
   public function getCollectionMaxElementCount($collection_id) {
     // If collection settings overridden on view level.
     $max_element_count = $this->boSettings->getCollectionOptions($collection_id)['max_element_count'] ?? '';

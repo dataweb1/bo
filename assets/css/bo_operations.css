@@ -5,6 +5,7 @@
 
 .bo-overview {
   transition: 0.15s padding ease-out, 0.15s margin ease-out, 0.15s border ease-out;
+  min-height: 50px;
 }
 
 .bo-overview.active {
@@ -20,6 +21,11 @@
   display: block;
   /*position: absolute;
     z-index: 100;*/
+}
+
+.bo-header.overlap {
+  position: absolute;
+  z-index: 1;
 }
 
 .bo-header.collapse {

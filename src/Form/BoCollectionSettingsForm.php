@@ -314,6 +314,19 @@ class BoCollectionSettingsForm extends ConfigFormBase {
       '#default_value' => $default_reload,
     ];
 
+    // Collection options > header_operations_overlap.
+    $default_header_operations_overlap = $this->current_options['header_operations_overlap'] ?? '';
+    if ($this->via == 'view' && (string) $default_header_operations_overlap == '') {
+      $default_header_operations_overlap = $this->boCollection->getHeaderOperationsOverlap($this->collection_id);
+    }
+    $form["bo_options"]["header_operations_overlap"] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Header operations overlap?'),
+      '#description' => $this->t('Show header operations on top of the content instead of above.'),
+      '#weight' => $weight,
+      '#default_value' => $default_header_operations_overlap,
+    ];
+
     // Collection options > insert_element_button.
     $default_disable_insert = $this->current_options['disable_insert'] ?? '';
     if ($this->via == 'view' && (string) $default_disable_insert == '') {
@@ -389,6 +402,7 @@ class BoCollectionSettingsForm extends ConfigFormBase {
 
       $settings["collection"][$this->collection_id]["options"]["max_element_count"] = $form_state->getValue("bo_options")['max_element_count'];
       $settings["collection"][$this->collection_id]["options"]["reload"] = $form_state->getValue("bo_options")['reload'];
+      $settings["collection"][$this->collection_id]["options"]["header_operations_overlap"] = $form_state->getValue("bo_options")['header_operations_overlap'];
       $settings["collection"][$this->collection_id]["options"]["disable_insert"] = $form_state->getValue("bo_options")['disable_insert'];
       $settings["collection"][$this->collection_id]["options"]["disable_bundle_label"] = $form_state->getValue("bo_options")['disable_bundle_label'];
       $settings["collection"][$this->collection_id]["options"]["ignore_current_path"] = $form_state->getValue("bo_options")['ignore_current_path'];

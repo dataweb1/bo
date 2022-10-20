@@ -153,7 +153,10 @@ class BoHeader extends AreaPluginBase {
           '#label' => $this->boCollection->getCollectionLabel($collection_id),
         ];
 
-        $class = "";
+        $class = '';
+        if ($this->boCollection->getHeaderOperationsOverlap($collection_id)) {
+          $class = 'overlap';
+        }
 
         $html_header = '<div class="bo-header ' . $class . '">';
         $html_header .= \Drupal::service('renderer')->render($bo_header_operations);
