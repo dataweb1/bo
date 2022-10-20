@@ -223,7 +223,7 @@ class BoBundle extends ConfigEntityBundleBase implements BoBundleInterface {
   /**
    * {@inheritdoc}
    */
-  public function getRelatedBundleS() {
+  public function getRelatedBundles() {
     return $this->related_bundles;
   }
 

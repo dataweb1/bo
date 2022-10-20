@@ -198,74 +198,76 @@ class BoVars {
     if (in_array("items", $return)) {
       [$collection_view_id, $collection_display_id] = $this->boCollection->getCollectionView($collection->id());
 
-      $view_collection = Views::getView($collection_view_id);
-      $view_collection->setDisplay($collection_display_id);
+      if ($view_collection = Views::getView($collection_view_id)) {
+        $view_collection->setDisplay($collection_display_id);
 
-      $_POST["collection_id"] = '';
+        $_POST["collection_id"] = '';
 
-      if (!isset($view_collection->filter["bo_current_collection_id_filter"])) {
-        $view_collection->filter["bo_current_collection_id_filter"] = new \stdClass();
-      }
-      $view_collection->filter["bo_current_collection_id_filter"]->value = $collection->id();
-
-      $view_collection->preExecute();
-      $view_collection->execute();
-
-      $items = [];
-      foreach ($view_collection->result as $row) {
-
-        $item = [];
-
-        /** @var \Drupal\bo\Entity\BoEntity $item_entity */
-        $item_entity = $row->_entity;
-        $item_entity_id = $item_entity->id();
-
-        /** @var \Drupal\bo\Entity\BoBundle $item_entity_bundle */
-        $item_entity_bundle = $this->boBundle->getBundle($item_entity->getBundle());
-
-        $item_current_display = $view_collection->getDisplay();
-
-        $item["id"] = $item_entity_id;
-
-        $fields = $item_entity->getFields();
-        foreach ($fields as $field_name => $field) {
-          if ($field_name != "bundle" &&
-            $field_name != "id" &&
-            $field_name != "size" &&
-            $field_name != "display_id" &&
-            $field_name != "changed" &&
-            $field_name != "weight") {
-
-            $level = 0;
-
-            if ($field_name == "title") {
-              if ($item_entity_bundle->getInternalTitle() == TRUE) {
-                continue;
-              }
-            }
-
-            if ($item_entity->hasField($field_name)) {
-              $empty_array = [];
-              $element = $this->processField($item_entity, $field_name, $vars, $level, $empty_array);
-              $this->getRenderedViewFields($item_current_display, $row, $field_name, $element);
-
-              $item[$field_name] = $element;
-            }
-
-          }
+        if (!isset($view_collection->filter["bo_current_collection_id_filter"])) {
+          $view_collection->filter["bo_current_collection_id_filter"] = new \stdClass();
         }
+        $view_collection->filter["bo_current_collection_id_filter"]->value = $collection->id();
 
-        $items[] = $item;
+        $view_collection->preExecute();
+        $view_collection->execute();
+
+        $items = [];
+        foreach ($view_collection->result as $row) {
+
+          $item = [];
+
+          /** @var \Drupal\bo\Entity\BoEntity $item_entity */
+          $item_entity = $row->_entity;
+          $item_entity_id = $item_entity->id();
+
+          /** @var \Drupal\bo\Entity\BoBundle $item_entity_bundle */
+          $item_entity_bundle = $this->boBundle->getBundle($item_entity->getBundle());
+
+          $item_current_display = $view_collection->getDisplay();
+
+          $item["id"] = $item_entity_id;
+
+          $fields = $item_entity->getFields();
+          foreach ($fields as $field_name => $field) {
+            if ($field_name != "bundle" &&
+              $field_name != "id" &&
+              $field_name != "size" &&
+              $field_name != "display_id" &&
+              $field_name != "changed" &&
+              $field_name != "weight") {
+
+              $level = 0;
+
+              if ($field_name == "title") {
+                if ($item_entity_bundle->getInternalTitle() == TRUE) {
+                  continue;
+                }
+              }
+
+              if ($item_entity->hasField($field_name)) {
+                $empty_array = [];
+                $element = $this->processField($item_entity, $field_name, $vars, $level, $empty_array);
+                $this->getRenderedViewFields($item_current_display, $row, $field_name, $element);
+
+                $item[$field_name] = $element;
+              }
+
+            }
+          }
+
+          $items[] = $item;
+        }
+        $data["items"] = $items;
+
+        if (in_array('rendered_collection', $return)) {
+          $rendered_collection = $view_collection->render();
+          $rendered_collection["#cache"]["tags"][] = $collection->getBundle();
+          $data["collection"] = $rendered_collection;
+        }
       }
-      $data["items"] = $items;
-
     }
 
-    if (in_array('rendered_collection', $return)) {
-      $rendered_collection = $view_collection->render();
-      $rendered_collection["#cache"]["tags"][] = $collection->getBundle();
-      $data["collection"] = $rendered_collection;
-    }
+
 
     return $data;
   }

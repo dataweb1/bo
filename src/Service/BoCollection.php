@@ -252,9 +252,10 @@ class BoCollection {
     }
     else {
       if ($collection_id !== NULL) {
-        $block = Block::load($collection_id);
-        [$type, $view] = explode(':', $block->getPluginId());
-        return explode('-', $view);
+        if ($block = Block::load($collection_id)) {
+          [$type, $view] = explode(':', $block->getPluginId());
+          return explode('-', $view);
+        }
       }
     }
 
