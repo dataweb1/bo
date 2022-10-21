@@ -473,6 +473,9 @@ ul.bo-add-multi-content li a:before {
   width: 400px;
 }
 
+header .bo-operations-pane {
+  margin-top: 50px;
+}
 
 .bo-operations-pane .bo-table-reorder-wrapper {
   background-color: #FFF;

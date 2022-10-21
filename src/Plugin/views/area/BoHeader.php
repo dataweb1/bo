@@ -167,13 +167,14 @@ class BoHeader extends AreaPluginBase {
 
         $html_header = '<div class="bo-header ' . $class . '">';
         $html_header .= \Drupal::service('renderer')->render($bo_header_operations);
+        $html_header .= '</div>';
 
         $enabled_bundles = $this->boCollection->getEnabledBundles($collection_id);
         if ($show_reorder || count($enabled_bundles) > 1) {
           $html_header .= '<div id="bo_operations_pane_' . $this->view->dom_id . '" class="bo-operations-pane"></div>';
         }
 
-        $html_header .= '</div>';
+
       }
 
       return [
