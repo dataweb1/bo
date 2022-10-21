@@ -115,10 +115,19 @@ class BoOperations extends EntityOperations {
         ];
 
         $links[] = $this->boOperations->getSingleOrMultiAddInsertLink($link_parameters);
+
+        $attributes = [
+          'class' => [
+            'bo-insert-operations',
+            'bo-operations',
+          ],
+        ];
+
         $bo_insert_operations = [
           '#theme' => 'bo_insert_operations_item_list',
           '#items' => $links,
           '#label' => '',
+          '#attributes' => $attributes,
           '#attached' => [
             'library' => [
               'bo/bo_operations',
@@ -167,9 +176,19 @@ class BoOperations extends EntityOperations {
           $bundle_label = $this->t($label);
         }
       }
+
+      $attributes = [
+        'class' => [
+          'bo-operations',
+          'bo-entity-operations',
+          'bo-operations-position-' . $this->boCollection->getOperationsPosition($current_entity->getCollectionId()),
+        ]
+      ];
+
       $bo_entity_operations = [
         '#theme' => 'bo_entity_operations_item_list',
         '#items' => $links,
+        '#attributes' => $attributes,
         '#label' => $bundle_label,
         '#attached' => [
           'library' => [

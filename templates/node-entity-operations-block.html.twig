@@ -1,7 +1,7 @@
 {% if items or empty -%}
 
 {%- if items -%}
-<ul class="node-entity-operations-block bo-operations">
+<ul {{ attributes }}>
   {% if label != '' %}
   <li><div class="no-link no-icon"><span class="label">{{ label }}</span></div></li>
   {% endif %}

@@ -43,9 +43,18 @@ class NodeOperations extends EntityOperations {
       $links[] = $this->getDeleteLink($node_content["#links"]["delete"]["url"], $entity, $view_dom_id);
     }
 
+    $attributes = [
+      'class' => [
+        'node-entity-operations',
+        'bo-operations',
+        'bo-operations-position-top',
+      ],
+    ];
+
     $node_operations = [
       '#theme' => 'node_entity_operations_item_list',
       '#items' => $links,
+      '#attributes' => $attributes,
       '#label' => '',
       '#attached' => [
         'library' => [

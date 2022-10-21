@@ -103,9 +103,17 @@ class NodeOperations extends AreaPluginBase {
         // Render all.
         $html = '';
         if (count($links) > 0) {
+          $attributes = [
+            'class' => [
+              'node-area-operations',
+              'bo-operations',
+            ],
+          ];
+
           $node_area_operations = [
             '#theme' => 'node_area_operations_item_list',
             '#items' => $links,
+            '#attributes' => $attributes,
             '#label' => '',
           ];
           $html = \Drupal::service('renderer')->render($node_area_operations);

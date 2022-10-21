@@ -70,10 +70,18 @@ class NodeOperations extends BlockBase {
         }
       }
 
+      $attributes = [
+        'class' => [
+          'node-entity-operations-block',
+          'bo-operations',
+        ],
+      ];
+
       return [
         '#theme' => 'node_entity_operations_block',
         '#items' => $links,
         '#label' => $label,
+        '#attributes' => $attributes,
       ];
     }
 

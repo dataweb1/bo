@@ -154,6 +154,29 @@ class BoCollection {
     return (bool) $collection_header_operations_overlap;
   }
 
+
+  /**
+   * @param $collection_id
+   * @return mixed|string
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function getOperationsPosition($collection_id) {
+    // If collection settings overridden on view level.
+    $operations_position = $this->boSettings->getCollectionOptions($collection_id)['operations_position'] ?? '';
+    if ($operations_position == '') {
+      // If not get collection settings from bundle.
+      if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
+        $operations_position = $collection_bundle->getCollectionOptions()['operations_position'];
+      }
+    }
+
+    if ($operations_position == '') {
+      $operations_position = 'top';
+    }
+    return $operations_position;
+  }
+
   /**
    * @param $collection_id
    * @return mixed|string
