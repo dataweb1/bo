@@ -162,10 +162,12 @@ class BoHeader extends AreaPluginBase {
 
         $class = '';
         if ($this->boCollection->getHeaderOperationsOverlap($collection_id)) {
+          $wrapper_class = 'with-overlap';
           $class = 'bo-operations-overlap bo-operations-position-' . $this->boCollection->getOperationsPosition($collection_id);
         }
 
-        $html_header = '<div class="bo-header ' . $class . '">';
+        $html_header = '<div class="bo-header-wrapper ' . $wrapper_class . '">';
+        $html_header .= '<div class="bo-header ' . $class . '">';
         $html_header .= \Drupal::service('renderer')->render($bo_header_operations);
         $html_header .= '</div>';
 
@@ -173,7 +175,7 @@ class BoHeader extends AreaPluginBase {
         if ($show_reorder || count($enabled_bundles) > 1) {
           $html_header .= '<div id="bo_operations_pane_' . $this->view->dom_id . '" class="bo-operations-pane"></div>';
         }
-
+        $html_header .= '</div>';
 
       }
 

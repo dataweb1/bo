@@ -473,7 +473,7 @@ ul.bo-add-multi-content li a:before {
   width: 400px;
 }
 
-header .bo-operations-pane {
+.bo-header-wrapper.with-overlap .bo-operations-pane {
   margin-top: 50px;
 }
 
