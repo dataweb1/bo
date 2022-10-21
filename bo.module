@@ -166,6 +166,7 @@ function bo_theme() {
   $templates["node_entity_operations_block"] = [
     'variables' => [
       "items" => NULL,
+      'attributes' => NULL,
       'label' => NULL,
     ],
   ];
