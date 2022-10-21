@@ -1,7 +1,6 @@
 {% if items or empty -%}
-
 {%- if items -%}
-<ul {{ attributes }}>
+<ul class="{{ list_class }}">
   {% if label != '' %}
   <li><div class="no-link no-icon"><span class="label">{{ label }}</span></div></li>
   {% endif %}

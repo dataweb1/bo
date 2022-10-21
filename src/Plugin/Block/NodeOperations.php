@@ -73,7 +73,6 @@ class NodeOperations extends BlockBase {
       $attributes = [
         'class' => [
           'node-entity-operations-block',
-          'bo-operations',
         ],
       ];
 
@@ -82,6 +81,7 @@ class NodeOperations extends BlockBase {
         '#items' => $links,
         '#label' => $label,
         '#attributes' => $attributes,
+        '#list_class' => 'bo-operations',
       ];
     }
 

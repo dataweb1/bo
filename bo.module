@@ -167,6 +167,7 @@ function bo_theme() {
     'variables' => [
       "items" => NULL,
       'attributes' => NULL,
+      'list_class' => NULL,
       'label' => NULL,
     ],
   ];
