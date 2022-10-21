@@ -868,8 +868,8 @@ class BoVars {
 
     if ($element["type"] == "youtube_url" ||
       $element["type"] == "vimeo_url") {
-      if (!array_search("bo/bo_bundle_remote_video", $vars["#attached"]["library"])) {
-        $vars["#attached"]["library"][] = "bo/bo_bundle_remote_video";
+      if (!array_search("bo/bo_bundle_video", $vars["#attached"]["library"])) {
+        $vars["#attached"]["library"][] = "bo/bo_bundle_video";
       }
     }
 
