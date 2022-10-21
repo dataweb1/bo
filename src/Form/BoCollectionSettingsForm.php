@@ -447,6 +447,8 @@ class BoCollectionSettingsForm extends ConfigFormBase {
           'label' => $form_state->getValue("bo_options")['label'],
           'max_element_count' => $form_state->getValue("bo_options")['max_element_count'],
           'reload' => $form_state->getValue("bo_options")['reload'],
+          'header_operations_overlap' => $form_state->getValue("bo_options")['header_operations_overlap'],
+          'operations_position' => $form_state->getValue("bo_options")['operations_position'],
           'specific_view' => $form_state->getValue("bo_options")['specific_view'],
           'disable_bundle_label' => $form_state->getValue("bo_options")['disable_bundle_label'],
           'ignore_current_path' => $form_state->getValue("bo_options")['ignore_current_path'],

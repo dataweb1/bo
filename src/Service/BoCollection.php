@@ -148,7 +148,7 @@ class BoCollection {
     if ($collection_header_operations_overlap == '') {
       // If not get collection settings from bundle.
       if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
-        $collection_header_operations_overlap = $collection_bundle->getCollectionOptions()['collection_header_operations_overlap'];
+        $collection_header_operations_overlap = $collection_bundle->getCollectionOptions()['header_operations_overlap'];
       }
     }
     return (bool) $collection_header_operations_overlap;

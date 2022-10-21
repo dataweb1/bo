@@ -2,7 +2,6 @@
 
 namespace Drupal\bo\Plugin\views\field;
 
-use Drupal\bo\Entity\BoEntity;
 use Drupal\bo\Service\BoBundle;
 use Drupal\bo\Service\BoCollection;
 use Drupal\bo\Service\BoOperations as BoOperationsService;
@@ -23,17 +22,17 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class BoOperations extends EntityOperations {
 
   /**
-   * @var BoOperationsService
+   * @var \Drupal\bo\Service\BoOperations
    */
   private BoOperationsService $boOperations;
 
   /**
-   * @var BoCollection
+   * @var \Drupal\bo\Service\BoCollection
    */
   private BoCollection $boCollection;
 
   /**
-   * @var BoBundle
+   * @var \Drupal\bo\Service\BoBundle
    */
   private BoBundle $boBundle;
 
@@ -89,7 +88,7 @@ class BoOperations extends EntityOperations {
       $to_path = $this->getViewToPathArgument();
 
       // Get current entity for insert/edit/delete link.
-      /** @var BoEntity $entity */
+      /** @var \Drupal\bo\Entity\BoEntity $entity */
       $current_entity = $values->_entity;
 
       /* Insert link. */
@@ -160,20 +159,21 @@ class BoOperations extends EntityOperations {
 
       $bundle_label = '';
       /** @var \Drupal\bo\Entity\BoBundle $bundle */
-      $bundle = $this->boBundle->getBundle($current_entity->bundle());
-      // If current entity is not a collection.
-      if (!$bundle->getCollectionEnabled()) {
-        // If the collection of the current entity has
-        // bundle label not disabled.
-        if (!$this->boCollection->getDisableBundleLabel($collection_id)) {
-          $label = $bundle->label();
-          $bundle_label = $this->t($label);
+      if ($bundle = $this->boBundle->getBundle($current_entity->bundle())) {
+        // If current entity is not a collection.
+        if (!$bundle->getCollectionEnabled()) {
+          // If the collection of the current entity has
+          // bundle label not disabled.
+          if (!$this->boCollection->getDisableBundleLabel($collection_id)) {
+            $label = $bundle->label();
+            $bundle_label = $this->t($label);
+          }
         }
-      }
-      else {
-        if (!$this->boCollection->getDisableBundleLabel($current_entity->getCollectionId())) {
-          $label = $bundle->label();
-          $bundle_label = $this->t($label);
+        else {
+          if (!$this->boCollection->getDisableBundleLabel($current_entity->getCollectionId())) {
+            $label = $bundle->label();
+            $bundle_label = $this->t($label);
+          }
         }
       }
 
@@ -182,7 +182,7 @@ class BoOperations extends EntityOperations {
           'bo-operations',
           'bo-entity-operations',
           'bo-operations-position-' . $this->boCollection->getOperationsPosition($current_entity->getCollectionId()),
-        ]
+        ],
       ];
 
       $bo_entity_operations = [
@@ -285,4 +285,5 @@ class BoOperations extends EntityOperations {
   private function getViewToPathArgument() {
     return $this->view->argument["bo_current_path_argument"]->argument ?? '';
   }
+
 }
