@@ -469,7 +469,8 @@ ul.bo-add-multi-content li a:before {
   padding: 10px!important;
   display: none;
   border-radius: 10px;
-  max-width: 400px;
+  max-width: 100%;
+  width: 400px;
 }
 
 
