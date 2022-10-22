@@ -189,74 +189,14 @@ class BoEntity extends ContentEntityBase implements BoEntityInterface {
     return $this->get('nid')->entity;
   }
 
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getCurrentViewDisplaySettings() {
-    if (!isset($this->boCollection)) {
-      $this->boCollection = \Drupal::service('bo.collection');
-    }
-
-    if ([$view_id, $display_id] = $this->boCollection->getCollectionView($this->getCollectionId())) {
-
-      $view = Views::getView($view_id);
-      $view->setDisplay($display_id);
-      $view->preExecute();
-      $settings = $view->style_plugin->options;
-      $settings["plugin_id"] = $view->style_plugin->getPluginId();
-
-      return $settings;
-    }
-
-    return FALSE;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function getViewDisplaySettings($view_id, $display_id) {
-    if ($display_id != "") {
-      $view = Views::getView($view_id);
-      $view->setDisplay($display_id);
-      $view->preExecute();
-      $settings = $view->style_plugin->options;
-      $settings["plugin_id"] = $view->style_plugin->getPluginId();
-    }
-    return $settings;
-  }
-
   /**
    * {@inheritdoc}
    */
   public function getSize() {
-    if ($this->isCurrentCustomSizeEnabled()) {
-      if (intval($this->get('size')->value) == 0) {
-        return 12;
-      }
-      return $this->get('size')->value;
+    if ((int) $this->get('size')->value == 0) {
+      return 12;
     }
-    else {
-      $max_size = 0;
-      if ($settings = $this->getCurrentViewDisplaySettings()) {
-        if ($settings["plugin_id"] == "views_bootstrap_grid") {
-          $size["xs"] = $settings["col_xs"];
-          $size["sm"] = $settings["col_sm"];
-          $size["md"] = $settings["col_md"];
-          $size["lg"] = $settings["col_lg"];
-
-          foreach ($size as $s) {
-            if (preg_match('~col-[a-z]{2}-([0-9]*)~', $s, $matches)) {
-              if ($matches[1] > $max_size) {
-                $max_size = $matches[1];
-              }
-            }
-          }
-          return $max_size;
-        }
-      }
-    }
-    return 12;
+    return (int) $this->get('size')->value;
   }
 
   /**
@@ -271,33 +211,6 @@ class BoEntity extends ContentEntityBase implements BoEntityInterface {
    */
   public function setNodeId($nid) {
     $this->set("nid", $nid);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function isCurrentCustomSizeEnabled() {
-    if ($this->display_id != "") {
-      if ($settings = $this->getCurrentViewDisplaySettings()) {
-        if ($settings["plugin_id"] == "views_view_bo_bootstrap_grid") {
-          return TRUE;
-        }
-      }
-    }
-    return FALSE;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function isCustomSizeEnabled($view_id, $display_id) {
-    if ($display_id != "") {
-      $settings = BoEntity::getViewDisplaySettings($view_id, $display_id);
-      if ($settings["plugin_id"] == "views_view_bo_bootstrap_grid") {
-        return TRUE;
-      }
-    }
-    return FALSE;
   }
 
   /**
@@ -374,7 +287,6 @@ class BoEntity extends ContentEntityBase implements BoEntityInterface {
     /** @var \Drupal\bo\Service\BoSettings $boSettings */
     $boSettings = \Drupal::getContainer()->get('bo.settings');
     $styles = $boSettings->getStyles();
-    $allowed_values = [0 => "-"];
     foreach ($styles as $label => $style) {
       $allowed_values[$style["size"]] = str_replace("BO ", "", $label);
     }

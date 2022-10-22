@@ -381,6 +381,19 @@ class BoCollectionSettingsForm extends ConfigFormBase {
       '#default_value' => $default_ignore_current_path,
     ];
 
+    // Collection options > ignore_current_path.
+    $default_disable_size = $this->current_options['default_disable_size'] ?? '';
+    if ($this->via == 'view' && (string) $default_disable_size == '') {
+      $default_disable_size = $this->boCollection->getDisableSize($this->collection_id);
+    }
+    $form["bo_options"]["disable_size"] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Disable size'),
+      '#description' => $this->t('Disable size field on collection items (if enabled in bundle form).'),
+      '#weight' => $weight,
+      '#default_value' => $default_disable_size,
+    ];
+
     $form['#attached']['library'] = [
       'bo/bo_collection_settings',
       'bo/bo_ajax_commands',
@@ -422,6 +435,7 @@ class BoCollectionSettingsForm extends ConfigFormBase {
       $settings["collection"][$this->collection_id]["options"]["disable_bundle_label"] = $form_state->getValue("bo_options")['disable_bundle_label'];
       $settings["collection"][$this->collection_id]["options"]["ignore_current_path"] = $form_state->getValue("bo_options")['ignore_current_path'];
       $settings["collection"][$this->collection_id]["options"]["label"] = $form_state->getValue("bo_options")['label'];
+      $settings["collection"][$this->collection_id]["options"]["disable_size"] = $form_state->getValue("bo_options")['disable_size'];
 
       if ($this->collection_id != "" && $this->collection_id != "-") {
         $settings["collection"][$this->collection_id]["options"]["specific_view"] = $form_state->getValue("bo_options")['specific_view'];
@@ -453,6 +467,7 @@ class BoCollectionSettingsForm extends ConfigFormBase {
           'disable_bundle_label' => $form_state->getValue("bo_options")['disable_bundle_label'],
           'ignore_current_path' => $form_state->getValue("bo_options")['ignore_current_path'],
           'disable_insert' => $form_state->getValue("bo_options")['disable_insert'],
+          'disable_size' => $form_state->getValue("bo_options")['disable_size'],
         ]);
         $bundle->save();
       }

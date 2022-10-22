@@ -267,6 +267,25 @@ class BoCollection {
     return (bool) $ignore_current_path;
   }
 
+
+  /**
+   * @param $collection_id
+   * @return bool
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function getDisableSize($collection_id) {
+    // If collection settings overridden on view level.
+    $disable_size = $this->boSettings->getCollectionOptions($collection_id)['disable_size'] ?? '';
+    if ((string) $disable_size == '') {
+      // If not get collection settings from bundle.
+      if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
+        $disable_size = $collection_bundle->getCollectionOptions()['disable_size'];
+      }
+    }
+    return (bool) $disable_size;
+  }
+
   /**
    * @param $collection_id
    *
