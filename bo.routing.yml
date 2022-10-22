@@ -42,7 +42,7 @@ bo.entity.bundle.add_form:
     _controller: '\Drupal\bo\Controller\BoBundleController::renderBoBundleAddForm'
     _title_callback: '\Drupal\bo\Controller\BoBundleController::getBoBundleAddFormTitle'
   requirements:
-    _permission: 'administer bo entities'
+    _permission: 'administer bo bundle'
   options:
     _admin_route: 'TRUE'
 
