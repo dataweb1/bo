@@ -50,7 +50,7 @@ use Drupal\bo\Service\BoCollection;
  *     "add-form" = "/bo/add/{bundle}",
  *     "edit-form" = "/bo/{bo}/edit",
  *     "delete-form" = "/bo/{bo}/delete",
- *     "collection" = "/admin/content/bos",
+ *     "collection" = "/admin/content/bo",
  *   },
  *   bundle_entity_type = "bundle",
  *   field_ui_base_route = "entity.bundle.edit_form",
