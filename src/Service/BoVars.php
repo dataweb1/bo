@@ -102,13 +102,11 @@ class BoVars {
       /** @var \Drupal\bo\Entity\BoBundle $bundle */
       if ($bundle = $this->boBundle->getBundle($entity->getBundle())) {
         $current_display = $view->getDisplay();
-        $current_view_display_settings = $entity->getCurrentViewDisplaySettings();
 
         if (in_array("basic", $return)) {
           $vars["bo"]["id"] = $entity->id();
           $vars["bo"]["view_id"] = $view->id();
           $vars["bo"]["display_id"] = $view->current_display;
-          $vars["bo"]["plugin_id"] = $current_view_display_settings["plugin_id"];
 
           $vars["bo"]["row_count"] = count($view->result);
           if (isset($view->row_index)) {
