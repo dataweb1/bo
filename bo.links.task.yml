@@ -19,3 +19,7 @@ bo_entity_task_delete:
   title: 'Delete'
   weight: 10
 
+entity.bundle.edit_form:
+  title: 'Edit'
+  route_name: entity.bundle.edit_form
+  base_route: entity.bundle.edit_form
