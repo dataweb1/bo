@@ -113,7 +113,7 @@ class BoVars {
             $vars["bo"]["row_index"] = $view->row_index;
           }
           $vars["bo"]["bundle"] = $bundle->id();
-          $vars["bo"]["size"] = $entity->getSize();
+          $vars["bo"]["size"] = (string) $entity->getSize();
         }
 
         $fields = $entity->getFields();
