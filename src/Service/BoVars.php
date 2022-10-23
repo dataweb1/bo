@@ -553,12 +553,6 @@ class BoVars {
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   private function processTargetField(EntityInterface $entity, $field_name, &$vars, $level, &$element) {
-    static $bo_entity_size;
-    if ($entity->getEntityType()->id() == "bo") {
-      if ($vars["view"]) {
-        $bo_entity_size = $entity->getSize($vars["view"]);
-      }
-    }
 
     $cardinality = $entity->getFieldDefinition($field_name)->getFieldStorageDefinition()->getCardinality();
     foreach ($entity->get($field_name) as $parent_key => $item) {
@@ -669,7 +663,7 @@ class BoVars {
             $alt = $item->alt;
 
             $optimized_url = "";
-            $style_name = 'bo_' . $bo_entity_size;
+            $style_name = 'bo_' . $this->imageStyleSize($entity);
 
             $image_style = ImageStyle::load($style_name);
             if ($image_style) {
@@ -736,7 +730,7 @@ class BoVars {
                 $size = $target_media_entity->field_media_image->entity->getSize();
 
                 $optimized_url = "";
-                $style_name = 'bo_' . $bo_entity_size;
+                $style_name = 'bo_' . $this->imageStyleSize($entity);
                 $image_style = ImageStyle::load($style_name);
                 if ($image_style) {
                   $optimized_url = $image_style->buildUrl($uri);
@@ -843,6 +837,9 @@ class BoVars {
 
       }
     }
+
+    $vars["#cache"]["tags"][] = $entity->getEntityType()->id().':'.$entity->id();
+
     return $element;
   }
 
@@ -873,4 +870,16 @@ class BoVars {
 
   }
 
+  /**
+   * @param EntityInterface $entity
+   * @return int
+   */
+  private function imageStyleSize(EntityInterface $entity) {
+    $image_style_size = 12;
+    if ($entity->getEntityType()->id() == "bo") {
+      $image_style_size = $entity->getSize();
+    }
+
+    return $image_style_size;
+  }
 }
