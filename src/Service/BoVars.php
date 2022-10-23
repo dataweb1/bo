@@ -433,7 +433,7 @@ class BoVars {
 
       $raw_markup = Markup::create($raw_summary);
 
-      $e["raw"]["summary"] = $raw_markup->__toString();
+      $e["raw"]["summary"] = $raw_markup;
 
       if ($cardinality == 1) {
         if (!empty($element)) {
