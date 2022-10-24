@@ -10,6 +10,7 @@ use Drupal\Core\File\FileUrlGenerator;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Render\Renderer;
 use Drupal\Core\Url;
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\views\Plugin\views\display\DisplayPluginBase;
 use Drupal\views\ResultRow;
@@ -504,17 +505,25 @@ class BoVars {
 
       $raw_markup = Markup::create($raw);
 
-      if ($field_name == "created" || $field_name == "changed") {
+      if ($field_name == "created" || $field_name == "changed" || $item instanceof DateTimeItem) {
+        $ts = $raw_markup->__toString();
+        if ($item instanceof DateTimeItem) {
+          $ts = strtotime($raw_markup->__toString());
+        }
         $e["raw"]["timestamp"] = $raw_markup;
-        $e["raw"]["day"] = date("d", $raw_markup->__toString());
-        $e["raw"]["month"] = date("m", $raw_markup->__toString());
-        $e["raw"]["year"] = date("Y", $raw_markup->__toString());
-        $e["raw"]["hour"] = date("H", $raw_markup->__toString());
-        $e["raw"]["minute"] = date("i", $raw_markup->__toString());
-        $e["raw"]["second"] = date("s", $raw_markup->__toString());
+        $e["raw"]["day"] = date("d", $ts);
+        $e["raw"]["month"] = date("m", $ts);
+        $e["raw"]["year"] = date("Y", $ts);
+        $e["raw"]["hour"] = date("H", $ts);
+        $e["raw"]["minute"] = date("i", $ts);
+        $e["raw"]["second"] = date("s", $ts);
       }
       else {
-        $e["raw"]["value"] = $raw_markup;
+        if ($raw_markup instanceof Markup) {
+          $e["raw"]["value"] = $raw_markup->__toString();
+        } else {
+          $e["raw"]["value"] = $raw_markup;
+        }
       }
 
       $this->smartValue($item->value, $e, $vars);
