@@ -514,7 +514,7 @@ class BoVars {
         $e["raw"]["second"] = date("s", $raw_markup->__toString());
       }
       else {
-        $e["raw"]["value"] = $raw_markup->__toString();
+        $e["raw"]["value"] = $raw_markup;
       }
 
       $this->smartValue($item->value, $e, $vars);
