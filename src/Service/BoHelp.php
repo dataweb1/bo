@@ -66,7 +66,7 @@ class BoHelp {
 
     foreach ($variables as $fieldName => $field) {
       if (substr($fieldName, 0, 1) != '#') {
-        if (is_string($field)) {
+        if (is_int($field) || is_string($field)) {
           $help .= "<tr>";
           $help .= "<td>";
 
