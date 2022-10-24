@@ -1,0 +1,18 @@
+uuid: aea2db09-3ee8-40bf-a121-1cb3c985cd0a
+langcode: nl
+status: true
+dependencies:
+  module:
+    - bo
+id: bo.field_show_in_columns
+field_name: field_show_in_columns
+entity_type: bo
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

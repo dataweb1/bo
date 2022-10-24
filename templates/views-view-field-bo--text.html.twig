@@ -1,3 +1,9 @@
 {{ help }}
 
-{{ bo.field_text.raw.value }}
+{% if bo.field_show_in_columns.raw.value == 1 %}
+  {{ pColumns(bo.field_text.raw.value, bo.field_column_count.raw.value) }}
+{% else %}
+  {{ bo.field_text.raw.value }}
+{% endif %}
+
+{{ attach_library('bo/bundle_text') }}

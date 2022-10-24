@@ -4,24 +4,39 @@ status: true
 dependencies:
   config:
     - bo.bundle.text
+    - field.field.bo.text.field_column_count
+    - field.field.bo.text.field_show_in_columns
     - field.field.bo.text.field_text
   module:
     - text
 _core:
-  default_config_hash: u8rV64kw_aDhZ9azP1gW4lySz0M3ui8Zc3Ive4YS_Gc
+  default_config_hash: MbJF_KITm0o10HtsMjr1EMydkdgqE84gyPBu-Z2Rj-U
 id: bo.text.default
 targetEntityType: bo
 bundle: text
 mode: default
 content:
+  field_column_count:
+    type: options_select
+    weight: 7
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_show_in_columns:
+    type: boolean_checkbox
+    weight: 6
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
   field_text:
+    type: text_textarea
     weight: 5
+    region: content
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-    type: text_textarea
-    region: content
   size:
     type: options_select
     weight: 3

@@ -53,3 +53,8 @@ bo_parallax:
 bo_bootstrap:
     js: { //cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js: {  }, //stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js: {  } }
     css: { component: { //stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css: {  } } }
+
+bundle_text:
+  css:
+    theme:
+      assets/bundle/css/text.css: {}

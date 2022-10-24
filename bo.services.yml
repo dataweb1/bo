@@ -5,6 +5,12 @@ services:
       - '@bo.settings'
     tags:
       - { name: twig.extension }
+  bo.PColumnsExtension:
+    class: Drupal\bo\Twig\PColumnsExtension
+    arguments:
+      - '@bo.vars_helper'
+    tags:
+      - { name: twig.extension }
   bo.CommentStripperTwigExtension:
     class: Drupal\bo\Twig\CommentStripperTwigExtension
     tags:

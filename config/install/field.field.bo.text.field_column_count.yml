@@ -1,0 +1,21 @@
+uuid: 40a4cbe2-131b-45d4-befb-f07be0446ef6
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bundle.text
+    - field.storage.bo.field_column_count
+  module:
+    - options
+id: bo.text.field_column_count
+field_name: field_column_count
+entity_type: bo
+bundle: text
+label: 'Column count'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_integer
