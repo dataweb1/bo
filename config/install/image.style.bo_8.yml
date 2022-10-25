@@ -1,0 +1,26 @@
+uuid: 1677a13b-f0df-4bec-b271-c8685c2ded56
+langcode: nl
+status: true
+dependencies:
+  config:
+    - crop.type.landscape
+  module:
+    - crop
+name: bo_8
+label: 'BO 2/3'
+effects:
+  e8365c1f-c059-44a4-9bc1-e359cbca1348:
+    uuid: e8365c1f-c059-44a4-9bc1-e359cbca1348
+    id: image_scale
+    weight: -9
+    data:
+      width: 760
+      height: null
+      upscale: false
+  a98aa7fe-5fc0-4dc2-aebb-12b0be2003e4:
+    uuid: a98aa7fe-5fc0-4dc2-aebb-12b0be2003e4
+    id: crop_crop
+    weight: -10
+    data:
+      crop_type: landscape
+      automatic_crop_provider: null
