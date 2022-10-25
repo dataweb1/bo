@@ -687,6 +687,8 @@ class BoVars {
               $e["rendered"]["basic"] = $this->renderer->render($basic);
             }
 
+            $e['raw']['fid'] = $item->target_id;
+            $e['raw']['mid'] = $target_media_entity->id();
             $e["raw"]["uri"] = $uri;
             $e["raw"]["original_url"] = $original_url;
             $e["raw"]["optimized_url"] = $optimized_url;
@@ -767,6 +769,8 @@ class BoVars {
                   $e["rendered"]["responsive"] = $this->renderer->render($image);
                 }
 
+                $e['raw']['fid'] = $target_media_entity->field_media_image->entity->id();
+                $e['raw']['mid'] = $target_media_entity->id();
                 $e["raw"]["uri"] = $uri;
                 $e["raw"]["original_url"] = $original_url;
                 $e["raw"]["optimized_url"] = $optimized_url;
