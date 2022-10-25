@@ -1,7 +1,9 @@
 {{ help }}
 
 {% if bo.field_show_in_columns.raw.value == 1 %}
-  {{ pColumns(bo.field_text.raw.value, bo.field_column_count.raw.value) }}
+  <div class="bo-columns bo-columns-{{ bo.field_column_count.raw.value }}">
+    {{ bo.field_text.raw.value }}
+  </div>
 {% else %}
   {{ bo.field_text.raw.value }}
 {% endif %}
