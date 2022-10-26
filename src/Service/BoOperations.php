@@ -38,7 +38,7 @@ class BoOperations {
 
     $max_element_count = $this->boCollection->getCollectionMaxElementCount($collection_id);
 
-    if ((int) $max_element_count > 0) {
+    if ($max_element_count > 0) {
       if ($view_result_count >= $max_element_count) {
         return FALSE;
       }
@@ -66,7 +66,7 @@ class BoOperations {
 
     $max_element_count = $this->boCollection->getCollectionMaxElementCount($collection_id);
 
-    if ((int) $max_element_count > 0) {
+    if ($max_element_count > 0) {
       if ($view_result_count >= $max_element_count) {
         return FALSE;
       }

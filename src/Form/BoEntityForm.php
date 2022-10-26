@@ -89,17 +89,20 @@ class BoEntityForm extends ContentEntityForm {
     }
 
     if ($current_route_name == "entity.bo.add_form") {
-      $form['position'] = [
-        '#type' => 'radios',
-        '#title' => $this->t('Insert position'),
-        '#default_value' => 'bottom',
-        '#options' => [
-          "top" => $this->t("Top"),
-          "bottom" => $this->t('Bottom'),
-        ],
-        '#description' => $this->t('Where to add the element in the overview'),
-        '#attributes' => ["class" => ["radio-button-group"]],
-      ];
+      // If maxElementCount is 1 there is no top or bottom.
+      if ($this->boCollection->getCollectionMaxElementCount($collection_id) <> 1) {
+        $form['position'] = [
+          '#type' => 'radios',
+          '#title' => $this->t('Insert position'),
+          '#default_value' => 'bottom',
+          '#options' => [
+            "top" => $this->t("Top"),
+            "bottom" => $this->t('Bottom'),
+          ],
+          '#description' => $this->t('Where to add the element in the overview'),
+          '#attributes' => ["class" => ["radio-button-group"]],
+        ];
+      }
     }
 
     /*

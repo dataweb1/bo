@@ -192,7 +192,7 @@ class BoCollection {
         $max_element_count = $collection_bundle->getCollectionOptions()['max_element_count'];
       }
     }
-    return $max_element_count;
+    return (int) $max_element_count;
   }
 
   /**
