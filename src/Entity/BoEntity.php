@@ -299,6 +299,7 @@ class BoEntity extends ContentEntityBase implements BoEntityInterface {
       ->setLabel('Size')
       ->setRequired(TRUE)
       ->setCardinality(1)
+      ->setDefaultValue(12)
       ->setDisplayOptions('form', [
         'type' => 'options_select',
         'weight' => 3,

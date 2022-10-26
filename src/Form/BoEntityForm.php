@@ -145,7 +145,7 @@ class BoEntityForm extends ContentEntityForm {
     }
 
     if ($this->boCollection->getDisableSize($collection_id) == TRUE) {
-      $form["size"]["widget"]["#default_value"] = 0;
+      $form["size"]["widget"]["#default_value"] = 12;
       $form["size"]["widget"]["#required"] = 0;
       $form["size"]["#access"] = FALSE;
     }
