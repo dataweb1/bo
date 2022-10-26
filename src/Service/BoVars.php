@@ -782,9 +782,8 @@ class BoVars {
               }
 
               if ($target_media_entity->bundle() == "file" || $target_media_entity->bundle() == "document") {
+                $field = 'field_media_' . $target_media_entity->bundle();
                 if ($target_media_entity->{$field}->entity) {
-                  $field = 'field_media_ ' . $target_media_entity->bundle();
-
                   $file = $this->entityTypeManager->getStorage("file")->load($target_media_entity->{$field}->entity->id());
                   $uri = $file->getFileUri();
                   $filename = $file->getFileName();
