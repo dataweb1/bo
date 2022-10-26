@@ -1,11 +1,8 @@
 {{ help }}
 
 <figure class="image-container">
-{% if bo.display_id == "grid" %}
-    <img src="{{ commentStripper(bo.field_image.rendered.view_square) }}" alt="{{ bo.field_image.raw.alt }}" />
-{% else %}
-    <img src="{{ bo.field_image.raw.original_url }}" style="width: 100%" />
-{% endif %}
+  <img src="{{ bo.field_image.raw.optimized_url }}" style="width: 100%" />
+
   {% if bo.field_image.raw.alt != ""  %}
   <figcaption>{{ bo.field_image.raw.alt }}</figcaption>
   {% endif %}
