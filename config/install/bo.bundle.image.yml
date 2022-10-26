@@ -10,7 +10,7 @@ description: ''
 type: individual_element
 group: ''
 default: 1
-internal_title: 0
+internal_title: 1
 override_title_label: ''
 icon: 'fa fa-image'
 collection:
