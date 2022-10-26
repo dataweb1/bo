@@ -820,6 +820,14 @@ class BoVars {
               $e["raw"]["name"] = $name;
               $e["raw"]["url"] = $url->toString();
 
+              $target_media_fields = $target_media_entity->getFields();
+              foreach ($target_media_fields as $target_media_field_name => $field) {
+                if (substr($target_media_field_name, 0, 6) == 'field_' && $target_media_field_name != 'field_media_image') {
+                  $empty_array = [];
+                  $e[$target_media_field_name] = $this->processField($target_media_entity, $target_media_field_name, $vars, $level, $empty_array);
+                }
+              }
+
               if ($cardinality == 1) {
                 if (!empty($element)) {
                   $element = array_merge($element, $e);
