@@ -2,7 +2,6 @@
 
 namespace Drupal\bo\Service;
 
-
 use Drupal\Core\File\FileUrlGenerator;
 use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Render\Markup;
@@ -28,7 +27,6 @@ class BoVarsHelper {
     $this->fileUrlGenerator = $fileUrlGenerator;
     $this->languageManager = $languageManager;
   }
-
 
   /**
    * @param $content
@@ -151,5 +149,6 @@ class BoVarsHelper {
 
     return round(pow(1024, $base - floor($base)), $precision) . ' ' . $suffixes[floor($base)];
   }
+
 
 }

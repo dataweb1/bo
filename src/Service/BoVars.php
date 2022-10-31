@@ -11,7 +11,11 @@ use Drupal\Core\Render\Markup;
 use Drupal\Core\Render\Renderer;
 use Drupal\Core\Url;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
+use Drupal\file\Entity\File;
+use Drupal\file\FileInterface;
 use Drupal\image\Entity\ImageStyle;
+use Drupal\media\Entity\Media;
+use Drupal\media\MediaInterface;
 use Drupal\views\Plugin\views\display\DisplayPluginBase;
 use Drupal\views\ResultRow;
 use Drupal\views\ViewExecutable;
@@ -399,7 +403,7 @@ class BoVars {
       }
       $e["raw"]["target"] = $target;
 
-      $this->smartValue($url_string, $e, $vars);
+      //$this->smartValue($url_string, $e, $vars);
 
       if ($cardinality == 1) {
         if (!empty($element)) {
@@ -503,31 +507,25 @@ class BoVars {
     foreach ($entity->get($field_name) as $key => $item) {
       $raw = $item->value;
 
-      $raw_markup = Markup::create($raw);
-
       if ($field_name == "created" || $field_name == "changed" || $item instanceof DateTimeItem) {
-        $ts = $raw_markup->__toString();
         if ($item instanceof DateTimeItem) {
-          $ts = strtotime($raw_markup->__toString());
+          $raw = strtotime($raw);
         }
-        $e["raw"]["timestamp"] = $raw_markup;
-        $e["raw"]["day"] = date("d", $ts);
-        $e["raw"]["month"] = date("m", $ts);
-        $e["raw"]["year"] = date("Y", $ts);
-        $e["raw"]["hour"] = date("H", $ts);
-        $e["raw"]["minute"] = date("i", $ts);
-        $e["raw"]["second"] = date("s", $ts);
+        $e["raw"]["timestamp"] = $raw;
+        $e["raw"]["day"] = date("d", $raw);
+        $e["raw"]["month"] = date("m", $raw);
+        $e["raw"]["year"] = date("Y", $raw);
+        $e["raw"]["hour"] = date("H", $raw);
+        $e["raw"]["minute"] = date("i", $raw);
+        $e["raw"]["second"] = date("s", $raw);
       }
       else {
-        if ($raw_markup instanceof Markup) {
-          $e["raw"]["value"] = $raw_markup->__toString();
-        } else {
-          $e["raw"]["value"] = $raw_markup;
-        }
+        $raw_markup = Markup::create($raw);
+        $e["raw"]["value"] = $raw_markup->__toString();
       }
 
-      $this->smartValue($item->value, $e, $vars);
-
+      //$this->smartValue($item->value, $e, $vars);
+      $this->replaceDrupalMedia($e["raw"]["value"], $entity, $level, $vars);
       if ($cardinality == 1) {
 
         if (!empty($element["raw"])) {
@@ -620,30 +618,9 @@ class BoVars {
           // Regular file.
           case ($settings["handler"] == "default:file" && !isset($settings["default_image"])):
 
-            $target_media_entity = $this->entityTypeManager->getStorage("file")->load($item->target_id);
+            $file_entity = $this->entityTypeManager->getStorage("file")->load($item->target_id);
 
-            $uri = $target_media_entity->getFileUri();
-            $filename = $target_media_entity->getFileName();
-            $size = $target_media_entity->getSize();
-            $attributes = ["target" => "_blank"];
-            $url = Url::fromUri($this->fileUrlGenerator->generateAbsoluteString($target_media_entity->getFileUri()));
-            // $url->setOptions(array("attributes" => $attributes));
-            $type = str_replace("/", "-", $target_media_entity->getMimeType());
-            $basic = [
-              '#type' => 'link',
-              '#url' => $url,
-              '#attributes' => ["target" => "_blank"],
-              '#title' => $filename,
-            ];
-
-            $e["rendered"]["basic"] = $this->renderer->render($basic);
-            $e["raw"]["uri"] = $uri;
-            $e["raw"]["url"] = $url->toString();
-            $e["raw"]["filename"] = $filename;
-            $e["raw"]["size"] = $size;
-            $e["rendered"]["size"] = $this->boVarsHelper->formatBytes($size);
-            $e["raw"]["type"] = $type;
-            $e["raw"]["target"] = "_blank";
+            $e = $this->getFileData($file_entity);
 
             if ($cardinality == 1) {
               if (!empty($element)) {
@@ -661,172 +638,29 @@ class BoVars {
 
           // Regular image.
           case ($settings["handler"] == "default:file" && isset($settings["default_image"]));
+            /** @var File $file_entity */
+            if ($file = $this->entityTypeManager->getStorage("file")->load($item->target_id)) {
+              $e = $this->getImageData($file, 'bo_' . $this->imageStyleSize($entity), $item->alt);
 
-            $target_media_entity = $this->entityTypeManager->getStorage("file")->load($item->target_id);
+              if ($cardinality == 1) {
+                if (!empty($element)) {
+                  $element = array_merge($element, $e);
+                } else {
+                  $element = $e;
+                }
 
-            $uri = $target_media_entity->getFileUri();
-            $filename = $target_media_entity->getFileName();
-            $size = $target_media_entity->getSize();
-            $original_url = $this->fileUrlGenerator->generateAbsoluteString($target_media_entity->getFileUri());
-            $type = str_replace("/", "-", $target_media_entity->getMimeType());
-            $alt = $item->alt;
-
-            $optimized_url = "";
-            $style_name = 'bo_' . $this->imageStyleSize($entity);
-
-            $image_style = ImageStyle::load($style_name);
-            if ($image_style) {
-              $optimized_url = $image_style->buildUrl($uri);
-
-              $basic = [
-                '#theme' => 'image_style',
-                '#style_name' => $style_name,
-                '#alt' => $alt,
-                '#uri' => $uri,
-              ];
-              $e["rendered"]["basic"] = $this->renderer->render($basic);
-            }
-
-            $e['raw']['fid'] = $item->target_id;
-            $e['raw']['mid'] = $target_media_entity->id();
-            $e["raw"]["uri"] = $uri;
-            $e["raw"]["original_url"] = $original_url;
-            $e["raw"]["optimized_url"] = $optimized_url;
-            $e["raw"]["type"] = $type;
-            $e["raw"]["alt"] = $alt;
-            $e["raw"]["filename"] = $filename;
-            $e["raw"]["size"] = $size;
-            $e["rendered"]["size"] = $this->boVarsHelper->formatBytes($size);
-
-            if ($cardinality == 1) {
-              if (!empty($element)) {
-                $element = array_merge($element, $e);
+              } else {
+                $element['items'][$parent_key] = $e;
               }
-              else {
-                $element = $e;
-              }
-
-            }
-            else {
-              $element['items'][$parent_key] = $e;
             }
             break;
 
           // Media.
           case ($settings["handler"] == "default:media"):
 
-            $target_media_entity = $this->entityTypeManager->getStorage("media")->load($item->target_id);
-
-            if ($target_media_entity) {
-              $e["media_bundle"] = $target_media_entity->bundle();
-
-              $name = "";
-
-              if ($target_media_entity->bundle() == "remote_video") {
-                $url = Url::fromUri($target_media_entity->field_media_oembed_video->value);
-                $name = $target_media_entity->name->value;
-
-                $thumbnail_target_id = $target_media_entity->thumbnail->target_id;
-                $thumbnail = $this->entityTypeManager->getStorage("media")->load($thumbnail_target_id);
-                $this->smartValue($url->toString(), $e, $vars);
-              }
-
-              if ($target_media_entity->bundle() == "image") {
-
-                $uri = $target_media_entity->field_media_image->entity->getFileUri();
-                $original_url = $this->fileUrlGenerator->generateAbsoluteString($target_media_entity->field_media_image->entity->getFileUri());
-                $alt = $target_media_entity->field_media_image->alt;
-                $type = str_replace("/", "-", $target_media_entity->field_media_image->entity->getMimeType());
-                $filename = $target_media_entity->field_media_image->entity->getFileName();
-                $size = $target_media_entity->field_media_image->entity->getSize();
-
-                $optimized_url = "";
-                $style_name = 'bo_' . $this->imageStyleSize($entity);
-                $image_style = ImageStyle::load($style_name);
-                if ($image_style) {
-                  $optimized_url = $image_style->buildUrl($uri);
-
-                  $basic = [
-                    '#theme' => 'image_style',
-                    '#style_name' => $style_name,
-                    '#alt' => $alt,
-                    '#uri' => $uri,
-                  ];
-                  $e["rendered"]["basic"] = $this->renderer->render($basic);
-
-                  $display_options = [
-                    'label'    => 'hidden',
-                    'type'     => 'responsive_image',
-                    'settings' => [
-                      'responsive_image_style' => 'wide',
-                    ],
-                  ];
-
-                  // Get image, apply display options
-                  $image = $target_media_entity->get('field_media_image')->view($display_options);
-
-                  // Render
-                  $e["rendered"]["responsive"] = $this->renderer->render($image);
-                }
-
-                $e['raw']['fid'] = $target_media_entity->field_media_image->entity->id();
-                $e['raw']['mid'] = $target_media_entity->id();
-                $e["raw"]["uri"] = $uri;
-                $e["raw"]["original_url"] = $original_url;
-                $e["raw"]["optimized_url"] = $optimized_url;
-                $e["raw"]["type"] = $type;
-                $e["raw"]["alt"] = $alt;
-                $e["raw"]["filename"] = $filename;
-                $e["raw"]["size"] = $size;
-                $e["rendered"]["size"] = $this->boVarsHelper->formatBytes($size);
-              }
-
-              if ($target_media_entity->bundle() == "file" || $target_media_entity->bundle() == "document") {
-                $field = 'field_media_' . $target_media_entity->bundle();
-                if ($target_media_entity->{$field}->entity) {
-                  $file = $this->entityTypeManager->getStorage("file")->load($target_media_entity->{$field}->entity->id());
-                  $uri = $file->getFileUri();
-                  $filename = $file->getFileName();
-                  $name = $target_media_entity->get("name")->value;
-                  $size = $file->getSize();
-                  $attributes = ["target" => "_blank"];
-                  $url = Url::fromUri($this->fileUrlGenerator->generateAbsoluteString($uri));
-                  // $url->setOptions(array("attributes" => $attributes));
-                  $type = str_replace("/", "-", $file->getMimeType());
-                  $basic = [
-                    '#type' => 'link',
-                    '#url' => $url,
-                    '#attributes' => $attributes,
-                    '#title' => $name,
-                  ];
-
-                  $extended = [
-                    '#theme' => 'file_link',
-                    '#file' => $file,
-                  ];
-
-                  $e["rendered"]["basic"] = $this->renderer->render($basic);
-                  $e["rendered"]["extended"] = $this->renderer->render($extended);
-                  $e["raw"]["uri"] = $uri;
-                  $e["raw"]["name"] = $name;
-                  $e["raw"]["filename"] = $filename;
-                  $e["raw"]["size"] = $size;
-                  $e["rendered"]["size"] = $this->boVarsHelper->formatBytes($size);
-                  $e["raw"]["type"] = $type;
-                  $e["raw"]["target"] = "_blank";
-                }
-              }
-
-              $e["raw"]["name"] = $name;
-              $e["raw"]["url"] = $url->toString();
-
-              $target_media_fields = $target_media_entity->getFields();
-              foreach ($target_media_fields as $target_media_field_name => $field) {
-                if (substr($target_media_field_name, 0, 6) == 'field_' && $target_media_field_name != 'field_media_image') {
-                  $empty_array = [];
-                  $e[$target_media_field_name] = $this->processField($target_media_entity, $target_media_field_name, $vars, $level, $empty_array);
-                }
-              }
+            /** @var MediaInterface $media */
+            if ($media = $this->entityTypeManager->getStorage("media")->load($item->target_id)) {
+              $e = $this->getMediaData($media, 'bo_' . $this->imageStyleSize($entity), $level,  $vars);
 
               if ($cardinality == 1) {
                 if (!empty($element)) {
@@ -863,38 +697,282 @@ class BoVars {
     return $element;
   }
 
+
   /**
-   * @param $value
-   * @param $element
-   * @param $vars
+   * @param FileInterface $file_entity
+   * @return array
+   * @throws \Exception
    */
-  private function smartValue($value, &$element, &$vars) {
+  private function getFileData(FileInterface $file_entity) {
 
-    if (preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/", $value, $matches)) {
-      $element["type"] = "youtube_url";
-      $element['raw']["video_id"] = $matches[1];
+    $url = Url::fromUri($this->fileUrlGenerator->generateAbsoluteString($file_entity->getFileUri()));
+    $basic = [
+      '#type' => 'link',
+      '#url' => $url,
+      '#attributes' => ["target" => "_blank"],
+      '#title' => $file_entity->getFileName(),
+    ];
+
+    $e["rendered"]["basic"] = $this->renderer->render($basic);
+    $e["raw"]["uri"] = $file_entity->getFileUri();
+    $e["raw"]["url"] = $url->toString();
+    $e["raw"]["filename"] = $file_entity->getFileName();;
+    $e["raw"]["size"] =  $file_entity->getSize();
+    $e["rendered"]["size"] = $this->boVarsHelper->formatBytes($file_entity->getSize());
+    $e["raw"]["type"] = str_replace("/", "-", $file_entity->getMimeType());;
+    $e["raw"]["target"] = "_blank";
+
+    return $e;
+  }
+
+  /**
+   * @param FileInterface $file
+   * @param $style_name
+   * @param string $alt
+   * @return array
+   * @throws \Exception
+   */
+  private function getImageData(FileInterface $file, $style_name, $alt = '') {
+
+    $optimized_url = "";
+    $image_style = ImageStyle::load($style_name);
+    if ($image_style) {
+      $optimized_url = $image_style->buildUrl($file->getFileUri());
+
+      $basic = [
+        '#theme' => 'image_style',
+        '#style_name' => $style_name,
+        '#alt' => $alt,
+        '#uri' => $file->getFileUri(),
+      ];
+      $e["rendered"]["basic"] = $this->renderer->render($basic);
     }
 
-    if (preg_match("/(https?:\/\/)?(www\.)?(player\.)?vimeo\.com\/([a-z]*\/)*([0-9]{6,11})[?]?.*/", $value, $matches)) {
-      $element["type"] = "vimeo_url";
-      $element['raw']["video_id"] = $matches[5];
-    }
+    $e['raw']['fid'] = $file->id();
+    $e["raw"]["uri"] = $file->getFileUri();
+    $e["raw"]["original_url"] = $this->fileUrlGenerator->generateAbsoluteString($file->getFileUri());
+    $e["raw"]["optimized_url"] = $optimized_url;
+    $e["raw"]["type"] = str_replace("/", "-", $file->getMimeType());
+    $e["raw"]["alt"] = $alt;
+    $e["raw"]["filename"] = $file->getFileName();
+    $e["raw"]["size"] = $file->getSize();
+    $e["rendered"]["size"] = $this->boVarsHelper->formatBytes($file->getSize());
 
+    return $e;
+  }
 
-    if ($element["type"] == "youtube_url" ||
-      $element["type"] == "vimeo_url") {
-      if (!array_search("bo/bo_bundle_video", $vars["#attached"]["library"])) {
+  /**
+   * @param MediaInterface $media
+   * @param $style_name
+   * @param $level
+   * @param $vars
+   * @return array
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  private function getMediaData(MediaInterface $media, $style_name, $level, &$vars) {
+    $e["media_bundle"] = $media->bundle();
+
+    if ($media->bundle() == "remote_video") {
+      $url = Url::fromUri($media->field_media_oembed_video->value);
+      $e['name'] = $media->name->value;
+
+      $thumbnail_file = $this->entityTypeManager->getStorage("file")->load($media->thumbnail->target_id);
+      $e['thumbnail'] = $this->getImageData($thumbnail_file, $style_name);
+
+      switch (TRUE) {
+        case preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/", $url->toString(), $matches):
+          $e["type"] = "youtube_url";
+          $e['raw']["video_id"] = $matches[1];
+          break;
+        case preg_match("/(https?:\/\/)?(www\.)?(player\.)?vimeo\.com\/([a-z]*\/)*([0-9]{6,11})[?]?.*/", $url->toString(), $matches);
+          $e["type"] = "vimeo_url";
+          $e['raw']["video_id"] = $matches[5];
+          break;
+      }
+
+      if ($e["type"] == "youtube_url" ||
+        $e["type"] == "vimeo_url") {
         $vars["#attached"]["library"][] = "bo/bo_bundle_video";
       }
     }
 
+    if ($media->bundle() == "image") {
+      $uri = $media->field_media_image->entity->getFileUri();
+      $original_url = $this->fileUrlGenerator->generateAbsoluteString($media->field_media_image->entity->getFileUri());
+
+      $alt = $media->field_media_image->alt;
+      $type = str_replace("/", "-", $media->field_media_image->entity->getMimeType());
+      $filename = $media->field_media_image->entity->getFileName();
+      $size = $media->field_media_image->entity->getSize();
+
+      $optimized_url = "";
+      $image_style = ImageStyle::load($style_name);
+      if ($image_style) {
+        $optimized_url = $image_style->buildUrl($uri);
+
+        $basic = [
+          '#theme' => 'image_style',
+          '#style_name' => $style_name,
+          '#alt' => $alt,
+          '#uri' => $uri,
+        ];
+        $e["rendered"]["basic"] = $this->renderer->render($basic);
+
+        $display_options = [
+          'label'    => 'hidden',
+          'type'     => 'responsive_image',
+          'settings' => [
+            'responsive_image_style' => 'wide',
+          ],
+        ];
+
+        // Get image, apply display options
+        $image = $media->get('field_media_image')->view($display_options);
+
+        // Render
+        $e["rendered"]["responsive"] = $this->renderer->render($image);
+      }
+
+      $e['raw']['fid'] = $media->field_media_image->entity->id();
+      $e['raw']['mid'] = $media->id();
+      $e["raw"]["uri"] = $uri;
+      $e["raw"]["original_url"] = $original_url;
+      $e["raw"]["optimized_url"] = $optimized_url;
+      $e["raw"]["type"] = $type;
+      $e["raw"]["alt"] = $alt;
+      $e["raw"]["filename"] = $filename;
+      $e["raw"]["size"] = $size;
+      $e["rendered"]["size"] = $this->boVarsHelper->formatBytes($size);
+    }
+
+    if ($media->bundle() == "file" || $media->bundle() == "document") {
+      $field = 'field_media_' . $media->bundle();
+      if ($media->{$field}->entity) {
+        $file = $this->entityTypeManager->getStorage("file")->load($media->{$field}->entity->id());
+        $uri = $file->getFileUri();
+        $filename = $file->getFileName();
+        $name = $media->get("name")->value;
+        $size = $file->getSize();
+        $attributes = ["target" => "_blank"];
+        $url = Url::fromUri($this->fileUrlGenerator->generateAbsoluteString($uri));
+        // $url->setOptions(array("attributes" => $attributes));
+        $type = str_replace("/", "-", $file->getMimeType());
+        $basic = [
+          '#type' => 'link',
+          '#url' => $url,
+          '#attributes' => $attributes,
+          '#title' => $name,
+        ];
+
+        $extended = [
+          '#theme' => 'file_link',
+          '#file' => $file,
+        ];
+
+        $e["rendered"]["basic"] = $this->renderer->render($basic);
+        $e["rendered"]["extended"] = $this->renderer->render($extended);
+        $e["raw"]["uri"] = $uri;
+        $e["raw"]["name"] = $name;
+        $e["raw"]["filename"] = $filename;
+        $e["raw"]["size"] = $size;
+        $e["rendered"]["size"] = $this->boVarsHelper->formatBytes($size);
+        $e["raw"]["type"] = $type;
+        $e["raw"]["target"] = "_blank";
+      }
+    }
+
+    /*
+    $e["raw"]["name"] = $name;
+    $e["raw"]["url"] = $url->toString();
+    */
+
+    $target_media_fields = $media->getFields();
+    foreach ($target_media_fields as $target_media_field_name => $field) {
+      if (substr($target_media_field_name, 0, 6) == 'field_' && $target_media_field_name != 'field_media_image') {
+        $empty_array = [];
+        $e[$target_media_field_name] = $this->processField($media, $target_media_field_name, $vars, $level, $empty_array);
+      }
+    }
+
+    return $e;
+  }
+
+  /**
+   * @param $content
+   * @param EntityInterface $entity
+   * @param $level
+   * @param $vars
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  private function replaceDrupalMedia(&$content, EntityInterface $entity, $level, &$vars) {
+    if (strpos($content, 'drupal-media')) {
+      $doc = new \DOMDocument();
+      $doc->loadHTML(mb_convert_encoding($content, "HTML-ENTITIES", "UTF-8"), LIBXML_HTML_NODEFDTD);
+
+      /** @var \DOMNodeList $drupal_media */
+      $drupal_media = $doc->getElementsByTagName('drupal-media');
+      while ($drupal_media->length) {
+        $drupal_media_item = $drupal_media->item(0);
+
+        $entity_type = $drupal_media_item->getAttribute('data-entity-type');
+        if ($entity_type == 'media') {
+          // Get the link entity by the UUID.
+          $align = $drupal_media_item->getAttribute('data-align');
+          $media_uuid = $drupal_media_item->getAttribute('data-entity-uuid');
+          if ($media_uuid != '') {
+            // Search for the link entity by the UUID.
+            $media = \Drupal::entityTypeManager()
+              ->getStorage('media')
+              ->loadByProperties(['uuid' => $media_uuid]);
+
+            /** @var Media $media */
+            $media = reset($media);
+            if ($media) {
+              $media_data = $this->getMediaData($media, 'bo_' . $this->imageStyleSize($entity, $align), $level, $vars);
+              $media_data['align'] = $align;
+
+              $renderable = [
+                '#theme' => 'bo__' . $entity->bundle() . '__media',
+                '#bo' => [
+                  'media' => $media_data,
+                ],
+              ];
+
+              /** @var Renderer $renderer */
+              $renderer = \Drupal::service('renderer');
+              $rendered = $renderer->render($renderable);
+
+              $fragment = $doc->createDocumentFragment();
+              $fragment->appendXML($this->boVarsHelper->removeHtmlComments($rendered));
+
+              $drupal_media_item->parentNode->replaceChild($fragment, $drupal_media_item);
+            }
+          }
+        }
+      }
+
+      $content = strtr($doc->saveHTML(), [
+        '<html>' => '',
+        '</html>' => '',
+        '<body>' => '',
+        '</body>' => '',
+      ]);
+
+      $content = Markup::create($content);
+    }
   }
 
   /**
    * @param EntityInterface $entity
    * @return int
    */
-  private function imageStyleSize(EntityInterface $entity) {
+  private function imageStyleSize(EntityInterface $entity, $align = '') {
+    if ($align == 'left' || $align == 'right') {
+      return 6;
+    }
+
     $image_style_size = 12;
     if ($entity->getEntityType()->id() == "bo") {
       $image_style_size = $entity->getSize();

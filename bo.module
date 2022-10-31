@@ -54,6 +54,13 @@ function bo_theme() {
 
   foreach($bundles as $bundle) {
     add_views_view_field_bo_suggestion_to_templates($bundle->id(), $theme, $templates);
+
+    $templates['bo__' . $bundle->id() . '__media'] = [
+      'template' => 'bo--' . $bundle->id() . '--media',
+      'variables' => [
+        'bo' => [],
+      ],
+    ];
   }
 
   $templates["views_view_bo_bootstrap_grid"] = [

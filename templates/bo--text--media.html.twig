@@ -1,0 +1,39 @@
+{% if bo.media.media_bundle == 'image' %}
+    <div class="image-container bo-image-{{ bo.media.align }}">
+        <img src="{{ bo.media.raw.optimized_url }}" />
+        {% if bo.media.field_copyright.raw.value %}
+            <label>© {{ bo.media.field_copyright.raw.value }}</label>
+        {% endif %}
+    </div>
+{% endif %}
+
+{% if bo.media.media_bundle == 'remote_video' %}
+    <div class="video-container">
+        {% if bo.media.type == "youtube_url" %}
+            <iframe width="560" height="349" src="https://www.youtube.com/embed/{{ bo.media.raw.video_id }}" frameborder="0"></iframe>
+        {% endif %}
+
+        {% if bo.media.type == "vimeo_url" %}
+            <iframe title="vimeo-player" src="https://player.vimeo.com/video/{{ bo.media.raw.video_id }}" width="640" height="360" frameborder="0" allowfullscreen></iframe>
+        {% endif %}
+    </div>
+    {{ attach_library('bo/bo_bundle_video') }}
+    {{ attach_library('planboommarter/video') }}
+{% endif %}
+
+{% if bo.media.media_bundle == 'document' %}
+    <div class="cid-tlEi7k4wmY bo-document">
+        <div class="item">
+            <div class="mbr-section-btn item-footer">
+                <a target="_blank" href="{{ bo.media.field_media_document.raw.url }}" class="btn btn-primary item-btn display-7">
+                    <span class="mobi-mbri mobi-mbri-download-2 mbr-iconfont"></span>
+                    Download
+                </a>
+            </div>
+            <span><strong><a target="_blank" href="{{ bo.media.field_media_document.raw.url }}">{{ bo.media.raw.name }}</a></strong></span>
+        </div>
+    </div>
+    {{ attach_library('planboommarter/document') }}
+{% endif %}
+
+{{ attach_library('planboommarter/text_media') }}
