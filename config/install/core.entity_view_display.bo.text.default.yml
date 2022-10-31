@@ -5,6 +5,7 @@ dependencies:
   config:
     - bo.bundle.text
     - field.field.bo.text.field_column_count
+    - field.field.bo.text.field_only_text
     - field.field.bo.text.field_show_in_columns
     - field.field.bo.text.field_text
   module:
@@ -23,6 +24,16 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 8
+    region: content
+  field_only_text:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 9
     region: content
   field_show_in_columns:
     type: boolean

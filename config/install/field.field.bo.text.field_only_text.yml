@@ -1,0 +1,23 @@
+uuid: dfdf5c18-7fe9-483f-adec-f0a3dc3b7504
+langcode: nl
+status: true
+dependencies:
+  config:
+    - bo.bundle.text
+    - field.storage.bo.field_only_text
+id: bo.text.field_only_text
+field_name: field_only_text
+entity_type: bo
+bundle: text
+label: 'Only text in columns'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

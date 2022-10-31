@@ -1,0 +1,18 @@
+uuid: ea4321ad-331d-4b30-acab-e564afda5144
+langcode: nl
+status: true
+dependencies:
+  module:
+    - bo
+id: bo.field_only_text
+field_name: field_only_text
+entity_type: bo
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
