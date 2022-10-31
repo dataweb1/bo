@@ -1,11 +1,17 @@
 {{ help }}
-
 {% if bo.field_show_in_columns.raw.value == 1 %}
-  <div class="bo-columns bo-columns-{{ bo.field_column_count.raw.value }}">
-    {{ bo.field_text.raw.value }}
-  </div>
-{% else %}
-  {{ bo.field_text.raw.value }}
+  {% set columns_setting = 'columns-all-content' %}
+  {% if bo.field_only_text == 1 %}
+    {% set columns_setting = 'columns-only-text' %}
+  {% endif %}
 {% endif %}
-
+<div class="bo-text bo-size-{{ bo.size }} {{ columns_setting }}">
+  {% if bo.field_show_in_columns.raw.value == 1 %}
+    <div class="bo-columns bo-columns-{{ bo.field_column_count.raw.value }}">
+      {{ bo.field_text.raw.value }}
+    </div>
+  {% else %}
+    {{ bo.field_text.raw.value }}
+  {% endif %}
+</div>
 {{ attach_library('bo/bundle_text') }}
