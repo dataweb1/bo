@@ -64,27 +64,32 @@ class BoHelp {
     $help .= '<table>';
     $help .= "<tr><th>" . $this->t("Field name") . "</th><th>" . $this->t("twig variable") . "</th><th>" . $this->t("output") . "</th></tr>";
 
-    foreach ($variables as $fieldName => $field) {
+    foreach ($variables as $fieldName => $value) {
       if (substr($fieldName, 0, 1) != '#') {
-        if (is_int($field) || is_string($field)) {
-          $help .= "<tr>";
-          $help .= "<td>";
-
-          $help .= $fieldName;
-
-          $help .= "</td>";
-
-          $twigFieldName = "{{&nbsp;bo." . $fieldName . "&nbsp;}}";
-
-          $help .= '<td><code class="copy" data-clipboard-action="copy" data-clipboard-text="' . str_replace("&nbsp;", " ", $twigFieldName) . '">' . $twigFieldName . "</code></td>";
-          $help .= "<td>" . htmlentities($this->boVarsHelper->removeHtmlComments($field)) . "</td>";
-
-          $help .= "</tr>";
+        if (is_array($value)) {
+          $keys = [];
+          $this->helpRow($fieldName, $value, $keys, $help);
         }
         else {
-          $this->helpRow($fieldName, $field, $keys, $help);
+          if (is_int($value) || is_string($value)) {
+            $help .= "<tr>";
+            $help .= "<td>";
+
+            $help .= $fieldName;
+
+            $help .= "</td>";
+
+            $twigFieldName = "{{&nbsp;bo." . $fieldName . "&nbsp;}}";
+
+            $help .= '<td><code class="copy" data-clipboard-action="copy" data-clipboard-text="' . str_replace("&nbsp;", " ", $twigFieldName) . '">' . $twigFieldName . "</code></td>";
+            $help .= "<td>" . htmlentities($this->boVarsHelper->removeHtmlComments($value)) . "</td>";
+
+            $help .= "</tr>";
+          } else {
+            $this->helpRow($fieldName, $value, $keys, $help);
+          }
         }
-        $keys = [];
+
       }
     }
 
@@ -104,12 +109,17 @@ class BoHelp {
    * @param $keys
    * @param $help
    */
-  private function helpRow($fieldName, $field, $keys, &$help) {
-
+  private function helpRow($fieldName, $field, &$keys, &$help) {
     foreach ($field as $key => $value) {
       $keys[] = $key;
       if (substr($key, 0, 1) != '#') {
-        if (is_string($value)) {
+        if ($value instanceof Markup) {
+          $value = $value->__toString();
+        }
+        if (is_array($value)) {
+          $this->helpRow($fieldName, $value, $keys, $help);
+        }
+        else {
           $help .= "<tr>";
           $help .= "<td>";
           $help .= $fieldName;
@@ -125,10 +135,8 @@ class BoHelp {
           $help .= "<td>" . htmlentities($this->boVarsHelper->removeHtmlComments($value)) . "</td>";
           $help .= "</tr>";
         }
-        else {
-          $this->helpRow($fieldName, $value, $keys, $help);
-        }
         array_pop($keys);
+
       }
     }
   }
