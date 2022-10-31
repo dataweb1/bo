@@ -1,6 +1,7 @@
 .node-entity,
 .bo-entity {
   position: relative;
+  height: 100%;
 }
 
 .bo-overview {
