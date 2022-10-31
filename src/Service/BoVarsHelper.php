@@ -59,24 +59,26 @@ class BoVarsHelper {
    * @param \Drupal\Core\Template\Attribute $attributes
    */
   public function addAttributesToElement(&$content, array $elements, Attribute $attributes) {
-    $doc=new \DOMDocument();
-    $doc->loadHTML(mb_convert_encoding($content, "HTML-ENTITIES", "UTF-8"), LIBXML_HTML_NODEFDTD);
-    if ($xml=\simplexml_import_dom($doc)) { // just to make xpath more simple
-      foreach ($elements as $element) {
-        /** @var \DOMNodeList $content_elements */
-        $content_elements = $doc->getElementsByTagName($element);
-        /** @var \DOMNode $content_element */
-        foreach ($content_elements as $content_element) {
-          foreach ($attributes->toArray() as $attribute_key => $attribute_values) {
-            foreach($attribute_values as $attribute_value) {
-              $existing_values = $content_element->getAttribute($attribute_key) ? $content_element->getAttribute($attribute_key) : "";
-              $content_element->setAttribute($attribute_key, $attribute_value . ' ' .$existing_values);
+    if ($content != '') {
+      $doc = new \DOMDocument();
+      $doc->loadHTML(mb_convert_encoding($content, "HTML-ENTITIES", "UTF-8"), LIBXML_HTML_NODEFDTD);
+      if ($xml = \simplexml_import_dom($doc)) { // just to make xpath more simple
+        foreach ($elements as $element) {
+          /** @var \DOMNodeList $content_elements */
+          $content_elements = $doc->getElementsByTagName($element);
+          /** @var \DOMNode $content_element */
+          foreach ($content_elements as $content_element) {
+            foreach ($attributes->toArray() as $attribute_key => $attribute_values) {
+              foreach ($attribute_values as $attribute_value) {
+                $existing_values = $content_element->getAttribute($attribute_key) ? $content_element->getAttribute($attribute_key) : "";
+                $content_element->setAttribute($attribute_key, $attribute_value . ' ' . $existing_values);
+              }
             }
           }
         }
       }
+      $content = Markup::create($doc->saveHTML());
     }
-    $content = Markup::create($doc->saveHTML());
   }
 
   /**

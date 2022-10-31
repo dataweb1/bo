@@ -350,11 +350,13 @@ class BoCollection {
   public function getEnabledBundles($collection_id) {
     $enabled_bundles = [];
     foreach ($this->boBundle->getSortedBundles() as $typed_bundles) {
-      foreach ($typed_bundles as $grouped_bundles) {
-        /** @var \Drupal\bo\Entity\BoBundle $bundle */
-        foreach ($grouped_bundles as $bundle) {
-          if ($this->isEnabledBundle($collection_id, $bundle)) {
-            $enabled_bundles[] = $bundle;
+      if (in_array($typed_bundles)) {
+        foreach ($typed_bundles as $grouped_bundles) {
+          /** @var \Drupal\bo\Entity\BoBundle $bundle */
+          foreach ($grouped_bundles as $bundle) {
+            if ($this->isEnabledBundle($collection_id, $bundle)) {
+              $enabled_bundles[] = $bundle;
+            }
           }
         }
       }

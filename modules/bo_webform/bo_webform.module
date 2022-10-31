@@ -23,7 +23,7 @@ function bo_webform_preprocess_views_view_field_bo(array &$vars) {
   $renderer = \Drupal::service('renderer');
 
   foreach ($vars['bo'] as $delta => $element) {
-    if ($element['entity_type'] == 'webform') {
+    if (is_array($element) && array_key_exists('entity_type', $element) && $element['entity_type'] == 'webform') {
       $form = [
         '#lazy_builder' => [
           '\Drupal\bo_webform\WebformLazyBuilder::buildWebform',

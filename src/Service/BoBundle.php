@@ -53,10 +53,12 @@ class BoBundle {
     foreach ($bundles as $bundle) {
       $w = $bundle->getWeight();
       // Fix a possible duplicate weight by incrementing until a unique one if founds.
-      while (array_key_exists($w, $this->sortedBundles[$bundle->getType()][$bundle->getGroup()])) {
-        $w++;
+      if (array_key_exists($bundle->getType(), $this->sortedBundles)) {
+        while (array_key_exists($w, $this->sortedBundles[$bundle->getType()][$bundle->getGroup()])) {
+          $w++;
+        }
+        $this->sortedBundles[$bundle->getType()][$bundle->getGroup()][$w] = $bundle;
       }
-      $this->sortedBundles[$bundle->getType()][$bundle->getGroup()][$w] = $bundle;
     }
 
     foreach ($this->getBundleTypes() as $type) {

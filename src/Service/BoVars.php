@@ -11,10 +11,8 @@ use Drupal\Core\Render\Markup;
 use Drupal\Core\Render\Renderer;
 use Drupal\Core\Url;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
-use Drupal\file\Entity\File;
 use Drupal\file\FileInterface;
 use Drupal\image\Entity\ImageStyle;
-use Drupal\media\Entity\Media;
 use Drupal\media\MediaInterface;
 use Drupal\views\Plugin\views\display\DisplayPluginBase;
 use Drupal\views\ResultRow;
@@ -68,10 +66,10 @@ class BoVars {
   private BoVarsHelper $boVarsHelper;
 
   /**
-   * @param Renderer $renderer
-   * @param FileUrlGenerator $fileUrlGenerator
-   * @param EntityFieldManager $entityFieldManager
-   * @param EntityTypeManager $entityTypeManager
+   * @param \Drupal\Core\Render\Renderer $renderer
+   * @param \Drupal\Core\File\FileUrlGenerator $fileUrlGenerator
+   * @param \Drupal\Core\Entity\EntityFieldManager $entityFieldManager
+   * @param \Drupal\Core\Entity\EntityTypeManager $entityTypeManager
    * @param BoBundle $boBundle
    * @param BoCollection $boCollection
    * @param BoHelp $boHelp
@@ -270,8 +268,6 @@ class BoVars {
       }
     }
 
-
-
     return $data;
   }
 
@@ -310,7 +306,7 @@ class BoVars {
   }
 
   /**
-   * @param EntityInterface $entity
+   * @param \Drupal\Core\Entity\EntityInterface $entity
    * @param $field_name
    * @param $vars
    * @param int $level
@@ -354,7 +350,7 @@ class BoVars {
   }
 
   /**
-   * @param EntityInterface $entity
+   * @param \Drupal\Core\Entity\EntityInterface $entity
    * @param $field_name
    * @param $vars
    * @param $element
@@ -399,12 +395,11 @@ class BoVars {
       $e["raw"]["url"] = $url_string;
       $e["raw"]["title"] = $title;
       foreach ($attributes as $attribute_key => $attribute_value) {
-        $e['raw'][$attribute_key] = implode(' ', $attribute_value);
+        $e['raw'][$attribute_key] = implode(' ', (array) $attribute_value);
       }
       $e["raw"]["target"] = $target;
 
-      //$this->smartValue($url_string, $e, $vars);
-
+      // $this->smartValue($url_string, $e, $vars);
       if ($cardinality == 1) {
         if (!empty($element)) {
           $element = array_merge($element, $e);
@@ -423,7 +418,7 @@ class BoVars {
   }
 
   /**
-   * @param EntityInterface $entity
+   * @param \Drupal\Core\Entity\EntityInterface $entity
    * @param $field_name
    * @param $vars
    * @param $element
@@ -458,7 +453,7 @@ class BoVars {
   }
 
   /**
-   * @param EntityInterface $entity
+   * @param \Drupal\Core\Entity\EntityInterface $entity
    * @param $field_name
    * @param $vars
    * @param $element
@@ -469,7 +464,6 @@ class BoVars {
     $cardinality = $entity->getFieldDefinition($field_name)->getFieldStorageDefinition()->getCardinality();
 
     foreach ($entity->get($field_name) as $key => $item) {
-      $cardinality = $entity->getFieldDefinition($field_name)->getFieldStorageDefinition()->getCardinality();
       $raw = $item->name;
       $raw_markup = Markup::create($raw);
 
@@ -494,7 +488,7 @@ class BoVars {
   }
 
   /**
-   * @param EntityInterface $entity
+   * @param \Drupal\Core\Entity\EntityInterface $entity
    * @param $field_name
    * @param $vars
    * @param $element
@@ -524,7 +518,7 @@ class BoVars {
         $e["raw"]["value"] = $raw_markup->__toString();
       }
 
-      //$this->smartValue($item->value, $e, $vars);
+      // $this->smartValue($item->value, $e, $vars);
       $this->replaceDrupalMedia($e["raw"]["value"], $entity, $level, $vars);
       if ($cardinality == 1) {
 
@@ -551,7 +545,7 @@ class BoVars {
   }
 
   /**
-   * @param EntityInterface $entity
+   * @param \Drupal\Core\Entity\EntityInterface $entity
    * @param $field_name
    * @param $vars
    * @param $element
@@ -608,8 +602,10 @@ class BoVars {
                 $field_name_2 == "changed" ||
                 $field_name_2 == "body" ||
                 substr($field_name_2, 0, 6) == "field_") {
-                $r[$field_name_2] = (array) $r[$field_name_2];
-                $r[$field_name_2] = $this->processField($target_entity, $field_name_2, $vars, $level,$r[$field_name_2]);
+                if (!array_key_exists($field_name_2, $r)) {
+                  $r[$field_name_2] = [];
+                }
+                $r[$field_name_2] = $this->processField($target_entity, $field_name_2, $vars, $level, $r[$field_name_2]);
               }
             }
 
@@ -617,39 +613,39 @@ class BoVars {
 
           // Regular file.
           case ($settings["handler"] == "default:file" && !isset($settings["default_image"])):
+            if ($file_entity = $this->entityTypeManager->getStorage("file")->load($item->target_id)) {
+              $e = $this->getFileData($file_entity);
+              if ($cardinality == 1) {
+                if (!empty($element)) {
+                  $element = array_merge($element, $e);
+                }
+                else {
+                  $element = $e;
+                }
 
-            $file_entity = $this->entityTypeManager->getStorage("file")->load($item->target_id);
-
-            $e = $this->getFileData($file_entity);
-
-            if ($cardinality == 1) {
-              if (!empty($element)) {
-                $element = array_merge($element, $e);
               }
               else {
-                $element = $e;
+                $element['items'][$parent_key] = $e;
               }
-
-            }
-            else {
-              $element['items'][$parent_key] = $e;
             }
             break;
 
           // Regular image.
           case ($settings["handler"] == "default:file" && isset($settings["default_image"]));
-            /** @var File $file_entity */
+            /** @var \Drupal\file\Entity\File $file_entity */
             if ($file = $this->entityTypeManager->getStorage("file")->load($item->target_id)) {
               $e = $this->getImageData($file, 'bo_' . $this->imageStyleSize($entity), $item->alt);
 
               if ($cardinality == 1) {
                 if (!empty($element)) {
                   $element = array_merge($element, $e);
-                } else {
+                }
+                else {
                   $element = $e;
                 }
 
-              } else {
+              }
+              else {
                 $element['items'][$parent_key] = $e;
               }
             }
@@ -658,9 +654,9 @@ class BoVars {
           // Media.
           case ($settings["handler"] == "default:media"):
 
-            /** @var MediaInterface $media */
+            /** @var \Drupal\media\Entity\MediaInterface $media */
             if ($media = $this->entityTypeManager->getStorage("media")->load($item->target_id)) {
-              $e = $this->getMediaData($media, 'bo_' . $this->imageStyleSize($entity), $level,  $vars);
+              $e = $this->getMediaData($media, 'bo_' . $this->imageStyleSize($entity), $level, $vars);
 
               if ($cardinality == 1) {
                 if (!empty($element)) {
@@ -692,14 +688,13 @@ class BoVars {
       }
     }
 
-    $vars["#cache"]["tags"][] = $entity->getEntityType()->id().':'.$entity->id();
+    $vars["#cache"]["tags"][] = $entity->getEntityType()->id() . ':' . $entity->id();
 
     return $element;
   }
 
-
   /**
-   * @param FileInterface $file_entity
+   * @param \Drupal\file\Entity\FileInterface $file_entity
    * @return array
    * @throws \Exception
    */
@@ -716,17 +711,19 @@ class BoVars {
     $e["rendered"]["basic"] = $this->renderer->render($basic);
     $e["raw"]["uri"] = $file_entity->getFileUri();
     $e["raw"]["url"] = $url->toString();
-    $e["raw"]["filename"] = $file_entity->getFileName();;
-    $e["raw"]["size"] =  $file_entity->getSize();
+    $e["raw"]["filename"] = $file_entity->getFileName();
+    ;
+    $e["raw"]["size"] = $file_entity->getSize();
     $e["rendered"]["size"] = $this->boVarsHelper->formatBytes($file_entity->getSize());
-    $e["raw"]["type"] = str_replace("/", "-", $file_entity->getMimeType());;
+    $e["raw"]["type"] = str_replace("/", "-", $file_entity->getMimeType());
+    ;
     $e["raw"]["target"] = "_blank";
 
     return $e;
   }
 
   /**
-   * @param FileInterface $file
+   * @param \Drupal\file\Entity\FileInterface $file
    * @param $style_name
    * @param string $alt
    * @return array
@@ -762,7 +759,7 @@ class BoVars {
   }
 
   /**
-   * @param MediaInterface $media
+   * @param \Drupal\media\Entity\MediaInterface $media
    * @param $style_name
    * @param $level
    * @param $vars
@@ -785,6 +782,7 @@ class BoVars {
           $e["type"] = "youtube_url";
           $e['raw']["video_id"] = $matches[1];
           break;
+
         case preg_match("/(https?:\/\/)?(www\.)?(player\.)?vimeo\.com\/([a-z]*\/)*([0-9]{6,11})[?]?.*/", $url->toString(), $matches);
           $e["type"] = "vimeo_url";
           $e['raw']["video_id"] = $matches[5];
@@ -827,10 +825,10 @@ class BoVars {
           ],
         ];
 
-        // Get image, apply display options
+        // Get image, apply display options.
         $image = $media->get('field_media_image')->view($display_options);
 
-        // Render
+        // Render.
         $e["rendered"]["responsive"] = $this->renderer->render($image);
       }
 
@@ -885,7 +883,7 @@ class BoVars {
     /*
     $e["raw"]["name"] = $name;
     $e["raw"]["url"] = $url->toString();
-    */
+     */
 
     $target_media_fields = $media->getFields();
     foreach ($target_media_fields as $target_media_field_name => $field) {
@@ -900,7 +898,7 @@ class BoVars {
 
   /**
    * @param $content
-   * @param EntityInterface $entity
+   * @param \Drupal\Core\Entity\EntityInterface $entity
    * @param $level
    * @param $vars
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
@@ -927,7 +925,7 @@ class BoVars {
               ->getStorage('media')
               ->loadByProperties(['uuid' => $media_uuid]);
 
-            /** @var Media $media */
+            /** @var \Drupal\media\Entity\Media $media */
             $media = reset($media);
             if ($media) {
               $media_data = $this->getMediaData($media, 'bo_' . $this->imageStyleSize($entity, $align), $level, $vars);
@@ -940,7 +938,7 @@ class BoVars {
                 ],
               ];
 
-              /** @var Renderer $renderer */
+              /** @var \Drupal\Core\Render\Renderer $renderer */
               $renderer = \Drupal::service('renderer');
               $rendered = $renderer->render($renderable);
 
@@ -965,7 +963,7 @@ class BoVars {
   }
 
   /**
-   * @param EntityInterface $entity
+   * @param \Drupal\Core\Entity\EntityInterface $entity
    * @return int
    */
   private function imageStyleSize(EntityInterface $entity, $align = '') {
@@ -980,4 +978,5 @@ class BoVars {
 
     return $image_style_size;
   }
+
 }
