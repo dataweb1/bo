@@ -698,7 +698,7 @@ class BoVars {
    * @return array
    * @throws \Exception
    */
-  private function getFileData(FileInterface $file_entity) {
+  public function getFileData(FileInterface $file_entity) {
 
     $url = Url::fromUri($this->fileUrlGenerator->generateAbsoluteString($file_entity->getFileUri()));
     $basic = [
@@ -729,7 +729,7 @@ class BoVars {
    * @return array
    * @throws \Exception
    */
-  private function getImageData(FileInterface $file, $style_name, $alt = '') {
+  public function getImageData(FileInterface $file, $style_name, $alt = '') {
 
     $optimized_url = "";
     $image_style = ImageStyle::load($style_name);
@@ -767,7 +767,7 @@ class BoVars {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  private function getMediaData(MediaInterface $media, $style_name, $level, &$vars) {
+  public function getMediaData(MediaInterface $media, $style_name, $level = 0, &$vars = []) {
     $e["media_bundle"] = $media->bundle();
 
     if ($media->bundle() == "remote_video") {
@@ -904,7 +904,7 @@ class BoVars {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  private function replaceDrupalMedia(&$content, EntityInterface $entity, $level, &$vars) {
+  private function replaceDrupalMedia(&$content, EntityInterface $entity, $level = 0, &$vars = []) {
     if (strpos($content, 'drupal-media')) {
       $doc = new \DOMDocument();
       $doc->loadHTML(mb_convert_encoding($content, "HTML-ENTITIES", "UTF-8"), LIBXML_HTML_NODEFDTD);
