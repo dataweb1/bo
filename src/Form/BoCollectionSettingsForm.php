@@ -382,7 +382,7 @@ class BoCollectionSettingsForm extends ConfigFormBase {
     ];
 
     // Collection options > ignore_current_path.
-    $default_disable_size = $this->current_options['default_disable_size'] ?? '';
+    $default_disable_size = $this->current_options['disable_size'] ?? '';
     if ($this->via == 'view' && (string) $default_disable_size == '') {
       $default_disable_size = $this->boCollection->getDisableSize($this->collection_id);
     }
