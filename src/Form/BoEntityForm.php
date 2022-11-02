@@ -93,14 +93,15 @@ class BoEntityForm extends ContentEntityForm {
       if ($this->boCollection->getCollectionMaxElementCount($collection_id) <> 1) {
         $form['position'] = [
           '#type' => 'radios',
-          '#title' => $this->t('Insert position'),
-          '#default_value' => 'bottom',
+          '#title' => $this->t('Position to add'),
+          '#default_value' => 'as_last',
           '#options' => [
-            "top" => $this->t("Top"),
-            "bottom" => $this->t('Bottom'),
+            "as_first" => $this->t("as first"),
+            "as_last" => $this->t('as last'),
           ],
-          '#description' => $this->t('Where to add the element in the overview'),
+          '#description' => $this->t('Position to add the new element.'),
           '#attributes' => ["class" => ["radio-button-group"]],
+          '#weight' => -10,
         ];
       }
     }
@@ -228,7 +229,7 @@ class BoEntityForm extends ContentEntityForm {
           case 'entity.bo.add_form':
 
             $position = $form_state->getValue("position");
-            if ($position == "bottom" || $position == "") {
+            if ($position == "as_last" || $position == "") {
               $last_row = end($view->result);
               if (!is_null($last_row->_entity)) {
                 $last_weight = $last_row->_entity->getWeight();

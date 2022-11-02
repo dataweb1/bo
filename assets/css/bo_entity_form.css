@@ -70,13 +70,13 @@ fieldset.radio-button-group .fieldset-wrapper .form-item label:before {
     font-size: 1.2rem;
 }
 
-label[for="edit-position-top"]:after {
+label[for="edit-position-as-first"]:after {
     content: "\f3be";
     font-family: "Font Awesome\ 5 Free";
   font-weight: 900;
 }
 
-label[for="edit-position-bottom"]:after {
+label[for="edit-position-as-last"]:after {
     content: "\f3bf";
     font-family: "Font Awesome\ 5 Free";
   font-weight: 900;
