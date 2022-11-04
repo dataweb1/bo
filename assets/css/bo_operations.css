@@ -48,66 +48,41 @@
   box-shadow: 0 2px 0 rgba(0,0,0,.2) inset;
 }
 
-/*
-.bo-operations li > span:before,
-.bo-operations > a:before {
-  height: 16px;
-  width: 16px;
-  background-size: 16px 16px;
-  display: inline-block;
-  content: "";
-}
-*/
-
-.bo-operations .bo-operation-edit:before {
-  /*background-image: url('../img/gear.png');*/
+.bo-operations .bo-operation-edit:before,
+.bo-operations .bo-operation-delete:before,
+.bo-operations .bo-operation-translate:before,
+.bo-operations .bo-operation-gear:before,
+.bo-operations .bo-operation-reorder:before,
+.bo-operations .bo-operation-add:before,
+.bo-operations .bo-operation-insert:before {
   font-family: "Font Awesome 5 Free";
   font-size: 18px;
-  content: "\f303";
   font-weight: 900;
+}
+
+.bo-operations .bo-operation-edit:before {
+  content: "\f303";
 }
 
 .bo-operations .bo-operation-delete:before {
-  /*background-image: url('../img/gear.png');*/
-  font-family: "Font Awesome 5 Free";
-  font-size: 18px;
   content: "\f2ed";
-  font-weight: 900;
 }
 
 .bo-operations .bo-operation-translate:before {
-  /*background-image: url('../img/gear.png');*/
-  font-family: "Font Awesome 5 Free";
-  font-size: 18px;
   content: "\f0ac";
-  font-weight: 900;
 }
 
 .bo-operations .bo-operation-gear:before {
-  /*background-image: url('../img/gear.png');*/
-  font-family: "Font Awesome 5 Free";
-  font-size: 18px;
   content: "\f013";
-  font-weight: 900;
 }
 
 .bo-operations .bo-operation-reorder:before {
-  /*background-image: url('../img/updown.png');*/
-  font-family: "Font Awesome 5 Free";
-  font-size: 18px;
   content: "\f0dc";
-  font-weight: 900;
 }
-
-
 
 .bo-operations .bo-operation-add:before,
 .bo-operations .bo-operation-insert:before {
-  /*background-image: url('../img/plus.png');*/
-  font-family: "Font Awesome 5 Free";
-  font-size: 18px;
   content: "\f067";
-  font-weight: 900;
 }
 
 .bo-operation-help {
