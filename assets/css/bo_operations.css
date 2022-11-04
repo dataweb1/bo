@@ -157,6 +157,21 @@
   height: 2.3rem;
   font-size: 1rem;
 }
+.bo-operations.bo-small-operations li {
+  margin-right: .2rem;
+}
+
+.bo-operations.bo-small-operations li .no-link,
+.bo-operations.bo-small-operations li a {
+  padding: 0 0.3rem 0 .3rem!important;
+  font-size: .8rem;
+  height: 1.7rem;
+}
+
+.bo-operations.bo-small-operations li a:before {
+  font-size: 14px;
+}
+
 
 .bo-operations li .no-link {
   border: 2px solid transparent!important;
@@ -185,6 +200,12 @@
   margin-left: .5rem;
   font-weight: normal;
 }
+
+.bo-operations.bo-small-operations li .no-link span,
+.bo-operations.bo-small-operations li a span {
+  margin-left: .2rem;
+}
+
 .bo-operations li .no-icon span {
   margin-left: 0;
 }
@@ -192,6 +213,11 @@
 .bo-operations li .no-link span {
   padding-left: .5rem;
   padding-right: .5rem;
+}
+
+.bo-operations.bo-small-operations li .no-link span {
+  padding-left: .2rem;
+  padding-right: .2rem;
 }
 
 .bo-operations li .ajax-progress {
@@ -404,6 +430,10 @@ ul.bo-add-multi-content li a:before {
   padding: 5px;
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.bo-insert-operations li a span {
+  display: none;
 }
 
 /*

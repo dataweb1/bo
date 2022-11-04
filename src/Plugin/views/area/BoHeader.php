@@ -147,12 +147,20 @@ class BoHeader extends AreaPluginBase {
       // Render all.
       $html_header = '';
       if (count($links) > 0) {
+
+        $operations_size = 'big';
+        if ($this->boCollection->getSmallOperations($collection_id)) {
+          $operations_size = 'small';
+        }
+
         $attributes = [
           'class' => [
             'bo-header-operations',
             'bo-operations',
+            'bo-' . $operations_size . '-operations',
           ],
         ];
+
         $bo_header_operations = [
           '#theme' => 'bo_header_operations_item_list',
           '#items' => $links,

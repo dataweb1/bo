@@ -394,6 +394,19 @@ class BoCollectionSettingsForm extends ConfigFormBase {
       '#default_value' => $default_disable_size,
     ];
 
+    // Collection options > ignore_current_path.
+    $default_small_operations = $this->current_options['small_operations'] ?? '';
+    if ($this->via == 'view' && (string) $default_disable_size == '') {
+      $default_small_operations = $this->boCollection->getSmallOperations($this->collection_id);
+    }
+    $form["bo_options"]["small_operations"] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Show smaller operations'),
+      '#description' => $this->t('Show smaller operations (E.g. when elements are small).'),
+      '#weight' => $weight,
+      '#default_value' => $default_small_operations,
+    ];
+
     $form['#attached']['library'] = [
       'bo/bo_collection_settings',
       'bo/bo_ajax_commands',
@@ -436,6 +449,7 @@ class BoCollectionSettingsForm extends ConfigFormBase {
       $settings["collection"][$this->collection_id]["options"]["ignore_current_path"] = $form_state->getValue("bo_options")['ignore_current_path'];
       $settings["collection"][$this->collection_id]["options"]["label"] = $form_state->getValue("bo_options")['label'];
       $settings["collection"][$this->collection_id]["options"]["disable_size"] = $form_state->getValue("bo_options")['disable_size'];
+      $settings["collection"][$this->collection_id]["options"]["small_operations"] = $form_state->getValue("bo_options")['small_operations'];
 
       if ($this->collection_id != "" && $this->collection_id != "-") {
         $settings["collection"][$this->collection_id]["options"]["specific_view"] = $form_state->getValue("bo_options")['specific_view'];
@@ -468,6 +482,7 @@ class BoCollectionSettingsForm extends ConfigFormBase {
           'ignore_current_path' => $form_state->getValue("bo_options")['ignore_current_path'],
           'disable_insert' => $form_state->getValue("bo_options")['disable_insert'],
           'disable_size' => $form_state->getValue("bo_options")['disable_size'],
+          'small_operations' => $form_state->getValue("bo_options")['small_operations'],
         ]);
         $bundle->save();
       }

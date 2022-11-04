@@ -288,6 +288,24 @@ class BoCollection {
 
   /**
    * @param $collection_id
+   * @return bool
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function getSmallOperations($collection_id) {
+    // If collection settings overridden on view level.
+    $small_operations = $this->boSettings->getCollectionOptions($collection_id)['small_operations'] ?? '';
+    if ((string) $small_operations == '') {
+      // If not get collection settings from bundle.
+      if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
+        $small_operations = $collection_bundle->getCollectionOptions()['small_operations'];
+      }
+    }
+    return (bool) $small_operations;
+  }
+
+  /**
+   * @param $collection_id
    *
    * @return false|string[]
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException

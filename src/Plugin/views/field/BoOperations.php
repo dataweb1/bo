@@ -91,6 +91,11 @@ class BoOperations extends EntityOperations {
       /** @var \Drupal\bo\Entity\BoEntity $entity */
       $current_entity = $values->_entity;
 
+      $operations_size = 'big';
+      if ($this->boCollection->getSmallOperations($current_entity->getCollectionId())) {
+        $operations_size = 'small';
+      }
+
       /* Insert link. */
       $links = [];
       if ($this->boOperations->showInsertLink(count($this->view->result), $collection_id)) {
@@ -118,6 +123,7 @@ class BoOperations extends EntityOperations {
         $attributes = [
           'class' => [
             'bo-insert-operations',
+            'bo-' . $operations_size . '-operations',
             'bo-operations',
           ],
         ];
@@ -180,6 +186,7 @@ class BoOperations extends EntityOperations {
       $attributes = [
         'class' => [
           'bo-operations',
+          'bo-' . $operations_size . '-operations',
           'bo-entity-operations',
           'bo-operations-position-' . $this->boCollection->getOperationsPosition($current_entity->getCollectionId()),
         ],
