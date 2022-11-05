@@ -98,7 +98,7 @@
 }
 
 .bo-operations {
-  display: inline-block;
+  display: flex;
   margin: .5rem!important;
   padding: 0!important;
 }
@@ -114,11 +114,20 @@
 .bo-insert-operations {
   display: none;
   position: absolute;
-  bottom: -1.85rem;
+  bottom: -1.1rem;
   left: 0;
   z-index: 1001;
   text-align: center;
   width: 100%;
+  margin: 0!important;
+}
+
+.bo-insert-operations li {
+  margin: 0!important;
+}
+
+.bo-insert-operations.bo-small-operations {
+  bottom: -1rem;
 }
 
 .bo-operations-pane.insert-pane {
@@ -158,6 +167,10 @@
 }
 .bo-operations.bo-small-operations li {
   margin-right: .2rem;
+}
+
+.bo-operations.bo-small-operations li:last-child {
+  margin-right: 0;
 }
 
 .bo-operations.bo-small-operations li .no-link,
@@ -495,4 +508,9 @@ ul.bo-add-multi-content li a:before {
 
 .bo-operations-pane .bo-add-multi {
   padding: 0;
+}
+
+.visible {
+  display: flex;
+  justify-content: center;
 }

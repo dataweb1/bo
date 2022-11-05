@@ -36,37 +36,37 @@
         let parent_wrapper = $(this).closest(".node-entity");
 
         $(parent_wrapper).on("mouseenter", function (e) {
-          $(this).find(".node-entity-operations").first().css("display", "block");
+          $(this).find(".node-entity-operations").first().addClass("visible");
           $(this).addClass("bo-wrapper-selected");
         });
 
         $(parent_wrapper).on("mouseleave", function (e) {
-          $(this).find(".node-entity-operations").first().css("display", "none");
+          $(this).find(".node-entity-operations").first().removeClass("visible");
           $(this).removeClass("bo-wrapper-selected");
         });
       });
 
-          // Show/hide Edit / Delete / Help button.
+      // Show/hide Edit / Delete / Help button.
       $(".bo-entity-operations").once().each(function () {
 
         let parent_wrapper = $(this).closest(".bo-entity");
 
         $(parent_wrapper).on("mouseenter", function (e) {
-          $(this).find(".bo-entity-operations").first().css("display", "block");
+          $(this).find(".bo-entity-operations").first().addClass("visible");
           $(this).addClass("bo-wrapper-selected");
         });
 
         $(parent_wrapper).on("mouseleave", function (e) {
-          $(this).find(".bo-entity-operations").first().css("display", "none");
+          $(this).find(".bo-entity-operations").first().removeClass("visible");
           $(this).removeClass("bo-wrapper-selected");
         });
 
         $(parent_wrapper).on("mouseenter", function (e) {
-          $(this).find(".bo-operation-help").first().css("display", "block");
+          $(this).find(".bo-operation-help").first().addClass("visible");
         });
 
         $(parent_wrapper).on("mouseleave", function (e) {
-          $(this).find(".bo-operation-help").first().css("display", "none");
+          $(this).find(".bo-operation-help").first().removeClass("visible");
         });
       });
 
@@ -76,14 +76,13 @@
         let parent_wrapper = $(this).closest(".bo-entity");
 
         $(parent_wrapper).on("mouseenter", function (e) {
-          $(this).find(".bo-insert-operations").first().css("display", "block");
-          //$(this).find(".bo-operation-reorder").css("display", "block");
+          $(this).find(".bo-insert-operations").first().addClass("visible");
           $(this).addClass("bo-wrapper-selected");
 
         });
 
         $(parent_wrapper).on("mouseleave", function (e) {
-          $(this).find(".bo-insert-operations").first().css("display", "none");
+          $(this).find(".bo-insert-operations").first().removeClass("visible");
           $(this).removeClass("bo-wrapper-selected");
           Drupal.behaviors.bo_operations.closeOperationsPane(true);
         });
