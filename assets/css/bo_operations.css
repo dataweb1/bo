@@ -128,13 +128,12 @@
   /*margin-bottom: .5rem;*/
 }
 
-
-
 .bo-operations li {
   display: inline-block;
   justify-content: center;
   margin-right: .5rem;
   text-align: center;
+  line-height: 1.5rem;
 }
 
 .bo-operations li:last-child {
