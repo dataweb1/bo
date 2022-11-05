@@ -47,7 +47,7 @@ class NodeOperations extends EntityOperations {
       'class' => [
         'node-entity-operations',
         'bo-operations',
-        'bo-operations-position-top',
+        'header-operations-position-top',
       ],
     ];
 

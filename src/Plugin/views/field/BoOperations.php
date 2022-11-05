@@ -122,9 +122,10 @@ class BoOperations extends EntityOperations {
 
         $attributes = [
           'class' => [
-            'bo-insert-operations',
-            'bo-' . $operations_size . '-operations',
             'bo-operations',
+            'bo-insert-operations',
+            'operations-size-' . $operations_size,
+            'insert-position-' . $this->boCollection->getInsertPosition($current_entity->getCollectionId()),
           ],
         ];
 
@@ -186,9 +187,9 @@ class BoOperations extends EntityOperations {
       $attributes = [
         'class' => [
           'bo-operations',
-          'bo-' . $operations_size . '-operations',
           'bo-entity-operations',
-          'bo-operations-position-' . $this->boCollection->getOperationsPosition($current_entity->getCollectionId()),
+          'operations-size-' . $operations_size,
+          'header-operations-position-' . $this->boCollection->getOperationsPosition($current_entity->getCollectionId()),
         ],
       ];
 

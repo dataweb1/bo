@@ -27,11 +27,11 @@
   padding-bottom: 0;
 }
 
-.bo-operations-position-top {
+.header-operations-position-top {
   top: 0;
 }
 
-.bo-operations-position-bottom {
+.header-operations-position-bottom {
   bottom: 0;
 }
 
@@ -114,7 +114,7 @@
 .bo-insert-operations {
   display: none;
   position: absolute;
-  bottom: -1.1rem;
+  bottom: -1.25rem;
   left: 0;
   z-index: 1001;
   text-align: center;
@@ -126,7 +126,7 @@
   margin: 0!important;
 }
 
-.bo-insert-operations.bo-small-operations {
+.bo-insert-operations.operations-size-small {
   bottom: -1rem;
 }
 
@@ -165,22 +165,22 @@
   height: 2.3rem;
   font-size: 1rem;
 }
-.bo-operations.bo-small-operations li {
+.bo-operations.operations-size-small li {
   margin-right: .2rem;
 }
 
-.bo-operations.bo-small-operations li:last-child {
+.bo-operations.operations-size-small li:last-child {
   margin-right: 0;
 }
 
-.bo-operations.bo-small-operations li .no-link,
-.bo-operations.bo-small-operations li a {
+.bo-operations.operations-size-small li .no-link,
+.bo-operations.operations-size-small li a {
   padding: 0 0.3rem 0 .3rem!important;
   font-size: .8rem;
   height: 1.7rem;
 }
 
-.bo-operations.bo-small-operations li a:before {
+.bo-operations.operations-size-small li a:before {
   font-size: 14px;
 }
 
@@ -213,8 +213,8 @@
   font-weight: normal;
 }
 
-.bo-operations.bo-small-operations li .no-link span,
-.bo-operations.bo-small-operations li a span {
+.bo-operations.operations-size-small li .no-link span,
+.bo-operations.operations-size-small li a span {
   margin-left: .2rem;
 }
 
@@ -227,7 +227,7 @@
   padding-right: .5rem;
 }
 
-.bo-operations.bo-small-operations li .no-link span {
+.bo-operations.operations-size-small li .no-link span {
   padding-left: .2rem;
   padding-right: .2rem;
 }

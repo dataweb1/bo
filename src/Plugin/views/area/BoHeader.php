@@ -155,9 +155,9 @@ class BoHeader extends AreaPluginBase {
 
         $attributes = [
           'class' => [
-            'bo-header-operations',
             'bo-operations',
-            'bo-' . $operations_size . '-operations',
+            'bo-header-operations',
+            'operations-size-' . $operations_size,
           ],
         ];
 
@@ -171,7 +171,7 @@ class BoHeader extends AreaPluginBase {
         $class = '';
         if ($this->boCollection->getHeaderOperationsOverlap($collection_id)) {
           $wrapper_class = 'with-overlap';
-          $class = 'bo-operations-overlap bo-operations-position-' . $this->boCollection->getOperationsPosition($collection_id);
+          $class = 'bo-operations-overlap header-operations-position-' . $this->boCollection->getOperationsPosition($collection_id);
         }
 
         $html_header = '<div class="bo-header-wrapper ' . $wrapper_class . '">';
