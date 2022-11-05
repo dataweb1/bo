@@ -306,6 +306,28 @@ class BoCollection {
 
   /**
    * @param $collection_id
+   * @return bool
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function getInsertPosition($collection_id) {
+    // If collection settings overridden on view level.
+    $insert_position = $this->boSettings->getCollectionOptions($collection_id)['insert_position'] ?? '';
+    if ((string) $insert_position == '') {
+      // If not get collection settings from bundle.
+      if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
+        $insert_position = $collection_bundle->getCollectionOptions()['insert_position'];
+      }
+    }
+
+    if ($insert_position == '') {
+      $insert_position = 'auto';
+    }
+    return $insert_position;
+  }
+
+  /**
+   * @param $collection_id
    *
    * @return false|string[]
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException

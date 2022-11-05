@@ -96,6 +96,16 @@ class BoOperations extends EntityOperations {
         $operations_size = 'small';
       }
 
+      $insert_position = $this->boCollection->getInsertPosition($current_entity->getCollectionId());
+      if ($insert_position == 'auto') {
+        if ($current_entity->getSize() == 12) {
+          $insert_position = 'bottom';
+        }
+        else {
+          $insert_position = 'right';
+        }
+      }
+
       /* Insert link. */
       $links = [];
       if ($this->boOperations->showInsertLink(count($this->view->result), $collection_id)) {
@@ -125,7 +135,7 @@ class BoOperations extends EntityOperations {
             'bo-operations',
             'bo-insert-operations',
             'operations-size-' . $operations_size,
-            'insert-position-' . $this->boCollection->getInsertPosition($current_entity->getCollectionId()),
+            'insert-position-' . $insert_position,
           ],
         ];
 

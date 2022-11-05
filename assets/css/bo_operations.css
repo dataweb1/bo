@@ -114,12 +114,22 @@
 .bo-insert-operations {
   display: none;
   position: absolute;
-  bottom: -1.25rem;
-  left: 0;
+  /*left: 0;*/
   z-index: 1001;
   text-align: center;
   width: 100%;
   margin: 0!important;
+}
+
+.bo-insert-operations.insert-position-bottom {
+  bottom: -1.25rem;
+}
+
+.bo-insert-operations.insert-position-right {
+  bottom: calc(50% - 1.25rem);
+  right: 1.25rem;
+  align-items: center;
+  justify-content: right;
 }
 
 .bo-insert-operations li {
