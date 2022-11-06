@@ -904,7 +904,7 @@ class BoVars {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  private function replaceDrupalMedia(&$content, EntityInterface $entity, $level = 0, &$vars = []) {
+  public function replaceDrupalMedia(&$content, EntityInterface $entity, $level = 0, &$vars = []) {
     if (strpos($content, 'drupal-media')) {
       $doc = new \DOMDocument();
       $doc->loadHTML(mb_convert_encoding($content, "HTML-ENTITIES", "UTF-8"), LIBXML_HTML_NODEFDTD);
