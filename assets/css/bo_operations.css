@@ -126,8 +126,8 @@
 }
 
 .bo-insert-operations.insert-position-right {
-  bottom: calc(50% - 1.25rem);
-  right: 1.25rem;
+  bottom: calc(50% - 1.25rem) !important;
+  right: -1rem;
   align-items: center;
   justify-content: right;
 }
