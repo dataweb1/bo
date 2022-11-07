@@ -31,6 +31,10 @@ class BoOperations {
    * @See \Drupal\bo\Plugin\views\field\BoOperations
    */
   public function showAddLink($view_result_count, $collection_id) {
+    if ($collection_id == '') {
+      return FALSE;
+    }
+
     $create_permissions = $this->boCollection->hasCreateBundlePermissionsForCollection($collection_id);
     if (!$create_permissions) {
       return FALSE;
@@ -55,6 +59,10 @@ class BoOperations {
    * @See \Drupal\bo\Plugin\views\field\BoOperations
    */
   public function showInsertLink($view_result_count, $collection_id) {
+    if ($collection_id == '') {
+      return FALSE;
+    }
+
     if ($this->boCollection->getDisableInsert($collection_id)) {
       return FALSE;
     }

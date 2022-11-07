@@ -32,6 +32,10 @@ class BoHelp {
    * @return array
    */
   public function getHelpLink($collection_id, $to_path, $entity_id) {
+    if ($collection_id == '') {
+      return [];
+    }
+
     $attributes = [
       'class' => [
         'bo-operation-help',

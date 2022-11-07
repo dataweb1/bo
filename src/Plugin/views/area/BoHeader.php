@@ -248,6 +248,9 @@ class BoHeader extends AreaPluginBase {
    * @return array
    */
   private function getReorderLink($link_parameters) {
+    if ($link_parameters['collection_id'] == '') {
+      return [];
+    }
 
     $url = Url::fromRoute('bo.reorder', [
       'collection_id' => $link_parameters['collection_id'],
