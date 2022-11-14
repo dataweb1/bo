@@ -88,6 +88,21 @@
         });
       });
 
+      $('.bo-entity').once().each(function () {
+        $(this).children().each(function() {
+          let id = $(this).attr('id');
+          if (typeof id !== 'undefined' && id !== false) {
+            if (id.search('bo_operations_pane') == -1) {
+              $(this).parent().find('.bo-entity-operations .id-tag').html('#' + id);
+              $(this).parent().find('.bo-entity-operations .id-tag').css('display', 'block');
+              return false;
+            }
+          }
+          else {
+            $(this).parent().find('.bo-entity-operations .id-tag').css('display', 'none');
+          }
+        });
+      });
     },
     closeOperationsPane: function (insert_pane = false) {
       let selector = '.bo-operations-pane';

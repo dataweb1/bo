@@ -524,3 +524,8 @@ ul.bo-add-multi-content li a:before {
   display: flex;
   justify-content: center;
 }
+
+.id-tag {
+  font-style: italic;
+  padding-left: 0!important;
+}
