@@ -478,4 +478,14 @@ class BoCollection {
     return FALSE;
   }
 
+  public function getCollectionEntities($collection_id, $to_path, $insert_under_entity_weight = 0) {
+    /** @var Connection $connection */
+    $connection = \Drupal::service('database');
+    return $connection->query("SELECT id, weight FROM {bo} WHERE collection_id = :collection_id AND to_path = :to_path AND weight > :weight ORDER BY weight", [
+      ':collection_id' => $collection_id,
+      ':to_path' => $to_path,
+      ':weight' => $insert_under_entity_weight,
+    ]);
+  }
+
 }

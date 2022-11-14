@@ -90,7 +90,12 @@ class BoEntityForm extends ContentEntityForm {
 
     if ($current_route_name == "entity.bo.add_form") {
       // If maxElementCount is 1 there is no top or bottom.
-      if ($this->boCollection->getCollectionMaxElementCount($collection_id) <> 1) {
+
+      $entities_count = 0;
+      if ($result = $this->boCollection->getCollectionEntities($collection_id, $to_path)) {
+        $entities_count = count($result->fetchAll());
+      }
+      if ($this->boCollection->getCollectionMaxElementCount($collection_id) <> 1 && $entities_count > 0) {
         $form['position'] = [
           '#type' => 'radios',
           '#title' => $this->t('Position to add'),
@@ -205,13 +210,7 @@ class BoEntityForm extends ContentEntityForm {
           case 'entity.bo.insert_form':
             $insert_under_entity_weight = \Drupal::request()->query->get('insert_under_entity_weight');
 
-            $connection = \Drupal::service('database');
-            $result = $connection->query("SELECT id, weight FROM {bo} WHERE collection_id = :collection_id AND to_path = :to_path AND weight > :weight ORDER BY weight", [
-              ':collection_id' => $collection_id,
-              ':to_path' => $to_path,
-              ':weight' => (int) $insert_under_entity_weight,
-            ]);
-            if ($result) {
+            if ($result = $this->boCollection->getCollectionEntities($collection_id, $to_path, (int) $insert_under_entity_weight)) {
               while ($row = $result->fetchAssoc()) {
                 $new_weight = $row["weight"] + 1;
                 $reorder_entity = BoEntity::load($row["id"]);
