@@ -5,8 +5,8 @@
   };
 
   Drupal.AjaxCommands.prototype.refreshViewCommand = function (ajax, response) {
-    let view_dom_id = response.view_dom_id;
-    Drupal.behaviors.bo_operations.refreshView(view_dom_id);
+    let bo_view_dom_id = response.bo_view_dom_id;
+    Drupal.behaviors.bo_operations.refreshView(bo_view_dom_id);
   };
 
   Drupal.AjaxCommands.prototype.closeOparationsPaneCommand = function (ajax, response) {
@@ -15,16 +15,16 @@
 
   Drupal.AjaxCommands.prototype.slideCommand = function (ajax, response) {
 
-    let view_dom_id = response.view_dom_id;
+    let bo_view_dom_id = response.bo_view_dom_id;
     let entity_id = response.entity_id;
     let action = response.action;
 
     let selector;
     if (entity_id > 0) {
-      selector = "#bo_operations_pane_" + view_dom_id + "_" + entity_id;
+      selector = "#bo_operations_pane_" + bo_view_dom_id + "_" + entity_id;
     }
     else {
-      selector = "#bo_operations_pane_" + view_dom_id;
+      selector = "#bo_operations_pane_" + bo_view_dom_id;
     }
 
     window.keep_closed = false;

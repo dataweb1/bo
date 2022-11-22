@@ -16,7 +16,7 @@
 
   $(window).on({
     'bo:refreshView': function boGglMapRefreshView(event, result) {
-      if ($(".js-view-dom-id-" + result.view_dom_id).find(' #ggl_map').length > 0) {
+      if ($(".js-view-dom-id-" + result.bo_view_dom_id).find(' #ggl_map').length > 0) {
           Drupal.gglMap.attached = false;
       }
     }

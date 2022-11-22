@@ -120,7 +120,7 @@ class BoOperations extends EntityOperations {
 
         $link_parameters = [
           'collection_id' => $collection_id,
-          'view_dom_id' => $this->view->dom_id,
+          'bo_view_dom_id' => $this->view->dom_id,
           'nid' => $nid,
           'to_path' => $to_path,
           'entity_id' => $current_entity->id(),
@@ -231,14 +231,14 @@ class BoOperations extends EntityOperations {
   /**
    * @param $url
    * @param $entity
-   * @param $view_dom_id
+   * @param $bo_view_dom_id
    * @return array
    */
-  private function getDeleteLink($url, $entity, $view_dom_id) {
+  private function getDeleteLink($url, $entity, $bo_view_dom_id) {
 
     $options = [
       'query' => [
-        'view_dom_id' => $view_dom_id,
+        'bo_view_dom_id' => $bo_view_dom_id,
       ],
       'attributes' => [
         'class' => [
@@ -260,11 +260,11 @@ class BoOperations extends EntityOperations {
   /**
    * @param $url
    * @param $entity
-   * @param $view_dom_id
+   * @param $bo_view_dom_id
    * @param $collection_id
    * @return array
    */
-  private function getEditLink($url, $entity, $view_dom_id, $collection_id) {
+  private function getEditLink($url, $entity, $bo_view_dom_id, $collection_id) {
     $attributes = [
       'class' => [
         'bo-operation-edit',
@@ -273,7 +273,7 @@ class BoOperations extends EntityOperations {
 
     $options = [
       "query" => [
-        "view_dom_id" => $view_dom_id,
+        "bo_view_dom_id" => $bo_view_dom_id,
         'collection_id' => $collection_id,
         "destination" => \Drupal::request()->getRequestUri(),
       ],

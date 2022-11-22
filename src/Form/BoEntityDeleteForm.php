@@ -57,7 +57,7 @@ class BoEntityDeleteForm extends ContentEntityDeleteForm {
   public function afterSubmitFallback(array $form, FormStateInterface $formState) {
     $response = new AjaxResponse();
     $response->addCommand(new CloseDialogCommand('.bo-dialog .ui-dialog-content'));
-    $response->addCommand(new RefreshViewCommand(\Drupal::request()->query->get('view_dom_id')));
+    $response->addCommand(new RefreshViewCommand(\Drupal::request()->query->get('bo_view_dom_id')));
     return $response;
   }
 

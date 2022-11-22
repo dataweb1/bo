@@ -28,7 +28,7 @@ class NodeOperations extends EntityOperations {
 
     $markup = '';
 
-    $view_dom_id = $this->view->dom_id;
+    $bo_view_dom_id = $this->view->dom_id;
 
     /** @var Node $entity */
     $entity = $values->_entity;
@@ -37,10 +37,10 @@ class NodeOperations extends EntityOperations {
     $links = [];
     $node_content = parent::render($values);
     if (isset($node_content["#links"]["edit"])) {
-      $links[] = $this->getEditLink($node_content["#links"]["edit"]["url"], $entity, $view_dom_id);
+      $links[] = $this->getEditLink($node_content["#links"]["edit"]["url"], $entity, $bo_view_dom_id);
     }
     if (isset($node_content["#links"]["delete"])) {
-      $links[] = $this->getDeleteLink($node_content["#links"]["delete"]["url"], $entity, $view_dom_id);
+      $links[] = $this->getDeleteLink($node_content["#links"]["delete"]["url"], $entity, $bo_view_dom_id);
     }
 
     $attributes = [
@@ -76,11 +76,11 @@ class NodeOperations extends EntityOperations {
    * @param $parameters
    * @return array
    */
-  public function getDeleteLink($url, $entity, $view_dom_id) {
+  public function getDeleteLink($url, $entity, $bo_view_dom_id) {
 
     $options = [
       'query' => [
-        'view_dom_id' => $view_dom_id,
+        'bo_view_dom_id' => $bo_view_dom_id,
       ],
       'attributes' => [
         'class' => [
@@ -105,7 +105,7 @@ class NodeOperations extends EntityOperations {
    * @param $parameters
    * @return array
    */
-  public function getEditLink($url, $entity, $view_dom_id) {
+  public function getEditLink($url, $entity, $bo_view_dom_id) {
     $attributes = [
       'class' => [
         'bo-operation-edit',
@@ -114,7 +114,7 @@ class NodeOperations extends EntityOperations {
 
     $options = [
       "query" => [
-        "view_dom_id" => $view_dom_id,
+        "bo_view_dom_id" => $bo_view_dom_id,
         "destination" => \Drupal::request()->getRequestUri(),
       ],
     ];

@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class BoReorderForm extends FormBase {
 
-  protected $view_dom_id;
+  protected $bo_view_dom_id;
   protected $collection_id;
   protected $to_path;
   protected static $instance_id;
@@ -67,7 +67,7 @@ class BoReorderForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state, $args = NULL) {
 
     // For refreshing view after reorder.
-    $view_dom_id = $args["view_dom_id"];
+    $bo_view_dom_id = $args["bo_view_dom_id"];
 
     $to_path = $args["to_path"];
     $collection_id = $args["collection_id"];
@@ -99,10 +99,10 @@ class BoReorderForm extends FormBase {
       '#markup' => '<h3><i class=\"fas fa-sort\"></i> ' . $this->t('Reorder') . '</h3>',
     ];
 
-    if (!isset($form["view_dom_id"])) {
-      $form["view_dom_id"] = [
+    if (!isset($form["bo_view_dom_id"])) {
+      $form["bo_view_dom_id"] = [
         '#type' => 'hidden',
-        '#value' => $view_dom_id,
+        '#value' => $bo_view_dom_id,
       ];
     }
 
@@ -222,7 +222,7 @@ class BoReorderForm extends FormBase {
   public function afterReorderCallback(array &$form, FormStateInterface $form_state) {
 
     $input = $form_state->getUserInput();
-    $view_dom_id = $input["view_dom_id"];
+    $bo_view_dom_id = $input["bo_view_dom_id"];
 
     $response = new AjaxResponse();
     $response->addCommand(new HtmlCommand('.tabledrag-changed-warning', ''));
@@ -237,9 +237,9 @@ class BoReorderForm extends FormBase {
     $messages = \Drupal::service('renderer')->render($message);
 
     $response->addCommand(new HtmlCommand('.result-message', $messages));
-    $response->addCommand(new HtmlCommand('#bo_operations_pane_' . $view_dom_id, $form));
-    $response->addCommand(new SlideCommand("reorder", $view_dom_id, 0));
-    $response->addCommand(new RefreshViewCommand($view_dom_id));
+    $response->addCommand(new HtmlCommand('#bo_operations_pane_' . $bo_view_dom_id, $form));
+    $response->addCommand(new SlideCommand("reorder", $bo_view_dom_id, 0));
+    $response->addCommand(new RefreshViewCommand($bo_view_dom_id));
 
     return $response;
 

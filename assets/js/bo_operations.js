@@ -11,9 +11,9 @@
 
       // Execute a bo:refreshView trigger after refreshing a BO view.
       if ($(context).hasClass('bo-overview')) {
-        let view_dom_id = $(context).attr('data-view-dom-id');
+        let bo_view_dom_id = $(context).attr('data-view-dom-id');
         let collection_id = $(context).attr('data-collection-id');
-        $(window).trigger('bo:refreshView', {'view_dom_id': view_dom_id, 'collection_id': collection_id});
+        $(window).trigger('bo:refreshView', {'bo_view_dom_id': bo_view_dom_id, 'collection_id': collection_id});
       }
 
       // Close the operations pane if a BO entity form or a BO entity delete form is opened.
@@ -115,21 +115,21 @@
         window.keep_closed = true;
       });
     },
-    refreshView: function (view_dom_id) {
-      if (view_dom_id !== "") {
+    refreshView: function (bo_view_dom_id) {
+      if (bo_view_dom_id !== "") {
         if (Drupal.views) {
-          if (Drupal.views.instances["views_dom_id:" + view_dom_id]) {
+          if (Drupal.views.instances["views_dom_id:" + bo_view_dom_id]) {
             var current_path = '/' + drupalSettings.path.currentPath;
-            var collection_id = $(".js-view-dom-id-" + view_dom_id).attr("data-collection-id");
-            var reload = $(".js-view-dom-id-" + view_dom_id).attr("data-reload");
-            var nid = $(".js-view-dom-id-" + view_dom_id).attr("data-nid");
+            var collection_id = $(".js-view-dom-id-" + bo_view_dom_id).attr("data-collection-id");
+            var reload = $(".js-view-dom-id-" + bo_view_dom_id).attr("data-reload");
+            var nid = $(".js-view-dom-id-" + bo_view_dom_id).attr("data-nid");
             if (reload == '0') {
-              Drupal.views.instances["views_dom_id:" + view_dom_id].refreshViewAjax.options.data.view_dom_id = view_dom_id;
-              Drupal.views.instances["views_dom_id:" + view_dom_id].refreshViewAjax.options.data.current_path = current_path;
-              Drupal.views.instances["views_dom_id:" + view_dom_id].refreshViewAjax.options.data.collection_id = collection_id;
-              Drupal.views.instances["views_dom_id:" + view_dom_id].refreshViewAjax.options.data.nid = nid;
+              Drupal.views.instances["views_dom_id:" + bo_view_dom_id].refreshViewAjax.options.data.bo_view_dom_id = bo_view_dom_id;
+              Drupal.views.instances["views_dom_id:" + bo_view_dom_id].refreshViewAjax.options.data.current_path = current_path;
+              Drupal.views.instances["views_dom_id:" + bo_view_dom_id].refreshViewAjax.options.data.collection_id = collection_id;
+              Drupal.views.instances["views_dom_id:" + bo_view_dom_id].refreshViewAjax.options.data.nid = nid;
 
-              $(".js-view-dom-id-" + view_dom_id).triggerHandler("RefreshView");
+              $(".js-view-dom-id-" + bo_view_dom_id).triggerHandler("RefreshView");
             }
             else {
               Drupal.AjaxCommands.prototype.refreshPageCommand();

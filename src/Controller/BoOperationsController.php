@@ -50,14 +50,14 @@ class BoOperationsController extends ControllerBase {
 
   /**
    * @param $collection_id
-   * @param $view_dom_id
+   * @param $bo_view_dom_id
    * @return AjaxResponse
    */
-  public function reorder($collection_id, $view_dom_id) {
+  public function reorder($collection_id, $bo_view_dom_id) {
 
     $args = [
       'collection_id' => $collection_id,
-      'view_dom_id' => $view_dom_id,
+      'bo_view_dom_id' => $bo_view_dom_id,
       'to_path' => \Drupal::request()->query->get('to_path'),
     ];
 
@@ -65,8 +65,8 @@ class BoOperationsController extends ControllerBase {
 
     $response = new AjaxResponse();
     $response->addCommand(new HtmlCommand(".bo-operations-pane", ""));
-    $response->addCommand(new HtmlCommand('#bo_operations_pane_' . $view_dom_id, $form));
-    $response->addCommand(new SlideCommand('reorder', $view_dom_id, 0));
+    $response->addCommand(new HtmlCommand('#bo_operations_pane_' . $bo_view_dom_id, $form));
+    $response->addCommand(new SlideCommand('reorder', $bo_view_dom_id, 0));
 
     return $response;
   }
@@ -74,14 +74,14 @@ class BoOperationsController extends ControllerBase {
   /**
    *
    */
-  public function multi($action, $collection_id, $entity_id, $entity_weight, $view_dom_id) {
+  public function multi($action, $collection_id, $entity_id, $entity_weight, $bo_view_dom_id) {
 
     $args = [
       'action' => $action,
       'collection_id' => $collection_id,
       'entity_id' => $entity_id,
       'entity_weight' => $entity_weight,
-      'view_dom_id' => $view_dom_id,
+      'bo_view_dom_id' => $bo_view_dom_id,
       'to_path' => \Drupal::request()->query->get('to_path'),
       'nid' => \Drupal::request()->query->get('nid'),
     ];
@@ -89,16 +89,16 @@ class BoOperationsController extends ControllerBase {
     $add_multi = $this->getMultiLinksList($args);
 
     if (intval($entity_id) == 0) {
-      $selector = "#bo_operations_pane_" . $view_dom_id;
+      $selector = "#bo_operations_pane_" . $bo_view_dom_id;
     }
     else {
-      $selector = "#bo_operations_pane_" . $view_dom_id . "_" . $entity_id;
+      $selector = "#bo_operations_pane_" . $bo_view_dom_id . "_" . $entity_id;
     }
 
     $response = new AjaxResponse();
     $response->addCommand(new HtmlCommand(".bo-operations-pane", ""));
     $response->addCommand(new HtmlCommand($selector, $add_multi));
-    $response->addCommand(new SlideCommand('add', $view_dom_id, (int) $entity_id));
+    $response->addCommand(new SlideCommand('add', $bo_view_dom_id, (int) $entity_id));
 
     return $response;
   }
@@ -118,7 +118,7 @@ class BoOperationsController extends ControllerBase {
             'nid' => $args['nid'],
             'to_path' => $args['to_path'],
             'collection_id' => $args['collection_id'],
-            'view_dom_id' => $args['view_dom_id'],
+            'bo_view_dom_id' => $args['bo_view_dom_id'],
           ]);
           break;
 
@@ -128,7 +128,7 @@ class BoOperationsController extends ControllerBase {
             'nid' => $args['nid'],
             'to_path' => $args['to_path'],
             'collection_id' => $args['collection_id'],
-            'view_dom_id' => $args['view_dom_id'],
+            'bo_view_dom_id' => $args['bo_view_dom_id'],
             'insert_under_entity_id' => $args["entity_id"],
             'insert_under_entity_weight' => $args["entity_weight"],
           ]);

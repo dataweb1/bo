@@ -8,13 +8,13 @@ use Drupal\Core\Ajax\CommandInterface;
  *
  */
 class RefreshViewCommand implements CommandInterface {
-  private $view_dom_id;
+  private $bo_view_dom_id;
 
   /**
    *
    */
-  public function __construct($view_dom_id) {
-    $this->view_dom_id = $view_dom_id;
+  public function __construct($bo_view_dom_id) {
+    $this->bo_view_dom_id = $bo_view_dom_id;
   }
 
   /**
@@ -25,7 +25,7 @@ class RefreshViewCommand implements CommandInterface {
   public function render() {
     return [
       'command' => 'refreshViewCommand',
-      'view_dom_id' => $this->view_dom_id,
+      'bo_view_dom_id' => $this->bo_view_dom_id,
     ];
   }
 

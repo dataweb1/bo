@@ -47,7 +47,7 @@ bo.entity.bundle.add_form:
     _admin_route: 'TRUE'
 
 bo.reorder:
-  path: '/bo/reorder/{collection_id}/{view_dom_id}'
+  path: '/bo/reorder/{collection_id}/{bo_view_dom_id}'
   defaults:
     _controller: '\Drupal\bo\Controller\BoOperationsController::reorder'
     _title: 'Reorder'
@@ -56,7 +56,7 @@ bo.reorder:
     method: 'nojs|ajax'
 
 bo.multi:
-  path: '/bo/multi/{action}/{collection_id}/{entity_id}/{entity_weight}/{view_dom_id}'
+  path: '/bo/multi/{action}/{collection_id}/{entity_id}/{entity_weight}/{bo_view_dom_id}'
   defaults:
     _controller: '\Drupal\bo\Controller\BoOperationsController::multi'
     _title: 'Add Multi'

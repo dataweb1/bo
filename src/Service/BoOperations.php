@@ -129,7 +129,7 @@ class BoOperations {
           'collection_id' => $parameters['collection_id'],
           'entity_id' => $parameters['entity_id'],
           'entity_weight' => $parameters['entity_weight'],
-          'view_dom_id' => $parameters['view_dom_id'],
+          'bo_view_dom_id' => $parameters['bo_view_dom_id'],
           'nid' => $parameters['nid'],
           'to_path' => $parameters["to_path"],
           'destination' => \Drupal::request()->getRequestUri(),
@@ -149,7 +149,7 @@ class BoOperations {
             'nid' => $parameters['nid'],
             'to_path' => $parameters["to_path"],
             'collection_id' => $parameters["collection_id"],
-            'view_dom_id' => $parameters["view_dom_id"],
+            'bo_view_dom_id' => $parameters["bo_view_dom_id"],
             'destination' => \Drupal::request()->getRequestUri(),
           ]);
         }
@@ -160,7 +160,7 @@ class BoOperations {
             'nid' => $parameters['nid'],
             'to_path' => $parameters["to_path"],
             'collection_id' => $parameters["collection_id"],
-            'view_dom_id' => $parameters["view_dom_id"],
+            'bo_view_dom_id' => $parameters["bo_view_dom_id"],
             'insert_under_entity_id' => $parameters["entity_id"],
             'insert_under_entity_weight' => $parameters["entity_weight"],
             'destination' => \Drupal::request()->getRequestUri(),

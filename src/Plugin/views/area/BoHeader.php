@@ -114,7 +114,7 @@ class BoHeader extends AreaPluginBase {
 
         $link_parameters = [
           'collection_id' => $collection_id,
-          'view_dom_id' => $this->view->dom_id,
+          'bo_view_dom_id' => $this->view->dom_id,
           'nid' => $nid,
           'to_path' => $to_path,
           'entity_id' => 0,
@@ -254,7 +254,7 @@ class BoHeader extends AreaPluginBase {
 
     $url = Url::fromRoute('bo.reorder', [
       'collection_id' => $link_parameters['collection_id'],
-      'view_dom_id' => $link_parameters['view_dom_id'],
+      'bo_view_dom_id' => $link_parameters['bo_view_dom_id'],
       'to_path' => $link_parameters['to_path'],
     ]);
 
@@ -267,7 +267,7 @@ class BoHeader extends AreaPluginBase {
           'bo-operation-reorder',
           'use-ajax',
         ],
-        'id' => 'bo_trigger_reorder_' . $link_parameters["view_dom_id"],
+        'id' => 'bo_trigger_reorder_' . $link_parameters["bo_view_dom_id"],
       ],
       '#cache' => [
         'tags' => [
