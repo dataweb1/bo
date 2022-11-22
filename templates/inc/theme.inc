@@ -1,11 +1,13 @@
 <?php
 
+use Drupal\Core\Theme\ActiveTheme;
+
 /**
  * @param $elements
- * @param $theme
+ * @param ActiveTheme $theme
  * @param $templates
  */
-function add_views_view_bo_suggestion_to_templates($elements, $theme, &$templates) {
+function add_views_view_bo_suggestion_to_templates(array $elements, ActiveTheme $theme, array &$templates) {
   $all_elements = "";
   foreach ($elements as $key => $element) {
     if ($key > 0) {
@@ -69,6 +71,8 @@ function add_views_view_bo_suggestion_to_templates($elements, $theme, &$template
           $preprocess_functions = [
             'template_preprocess_views_view',
             'bo_preprocess_views_view_bo',
+            $theme->getExtension()->base_theme . '_preprocess_views_view',
+            $theme->getExtension()->base_theme . '_preprocess_views_view_bo',
             $theme->getName() . '_preprocess_views_view',
             $theme->getName() . '_preprocess_views_view_bo',
           ];
@@ -79,6 +83,10 @@ function add_views_view_bo_suggestion_to_templates($elements, $theme, &$template
             'bo_preprocess_views_view_bo',
             'bo_preprocess_views_view_bo__' . $elements[0],
             'bo_preprocess_views_view_bo__' . $elements[0] . '__' . $elements[1],
+            $theme->getExtension()->base_theme . '_preprocess_views_view',
+            $theme->getExtension()->base_theme . '_preprocess_views_view_bo',
+            $theme->getExtension()->base_theme . '_preprocess_views_view_bo__' . $elements[0],
+            $theme->getExtension()->base_theme . '_preprocess_views_view_bo__' . $elements[0] . '__' . $elements[1],
             $theme->getName() . '_preprocess_views_view',
             $theme->getName() . '_preprocess_views_view_bo',
             $theme->getName() . '_preprocess_views_view_bo__' . $elements[0],
@@ -101,11 +109,11 @@ function add_views_view_bo_suggestion_to_templates($elements, $theme, &$template
 }
 
 /**
- * @param $elements
- * @param $theme
- * @param $templates
+ * @param array $elements
+ * @param ActiveTheme $theme
+ * @param array $templates
  */
-function add_views_view_unformatted_bo_suggestion_to_templates($elements, $theme, &$templates) {
+function add_views_view_unformatted_bo_suggestion_to_templates(array $elements, ActiveTheme $theme, array &$templates) {
 
   /** @var \Drupal\bo\Service\BoHandler $boHandler */
   $boHandler = \Drupal::service('bo.handler');
@@ -152,6 +160,13 @@ function add_views_view_unformatted_bo_suggestion_to_templates($elements, $theme
           $module_name . '_preprocess_views_view_unformatted_bo__' . $elements[0] . '__' . $elements[1],
         ]);
       }
+
+      $preprocess_functions = array_merge($preprocess_functions, [
+        $theme->getExtension()->base_theme . '_preprocess_views_view_unformatted',
+        $theme->getExtension()->base_theme . '_preprocess_views_view_unformatted_bo',
+        $theme->getExtension()->base_theme . '_preprocess_views_view_unformatted_bo__' . $elements[0],
+        $theme->getExtension()->base_theme . '_preprocess_views_view_unformatted_bo__' . $elements[0] . '__' . $elements[1],
+      ]);
 
       $preprocess_functions = array_merge($preprocess_functions, [
         $theme->getName() . '_preprocess_views_view_unformatted',
@@ -216,6 +231,13 @@ function add_views_view_unformatted_bo_suggestion_to_templates($elements, $theme
           }
 
           $preprocess_functions = array_merge($preprocess_functions, [
+            $theme->getExtension()->base_theme . '_preprocess_views_view_unformatted',
+            $theme->getExtension()->base_theme . '_preprocess_views_view_unformatted_bo',
+            $theme->getExtension()->base_theme . '_preprocess_views_view_unformatted_bo__' . $elements[0],
+            $theme->getExtension()->base_theme . '_preprocess_views_view_unformatted_bo__' . $elements[0] . '__' . $elements[1],
+          ]);
+
+          $preprocess_functions = array_merge($preprocess_functions, [
             $theme->getName() . '_preprocess_views_view_unformatted',
             $theme->getName() . '_preprocess_views_view_unformatted_bo',
             $theme->getName() . '_preprocess_views_view_unformatted_bo__' . $elements[0],
@@ -235,12 +257,11 @@ function add_views_view_unformatted_bo_suggestion_to_templates($elements, $theme
 }
 
 /**
- * @param $element
- * @param $theme
- * @param $templates
+ * @param string $bundle
+ * @param ActiveTheme $theme
+ * @param array $templates
  */
-function add_views_view_field_bo_suggestion_to_templates($bundle, $theme, &$templates) {
-
+function add_views_view_field_bo_suggestion_to_templates(string $bundle, ActiveTheme $theme, array &$templates) {
   /** @var \Drupal\bo\Service\BoHandler $boHandler */
   $boHandler = \Drupal::service('bo.handler');
 
@@ -283,6 +304,13 @@ function add_views_view_field_bo_suggestion_to_templates($bundle, $theme, &$temp
         $module_name . '_preprocess_views_view_field_bo__' . $bundle,
       ]);
     }
+
+    $preprocess_functions = array_merge($preprocess_functions, [
+      $theme->getExtension()->base_theme . '_preprocess_views_view_field',
+      $theme->getExtension()->base_theme . '_preprocess_views_view_field_bo',
+      $theme->getExtension()->base_theme . '_preprocess_views_view_field_bo__bo_fields',
+      $theme->getExtension()->base_theme . '_preprocess_views_view_field_bo__' . $bundle,
+    ]);
 
     $preprocess_functions = array_merge($preprocess_functions, [
       $theme->getName() . '_preprocess_views_view_field',
@@ -335,6 +363,12 @@ function add_views_view_field_bo_suggestion_to_templates($bundle, $theme, &$temp
           $module_name . '_preprocess_views_view_field_bo__bo_fields',
         ]);
       }
+
+      $preprocess_functions = array_merge($preprocess_functions, [
+        $theme->getExtension()->base_theme . '_preprocess_views_view_field',
+        $theme->getExtension()->base_theme . '_preprocess_views_view_field_bo',
+        $theme->getExtension()->base_theme . '_preprocess_views_view_field_bo__bo_fields',
+      ]);
 
       $preprocess_functions = array_merge($preprocess_functions, [
         $theme->getName() . '_preprocess_views_view_field',
