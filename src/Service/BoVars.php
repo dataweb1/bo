@@ -515,7 +515,12 @@ class BoVars {
       }
       else {
         $raw_markup = Markup::create($raw);
-        $e["raw"]["value"] = $raw_markup->__toString();
+        if ($item instanceof Markup) {
+          $e["raw"]["value"] = $raw_markup->__toString();
+        }
+        else {
+          $e["raw"]["value"] = $raw_markup;
+        }
       }
 
       // $this->smartValue($item->value, $e, $vars);
@@ -796,6 +801,13 @@ class BoVars {
     }
 
     if ($media->bundle() == "image") {
+
+      if ($media->hasField('field_no_crop')) {
+        if ($media->get('field_no_crop')->value == TRUE) {
+          $style_name .= '_no_crop';
+        }
+      }
+
       $uri = $media->field_media_image->entity->getFileUri();
       $original_url = $this->fileUrlGenerator->generateAbsoluteString($media->field_media_image->entity->getFileUri());
 
