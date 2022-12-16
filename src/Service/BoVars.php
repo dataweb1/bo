@@ -390,7 +390,7 @@ class BoVars {
         '#title' => $title,
       ];
 
-      $e["rendered"]["basic"] = $this->renderer->render($basic);
+      $e["rendered"]["basic"] = $this->renderer->renderPlain($basic);
       $e["raw"]["uri"] = $uri;
       $e["raw"]["url"] = $url_string;
       $e["raw"]["title"] = $title;
@@ -467,7 +467,12 @@ class BoVars {
       $raw = $item->name;
       $raw_markup = Markup::create($raw);
 
-      $e["raw"]["name"] = $raw_markup->__toString();
+      if ($raw_markup instanceof Markup) {
+        $e["raw"]["name"] = $raw_markup->__toString();
+      }
+      else {
+        $e["raw"]["name"] = $raw_markup;
+      }
 
       if ($cardinality == 1) {
         if (!empty($element)) {
@@ -515,7 +520,7 @@ class BoVars {
       }
       else {
         $raw_markup = Markup::create($raw);
-        if ($item instanceof Markup) {
+        if ($raw_markup instanceof Markup) {
           $e["raw"]["value"] = $raw_markup->__toString();
         }
         else {
@@ -713,7 +718,7 @@ class BoVars {
       '#title' => $file_entity->getFileName(),
     ];
 
-    $e["rendered"]["basic"] = $this->renderer->render($basic);
+    $e["rendered"]["basic"] = $this->renderer->renderPlain($basic);
     $e["raw"]["uri"] = $file_entity->getFileUri();
     $e["raw"]["url"] = $url->toString();
     $e["raw"]["filename"] = $file_entity->getFileName();
@@ -747,7 +752,7 @@ class BoVars {
         '#alt' => $alt,
         '#uri' => $file->getFileUri(),
       ];
-      $e["rendered"]["basic"] = $this->renderer->render($basic);
+      $e["rendered"]["basic"] = $this->renderer->renderPlain($basic);
     }
 
     $e['raw']['fid'] = $file->id();
@@ -827,7 +832,7 @@ class BoVars {
           '#alt' => $alt,
           '#uri' => $uri,
         ];
-        $e["rendered"]["basic"] = $this->renderer->render($basic);
+        $e["rendered"]["basic"] = $this->renderer->renderPlain($basic);
 
         $display_options = [
           'label'    => 'hidden',
@@ -841,7 +846,7 @@ class BoVars {
         $image = $media->get('field_media_image')->view($display_options);
 
         // Render.
-        $e["rendered"]["responsive"] = $this->renderer->render($image);
+        $e["rendered"]["responsive"] = $this->renderer->renderPlain($image);
       }
 
       $e['raw']['fid'] = $media->field_media_image->entity->id();
@@ -880,8 +885,8 @@ class BoVars {
           '#file' => $file,
         ];
 
-        $e["rendered"]["basic"] = $this->renderer->render($basic);
-        $e["rendered"]["extended"] = $this->renderer->render($extended);
+        $e["rendered"]["basic"] = $this->renderer->renderPlain($basic);
+        $e["rendered"]["extended"] = $this->renderer->renderPlain($extended);
         $e["raw"]["uri"] = $uri;
         $e["raw"]["name"] = $name;
         $e["raw"]["filename"] = $filename;
@@ -952,7 +957,7 @@ class BoVars {
 
               /** @var \Drupal\Core\Render\Renderer $renderer */
               $renderer = \Drupal::service('renderer');
-              $rendered = $renderer->render($renderable);
+              $rendered = $renderer->renderPlain($renderable);
 
               $fragment = $doc->createDocumentFragment();
               $fragment->appendXML($this->boVarsHelper->removeHtmlComments($rendered));
