@@ -957,7 +957,7 @@ class BoVars {
 
               /** @var \Drupal\Core\Render\Renderer $renderer */
               $renderer = \Drupal::service('renderer');
-              $rendered = $renderer->renderRoot($renderable);
+              $rendered = $renderer->render($renderable);
 
               $fragment = $doc->createDocumentFragment();
               $fragment->appendXML($this->boVarsHelper->removeHtmlComments($rendered));
