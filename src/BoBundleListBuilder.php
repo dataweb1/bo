@@ -321,7 +321,7 @@ class BoBundleListBuilder extends ConfigEntityListBuilder implements FormInterfa
   /**
    * {@inheritdoc}
    */
-  public function buildRow(BoBundleInterface|EntityInterface $bundle) {
+  public function buildRow(BoBundleInterface $bundle) {
 
     $row['label']['#markup'] = $this->t($bundle->label());
     $row['description']['#markup'] = $bundle->getDescription();
