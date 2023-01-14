@@ -752,7 +752,7 @@ class BoVars {
         '#alt' => $alt,
         '#uri' => $file->getFileUri(),
       ];
-      $e["rendered"]["basic"] = $this->renderer->renderRoot($basic);
+      $e["rendered"]["basic"] = $this->renderer->renderPlain($basic);
     }
 
     $e['raw']['fid'] = $file->id();
@@ -832,7 +832,7 @@ class BoVars {
           '#alt' => $alt,
           '#uri' => $uri,
         ];
-        $e["rendered"]["basic"] = $this->renderer->renderRoot($basic);
+        $e["rendered"]["basic"] = $this->renderer->renderPlain($basic);
 
         $display_options = [
           'label'    => 'hidden',
@@ -846,7 +846,7 @@ class BoVars {
         $image = $media->get('field_media_image')->view($display_options);
 
         // Render.
-        $e["rendered"]["responsive"] = $this->renderer->renderRoot($image);
+        $e["rendered"]["responsive"] = $this->renderer->renderPlain($image);
       }
 
       $e['raw']['fid'] = $media->field_media_image->entity->id();
