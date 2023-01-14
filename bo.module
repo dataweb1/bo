@@ -276,17 +276,19 @@ function bo_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
     foreach($form as &$element) {
       // If field has multiple values, transform field to fielset.
-      if (array_key_exists('#cardinality', $element['widget']) && ($element['widget']['#cardinality'] == -1 || $element['widget']['#cardinality'] > 1)) {
-        $element['#type'] = "fieldset";
-        $element['#title'] = $element["widget"]['#title'];
-        unset($element["widget"]['#title']);
-      }
+      if (isset($element['widget'])) {
+        if (array_key_exists('#cardinality', $element['widget']) && ($element['widget']['#cardinality'] == -1 || $element['widget']['#cardinality'] > 1)) {
+          $element['#type'] = "fieldset";
+          $element['#title'] = $element["widget"]['#title'];
+          unset($element["widget"]['#title']);
+        }
 
-      // If link field, remove extensive description.
-      if (isset($element['widget'][0]['uri'])) {
-        foreach ($element['widget'] as $index => &$button) {
-          if (is_int($index)) {
-            $button['uri']['#description'] = '';
+        // If link field, remove extensive description.
+        if (isset($element['widget'][0]['uri'])) {
+          foreach ($element['widget'] as $index => &$button) {
+            if (is_int($index)) {
+              $button['uri']['#description'] = '';
+            }
           }
         }
       }

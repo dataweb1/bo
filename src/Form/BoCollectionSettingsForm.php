@@ -260,7 +260,7 @@ class BoCollectionSettingsForm extends ConfigFormBase {
     // bo_options > specific_view.
     $default_value_specific_view = $this->current_options["specific_view"] ?? '';
     if ($default_value_specific_view == '') {
-      $default_value_specific_view = implode('__', $this->boCollection->getCollectionView($this->collection_id));
+      $default_value_specific_view = implode('__', (array) $this->boCollection->getCollectionView($this->collection_id));
     }
 
     // Get the BO views options.

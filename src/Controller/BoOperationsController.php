@@ -148,7 +148,7 @@ class BoOperationsController extends ControllerBase {
         ],
         '#cache' => [
           "tags" => [
-            "bo:collection:" . $args['collection_od'],
+            "bo:collection:" . $args['collection_id'],
           ],
         ],
       ];

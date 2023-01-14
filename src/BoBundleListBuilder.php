@@ -6,6 +6,7 @@ use Drupal\bo\Entity\BoBundleInterface;
 use Drupal\bo\Service\BoBundle;
 use Drupal\bo\Service\BoSettings;
 use Drupal\Core\Config\Entity\ConfigEntityListBuilder;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Form\FormBuilderInterface;
@@ -320,7 +321,7 @@ class BoBundleListBuilder extends ConfigEntityListBuilder implements FormInterfa
   /**
    * {@inheritdoc}
    */
-  public function buildRow(BoBundleInterface $bundle) {
+  public function buildRow(BoBundleInterface|EntityInterface $bundle) {
 
     $row['label']['#markup'] = $this->t($bundle->label());
     $row['description']['#markup'] = $bundle->getDescription();
