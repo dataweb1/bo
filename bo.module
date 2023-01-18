@@ -627,12 +627,14 @@ function _add_translation_submit($form, FormStateInterface $formState) {
 function _bo_entity_form_after_build($form, FormStateInterface $formState) {
 
   foreach($form as $delta => $element) {
-    if ($element['widget'][0]['#type'] == 'text_format') {
-      unset($form[$delta]['widget'][0]['format']['help']);
-      unset($form[$delta]['widget'][0]['format']['guidelines']);
-      $form[$delta]['widget'][0]['format']['#attributes']['class'][] = 'hide';
-      $form[$delta]['widget'][0]['format']['#prefix'] = '<div class="hide">';
-      $form[$delta]['widget'][0]['format']['#suffix'] = '</div>';
+    if (is_array($element)) {
+      if ($element['widget'][0]['#type'] == 'text_format') {
+        unset($form[$delta]['widget'][0]['format']['help']);
+        unset($form[$delta]['widget'][0]['format']['guidelines']);
+        $form[$delta]['widget'][0]['format']['#attributes']['class'][] = 'hide';
+        $form[$delta]['widget'][0]['format']['#prefix'] = '<div class="hide">';
+        $form[$delta]['widget'][0]['format']['#suffix'] = '</div>';
+      }
     }
   }
 
