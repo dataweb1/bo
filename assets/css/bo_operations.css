@@ -1,4 +1,5 @@
 .node-entity,
+.term-entity,
 .bo-entity {
   position: relative;
   height: 100%;
@@ -103,6 +104,7 @@
   padding: 0!important;
 }
 
+.term-entity-operations,
 .node-entity-operations,
 .bo-entity-operations {
   display: none;

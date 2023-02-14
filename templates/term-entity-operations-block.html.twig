@@ -1,0 +1,15 @@
+{% if items or empty -%}
+{%- if items -%}
+<ul class="{{ list_class }}">
+  {% if label != '' %}
+  <li><div class="no-link no-icon"><span class="label">{{ label }}</span></div></li>
+  {% endif %}
+  {%- for item in items -%}
+  <li>{{ item }}</li>
+  {%- endfor -%}
+</ul>
+{%- else -%}
+{{- empty -}}
+{%- endif -%}
+
+{%- endif %}

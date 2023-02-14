@@ -150,6 +150,15 @@ function bo_theme() {
     ],
   ];
 
+  $templates["term_entity_operations_block"] = [
+    'variables' => [
+      "items" => NULL,
+      'attributes' => NULL,
+      'list_class' => NULL,
+      'label' => NULL,
+    ],
+  ];
+
   return $templates;
 }
 
@@ -466,6 +475,18 @@ function bo_link_alter(&$variables) {
       'width' => '900',
     ],
     'node.add' => [
+      'use' => 'dialog',
+      'width' => '900',
+    ],
+    'entity.taxonomy_term.add_form' => [
+      'use' => 'dialog',
+      'width' => '900',
+    ],
+    'entity.taxonomy_term.edit_form' => [
+      'use' => 'dialog',
+      'width' => '900',
+    ],
+    'entity.taxonomy_term.delete_form' => [
       'use' => 'dialog',
       'width' => '900',
     ],
