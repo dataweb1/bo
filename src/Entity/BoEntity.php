@@ -34,6 +34,7 @@ use Drupal\bo\Service\BoCollection;
  *     "list_builder" = "Drupal\bo\BoEntityListBuilder",
  *     "access" = "Drupal\bo\BoEntityAccessControlHandler",
  *     "views_data" = "Drupal\bo\BoViewsData",
+ *     "storage_schema" = "Drupal\bo\BoStorageSchema",
  *     "form" = {
  *       "default" = "Drupal\bo\Form\BoEntityForm",
  *       "add" = "Drupal\bo\Form\BoEntityForm",
