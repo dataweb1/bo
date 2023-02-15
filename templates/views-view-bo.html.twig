@@ -41,7 +41,7 @@
 {% if title_prefix or title or title_suffix or header or exposed
     or attachment_before or rows or empty or pager or attachment_after
     or more or footer or feed_icons %}
-    {% if logged_in %}
+    {% if logged_in and commentStripper(header|render) != "" %}
     <div{{ attributes.addClass(classes) }}>
     {% endif %}
     {{ title_prefix }}
@@ -71,7 +71,7 @@
     {% endif %}
 
     {{ feed_icons }}
-    {% if logged_in %}
+    {% if logged_in and commentStripper(header|render) != "" %}
     </div>
     {% endif %}
 {% endif %}
