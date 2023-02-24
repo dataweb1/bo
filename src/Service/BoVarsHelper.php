@@ -83,6 +83,28 @@ class BoVarsHelper {
 
   /**
    * @param $content
+   * @param $elements
+   */
+  public function removeStyleFromElement(&$content, array $elements) {
+    if ($content != '') {
+      $doc = new \DOMDocument();
+      $doc->loadHTML(mb_convert_encoding($content, "HTML-ENTITIES", "UTF-8"), LIBXML_HTML_NODEFDTD);
+      if ($xml = \simplexml_import_dom($doc)) { // just to make xpath more simple
+        foreach ($elements as $element) {
+          /** @var \DOMNodeList $content_elements */
+          $content_elements = $doc->getElementsByTagName($element);
+          /** @var \DOMNode $content_element */
+          foreach ($content_elements as $content_element) {
+            $content_element->removeAttribute('style');
+          }
+        }
+      }
+      $content = Markup::create($doc->saveHTML());
+    }
+  }
+  
+  /**
+   * @param $content
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
