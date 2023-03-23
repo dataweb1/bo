@@ -16,7 +16,7 @@ class BoCollection {
   /**
    * @var array
    */
-  private array $boViews;
+  private array $boViews = [];
 
   /**
    * @var AccountProxy
