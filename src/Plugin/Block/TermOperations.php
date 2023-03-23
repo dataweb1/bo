@@ -73,6 +73,11 @@ class TermOperations extends BlockBase {
         '#label' => $label,
         '#attributes' => $attributes,
         '#list_class' => 'bo-operations',
+        '#attached' => [
+          "library" => [
+            'bo/bo_operations',
+          ],
+        ],
       ];
     }
 
