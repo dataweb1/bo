@@ -6,6 +6,7 @@ dependencies:
     - crop.type.landscape
   module:
     - crop
+    - bo
 name: bo_12
 label: 'BO 1/1'
 effects:

@@ -1,7 +1,9 @@
 uuid: 208e9f43-f118-4d26-97b5-46bc9ccc7272
 langcode: nl
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - bo
 label: Banner
 id: banner
 description: ''
