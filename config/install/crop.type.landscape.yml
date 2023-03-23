@@ -2,8 +2,9 @@ uuid: ab0ce023-df4a-4019-9688-f86c47d8c7a8
 langcode: nl
 status: true
 dependencies:
-  module:
-    - bo
+  enforced:
+    module:
+      - bo
 label: Liggend
 id: landscape
 description: ''
