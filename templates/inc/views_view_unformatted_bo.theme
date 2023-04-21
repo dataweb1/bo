@@ -61,10 +61,6 @@ function bo_preprocess_views_view_unformatted_bo(&$vars) {
 
   $vars['default_row_class'] = !empty($options['default_row_class']);
   foreach ($rows as $id => $row) {
-    $vars['rows'][$id] = [];
-    $vars['rows'][$id]['content'] = $row;
-
-    //$vars['rows'][$id]['attributes'] = new Attribute();
     if ($row_class = $view->style_plugin->getRowClass($id)) {
       $vars['rows'][$id]['attributes'][] = $row_class;//->addClass($row_class);
     }

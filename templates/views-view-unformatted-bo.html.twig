@@ -19,14 +19,11 @@
  */
 #}
 
-{% for row in rows %}
-
-    {% if row.attributes is not empty %}
-      <div {{ row.attributes }}>
-    {% endif %}
-    {{ row.content }}
-    {% if row.attributes is not empty %}
-      </div>
-    {% endif %}
-
-{% endfor %}
+<div class="row">
+  {% for index, row in rows %}
+    {% set size = bo.collection[index].size %}
+    <div class="сol-{{ size }} col-md-{{ size }} col-lg-{{ size }}">
+      {{ row.content }}
+    </div>
+  {% endfor %}
+</div>
