@@ -10,6 +10,5 @@ dependencies:
   - drupal:options
   - drupal:media
   - drupal:media_library
-  - drupal:image_url_formatter
   - drupal:image_widget_crop
   - drupal:conditional_fields
