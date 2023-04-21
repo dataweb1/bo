@@ -140,7 +140,7 @@ class BoVars {
                   'field_type' => $field->getFieldDefinition()->getFieldStorageDefinition()->getType(),
                 ];
                 $empty_array = [];
-                $element = array_merge($element, $this->processField($entity, $field_name, $vars, $level, $empty_array));
+                $element = array_merge($element, (array) $this->processField($entity, $field_name, $vars, $level, $empty_array));
 
                 $this->getRenderedViewFields($current_display, $row, $field_name, $element);
 
@@ -374,7 +374,7 @@ class BoVars {
 
       $attributes = [];
       $item_value = $item->getValue();
-      if (isset($item_value['options']['attributes'])) {
+      if (array_key_exists('attributes', $item_value['options'])) {
         $attributes = $item_value['options']['attributes'];
       }
 
@@ -390,7 +390,7 @@ class BoVars {
         '#title' => $title,
       ];
 
-      $e["rendered"]["basic"] = $this->renderer->renderRoot($basic);
+      $e["rendered"]["basic"] = $this->renderer->renderPlain($basic);
       $e["raw"]["uri"] = $uri;
       $e["raw"]["url"] = $url_string;
       $e["raw"]["title"] = $title;
