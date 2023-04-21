@@ -14,6 +14,25 @@ use Drupal\image\Entity\ImageStyle;
 
 
 /**
+ * Implements hook_modules_installed().
+ */
+function bo_modules_installed(array $modules) {
+  if (in_array('bo', $modules)) {
+
+    // Make nid nullable.
+    $schema = \Drupal::database()->schema();
+    $schema->changeField('bo', 'nid', 'nid', [
+      'type' => 'int',
+      'unsigned' => TRUE,
+      'not null' => FALSE,
+      'description' => t('The node ID of the BO entity.'),
+    ]);
+
+    // Clear cache so all routes and links are made available.
+    drupal_flush_all_caches();
+  }
+}
+/**
  * Implements hook_theme().
  */
 function bo_theme() {
