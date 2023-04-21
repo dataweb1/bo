@@ -11,7 +11,7 @@ dependencies:
   module:
     - text
 _core:
-  default_config_hash: MbJF_KITm0o10HtsMjr1EMydkdgqE84gyPBu-Z2Rj-U
+  default_config_hash: 2jTppLFD8Rpy9FhrO-2ubmgYF2Ezi-0lSk28w_3dipM
 id: bo.text.default
 targetEntityType: bo
 bundle: text
@@ -22,14 +22,50 @@ content:
     weight: 7
     region: content
     settings: {  }
-    third_party_settings: {  }
+    third_party_settings:
+      conditional_fields:
+        7c95170a-caa8-4430-8ce9-7f82ae4b1cab:
+          entity_type: bo
+          bundle: text
+          dependee: field_show_in_columns
+          settings:
+            state: visible
+            reset: false
+            condition: checked
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              value: false
+            effect: show
+            effect_options: {  }
+            selector: ''
   field_only_text:
     type: boolean_checkbox
     weight: 8
     region: content
     settings:
       display_label: true
-    third_party_settings: {  }
+    third_party_settings:
+      conditional_fields:
+        ae878593-c9e9-4e44-9e82-61135e60e454:
+          entity_type: bo
+          bundle: text
+          dependee: field_show_in_columns
+          settings:
+            state: visible
+            reset: false
+            condition: checked
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              value: false
+            effect: show
+            effect_options: {  }
+            selector: ''
   field_show_in_columns:
     type: boolean_checkbox
     weight: 6
