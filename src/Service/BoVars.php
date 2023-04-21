@@ -3,6 +3,8 @@
 namespace Drupal\bo\Service;
 
 use Drupal\bo\Entity\BoEntity;
+use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Entity\EntityFieldManager;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManager;
@@ -519,17 +521,19 @@ class BoVars {
         $e["raw"]["second"] = date("s", $raw);
       }
       else {
-        $raw_markup = Markup::create($raw);
-        if ($raw_markup instanceof Markup) {
-          $e["raw"]["value"] = $raw_markup->__toString();
-        }
-        else {
-          $e["raw"]["value"] = $raw_markup;
+        $e["raw"]["value"] = Markup::create($raw);
+
+        /** @var \Drupal\Core\Field\FieldItemList $field */
+        $field = $entity->get($field_name);
+        if ($field->getFieldDefinition()->getFieldStorageDefinition()->getType() == 'text_long') {
+          try {
+            $this->replaceDrupalMedia($e["raw"]["value"], $entity, $level, $vars);
+          } catch (InvalidPluginDefinitionException $e) {
+          } catch (PluginNotFoundException $e) {
+          }
         }
       }
 
-      // $this->smartValue($item->value, $e, $vars);
-      $this->replaceDrupalMedia($e["raw"]["value"], $entity, $level, $vars);
       if ($cardinality == 1) {
 
         if (!empty($element["raw"])) {
@@ -717,7 +721,6 @@ class BoVars {
       '#attributes' => ["target" => "_blank"],
       '#title' => $file_entity->getFileName(),
     ];
-
 
     $e["rendered"]["basic"] = $this->renderer->renderPlain($basic);
     $e["raw"]["uri"] = $file_entity->getFileUri();
@@ -936,6 +939,7 @@ class BoVars {
         if ($entity_type == 'media') {
           // Get the link entity by the UUID.
           $align = $drupal_media_item->getAttribute('data-align');
+          $caption = $drupal_media_item->getAttribute('data-caption');
           $media_uuid = $drupal_media_item->getAttribute('data-entity-uuid');
           if ($media_uuid != '') {
             // Search for the link entity by the UUID.
@@ -948,10 +952,17 @@ class BoVars {
             if ($media) {
               $media_data = $this->getMediaData($media, 'bo_' . $this->imageStyleSize($entity, $align), $level, $vars);
               $media_data['align'] = $align;
-
+              $media_data['caption'] = $caption;
               $renderable = [
                 '#theme' => 'bo__' . $entity->bundle() . '__media',
                 '#bo' => [
+                  'id' => $vars['bo']['id'],
+                  'view_id' => $vars['bo']['view_id'],
+                  'display_id' => $vars['bo']['display_id'],
+                  'row_count' => $vars['bo']['row_count'],
+                  'row_index' => $vars['bo']['row_index'],
+                  'bundle' => $vars['bo']['bundle'],
+                  'size' => $vars['bo']['size'],
                   'media' => $media_data,
                 ],
               ];
