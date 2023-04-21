@@ -58,6 +58,7 @@ class BoTranslate {
   public function translatePathContent($from_langcode, $to_langcode, $to_path) {
     if ($this->enabled == TRUE) {
       $query = \Drupal::entityQuery('bo')
+        ->accessCheck(TRUE)
         ->condition('to_path', $to_path)
         ->condition('langcode', $from_langcode);
       $bo_ids = $query->execute();

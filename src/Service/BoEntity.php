@@ -30,6 +30,7 @@ class BoEntity {
    */
   public function deleteAllEntitiesWithPath($langcode, $to_path) {
     $query = \Drupal::entityQuery('bo')
+      ->accessCheck(TRUE)
       ->condition('to_path', $to_path)
       ->condition('langcode', $langcode);
 

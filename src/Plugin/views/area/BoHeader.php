@@ -168,6 +168,7 @@ class BoHeader extends AreaPluginBase {
           '#label' => $this->boCollection->getCollectionLabel($collection_id),
         ];
 
+        $wrapper_class = '';
         $class = '';
         if ($this->boCollection->getHeaderOperationsOverlap($collection_id)) {
           $wrapper_class = 'with-overlap';

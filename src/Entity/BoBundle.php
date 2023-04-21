@@ -203,7 +203,10 @@ class BoBundle extends ConfigEntityBundleBase implements BoBundleInterface {
    * {@inheritdoc}
    */
   public function getCollectionEnabled() {
-    return $this->collection['enabled'];
+    if (is_array($this->collection)) {
+      return $this->collection['enabled'];
+    }
+    return FALSE;
   }
 
   /**
@@ -216,8 +219,15 @@ class BoBundle extends ConfigEntityBundleBase implements BoBundleInterface {
   /**
    * {@inheritdoc}
    */
-  public function getCollectionOptions() {
-    return $this->collection['options'];
+  public function getCollectionOptions(string $option = '') {
+    $options = (array) $this->collection['options'];
+    if ($option != '') {
+      if (array_key_exists($option, $options)) {
+        return $options[$option];
+      }
+      return '';
+    }
+    return (array) $this->collection['options'];
   }
 
   /**
@@ -295,7 +305,9 @@ class BoBundle extends ConfigEntityBundleBase implements BoBundleInterface {
    * {@inheritdoc}
    */
   public function setCollectionEnabled($enabled) {
-    $this->collection['enabled'] = $enabled;
+    if (is_array($this->collection)) {
+      $this->collection['enabled'] = $enabled;
+    }
     return $this;
   }
 

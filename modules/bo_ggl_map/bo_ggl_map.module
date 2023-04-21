@@ -19,7 +19,7 @@ function bo_ggl_map_uninstall() {
  */
 function bo_ggl_map_preprocess_views_view_field_bo(array &$vars) {
   foreach ($vars['bo'] as $field_name => $element) {
-    if ($element['field_type'] == 'ggl_map_markers_field') {
+    if (is_array($element) && $element['field_type'] == 'ggl_map_markers_field') {
       $markers = [];
       $entity = BoEntity::load($vars['bo']['id']);
       foreach ($entity->get($field_name)->getValue() as $delta => $value) {

@@ -85,7 +85,7 @@ interface BoBundleInterface extends ConfigEntityInterface, EntityDescriptionInte
    * @return string
    *   Collection options of the BO bundle.
    */
-  public function getCollectionOptions();
+  public function getCollectionOptions(string $option = '');
 
 
   /**

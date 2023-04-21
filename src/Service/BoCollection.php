@@ -126,11 +126,11 @@ class BoCollection {
    */
   public function getCollectionLabel($collection_id) {
     // If collection settings overridden on view level.
-    $collection_label = $this->boSettings->getCollectionOptions($collection_id)['label'] ?? '';
+    $collection_label = $this->boSettings->getCollectionOptions($collection_id, 'label');
     if ($collection_label == '') {
       // If not get collection settings from bundle.
       if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
-        $collection_label = $collection_bundle->getCollectionOptions()['label'];
+        $collection_label = $collection_bundle->getCollectionOptions('label');
       }
     }
     return $collection_label;
@@ -144,11 +144,11 @@ class BoCollection {
    */
   public function getHeaderOperationsOverlap($collection_id) {
     // If collection settings overridden on view level.
-    $collection_header_operations_overlap = $this->boSettings->getCollectionOptions($collection_id)['header_operations_overlap'] ?? '';
+    $collection_header_operations_overlap = $this->boSettings->getCollectionOptions($collection_id, 'header_operations_overlap');
     if ($collection_header_operations_overlap == '') {
       // If not get collection settings from bundle.
       if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
-        $collection_header_operations_overlap = $collection_bundle->getCollectionOptions()['header_operations_overlap'];
+        $collection_header_operations_overlap = $collection_bundle->getCollectionOptions('header_operations_overlap');
       }
     }
     return (bool) $collection_header_operations_overlap;
@@ -163,11 +163,11 @@ class BoCollection {
    */
   public function getOperationsPosition($collection_id) {
     // If collection settings overridden on view level.
-    $operations_position = $this->boSettings->getCollectionOptions($collection_id)['operations_position'] ?? '';
+    $operations_position = $this->boSettings->getCollectionOptions($collection_id, 'operations_position');
     if ($operations_position == '') {
       // If not get collection settings from bundle.
       if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
-        $operations_position = $collection_bundle->getCollectionOptions()['operations_position'];
+        $operations_position = $collection_bundle->getCollectionOptions('operations_position');
       }
     }
 
@@ -185,7 +185,7 @@ class BoCollection {
    */
   public function getCollectionMaxElementCount($collection_id) {
     // If collection settings overridden on view level.
-    $max_element_count = $this->boSettings->getCollectionOptions($collection_id)['max_element_count'] ?? '';
+    $max_element_count = $this->boSettings->getCollectionOptions($collection_id, 'max_element_count');
     if ((string) $max_element_count == '') {
       // If not get collection settings from bundle.
       if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
@@ -203,11 +203,11 @@ class BoCollection {
    */
   public function getCollectionReload($collection_id) {
     // If collection settings overridden on view level.
-    $reload = $this->boSettings->getCollectionOptions($collection_id)['reload'] ?? '';
+    $reload = $this->boSettings->getCollectionOptions($collection_id, 'reload');
     if ((string) $reload == '') {
       // If not get collection settings from bundle.
       if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
-        $reload = $collection_bundle->getCollectionOptions()['reload'];
+        $reload = $collection_bundle->getCollectionOptions('reload');
       }
     }
     return (bool) $reload;
@@ -221,11 +221,11 @@ class BoCollection {
    */
   public function getDisableInsert($collection_id) {
     // If collection settings overridden on view level.
-    $disable_insert = $this->boSettings->getCollectionOptions($collection_id)['disable_insert'] ?? '';
+    $disable_insert = $this->boSettings->getCollectionOptions($collection_id, 'disable_insert');
     if ((string) $disable_insert == '') {
       // If not get collection settings from bundle.
       if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
-        $disable_insert = $collection_bundle->getCollectionOptions()['disable_insert'];
+        $disable_insert = $collection_bundle->getCollectionOptions('disable_insert');
       }
     }
     return (bool) $disable_insert;
@@ -239,11 +239,11 @@ class BoCollection {
    */
   public function getDisableBundleLabel($collection_id) {
     // If collection settings overridden on view level.
-    $disable_bundle_label = $this->boSettings->getCollectionOptions($collection_id)['disable_bundle_label'] ?? '';
+    $disable_bundle_label = $this->boSettings->getCollectionOptions($collection_id, 'disable_bundle_label');
     if ((string) $disable_bundle_label == '') {
       // If not get collection settings from bundle.
       if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
-        $disable_bundle_label = $collection_bundle->getCollectionOptions()['disable_bundle_label'];
+        $disable_bundle_label = $collection_bundle->getCollectionOptions('disable_bundle_label');
       }
     }
     return (bool) $disable_bundle_label;
@@ -257,11 +257,11 @@ class BoCollection {
    */
   public function getCollectionIgnoreCurrentPath($collection_id) {
     // If collection settings overridden on view level.
-    $ignore_current_path = $this->boSettings->getCollectionOptions($collection_id)['ignore_current_path'] ?? '';
+    $ignore_current_path = $this->boSettings->getCollectionOptions($collection_id, 'ignore_current_path');
     if ((string) $ignore_current_path == '') {
       // If not get collection settings from bundle.
       if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
-        $ignore_current_path = $collection_bundle->getCollectionOptions()['ignore_current_path'];
+        $ignore_current_path = $collection_bundle->getCollectionOptions('ignore_current_path');
       }
     }
     return (bool) $ignore_current_path;
@@ -276,11 +276,11 @@ class BoCollection {
    */
   public function getDisableSize($collection_id) {
     // If collection settings overridden on view level.
-    $disable_size = $this->boSettings->getCollectionOptions($collection_id)['disable_size'] ?? '';
+    $disable_size = $this->boSettings->getCollectionOptions($collection_id, 'disable_size');
     if ((string) $disable_size == '') {
       // If not get collection settings from bundle.
       if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
-        $disable_size = $collection_bundle->getCollectionOptions()['disable_size'];
+        $disable_size = $collection_bundle->getCollectionOptions('disable_size');
       }
     }
     return (bool) $disable_size;
@@ -294,11 +294,11 @@ class BoCollection {
    */
   public function getSmallOperations($collection_id) {
     // If collection settings overridden on view level.
-    $small_operations = $this->boSettings->getCollectionOptions($collection_id)['small_operations'] ?? '';
+    $small_operations = $this->boSettings->getCollectionOptions($collection_id, 'small_operations');
     if ((string) $small_operations == '') {
       // If not get collection settings from bundle.
       if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
-        $small_operations = $collection_bundle->getCollectionOptions()['small_operations'];
+        $small_operations = $collection_bundle->getCollectionOptions('small_operations');
       }
     }
     return (bool) $small_operations;
@@ -312,11 +312,11 @@ class BoCollection {
    */
   public function getInsertPosition($collection_id) {
     // If collection settings overridden on view level.
-    $insert_position = $this->boSettings->getCollectionOptions($collection_id)['insert_position'] ?? '';
+    $insert_position = $this->boSettings->getCollectionOptions($collection_id, 'insert_position');
     if ((string) $insert_position == '') {
       // If not get collection settings from bundle.
       if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
-        $insert_position = $collection_bundle->getCollectionOptions()['insert_position'];
+        $insert_position = $collection_bundle->getCollectionOptions('insert_position');
       }
     }
 
@@ -338,12 +338,12 @@ class BoCollection {
 
     // If collection settings overriden on view level.
     if ($this->boSettings->getCollection($collection_id)) {
-      $collection_view = $this->boSettings->getCollectionOptions($collection_id)['specific_view'];
+      $collection_view = $this->boSettings->getCollectionOptions($collection_id, 'specific_view');
     }
     else {
       // If not get collection settings from bundle.
       if ($collection_bundle = $this->getCollectionBundle($collection_id)) {
-        $collection_view = $collection_bundle->getCollectionOptions()['specific_view'];
+        $collection_view = $collection_bundle->getCollectionOptions('specific_view');
       }
     }
 

@@ -15,6 +15,7 @@ function bo_preprocess_views_view_bo(&$variables) {
     /** @var \Drupal\views\ViewExecutable $view */
     $view = &$variables["view"];
     $display_plugin = $view->display_handler->display['display_plugin'];
+    $variables['attributes'] = [];
     $variables['attributes']['class'][] = 'bo-overview';
     $variables['attributes']['class'][] = 'bo-overview-'.$display_plugin;
     //$variables['dom_id'] = $view->dom_id;

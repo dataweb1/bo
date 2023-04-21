@@ -77,32 +77,36 @@
         updateBundleWeights(table, groupName);
       };
 
-      $(context).find('select.bundle-group-select').once('bundle-group-select').on('change', function (event) {
-        let row = $(this).closest('tr');
-        let select = $(this);
+      once('bundleDrag', 'select.bundle-group-select', context).forEach(
+        function () {
+          $(this).on('change', function (event) {
+            let row = $(this).closest('tr');
+            let select = $(this);
 
-        tableDrag.rowObject = new tableDrag.row(row[0]);
+            tableDrag.rowObject = new tableDrag.row(row[0]);
 
-        let groupMessage = table.find('.group-' + select[0].value + '-message');
-        let groupItems = groupMessage.nextUntil('.group-message, .group-title');
-        if (groupItems.length) {
-          groupItems.last().after(row);
-        } else {
-          groupMessage.after(row);
+            let groupMessage = table.find('.group-' + select[0].value + '-message');
+            let groupItems = groupMessage.nextUntil('.group-message, .group-title');
+            if (groupItems.length) {
+              groupItems.last().after(row);
+            } else {
+              groupMessage.after(row);
+            }
+            updateBundleWeights(table, select[0].value);
+
+            checkEmptyGroups(table, tableDrag.rowObject);
+
+            updateLastPlaced(table, row);
+
+            if (!tableDrag.changed) {
+              $(Drupal.theme('tableDragChangedWarning')).insertBefore(tableDrag.table).hide().fadeIn('slow');
+              tableDrag.changed = TRUE;
+            }
+
+            select.trigger('blur');
+          });
         }
-        updateBundleWeights(table, select[0].value);
-
-        checkEmptyGroups(table, tableDrag.rowObject);
-
-        updateLastPlaced(table, row);
-
-        if (!tableDrag.changed) {
-          $(Drupal.theme('tableDragChangedWarning')).insertBefore(tableDrag.table).hide().fadeIn('slow');
-          tableDrag.changed = true;
-        }
-
-        select.trigger('blur');
-      });
+      );
     }
   };
 })(jQuery, window, Drupal);

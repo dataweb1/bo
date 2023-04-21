@@ -6,12 +6,9 @@
 \Drupal::moduleHandler()->loadInclude('bo', 'theme', 'templates/inc/views_view_fields');
 \Drupal::moduleHandler()->loadInclude('bo', 'theme', 'templates/inc/views_view_field_bo__bo_fields');
 
-use Drupal\bo\Enum\BoBundleType;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\image\Entity\ImageStyle;
-
 
 /**
  * Implements hook_modules_installed().
@@ -60,7 +57,7 @@ function bo_theme() {
 
       /** @var \Drupal\bo\Entity\BoBundle $bundle */
       foreach($bundles as $bundle) {
-        if ($bundle->getCollectionOptions()['specific_view'] == $view_id . '__' . $display['display_id']) {
+        if ($bundle->getCollectionOptions('specific_view') == $view_id . '__' . $display['display_id']) {
           add_views_view_unformatted_bo_suggestion_to_templates([
             $view_id,
             $display["display_id"],
@@ -658,12 +655,19 @@ function _bo_entity_form_after_build($form, FormStateInterface $formState) {
 
   foreach($form as $delta => $element) {
     if (is_array($element)) {
-      if ($element['widget'][0]['#type'] == 'text_format') {
-        unset($form[$delta]['widget'][0]['format']['help']);
-        unset($form[$delta]['widget'][0]['format']['guidelines']);
-        $form[$delta]['widget'][0]['format']['#attributes']['class'][] = 'hide';
-        $form[$delta]['widget'][0]['format']['#prefix'] = '<div class="hide">';
-        $form[$delta]['widget'][0]['format']['#suffix'] = '</div>';
+      if (isset($element['widget']) &&
+        isset($element['widget'][0]) &&
+        isset($element['widget'][0]['#type']) &&
+        $element['widget'][0]['#type'] == 'text_format') {
+          if (isset($form[$delta]['widget'][0]['format']['help'])) {
+            unset($form[$delta]['widget'][0]['format']['help']);
+          }
+          if (isset($form[$delta]['widget'][0]['format']['guidelines'])) {
+            unset($form[$delta]['widget'][0]['format']['guidelines']);
+          }
+          $form[$delta]['widget'][0]['format']['#attributes']['class'][] = 'hide';
+          $form[$delta]['widget'][0]['format']['#prefix'] = '<div class="hide">';
+          $form[$delta]['widget'][0]['format']['#suffix'] = '</div>';
       }
     }
   }
