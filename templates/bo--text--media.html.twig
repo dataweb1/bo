@@ -18,7 +18,6 @@
         {% endif %}
     </div>
     {{ attach_library('bo/bo_bundle_video') }}
-    {{ attach_library('planboommarter/video') }}
 {% endif %}
 
 {% if bo.media.media_bundle == 'document' %}
@@ -33,7 +32,4 @@
             <span><strong><a target="_blank" href="{{ bo.media.field_media_document.raw.url }}">{{ bo.media.raw.name }}</a></strong></span>
         </div>
     </div>
-    {{ attach_library('planboommarter/document') }}
 {% endif %}
-
-{{ attach_library('planboommarter/text_media') }}
