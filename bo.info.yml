@@ -10,7 +10,6 @@ dependencies:
   - drupal:options
   - drupal:media
   - drupal:media_library
-  - drupal:views_bootstrap
   - drupal:image_url_formatter
   - drupal:image_widget_crop
   - drupal:conditional_fields
