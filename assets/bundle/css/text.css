@@ -30,39 +30,39 @@
     column-gap: 3rem;
   }
 
-  .columns-all-content.bo-columns-1 {
+  .columns-all-content .bo-columns-1 {
     column-count: auto;
   }
 
-  .columns-all-content.bo-columns-2 {
+  .columns-all-content .bo-columns-2 {
     column-count: 2;
   }
 
-  .columns-all-content.p-columns-3 {
+  .columns-all-content .p-columns-3 {
     column-count: 3;
   }
 
-  .columns-all-content.bo-columns-4 {
+  .columns-all-content .bo-columns-4 {
     column-count: 4;
   }
 
-  .columns-only-text.bo-columns-1 p,
-  .columns-only-text.bo-columns-1 ul {
+  .columns-only-text .bo-columns-1 p,
+  .columns-only-text .bo-columns-1 ul {
     column-count: 1;
   }
 
-  .columns-only-text.bo-columns-2 p,
-  .columns-only-text.bo-columns-2 ul {
+  .columns-only-text .bo-columns-2 p,
+  .columns-only-text .bo-columns-2 ul {
     column-count: 2;
   }
 
-  .columns-only-text.bo-columns-3 p,
-  .columns-only-text.bo-columns-3 ul {
+  .columns-only-text .bo-columns-3 p,
+  .columns-only-text .bo-columns-3 ul {
     column-count: 3;
   }
 
-  .columns-only-text.bo-columns-4 p,
-  .columns-only-text.bo-columns-4 ul {
+  .columns-only-text .bo-columns-4 p,
+  .columns-only-text .bo-columns-4 ul {
     column-count: 4;
   }
 }
