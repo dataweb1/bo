@@ -19,8 +19,7 @@
  *    - row: An array containing information about the current row.
  */
 
-function bo_preprocess_views_view_fields(&$variables) {
-
+function bo_preprocess_views_view_fields_bo(&$variables) {
   $view = $variables["view"];
 
   if ($view->getBaseEntityType()) {

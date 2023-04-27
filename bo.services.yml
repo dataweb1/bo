@@ -22,8 +22,8 @@ services:
     tags:
       - { name: event_subscriber }
 
-  bo.handler:
-    class: Drupal\bo\Service\BoHandler
+  bo.template:
+    class: Drupal\bo\Service\BoTemplate
     arguments:
       - '@module_handler'
       - '@extension.list.module'

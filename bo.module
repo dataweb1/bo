@@ -1,11 +1,4 @@
 <?php
-\Drupal::moduleHandler()->loadInclude('bo', 'inc', 'inc/helper_functions');
-\Drupal::moduleHandler()->loadInclude('bo', 'inc', 'templates/inc/theme');
-\Drupal::moduleHandler()->loadInclude('bo', 'theme', 'templates/inc/views_view_bo');
-\Drupal::moduleHandler()->loadInclude('bo', 'theme', 'templates/inc/views_view_unformatted_bo');
-\Drupal::moduleHandler()->loadInclude('bo', 'theme', 'templates/inc/views_view_fields');
-\Drupal::moduleHandler()->loadInclude('bo', 'theme', 'templates/inc/views_view_field_bo__bo_fields');
-
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Form\FormStateInterface;
@@ -29,13 +22,13 @@ function bo_modules_installed(array $modules) {
     drupal_flush_all_caches();
   }
 }
+
 /**
  * Implements hook_theme().
  */
-function bo_theme() {
-  $templates = [];
+function bo_theme($existing, $type, $theme, $path) {
 
-  $theme = \Drupal::theme()->getActiveTheme();
+  $templates = [];
 
   /** @var \Drupal\bo\Service\BoBundle $boBundle */
   $boBundle = \Drupal::getContainer()->get('bo.bundle');
@@ -46,38 +39,71 @@ function bo_theme() {
   $bo_views = $boCollection->getBoViews();
   foreach($bo_views as $view_id => $view) {
     foreach ($view as $display) {
-      add_views_view_bo_suggestion_to_templates([
-        $view_id,
-        $display["display_id"]
-      ], $theme, $templates);
-      add_views_view_unformatted_bo_suggestion_to_templates([
-        $view_id,
-        $display["display_id"]
-      ], $theme, $templates);
 
+      // views_view_bo templates.
+      $template_key = 'views_view_bo';
+      foreach ([$view_id, $display["display_id"]] as $element) {
+        $template_key .= '__' . $element;
+        $templates[$template_key] = [
+          'template' => 'views-view-bo',
+          'file' => 'templates/inc/views_view_bo.theme',
+          'base_hook' => 'views_view',
+          'preprocess functions' => [
+            'bo_preprocess_views_view_bo'
+          ],
+        ];
+      }
+
+      // views_view_unformatted_bo templates.
       /** @var \Drupal\bo\Entity\BoBundle $bundle */
       foreach($bundles as $bundle) {
         if ($bundle->getCollectionOptions('specific_view') == $view_id . '__' . $display['display_id']) {
-          add_views_view_unformatted_bo_suggestion_to_templates([
-            $view_id,
-            $display["display_id"],
-            $bundle->id(),
-          ], $theme, $templates);
+          $template_key = 'views_view_unformatted_bo';
+          foreach ([$view_id, $display["display_id"], $bundle->id()] as $element) {
+            $template_key .= '__' . $element;
+            $templates[$template_key] = [
+              'template' => 'views-view-unformatted-bo',
+              'file' => 'templates/inc/views_view_unformatted_bo.theme',
+              'base hook' => 'views_view_unformatted',
+              'preprocess functions' => [
+                'bo_preprocess_views_view_unformatted_bo'
+              ],
+            ];
+          }
         }
       }
     }
   }
 
-  foreach($bundles as $bundle) {
-    add_views_view_field_bo_suggestion_to_templates($bundle->id(), $theme, $templates);
 
-    $templates['bo__text__media'] = [
-      'template' => 'bo--text--media',
-      'variables' => [
-        'bo' => [],
+  // views_view_fields_bo templates.
+  $templates['views_view_fields_bo'] = [
+    'template' => 'views-view-fields-bo',
+    'file' => 'templates/inc/views_view_fields_bo.theme',
+    'base hook' => 'views_view_fields',
+    'preprocess functions' => [
+      'bo_preprocess_views_view_fields_bo'
+    ],
+  ];
+
+  // views_view_field_bo templates.
+  foreach($bundles as $bundle) {
+    $templates['views_view_field_bo__' . $bundle->id()] = [
+      'template' => 'views-view-field-bo--bo-fields',
+      'file' => 'templates/inc/views_view_field_bo__bo_fields.theme',
+      'base hook' => 'views_view_field',
+      'preprocess functions' => [
+        'bo_preprocess_views_view_field_bo__bo_fields'
       ],
     ];
   }
+
+  $templates['bo__text__media'] = [
+    'template' => 'bo--text--media',
+    'variables' => [
+      'bo' => [],
+    ],
+  ];
 
   $templates["bo_add_multi_item_list"] = [
     'variables' => [
@@ -173,10 +199,20 @@ function bo_theme() {
  */
 
 function bo_theme_registry_alter(&$theme_registry) {
-  $theme_registry["views_view_fields"]["template"] = "views-view-fields-bo";
-  $theme_registry["views_view_fields"]["path"] = \Drupal::service('module_handler')->getModule('bo')->getPath()."/templates";
-}
+  /** @var \Drupal\bo\Service\BoTemplate $boTemplate */
+  $boTemplate = \Drupal::service('bo.template');
 
+  foreach($theme_registry as $template_key => &$template) {
+    foreach (['views_view_bo', 'views_view_unformatted_bo', 'views_view_fields_bo', 'views_view_field_bo'] as $needle) {
+      if (str_contains($template_key, $needle)) {
+        if ($more_specific_template = $boTemplate->detectMoreSpecificBoTemplate($template_key)) {
+          $template['template'] = $more_specific_template['template'];
+          $template['path'] = $more_specific_template['path'];
+        }
+      }
+    }
+  }
+}
 
 /**
  * Implements hook_theme_suggestions_alter().
@@ -187,6 +223,7 @@ function bo_theme_suggestions_alter(array &$suggestions, array $variables, $hook
   if (isset($variables['view'])) {
     $view = $variables['view'];
 
+    $class = '';
     if ($view->getBaseEntityType()) {
       $class = $view->getBaseEntityType()->getClass();
     }
@@ -194,21 +231,17 @@ function bo_theme_suggestions_alter(array &$suggestions, array $variables, $hook
     if ($class == "Drupal\bo\Entity\BoEntity") {
 
       if ($hook == "views_view") {
-        $suggestions[] = 'views_view_bo';
         $suggestions[] = sprintf('views_view_bo__%s', $variables['view']->id());
         $suggestions[] = sprintf('views_view_bo__%1$s__%2$s', $variables['view']->id(), $variables['view']->current_display);
       }
 
       if ($hook == "views_view_unformatted") {
-        $suggestions[] = 'views_view_unformatted_bo';
         $suggestions[] = sprintf('views_view_unformatted_bo__%s', $variables['view']->id());
         $suggestions[] = sprintf('views_view_unformatted_bo__%1$s__%2$s', $variables['view']->id(), $variables['view']->current_display);
 
-        // Add collection bundle suggestion if collection argument is set for a specific view.
         if (isset($variables['view']->filter["bo_current_collection_id_filter"])) {
           $currentCollectionId = $variables['view']->filter["bo_current_collection_id_filter"]->value;
 
-          /** @var \Drupal\bo\Service\BoCollection $boCollection */
           $boCollection = \Drupal::getContainer()->get('bo.collection');
           if ($bundle = $boCollection->getCollectionBundle($currentCollectionId)) {
             $suggestions[] = sprintf('views_view_unformatted_bo__%1$s__%2$s__%3$s', $variables['view']->id(), $variables['view']->current_display, $bundle->id());
@@ -217,21 +250,18 @@ function bo_theme_suggestions_alter(array &$suggestions, array $variables, $hook
       }
 
       if ($hook === 'views_view_fields') {
-        $suggestions[] = 'views_view_fields_bo';
+        $suggestions[] = $hook . '_bo';
       }
 
       if ($hook === 'views_view_field') {
-
         if ($variables["field"]->field == "bo_fields") {
           $bundle = $variables['row']->_entity->getBundle();
-          $suggestions[] = $hook . '_bo__bo_fields';
           $suggestions[] = $hook . '_bo__' . $bundle;
         }
 
         if ($variables["field"]->field == "bo_help") {
           $suggestions[] = $hook . '_bo__help';
         }
-
       }
 
     }
@@ -614,12 +644,13 @@ function bo_menu_links_discovered_alter(&$links) {
   }
 }
 
-function bo_update_8002() {
+function bo_update_8005() {
   $storage_definition = BaseFieldDefinition::create('entity_reference')
     ->setLabel(t('Node added to'))
     ->setDescription(t('The node ID where the BO entity is added to.'))
     ->setSetting('target_type', 'node')
-    ->setSetting('handler', 'default');
+    ->setSetting('handler', 'default')
+    ->setRequired(FALSE);
 
   \Drupal::entityDefinitionUpdateManager()
     ->installFieldStorageDefinition('nid', 'bo', 'bo', $storage_definition);
@@ -659,15 +690,15 @@ function _bo_entity_form_after_build($form, FormStateInterface $formState) {
         isset($element['widget'][0]) &&
         isset($element['widget'][0]['#type']) &&
         $element['widget'][0]['#type'] == 'text_format') {
-          if (isset($form[$delta]['widget'][0]['format']['help'])) {
-            unset($form[$delta]['widget'][0]['format']['help']);
-          }
-          if (isset($form[$delta]['widget'][0]['format']['guidelines'])) {
-            unset($form[$delta]['widget'][0]['format']['guidelines']);
-          }
-          $form[$delta]['widget'][0]['format']['#attributes']['class'][] = 'hide';
-          $form[$delta]['widget'][0]['format']['#prefix'] = '<div class="hide">';
-          $form[$delta]['widget'][0]['format']['#suffix'] = '</div>';
+        if (isset($form[$delta]['widget'][0]['format']['help'])) {
+          unset($form[$delta]['widget'][0]['format']['help']);
+        }
+        if (isset($form[$delta]['widget'][0]['format']['guidelines'])) {
+          unset($form[$delta]['widget'][0]['format']['guidelines']);
+        }
+        $form[$delta]['widget'][0]['format']['#attributes']['class'][] = 'hide';
+        $form[$delta]['widget'][0]['format']['#prefix'] = '<div class="hide">';
+        $form[$delta]['widget'][0]['format']['#suffix'] = '</div>';
       }
     }
   }
