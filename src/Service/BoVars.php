@@ -521,11 +521,20 @@ class BoVars {
         $e["raw"]["second"] = date("s", $raw);
       }
       else {
-        $e["raw"]["value"] = Markup::create($raw);
-
         /** @var \Drupal\Core\Field\FieldItemList $field */
         $field = $entity->get($field_name);
-        if ($field->getFieldDefinition()->getFieldStorageDefinition()->getType() == 'text_long') {
+        $field_type = $field->getFieldDefinition()->getFieldStorageDefinition()->getType();
+        switch ($field_type) {
+          case 'string':
+          case 'list_string':
+          case 'text_long':
+            $e["raw"]["value"] = Markup::create($raw);
+            break;
+          default:
+            $e["raw"]["value"] = $raw;
+        }
+
+        if ($field_type == 'text_long') {
           try {
             $this->replaceDrupalMedia($e["raw"]["value"], $entity, $level, $vars);
           } catch (InvalidPluginDefinitionException $e) {
@@ -925,10 +934,13 @@ class BoVars {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function replaceDrupalMedia(&$content, EntityInterface $entity, $level = 0, &$vars = []) {
-    if (strpos($content, 'drupal-media')) {
+  public function replaceDrupalMedia(Markup &$content, EntityInterface $entity, $level = 0, &$vars = []) {
+
+    $raw_content = $content->__toString();
+
+    if (strpos($raw_content, 'drupal-media')) {
       $doc = new \DOMDocument();
-      $doc->loadHTML(mb_convert_encoding($content, "HTML-ENTITIES", "UTF-8"), LIBXML_HTML_NODEFDTD);
+      @$doc->loadHTML(mb_convert_encoding($raw_content, "HTML-ENTITIES", "UTF-8"), LIBXML_HTML_NODEFDTD);
 
       /** @var \DOMNodeList $drupal_media */
       $drupal_media = $doc->getElementsByTagName('drupal-media');
@@ -980,14 +992,14 @@ class BoVars {
         }
       }
 
-      $content = strtr($doc->saveHTML(), [
+      $raw_content = strtr($doc->saveHTML(), [
         '<html>' => '',
         '</html>' => '',
         '<body>' => '',
         '</body>' => '',
       ]);
 
-      $content = Markup::create($content);
+      $content = Markup::create($raw_content);
     }
   }
 
