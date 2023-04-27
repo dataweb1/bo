@@ -87,13 +87,22 @@ function bo_theme($existing, $type, $theme, $path) {
   ];
 
   // views_view_field_bo templates.
+  $templates['views_view_field_bo'] = [
+    'template' => 'views-view-field-bo',
+    'file' => 'templates/inc/views_view_field_bo.theme',
+    'base hook' => 'views_view_field',
+    'preprocess functions' => [
+      'bo_preprocess_views_view_field_bo'
+    ],
+  ];
+
   foreach($bundles as $bundle) {
     $templates['views_view_field_bo__' . $bundle->id()] = [
-      'template' => 'views-view-field-bo--bo-fields',
-      'file' => 'templates/inc/views_view_field_bo__bo_fields.theme',
+      'template' => 'views-view-field-bo',
+      'file' => 'templates/inc/views_view_field_bo.theme',
       'base hook' => 'views_view_field',
       'preprocess functions' => [
-        'bo_preprocess_views_view_field_bo__bo_fields'
+        'bo_preprocess_views_view_field_bo'
       ],
     ];
   }
