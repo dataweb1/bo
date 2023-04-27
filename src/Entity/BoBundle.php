@@ -111,7 +111,7 @@ class BoBundle extends ConfigEntityBundleBase implements BoBundleInterface {
   /**
    * The default of the bo bundle.
    *
-   * @var boolean
+   * @var bool
    */
   protected $default;
 
@@ -220,14 +220,20 @@ class BoBundle extends ConfigEntityBundleBase implements BoBundleInterface {
    * {@inheritdoc}
    */
   public function getCollectionOptions(string $option = '') {
-    $options = (array) $this->collection['options'];
-    if ($option != '') {
-      if (array_key_exists($option, $options)) {
-        return $options[$option];
+    if (isset($this->collection['options'])) {
+      $options = $this->collection['options'];
+      if ($option != '') {
+        if (array_key_exists($option, $options)) {
+          return $options[$option];
+        }
+        return '';
       }
+      return (array) $this->collection['options'];
+    }
+    if ($option != '') {
       return '';
     }
-    return (array) $this->collection['options'];
+    return [];
   }
 
   /**
@@ -283,7 +289,6 @@ class BoBundle extends ConfigEntityBundleBase implements BoBundleInterface {
     return $this;
   }
 
-
   /**
    * {@inheritdoc}
    */
@@ -291,7 +296,6 @@ class BoBundle extends ConfigEntityBundleBase implements BoBundleInterface {
     $this->override_title_label = $override_title_label;
     return $this;
   }
-
 
   /**
    * {@inheritdoc}
