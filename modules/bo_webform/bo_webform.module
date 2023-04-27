@@ -19,7 +19,7 @@ function bo_webform_uninstall() {
 /**
  * @param array $vars
  */
-function bo_webform_preprocess_views_view_field_bo(array &$vars) {
+function bo_webform_preprocess_views_view_field_bo__webform(array &$vars) {
   $renderer = \Drupal::service('renderer');
 
   foreach ($vars['bo'] as $delta => $element) {

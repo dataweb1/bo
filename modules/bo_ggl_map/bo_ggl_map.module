@@ -17,7 +17,7 @@ function bo_ggl_map_uninstall() {
 /**
  * @param array $vars
  */
-function bo_ggl_map_preprocess_views_view_field_bo(array &$vars) {
+function bo_ggl_map_preprocess_views_view_field_bo__ggl_map(array &$vars) {
   foreach ($vars['bo'] as $field_name => $element) {
     if (is_array($element) && $element['field_type'] == 'ggl_map_markers_field') {
       $markers = [];
