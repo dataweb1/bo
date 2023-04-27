@@ -83,13 +83,13 @@ class BoTemplate {
     foreach($template_parts as $template_part_delta => $template_part) {
       $template = str_replace('_', '-', implode('--', $template_parts));
       foreach ($bo_template_detect_paths as $template_path) {
-        $template_file = DRUPAL_ROOT . '/' . $template_path . '/' . $template . ".html.twig";
-        if (file_exists($template_file)) {
+        if ($found_path = $this->findTemplate($template, $template_path)) {
           return [
             'template' => $template,
-            'path' => $template_path
+            'path' => $found_path
           ];
         }
+
       }
 
       array_pop($template_parts);
@@ -117,6 +117,36 @@ class BoTemplate {
     }
 
     return $paths;
+  }
+
+  /**
+   * @param $template
+   * @param $dir
+   * @return false|string
+   */
+  public function findTemplate($filename, $dir, $root = TRUE) {
+    if ($root) {
+      $dir = DRUPAL_ROOT . '/' . $dir;
+    }
+    if (is_dir($dir)) {
+      $files = scandir($dir);
+      foreach ($files as $file) {
+        if ($file == '.' || $file == '..') {
+          continue;
+        }
+        $path = $dir . '/' . $file;
+        if (is_dir($path)) {
+          $result = $this->findTemplate($filename, $path, FALSE);
+          if ($result !== FALSE) {
+            return $result;
+          }
+        }
+        else if ($file == $filename . '.html.twig') {
+          return str_replace(DRUPAL_ROOT . '/', '', $dir);
+        }
+      }
+    }
+    return FALSE;
   }
 
 }
