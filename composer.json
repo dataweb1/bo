@@ -12,7 +12,6 @@
   "require": {
     "drupal/image_url_formatter": "^1.0",
     "drupal/claro_media_library_theme": "^1.0@alpha",
-    "drupal/views_bootstrap": "^5.4",
     "google/cloud-translate": "^1.12",
     "drupal/ggl_map": "^1.0@alpha",
     "voku/urlify": "^5.0",
