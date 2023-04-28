@@ -108,8 +108,10 @@ class BoTemplate {
     $paths[$active_theme->getName()] = $active_theme->getPath() . '/templates';
 
     // Get base theme template paths.
-    $themeHandler = \Drupal::service('theme_handler');
-    $paths[$active_theme->getExtension()->base_theme] = $themeHandler->getTheme($active_theme->getExtension()->base_theme)->getPath() . '/templates';
+    if ($active_theme->getExtension()->base_theme != '') {
+      $themeHandler = \Drupal::service('theme_handler');
+      $paths[$active_theme->getExtension()->base_theme] = $themeHandler->getTheme($active_theme->getExtension()->base_theme)->getPath() . '/templates';
+    }
 
     // Get required by bo module template paths.
     foreach($this->getRequiredByBoModulesPaths() as $module => $module_path) {
