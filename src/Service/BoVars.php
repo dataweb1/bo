@@ -972,7 +972,7 @@ class BoVars {
                   'view_id' => $vars['bo']['view_id'],
                   'display_id' => $vars['bo']['display_id'],
                   'row_count' => $vars['bo']['row_count'],
-                  'row_index' => $vars['bo']['row_index'],
+                  'row_index' => $vars['bo']['row_index'] ?? 0,
                   'bundle' => $vars['bo']['bundle'],
                   'size' => $vars['bo']['size'],
                   'media' => $media_data,

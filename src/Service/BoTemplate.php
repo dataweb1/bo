@@ -108,7 +108,7 @@ class BoTemplate {
     $paths[$active_theme->getName()] = $active_theme->getPath() . '/templates';
 
     // Get base theme template paths.
-    if ($active_theme->getExtension()->base_theme != '') {
+    if (property_exists($active_theme->getExtension(), 'base_theme') && $active_theme->getExtension()->base_theme != '') {
       $themeHandler = \Drupal::service('theme_handler');
       $paths[$active_theme->getExtension()->base_theme] = $themeHandler->getTheme($active_theme->getExtension()->base_theme)->getPath() . '/templates';
     }
