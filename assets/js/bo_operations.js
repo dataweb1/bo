@@ -21,7 +21,10 @@
         Drupal.behaviors.bo_operations.closeOperationsPane();
       }
 
-      $('.bo-operations a').once().each(function() {
+
+      let elements = [];
+      elements =  $(once('bo_operations', '.bo-operations a', context));
+      elements.each(function() {
         $(this).on("mouseenter", function (e) {
           $(this).find('.show-hide').show();
         });
@@ -32,7 +35,8 @@
       });
 
       // Show/hide Edit / Delete / Help button.
-      $(".node-entity-operations").once().each(function () {
+      elements = $(once('bo_operations', '.node-entity-operations', context));
+      elements.each(function() {
         let parent_wrapper = $(this).closest(".node-entity");
 
         $(parent_wrapper).on("mouseenter", function (e) {
@@ -47,8 +51,8 @@
       });
 
       // Show/hide Edit / Delete / Help button.
-      $(".bo-entity-operations").once().each(function () {
-
+      elements = $(once('bo_operations', '.bo-entity-operations', context));
+      elements.each(function() {
         let parent_wrapper = $(this).closest(".bo-entity");
 
         $(parent_wrapper).on("mouseenter", function (e) {
@@ -71,8 +75,8 @@
       });
 
       // Show/hide Insert button.
-      $(".bo-insert-operations").once().each(function () {
-
+      elements = $(once('bo_operations', '.bo-insert-operations', context));
+      elements.each(function() {
         let parent_wrapper = $(this).closest(".bo-entity");
 
         $(parent_wrapper).on("mouseenter", function (e) {
@@ -88,11 +92,13 @@
         });
       });
 
-      $('.bo-entity').once().each(function () {
+
+      elements = $(once('bo_operations', '.bo-entity', context));
+      elements.each(function() {
         $(this).children().each(function() {
           let id = $(this).attr('id');
           if (typeof id !== 'undefined' && id !== false) {
-            if (id.search('bo_operations_pane') == -1) {
+            if (id.search('bo_operations_pane') === -1) {
               $(this).parent().find('.bo-entity-operations .id-tag').html('#' + id);
               $(this).parent().find('.bo-entity-operations .id-tag').css('display', 'block');
               return false;
