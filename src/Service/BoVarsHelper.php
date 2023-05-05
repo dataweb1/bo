@@ -102,7 +102,7 @@ class BoVarsHelper {
       $content = Markup::create($doc->saveHTML());
     }
   }
-  
+
   /**
    * @param $content
    *
@@ -159,7 +159,7 @@ class BoVarsHelper {
    * @return array|string|string[]|null
    */
   function removeHtmlComments($content = '') {
-    return preg_replace('/<!--(.|\s)*?-->/', '', $content);
+    return preg_replace('/<!--(.|\s)*?-->/', '', (string) $content);
   }
 
   /**
