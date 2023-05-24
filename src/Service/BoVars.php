@@ -201,7 +201,7 @@ class BoVars {
     if (in_array("items", $return)) {
       [$collection_view_id, $collection_display_id] = $this->boCollection->getCollectionView($collection->id());
 
-      if ($view_collection = Views::getView($collection_view_id)) {
+      if (!is_null($collection_view_id) && $view_collection = Views::getView($collection_view_id)) {
         $view_collection->setDisplay($collection_display_id);
 
         $_POST["collection_id"] = '';
