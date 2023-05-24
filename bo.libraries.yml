@@ -26,6 +26,8 @@ bo_operations:
       //use.fontawesome.com/releases/v5.0.13/css/all.css: {  }
   js:
     assets/js/bo_operations.js: {  }
+  dependencies:
+    - core/drupal.dialog.ajax
 
 bo_settings:
   version: 1.x
