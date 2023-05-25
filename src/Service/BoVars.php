@@ -624,6 +624,7 @@ class BoVars {
                 $field_name_2 == "created" ||
                 $field_name_2 == "changed" ||
                 $field_name_2 == "body" ||
+                $field_name_2 == "status" ||
                 substr($field_name_2, 0, 6) == "field_") {
                 if (!array_key_exists($field_name_2, $r)) {
                   $r[$field_name_2] = [];
@@ -865,6 +866,7 @@ class BoVars {
       $e['raw']['fid'] = $media->field_media_image->entity->id();
       $e['raw']['mid'] = $media->id();
       $e["raw"]["uri"] = $uri;
+      $e['raw']['status'] = $media->get('status')->getValue()[0]['value'];
       $e["raw"]["original_url"] = $original_url;
       $e["raw"]["optimized_url"] = $optimized_url;
       $e["raw"]["type"] = $type;
@@ -901,6 +903,7 @@ class BoVars {
         $e["rendered"]["basic"] = $this->renderer->renderPlain($basic);
         $e["rendered"]["extended"] = $this->renderer->renderPlain($extended);
         $e["raw"]["uri"] = $uri;
+        $e['raw']['status'] = $media->get('status')->getValue()[0]['value'];
         $e["raw"]["name"] = $name;
         $e["raw"]["filename"] = $filename;
         $e["raw"]["size"] = $size;
