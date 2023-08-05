@@ -827,53 +827,55 @@ class BoVars {
         }
       }
 
-      $uri = $media->field_media_image->entity->getFileUri();
-      $original_url = $this->fileUrlGenerator->generateAbsoluteString($media->field_media_image->entity->getFileUri());
+      if ($media->field_media_image->entity) {
+        $uri = $media->field_media_image->entity->getFileUri();
+        $original_url = $this->fileUrlGenerator->generateAbsoluteString($media->field_media_image->entity->getFileUri());
 
-      $alt = $media->field_media_image->alt;
-      $type = str_replace("/", "-", $media->field_media_image->entity->getMimeType());
-      $filename = $media->field_media_image->entity->getFileName();
-      $size = $media->field_media_image->entity->getSize();
+        $alt = $media->field_media_image->alt;
+        $type = str_replace("/", "-", $media->field_media_image->entity->getMimeType());
+        $filename = $media->field_media_image->entity->getFileName();
+        $size = $media->field_media_image->entity->getSize();
 
-      $optimized_url = "";
-      $image_style = ImageStyle::load($style_name);
-      if ($image_style) {
-        $optimized_url = $image_style->buildUrl($uri);
+        $optimized_url = "";
+        $image_style = ImageStyle::load($style_name);
+        if ($image_style) {
+          $optimized_url = $image_style->buildUrl($uri);
 
-        $basic = [
-          '#theme' => 'image_style',
-          '#style_name' => $style_name,
-          '#alt' => $alt,
-          '#uri' => $uri,
-        ];
-        $e["rendered"]["basic"] = $this->renderer->renderPlain($basic);
+          $basic = [
+            '#theme' => 'image_style',
+            '#style_name' => $style_name,
+            '#alt' => $alt,
+            '#uri' => $uri,
+          ];
+          $e["rendered"]["basic"] = $this->renderer->renderPlain($basic);
 
-        $display_options = [
-          'label'    => 'hidden',
-          'type'     => 'responsive_image',
-          'settings' => [
-            'responsive_image_style' => 'wide',
-          ],
-        ];
+          $display_options = [
+            'label' => 'hidden',
+            'type' => 'responsive_image',
+            'settings' => [
+              'responsive_image_style' => 'wide',
+            ],
+          ];
 
-        // Get image, apply display options.
-        $image = $media->get('field_media_image')->view($display_options);
+          // Get image, apply display options.
+          $image = $media->get('field_media_image')->view($display_options);
 
-        // Render.
-        $e["rendered"]["responsive"] = $this->renderer->renderPlain($image);
+          // Render.
+          $e["rendered"]["responsive"] = $this->renderer->renderPlain($image);
+        }
+
+        $e['raw']['fid'] = $media->field_media_image->entity->id();
+        $e['raw']['mid'] = $media->id();
+        $e["raw"]["uri"] = $uri;
+        $e['raw']['status'] = $media->get('status')->getValue()[0]['value'];
+        $e["raw"]["original_url"] = $original_url;
+        $e["raw"]["optimized_url"] = $optimized_url;
+        $e["raw"]["type"] = $type;
+        $e["raw"]["alt"] = $alt;
+        $e["raw"]["filename"] = $filename;
+        $e["raw"]["size"] = $size;
+        $e["rendered"]["size"] = $this->boVarsHelper->formatBytes($size);
       }
-
-      $e['raw']['fid'] = $media->field_media_image->entity->id();
-      $e['raw']['mid'] = $media->id();
-      $e["raw"]["uri"] = $uri;
-      $e['raw']['status'] = $media->get('status')->getValue()[0]['value'];
-      $e["raw"]["original_url"] = $original_url;
-      $e["raw"]["optimized_url"] = $optimized_url;
-      $e["raw"]["type"] = $type;
-      $e["raw"]["alt"] = $alt;
-      $e["raw"]["filename"] = $filename;
-      $e["raw"]["size"] = $size;
-      $e["rendered"]["size"] = $this->boVarsHelper->formatBytes($size);
     }
 
     if ($media->bundle() == "file" || $media->bundle() == "document") {
