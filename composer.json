@@ -15,7 +15,6 @@
     "google/cloud-translate": "^1.12",
     "drupal/ggl_map": "^1.0@alpha",
     "voku/urlify": "^5.0",
-    "drupal/twig_tweak": "^3.2|^2.10",
     "drupal/image_widget_crop": "^2.3",
     "drupal/conditional_fields": "^4.0@alpha"
   },
