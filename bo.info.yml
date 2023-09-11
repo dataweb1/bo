@@ -12,3 +12,4 @@ dependencies:
   - drupal:media_library
   - drupal:image_widget_crop
   - drupal:conditional_fields
+  - drupal:image_url_formatter
