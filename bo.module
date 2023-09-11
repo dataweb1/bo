@@ -517,11 +517,11 @@ function bo_link_alter(&$variables) {
     ],
     'entity.node.edit_form' => [
       'use' => 'dialog',
-      'width' => '900',
+      'width' => '1200',
     ],
     'node.add' => [
       'use' => 'dialog',
-      'width' => '900',
+      'width' => '1200',
     ],
     'entity.taxonomy_term.add_form' => [
       'use' => 'dialog',
