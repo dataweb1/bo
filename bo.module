@@ -91,9 +91,11 @@ function bo_theme($existing, $type, $theme, $path) {
     'template' => 'views-view-field-bo',
     'file' => 'templates/inc/views_view_field_bo.theme',
     'base hook' => 'views_view_field',
+    /*
     'preprocess functions' => [
       'bo_preprocess_views_view_field_bo'
     ],
+    */
   ];
 
   foreach($bundles as $bundle) {
@@ -101,9 +103,11 @@ function bo_theme($existing, $type, $theme, $path) {
       'template' => 'views-view-field-bo',
       'file' => 'templates/inc/views_view_field_bo.theme',
       'base hook' => 'views_view_field',
+      /*
       'preprocess functions' => [
         'bo_preprocess_views_view_field_bo'
       ],
+      */
     ];
   }
 
