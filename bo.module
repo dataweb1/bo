@@ -236,6 +236,10 @@ function bo_theme_suggestions_alter(array &$suggestions, array $variables, $hook
   if (isset($variables['view'])) {
     $view = $variables['view'];
 
+    if (!is_object($view)) {
+      return;
+    }
+    
     $class = '';
     if ($view->getBaseEntityType()) {
       $class = $view->getBaseEntityType()->getClass();
