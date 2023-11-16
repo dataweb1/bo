@@ -87,7 +87,7 @@ class NodeOperations extends AreaPluginBase {
    * {@inheritdoc}
    */
   public function render($empty = FALSE) {
-
+    dpm('area node operations');
     if (!$empty || !empty($this->options['empty'])) {
       if (isset($this->view->filter["type"])) {
         $links = [];
@@ -117,6 +117,9 @@ class NodeOperations extends AreaPluginBase {
             '#label' => '',
           ];
           $html = \Drupal::service('renderer')->render($node_area_operations);
+        }
+        else {
+          return [];
         }
 
         return [

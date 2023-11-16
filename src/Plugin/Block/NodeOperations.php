@@ -4,6 +4,7 @@ namespace Drupal\bo\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\Cache;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\node\Entity\Node;
 use Drupal\node\Entity\NodeType;
@@ -68,6 +69,9 @@ class NodeOperations extends BlockBase {
         else {
           $label .= $title;
         }
+      }
+      else {
+        return [];
       }
 
       $attributes = [

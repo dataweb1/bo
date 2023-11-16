@@ -88,7 +88,6 @@ class BoHeader extends AreaPluginBase {
   public function render($empty = FALSE) {
 
     if (!$empty || !empty($this->options['empty'])) {
-
       // Get view filter/argument parameters for link rendering.
       $collection_id = $this->getViewCollectionIdFilter();
       $to_path = $this->getViewToPathArgument();
@@ -186,6 +185,9 @@ class BoHeader extends AreaPluginBase {
         }
         $html_header .= '</div>';
 
+      }
+      else {
+        return [];
       }
 
       return [

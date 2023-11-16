@@ -22,6 +22,7 @@ class TermOperations extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
+    dpm('term operations');
     /** @var Term $term */
     $term = \Drupal::routeMatch()->getParameter('taxonomy_term');
     if ($term) {
@@ -59,6 +60,9 @@ class TermOperations extends BlockBase {
         else {
           $label .= $title;
         }
+      }
+      else {
+        return [];
       }
 
       $attributes = [
