@@ -61,8 +61,8 @@ class BoVarsHelper {
   public function addAttributesToElement(&$content, array $elements, Attribute $attributes) {
     if ($content != '') {
       $doc = new \DOMDocument();
-      $doc->loadHTML(mb_convert_encoding($content, "HTML-ENTITIES", "UTF-8"), LIBXML_HTML_NODEFDTD);
-      if ($xml = \simplexml_import_dom($doc)) { // just to make xpath more simple
+      @$doc->loadHTML(mb_convert_encoding($content, "HTML-ENTITIES", "UTF-8"), LIBXML_HTML_NODEFDTD);
+      if ($xml = @\simplexml_import_dom($doc)) { // just to make xpath more simple
         foreach ($elements as $element) {
           /** @var \DOMNodeList $content_elements */
           $content_elements = $doc->getElementsByTagName($element);
