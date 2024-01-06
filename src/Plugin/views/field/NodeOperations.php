@@ -25,7 +25,6 @@ class NodeOperations extends EntityOperations {
    */
   public function render(ResultRow $values)
   {
-    dpm('field node operations');
     $markup = '';
 
     $bo_view_dom_id = $this->view->dom_id;

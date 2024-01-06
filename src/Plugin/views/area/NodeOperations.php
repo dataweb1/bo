@@ -87,7 +87,6 @@ class NodeOperations extends AreaPluginBase {
    * {@inheritdoc}
    */
   public function render($empty = FALSE) {
-    dpm('area node operations');
     if (!$empty || !empty($this->options['empty'])) {
       if (isset($this->view->filter["type"])) {
         $links = [];
