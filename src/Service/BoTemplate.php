@@ -3,7 +3,7 @@
 namespace Drupal\bo\Service;
 
 use Drupal\Core\Extension\ModuleExtensionList;
-use Drupal\Core\Extension\ModuleHandler;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 
 /**
  *
@@ -11,9 +11,9 @@ use Drupal\Core\Extension\ModuleHandler;
 class BoTemplate {
 
   /**
-   * @var \Drupal\Core\Extension\ModuleHandler
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
    */
-  private ModuleHandler $moduleHandler;
+  private ModuleHandlerInterface $moduleHandler;
 
   /**
    * @var \Drupal\Core\Extension\ModuleExtensionList
@@ -31,10 +31,10 @@ class BoTemplate {
   private $modulesPaths = NULL;
 
   /**
-   * @param \Drupal\Core\Extension\ModuleHandler $moduleHandler
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
    * @param \Drupal\Core\Extension\ModuleExtensionList $extension
    */
-  public function __construct(ModuleHandler $moduleHandler, ModuleExtensionList $extension) {
+  public function __construct(ModuleHandlerInterface $moduleHandler, ModuleExtensionList $extension) {
     $this->moduleHandler = $moduleHandler;
     $this->extension = $extension;
   }

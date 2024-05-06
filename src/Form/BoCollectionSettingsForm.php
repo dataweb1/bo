@@ -530,7 +530,7 @@ class BoCollectionSettingsForm extends ConfigFormBase {
       /** @var \Drupal\Core\Render\RendererInterface $renderer */
       $renderer = \Drupal::service('renderer');
 
-      /** @var \Drupal\Core\Extension\ModuleHandler $moduleHandler */
+      /** @var \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler */
       $moduleHandler = \Drupal::service('module_handler');
       if ($moduleHandler->moduleExists('inline_form_errors')) {
         $response->addCommand(new HtmlCommand('#form_wrapper', $form));

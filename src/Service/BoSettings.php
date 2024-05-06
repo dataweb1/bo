@@ -5,9 +5,8 @@ namespace Drupal\bo\Service;
 use Drupal\Core\Config\ConfigFactory;
 
 use Drupal\Core\Entity\EntityTypeManager;
-use Drupal\Core\Extension\ModuleHandler;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Session\AccountProxy;
-use Drupal\image\Entity\ImageStyle;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -32,9 +31,9 @@ class BoSettings {
   private $config;
 
   /**
-   * @var \Drupal\Core\Extension\ModuleHandler
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
    */
-  private ModuleHandler $moduleHandler;
+  private ModuleHandlerInterface $moduleHandler;
 
   /**
    * @var \Drupal\Core\Entity\EntityTypeManager
@@ -47,10 +46,10 @@ class BoSettings {
   /**
    * @param AccountProxy $currentUser
    * @param ConfigFactory $config
-   * @param ModuleHandler $moduleHandler
+   * @param ModuleHandlerInterface $moduleHandler
    * @param EntityTypeManager $entityTypeManager
    */
-  public function __construct( AccountProxy $currentUser, ConfigFactory $config, ModuleHandler $moduleHandler, EntityTypeManager $entityTypeManager) {
+  public function __construct( AccountProxy $currentUser, ConfigFactory $config, ModuleHandlerInterface $moduleHandler, EntityTypeManager $entityTypeManager) {
     $this->currentUser = $currentUser;
     $this->config = $config->getEditable('bo.settings');
     $this->settings = $this->config->get('config');
