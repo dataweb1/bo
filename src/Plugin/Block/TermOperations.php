@@ -165,23 +165,26 @@ class TermOperations extends BlockBase {
    * @return array
    */
   public function getTranslateLink(Term $term) {
-    $url = Url::fromRoute('entity.taxonomy_term.content_translation_overview', [
-      'node' => $term->id(),
-      'destination' => \Drupal::request()->getRequestUri(),
-    ]);
+    if ($term) {
+      $url = Url::fromRoute('entity.taxonomy_term.content_translation_overview', [
+        'node' => $term->id(),
+        'destination' => \Drupal::request()->getRequestUri(),
+      ]);
 
-    return [
-      '#type' => 'link',
-      '#attributes' => [
-        'class' => [
-          'bo-operation-translate',
+      return [
+        '#type' => 'link',
+        '#attributes' => [
+          'class' => [
+            'bo-operation-translate',
+          ],
         ],
-      ],
-      '#title' => [
-        '#markup' => '<span>' . $this->t('Translate') . '</span>',
-      ],
-      '#url' => $url,
-    ];
+        '#title' => [
+          '#markup' => '<span>' . $this->t('Translate') . '</span>',
+        ],
+        '#url' => $url,
+      ];
+    }
+    return [];
   }
 
 }
