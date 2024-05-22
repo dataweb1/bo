@@ -1,7 +1,7 @@
 name: BO
 type: module
 description: A flexible Block Overview. Optimized for use with Bootstrap layout
-core_version_requirement: ^8 || ^9 || ^10
+core_version_requirement: ^8 || ^9 || ^10 || ^11
 package: BO
 
 # Dependencies

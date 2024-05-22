@@ -28,7 +28,7 @@
     {% for key, item_row in bo.collection %}
         <tr>
             {% for key, item_col in item_row.field_value %}
-                <td class="bo-entity  bo-entity-{{ display_id }">
+                <td class="bo-entity  bo-entity-{{ display_id }}">
                     {{ item_col.raw.value }}
                     {% if key == item_row.field_value|length-1 %}
                         {{ item_row.operations }}
