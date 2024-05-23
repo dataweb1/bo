@@ -239,7 +239,7 @@ function bo_theme_suggestions_alter(array &$suggestions, array $variables, $hook
     if (!is_object($view)) {
       return;
     }
-    
+
     $class = '';
     if ($view->getBaseEntityType()) {
       $class = $view->getBaseEntityType()->getClass();
@@ -552,6 +552,14 @@ function bo_link_alter(&$variables) {
       'width' => '900',
     ],
     'entity.node.content_translation_add' => [
+      'use' => 'dialog',
+      'width' => '800',
+    ],
+    'entity.taxonomy_term.content_translation_overview' => [
+      'use' => 'dialog',
+      'width' => '900',
+    ],
+    'entity.taxonomy_term.content_translation_add' => [
       'use' => 'dialog',
       'width' => '800',
     ],
