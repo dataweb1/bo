@@ -9,6 +9,7 @@
   transition: 0.15s padding ease-out, 0.15s margin ease-out, 0.15s border ease-out;
   min-height: 50px;
   z-index: 1;
+  position: relative;
 }
 
 .bo-overview.active {
@@ -308,6 +309,10 @@
   margin: 0!important;
 }
 
+.bo-reorder-form {
+  margin-bottom: 0!important;
+}
+
 .bo-reorder-form .tabledrag-cell {
   padding-left: 0!important;
 }
@@ -524,7 +529,7 @@ ul.bo-add-multi-content li a:before {
 }
 
 .bo-operations-pane:empty {
-  display: none;
+  display: none!important;
 }
 
 .visible {
