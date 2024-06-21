@@ -8,6 +8,7 @@
 .bo-overview {
   transition: 0.15s padding ease-out, 0.15s margin ease-out, 0.15s border ease-out;
   min-height: 50px;
+  z-index: 1;
 }
 
 .bo-overview.active {
@@ -508,7 +509,7 @@ ul.bo-add-multi-content li a:before {
 }
 
 .bo-operations-pane .bo-table-reorder-wrapper {
-  background-color: #FFF;
+  background-color: #fff;
   border-radius: 5px;
   padding: 10px!important;
 }
@@ -520,6 +521,10 @@ ul.bo-add-multi-content li a:before {
 
 .bo-operations-pane .bo-add-multi {
   padding: 0;
+}
+
+.bo-operations-pane:empty {
+  display: none;
 }
 
 .visible {
