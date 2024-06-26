@@ -42,14 +42,13 @@ class BoSettings {
 
   private $subModules;
 
-
   /**
-   * @param AccountProxy $currentUser
-   * @param ConfigFactory $config
-   * @param ModuleHandlerInterface $moduleHandler
-   * @param EntityTypeManager $entityTypeManager
+   * @param \Drupal\Core\Session\AccountProxy $currentUser
+   * @param \Drupal\Core\Config\ConfigFactory $config
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
+   * @param \Drupal\Core\Entity\EntityTypeManager $entityTypeManager
    */
-  public function __construct( AccountProxy $currentUser, ConfigFactory $config, ModuleHandlerInterface $moduleHandler, EntityTypeManager $entityTypeManager) {
+  public function __construct(AccountProxy $currentUser, ConfigFactory $config, ModuleHandlerInterface $moduleHandler, EntityTypeManager $entityTypeManager) {
     $this->currentUser = $currentUser;
     $this->config = $config->getEditable('bo.settings');
     $this->settings = $this->config->get('config');
@@ -124,7 +123,7 @@ class BoSettings {
     if ($collection && !empty($collection['bundles'])) {
       return $collection;
     }
-    return false;
+    return FALSE;
   }
 
   /**
@@ -222,5 +221,11 @@ class BoSettings {
     $this->config->set('config', $this->settings)->save();
   }
 
+  /**
+   * @return mixed
+   */
+  public function getNoneBoDialogsDisabled() {
+    return $this->settings["none_bo_dialogs_disabled"];
+  }
 
 }

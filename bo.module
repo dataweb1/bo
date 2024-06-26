@@ -498,6 +498,9 @@ function bo_link_alter(&$variables) {
     return;
   }
 
+  /** @var \Drupal\bo\Service\BoSettings $boSettings */
+  $boSettings = \Drupal::service('bo.settings');
+
   $dialogRoutes = [
     'bo.collection_settings_form' => [
       'use' => 'dialog',
@@ -523,51 +526,57 @@ function bo_link_alter(&$variables) {
       'use' => 'dialog',
       'width' => '600',
     ],
-    'entity.node.edit_form' => [
-      'use' => 'dialog',
-      'width' => '1200',
-    ],
-    'node.add' => [
-      'use' => 'dialog',
-      'width' => '1200',
-    ],
-    'entity.taxonomy_term.add_form' => [
-      'use' => 'dialog',
-      'width' => '900',
-    ],
-    'entity.taxonomy_term.edit_form' => [
-      'use' => 'dialog',
-      'width' => '900',
-    ],
-    'entity.taxonomy_term.delete_form' => [
-      'use' => 'dialog',
-      'width' => '900',
-    ],
-    'entity.node.delete_form' => [
-      'use' => 'dialog',
-      'width' => '600',
-    ],
-    'entity.node.content_translation_overview' => [
-      'use' => 'dialog',
-      'width' => '900',
-    ],
-    'entity.node.content_translation_add' => [
-      'use' => 'dialog',
-      'width' => '800',
-    ],
-    'entity.taxonomy_term.content_translation_overview' => [
-      'use' => 'dialog',
-      'width' => '900',
-    ],
-    'entity.taxonomy_term.content_translation_add' => [
-      'use' => 'dialog',
-      'width' => '800',
-    ],
     'bo.help' => [
       'use' => 'dialog',
       'width' => '60%',
     ],
   ];
+
+  if (!$boSettings->getNoneBoDialogsDisabled()) {
+    $dialogRoutes += [
+      'entity.node.edit_form' => [
+        'use' => 'dialog',
+        'width' => '1200',
+      ],
+      'node.add' => [
+        'use' => 'dialog',
+        'width' => '1200',
+      ],
+      'entity.taxonomy_term.add_form' => [
+        'use' => 'dialog',
+        'width' => '900',
+      ],
+      'entity.taxonomy_term.edit_form' => [
+        'use' => 'dialog',
+        'width' => '900',
+      ],
+      'entity.taxonomy_term.delete_form' => [
+        'use' => 'dialog',
+        'width' => '900',
+      ],
+      'entity.node.delete_form' => [
+        'use' => 'dialog',
+        'width' => '600',
+      ],
+      'entity.node.content_translation_overview' => [
+        'use' => 'dialog',
+        'width' => '900',
+      ],
+      'entity.node.content_translation_add' => [
+        'use' => 'dialog',
+        'width' => '800',
+      ],
+      'entity.taxonomy_term.content_translation_overview' => [
+        'use' => 'dialog',
+        'width' => '900',
+      ],
+      'entity.taxonomy_term.content_translation_add' => [
+        'use' => 'dialog',
+        'width' => '800',
+      ],
+    ];
+  }
+
 
   $routeName = $url->getRouteName();
 

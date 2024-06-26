@@ -2,11 +2,11 @@
 
 namespace Drupal\bo\Form;
 
+use Drupal\bo\Service\BoSettings;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\bo\Service\BoSettings;
-use Drupal\Core\Cache\Cache;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Yaml\Yaml;
 
@@ -16,8 +16,6 @@ use Symfony\Component\Yaml\Yaml;
  * @package Drupal\bo\Form
  */
 class BoSettingsForm extends ConfigFormBase {
-
-  private BoSettings $boSettings;
 
   /**
    *
@@ -30,11 +28,11 @@ class BoSettingsForm extends ConfigFormBase {
   }
 
   /**
-   *
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   * @param \Drupal\bo\Service\BoSettings $boSettings
    */
-  public function __construct(ConfigFactoryInterface $config_factory, BoSettings $boSettings) {
+  public function __construct(ConfigFactoryInterface $config_factory, private readonly BoSettings $boSettings) {
     parent::__construct($config_factory);
-    $this->boSettings = $boSettings;
   }
 
   /**
@@ -57,6 +55,21 @@ class BoSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+
+    $form['general'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('General settings'),
+      '#collapsible' => FALSE,
+      '#collapsed' => FALSE,
+      '#tree' => TRUE,
+      '#weight' => 0,
+    ];
+
+    $form["general"]['none_bo_dialogs_disabled'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Disable none-BO dialogs'),
+      '#default_value' => $this->boSettings->getSetting("none_bo_dialogs_disabled"),
+    ];
 
     $form['google'] = [
       '#type' => 'fieldset',
@@ -120,6 +133,12 @@ class BoSettingsForm extends ConfigFormBase {
       'bo/bo_settings',
     ];
 
+    $form['google']['google_translate_enabled'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Enable Google Translate'),
+      '#default_value' => $this->boSettings->getGoogleTranslateEnabled(),
+    ];
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -137,6 +156,9 @@ class BoSettingsForm extends ConfigFormBase {
     parent::submitForm($form, $form_state);
 
     $input = $form_state->getUserInput();
+
+    $settings["none_bo_dialogs_disabled"] = $input["general"]["none_bo_dialogs_disabled"];
+
     $settings["google_translate_key"] = $input["google"]["google_translate_key"];
     $settings["google_translate_enabled"] = (bool) $input["google"]['google_translate_enabled'];
     $settings["google_maps_key"] = $input["google"]['google_maps_key'];
