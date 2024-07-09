@@ -3,6 +3,7 @@
 namespace Drupal\bo\Service;
 
 use Drupal\block\Entity\Block;
+use Drupal\bo\Entity\BoBundle as BoBundleEntity;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\views\ViewExecutable;
@@ -410,7 +411,7 @@ class BoCollection {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function isEnabledBundle($collection_id, BoBundle $bundle_to_check): bool {
+  public function isEnabledBundle($collection_id, BoBundleEntity $bundle_to_check): bool {
     // No create permisson, disabled right away.
     if (!$this->currentUser->hasPermission("create bo " . $bundle_to_check->id())) {
       return FALSE;

@@ -2,13 +2,11 @@
 
 namespace Drupal\bo\Controller;
 
+use Drupal\bo\Ajax\SlideCommand;
 use Drupal\bo\Service\BoBundle;
 use Drupal\bo\Service\BoCollection;
-use Drupal\bo\Service\BoSettings;
-use Drupal\bo\Ajax\SlideCommand;
-use Drupal\bo\Service\BoOperations;
-use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -19,18 +17,18 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class BoOperationsController extends ControllerBase {
 
   /**
-   * @var BoBundle
+   * @var \Drupal\bo\Service\BoBundle
    */
   private BoBundle $boBundle;
 
   /**
-   * @var BoCollection
+   * @var \Drupal\bo\Service\BoCollection
    */
   private BoCollection $boCollection;
 
   /**
-   * @param BoBundle $boBundle
-   * @param BoCollection $boCollection
+   * @param \Drupal\bo\Service\BoBundle $boBundle
+   * @param \Drupal\bo\Service\BoCollection $boCollection
    */
   public function __construct(BoBundle $boBundle, BoCollection $boCollection) {
     $this->boBundle = $boBundle;
@@ -38,8 +36,8 @@ class BoOperationsController extends ControllerBase {
   }
 
   /**
-   * @param ContainerInterface $container
-   * @return BoOperationsController|static
+   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+   * @return \Drupal\bo\Service\BoOperationsController|static
    */
   public static function create(ContainerInterface $container) {
     return new static(
@@ -51,7 +49,7 @@ class BoOperationsController extends ControllerBase {
   /**
    * @param $collection_id
    * @param $bo_view_dom_id
-   * @return AjaxResponse
+   * @return \Drupal\Core\Ajax\AjaxResponse
    */
   public function reorder($collection_id, $bo_view_dom_id) {
 
