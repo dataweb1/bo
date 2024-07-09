@@ -3,8 +3,8 @@
 namespace Drupal\bo\Service;
 
 use Drupal\block\Entity\Block;
-use Drupal\Core\Session\AccountProxy;
 use Drupal\Core\Database\Connection;
+use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\views\ViewExecutable;
 use Drupal\views\Views;
 
@@ -19,9 +19,9 @@ class BoCollection {
   private array $boViews = [];
 
   /**
-   * @var AccountProxy
+   * @var \Drupal\Core\Session\AccountProxyInterface
    */
-  private AccountProxy $currentUser;
+  private AccountProxyInterface $currentUser;
 
   /**
    * @var \Drupal\Core\Database\Connection
@@ -29,22 +29,22 @@ class BoCollection {
   private Connection $connection;
 
   /**
-   * @var BoSettings
+   * @var \Drupal\bo\Service\BoSettings
    */
   private BoSettings $boSettings;
 
   /**
-   * @var BoBundle
+   * @var \Drupal\bo\Service\BoBundle
    */
   private BoBundle $boBundle;
 
   /**
-   * @param Connection $connection
-   * @param AccountProxy $currentUser
+   * @param \Drupal\Core\Database\Connection $connection
+   * @param \Drupal\Core\Session\AccountProxyInterface $currentUser
    * @param BoSettings $boSettings
-   * @param BoBundle $boBundle
+   * @param \Drupal\bo\Service\BoBundle $boBundle
    */
-  public function __construct(Connection $connection, AccountProxy $currentUser, BoSettings $boSettings, BoBundle $boBundle) {
+  public function __construct(Connection $connection, AccountProxyInterface $currentUser, BoSettings $boSettings, BoBundle $boBundle) {
     $this->connection = $connection;
     $this->currentUser = $currentUser;
     $this->boSettings = $boSettings;
@@ -91,7 +91,7 @@ class BoCollection {
       return $view;
     }
 
-    return null;
+    return NULL;
   }
 
   /**
@@ -153,7 +153,6 @@ class BoCollection {
     }
     return (bool) $collection_header_operations_overlap;
   }
-
 
   /**
    * @param $collection_id
@@ -266,7 +265,6 @@ class BoCollection {
     }
     return (bool) $ignore_current_path;
   }
-
 
   /**
    * @param $collection_id
@@ -412,13 +410,13 @@ class BoCollection {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function isEnabledBundle($collection_id, \Drupal\bo\Entity\BoBundle $bundle_to_check): bool {
+  public function isEnabledBundle($collection_id, BoBundle $bundle_to_check): bool {
     // No create permisson, disabled right away.
     if (!$this->currentUser->hasPermission("create bo " . $bundle_to_check->id())) {
       return FALSE;
     }
 
-    // Coming via a view (add / insert / collection settings). xxx
+    // Coming via a view (add / insert / collection settings). xxx.
     if ($collection = $this->boSettings->getCollectionBundles($collection_id)) {
       return $collection['bundles'][$bundle_to_check->id()] ?? FALSE;
     }
@@ -478,8 +476,11 @@ class BoCollection {
     return FALSE;
   }
 
+  /**
+   *
+   */
   public function getCollectionEntities($collection_id, $to_path, $insert_under_entity_weight = 0) {
-    /** @var Connection $connection */
+    /** @var \Drupal\Core\Database\Connection $connection */
     $connection = \Drupal::service('database');
     return $connection->query("SELECT id, weight FROM {bo} WHERE collection_id = :collection_id AND to_path = :to_path AND weight > :weight ORDER BY weight", [
       ':collection_id' => $collection_id,

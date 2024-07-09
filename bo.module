@@ -577,7 +577,6 @@ function bo_link_alter(&$variables) {
     ];
   }
 
-
   $routeName = $url->getRouteName();
 
   // If route is not to show in dialog or off-canvas, end the hook.

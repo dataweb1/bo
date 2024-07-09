@@ -1,139 +1,60 @@
 bo_bootstrap:
-  version: 1.x
-  css:
-    component:
-      //stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css: {  }
-  js:
-    //cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js: {  }
-    //stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js: {  }
-
+    version: 1.x
+    css: { component: { //stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css: {  } } }
+    js: { //cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js: {  }, //stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js: {  } }
 bo_frontend:
-  version: 1.x
-  css:
-    theme:
-      assets/css/bo_frontend.css: {  }
-
+    version: 1.x
+    css: { theme: { assets/css/bo_frontend.css: {  } } }
 bo_ajax_commands:
-  js:
-    assets/js/bo_ajax_commands.js: {  }
-
+    js: { assets/js/bo_ajax_commands.js: {  } }
 bo_operations:
-  version: 1.x
-  css:
-    theme:
-      assets/css/bo_operations.css: {  }
-    component:
-      //use.fontawesome.com/releases/v5.0.13/css/all.css: {  }
-  js:
-    assets/js/bo_operations.js: {  }
-  dependencies:
-    - core/drupal.dialog.ajax
-
+    version: 1.x
+    css: { theme: { assets/css/bo_operations.css: {  } }, component: { //use.fontawesome.com/releases/v5.0.13/css/all.css: {  } } }
+    js: { assets/js/bo_operations.js: {  } }
+    dependencies: [core/drupal.dialog.ajax]
 bo_settings:
-  version: 1.x
-  css:
-    theme:
-      assets/css/bo_settings.css: {}
-  js:
-    assets/js/bo_settings.js: {}
-
+    version: 1.x
+    css: { theme: { assets/css/bo_settings.css: {  } } }
+    js: { assets/js/bo_settings.js: {  } }
 bo_bundle_list:
-  version: 1.x
-  css:
-    theme:
-      assets/css/bo_bundle_list.css: {  }
-  js:
-    assets/js/bo_bundle_list.js: {  }
-    assets/js/bo_bundle_list_drag.js: {  }
-
+    version: 1.x
+    css: { theme: { assets/css/bo_bundle_list.css: {  } } }
+    js: { assets/js/bo_bundle_list.js: {  }, assets/js/bo_bundle_list_drag.js: {  } }
 bo_collection_settings:
-  version: 1.x
-  css:
-    theme:
-      assets/css/bo_collection_settings.css: {}
-    component:
-      //use.fontawesome.com/releases/v5.0.13/css/all.css: {}
-  js:
-    assets/js/bo_collection_settings.js: {}
-
+    version: 1.x
+    css: { theme: { assets/css/bo_collection_settings.css: {  } }, component: { //use.fontawesome.com/releases/v5.0.13/css/all.css: {  } } }
+    js: { assets/js/bo_collection_settings.js: {  } }
 bo_entity_form:
-  version: 1.x
-  css:
-    theme:
-      assets/css/bo_entity_form.css: {}
-    component:
-      //use.fontawesome.com/releases/v5.0.13/css/all.css: {}
-  js:
-    assets/js/bo_entity_form.js: {}
-
+    version: 1.x
+    css: { theme: { assets/css/bo_entity_form.css: {  } }, component: { //use.fontawesome.com/releases/v5.0.13/css/all.css: {  } } }
+    js: { assets/js/bo_entity_form.js: {  } }
 bo_bundle_form:
-  version: 1.x
-  css:
-    theme:
-      assets/css/bo_bundle_form.css: {}
-  js:
-    assets/js/bo_bundle_form.js: {}
-
+    version: 1.x
+    css: { theme: { assets/css/bo_bundle_form.css: {  } } }
+    js: { assets/js/bo_bundle_form.js: {  } }
 bo_bundle_video:
-  css:
-    theme:
-      assets/bundle/css/bo_bundle_video.css: {}
-  js:
-    assets/js/lib/froogaloop.js: {}
-    assets/bundle/js/bo_bundle_video.js: {}
-
+    css: { theme: { assets/bundle/css/bo_bundle_video.css: {  } } }
+    js: { assets/js/lib/froogaloop.js: {  }, assets/bundle/js/bo_bundle_video.js: {  } }
 bo_bundle_google_map:
-  css:
-    theme:
-      assets/bundle/css/bo_bundle_google_map.css: {}
-
+    css: { theme: { assets/bundle/css/bo_bundle_google_map.css: {  } } }
 bo_bundle_slideshow:
-  css:
-    theme:
-      assets/bundle/css/bo_bundle_slideshow.css: {}
-
+    css: { theme: { assets/bundle/css/bo_bundle_slideshow.css: {  } } }
 bo_bundle_cards:
-  css:
-    theme:
-      assets/bundle/css/bo_bundle_cards.css: {}
-
+    css: { theme: { assets/bundle/css/bo_bundle_cards.css: {  } } }
 bo_bundle_table:
-  css:
-    theme:
-      assets/bundle/css/bo_bundle_table.css: {}
-
+    css: { theme: { assets/bundle/css/bo_bundle_table.css: {  } } }
 bo_bundle_tabs:
-  css:
-    theme:
-      assets/bundle/css/bo_bundle_tabs.css: {}
-
+    css: { theme: { assets/bundle/css/bo_bundle_tabs.css: {  } } }
 bo_bundle_image:
-  css:
-    theme:
-      assets/bundle/css/bo_bundle_image.css: {}
-
+    css: { theme: { assets/bundle/css/bo_bundle_image.css: {  } } }
 bo_bundle_popup:
-  css:
-    theme:
-      assets/bundle/css/bo_bundle_popup.css: {}
-  js:
-    assets/bundle/js/bo_bundle_popup.js: {}
-
+    css: { theme: { assets/bundle/css/bo_bundle_popup.css: {  } } }
+    js: { assets/bundle/js/bo_bundle_popup.js: {  } }
 bo_help:
-  css:
-    theme:
-      assets/css/bo_help.css: {}
-  js:
-    assets/js/bo_help.js: {}
-    assets/js/lib/clipboard.min.js: {}
-    //code.jquery.com/ui/1.13.2/jquery-ui.js: {}
-  dependencies: [core/jquery.ui.tooltip]
-
+    css: { theme: { assets/css/bo_help.css: {  } } }
+    js: { assets/js/bo_help.js: {  }, assets/js/lib/clipboard.min.js: {  }, //code.jquery.com/ui/1.13.2/jquery-ui.js: {  } }
+    dependencies: [core/jquery.ui.tooltip]
 bo_parallax:
-  js:
-    templates/assets/parallax.js-1.5.0/parallax.js: { }
-
+    js: { templates/assets/parallax.js-1.5.0/parallax.js: {  } }
 bundle_text:
-  css:
-    theme:
-      assets/bundle/css/text.css: {}
+    css: { theme: { assets/bundle/css/text.css: {  } } }

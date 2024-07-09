@@ -6,7 +6,7 @@ use Drupal\Core\Config\ConfigFactory;
 
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Extension\ModuleHandlerInterface;
-use Drupal\Core\Session\AccountProxy;
+use Drupal\Core\Session\AccountProxyInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -16,9 +16,9 @@ class BoSettings {
 
 
   /**
-   * @var \Drupal\Core\Session\AccountProxy
+   * @var \Drupal\Core\Session\AccountProxyInterface
    */
-  private AccountProxy $currentUser;
+  private AccountProxyInterface $currentUser;
 
   /**
    * @var array|mixed|null
@@ -43,12 +43,12 @@ class BoSettings {
   private $subModules;
 
   /**
-   * @param \Drupal\Core\Session\AccountProxy $currentUser
+   * @param \Drupal\Core\Session\AccountProxyInterface $currentUser
    * @param \Drupal\Core\Config\ConfigFactory $config
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
    * @param \Drupal\Core\Entity\EntityTypeManager $entityTypeManager
    */
-  public function __construct(AccountProxy $currentUser, ConfigFactory $config, ModuleHandlerInterface $moduleHandler, EntityTypeManager $entityTypeManager) {
+  public function __construct(AccountProxyInterface $currentUser, ConfigFactory $config, ModuleHandlerInterface $moduleHandler, EntityTypeManager $entityTypeManager) {
     $this->currentUser = $currentUser;
     $this->config = $config->getEditable('bo.settings');
     $this->settings = $this->config->get('config');

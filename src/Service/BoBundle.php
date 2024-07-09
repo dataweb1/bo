@@ -21,7 +21,7 @@ class BoBundle {
 
   /**
    * @param BoSettings $boSettings
-   * @param \Drupal\Core\Session\AccountProxy $currentUser
+   * @param \Drupal\Core\Session\AccountProxyInterface $currentUser
    * @param \Drupal\Core\Entity\EntityTypeManager $entityTypeManager
    */
   public function __construct(EntityTypeManager $entityTypeManager) {
