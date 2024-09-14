@@ -1,14 +1,11 @@
 {{ help }}
-
 <div class="video-container">
-    <!-- Copy & Pasted from YouTube -->
-    {% if bo.field_video.type == "youtube_url" %}
-    <iframe width="560" height="349" src="https://www.youtube.com/embed/{{ bo.field_video.raw.video_id }}" frameborder="0" allowfullscreen></iframe>
-    {% endif %}
+  {% if bo.field_video.type == "youtube_url" %}
+  <iframe width="560" height="349" src="https://www.youtube.com/embed/{{ bo.field_video.raw.video_id }}" frameborder="0" allowfullscreen></iframe>
+  {% endif %}
 
-    {% if bo.field_video.type == "vimeo_url" %}
-        <iframe title="vimeo-player" src="https://player.vimeo.com/video/{{ bo.field_video.raw.video_id }}" width="640" height="360" frameborder="0" allowfullscreen></iframe>
-    {% endif %}
+  {% if bo.field_video.type == "vimeo_url" %}
+      <iframe title="vimeo-player" src="https://player.vimeo.com/video/{{ bo.field_video.raw.video_id }}" width="640" height="360" frameborder="0" allowfullscreen></iframe>
+  {% endif %}
 </div>
-
 {{ attach_library('bo/bo_bundle_video') }}

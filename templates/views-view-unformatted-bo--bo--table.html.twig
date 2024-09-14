@@ -18,25 +18,23 @@
  * @ingroup themeable
  */
 #}
-
 <table>
+  <tr>
+  {% for key, item in bo.field_header.items %}
+    <th>{{ item.raw.value }}</th>
+  {% endfor %}
+  </tr>
+  {% for key, item_row in bo.collection %}
     <tr>
-    {% for key, item in bo.field_header.items %}
-        <th>{{ item.raw.value }}</th>
-    {% endfor %}
+      {% for key, item_col in item_row.field_value %}
+        <td class="bo-entity  bo-entity-{{ display_id }}">
+          {{ item_col.raw.value }}
+          {% if key == item_row.field_value|length-1 %}
+            {{ item_row.operations }}
+          {% endif %}
+        </td>
+      {% endfor %}
     </tr>
-    {% for key, item_row in bo.collection %}
-        <tr>
-            {% for key, item_col in item_row.field_value %}
-                <td class="bo-entity  bo-entity-{{ display_id }}">
-                    {{ item_col.raw.value }}
-                    {% if key == item_row.field_value|length-1 %}
-                        {{ item_row.operations }}
-                    {% endif %}
-                </td>
-            {% endfor %}
-        </tr>
-    {% endfor %}
+  {% endfor %}
 </table>
-
 {{ attach_library('bo/bo_bundle_table') }}

@@ -1,5 +1,4 @@
 {% set overrideSettings = {'map': {'fitMapToMarkers': true}} %}
 {% set collection = {'id': 'ggl_map_collection', 'items': bo.field_markers.items} %}
 {{ gglMap(collection, overrideSettings) }}
-
 {{ attach_library('bo_ggl_map/bo_ggl_map') }}

@@ -19,9 +19,7 @@
  * @see template_preprocess_item_list()
  */
 #}
-
 {% if items or empty -%}
-
   {%- if items -%}
     <ul {{ attributes }}>
     {% if label != '' %}
@@ -38,5 +36,4 @@
   {%- else -%}
     {{- empty -}}
   {%- endif -%}
-
 {%- endif %}

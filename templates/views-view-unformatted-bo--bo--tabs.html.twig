@@ -18,12 +18,10 @@
  * @ingroup themeable
  */
 #}
-
 <ul class="nav nav-tabs" role="tablist">
     {% for key, item in bo.collection %}
         {% set title = item.title.raw.value %}
         {% set id = item.id %}
-
         {% set class = "" %}
         {% set aria_selected = "false" %}
         {% if key == 0 %}
@@ -37,22 +35,17 @@
         </li>
     {% endfor %}
 </ul>
-
 <div class="tab-content">
 {% for key, item in bo.collection %}
     {% set id = item.id %}
     {% set row = rows[key] %}
-
     {% set class = "" %}
     {% if key == 0 %}
         {% set class = "show active" %}
     {% endif %}
-
     <div id="item_{{ id }}" class="tab-pane fade in {{ class }}" role="tabpanel" aria-labelledby="item_{{ id }}_tab">
         {{ row }}
     </div>
-
 {% endfor %}
 </div>
-
 {{ attach_library('bo/bo_bundle_tabs') }}

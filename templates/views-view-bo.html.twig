@@ -37,7 +37,6 @@
     dom_id ? 'js-view-dom-id-' ~ dom_id,
 ]
 %}
-
 {% if title_prefix or title or title_suffix or header or exposed
     or attachment_before or rows or empty or pager or attachment_after
     or more or footer or feed_icons %}
@@ -47,29 +46,21 @@
     {{ title_prefix }}
     {{ title }}
     {{ title_suffix }}
-
     {% if commentStripper(header|render) %}
         <header>
             {{ header }}
         </header>
     {% endif %}
-
     {{ exposed }}
     {{ attachment_before }}
-
     {{ rows }}
     {{ empty }}
     {{ pager }}
-
     {{ attachment_after }}
     {{ more }}
-
     {% if footer %}
-        <!--<footer>-->
-            {{ footer }}
-        <!--</footer>-->
+      {{ footer }}
     {% endif %}
-
     {{ feed_icons }}
     {% if logged_in and commentStripper(header|render) != "" %}
     </div>

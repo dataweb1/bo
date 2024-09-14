@@ -1,11 +1,6 @@
 {{ help }}
-
-    <img class="card-img-top" src="{{ bo.field_image.raw.optimized_url }}" alt="{{ bo.field_image.raw.alt }}" style="width:100%">
-
-    <div class="card-body">
-        <h4 class="card-title">{{ bo.title.raw.value }}</h4>
-        {{ collection }}
-    </div>
-
-
-
+<img class="card-img-top" src="{{ bo.field_image.raw.optimized_url }}" alt="{{ bo.field_image.raw.alt }}" style="width:100%">
+<div class="card-body">
+  <h4 class="card-title">{{ bo.title.raw.value }}</h4>
+  {{ collection }}
+</div>

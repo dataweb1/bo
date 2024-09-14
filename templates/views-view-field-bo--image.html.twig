@@ -1,11 +1,8 @@
 {{ help }}
-
 <figure class="image-container">
   <img src="{{ bo.field_image.raw.optimized_url }}" style="width: 100%" />
-
   {% if bo.field_image.raw.alt != ""  %}
   <figcaption>{{ bo.field_image.raw.alt }}</figcaption>
   {% endif %}
 </figure>
-
 {{ attach_library('bo/bo_bundle_image') }}
